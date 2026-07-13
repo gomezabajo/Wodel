@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testJavaAPDynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -98,7 +100,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("stmt", entry);
-						AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry1(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -117,8 +119,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m1") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -280,7 +282,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("method", entry);
-							AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry2(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -300,8 +302,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -463,7 +465,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("param", entry);
-							AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry3(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -483,8 +485,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m3") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -579,7 +581,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry4(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -608,12 +611,11 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -623,6 +625,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		refMut0.setRefName("expression");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("expression"));
+		refMut0.setTo(mutator.getNext("expression"));
 		if (hmMutator.get("m4") != null) {
 			previous = mutator.getPrevious("expression");
 			next = mutator.getNext("expression");
@@ -798,7 +802,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp0", entry);
-						AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry5(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -817,8 +821,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m5") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -980,7 +984,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("method", entry);
-							AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry6(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -1000,8 +1004,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m6") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1163,7 +1167,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("param", entry);
-							AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry7(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -1183,8 +1187,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m7") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1279,7 +1283,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry8(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1308,12 +1313,11 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -1323,6 +1327,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		refMut0.setRefName("rightOperand");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("rightOperand"));
+		refMut0.setTo(mutator.getNext("rightOperand"));
 		if (hmMutator.get("m8") != null) {
 			previous = mutator.getPrevious("rightOperand");
 			next = mutator.getNext("rightOperand");
@@ -1498,7 +1504,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp1", entry);
-						AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry9(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1517,8 +1523,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1680,7 +1686,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("method", entry);
-							AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry10(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -1700,8 +1706,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m10") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1863,7 +1869,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("param", entry);
-							AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry11(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -1883,8 +1889,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m11") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1979,7 +1985,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry12(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2008,12 +2015,11 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2023,6 +2029,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		refMut0.setRefName("leftOperand");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("leftOperand"));
+		refMut0.setTo(mutator.getNext("leftOperand"));
 		if (hmMutator.get("m12") != null) {
 			previous = mutator.getPrevious("leftOperand");
 			next = mutator.getNext("leftOperand");
@@ -2198,7 +2206,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("a", entry);
-						AppMutation appMut = registry13(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry13(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2217,8 +2225,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m13") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2380,7 +2388,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("method", entry);
-							AppMutation appMut = registry14(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry14(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2400,8 +2408,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m14") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2563,7 +2571,7 @@ public class testJavaAPDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("param", entry);
-							AppMutation appMut = registry15(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry15(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2583,8 +2591,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m15") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2679,7 +2687,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry16(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry16(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2708,12 +2717,11 @@ public class testJavaAPDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2723,6 +2731,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 		refMut0.setRefName("rightHandSide");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("rightHandSide"));
+		refMut0.setTo(mutator.getNext("rightHandSide"));
 		if (hmMutator.get("m16") != null) {
 			previous = mutator.getPrevious("rightHandSide");
 			next = mutator.getNext("rightHandSide");

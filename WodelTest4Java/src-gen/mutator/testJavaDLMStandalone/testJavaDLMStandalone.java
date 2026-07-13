@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testJavaDLMStandalone extends MutatorUtils {
 	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -109,7 +111,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry1(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -138,12 +141,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -337,7 +339,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry2(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -366,12 +369,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -565,7 +567,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry3(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -594,12 +597,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -771,7 +773,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("rtstmt", entry);
-						AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry4(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -790,7 +792,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m4") != null) {
@@ -837,7 +839,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		if (mut != null) {
 			Object mutated = mut.mutate();
 			if (mutated != null) {
-				AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry5(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -864,35 +866,14 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m5") != null) {
 			cMut.setDef(hmMutator.get("m5"));
@@ -1067,7 +1048,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry6(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1096,12 +1078,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1283,7 +1264,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp", entry);
-						AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry7(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1302,7 +1283,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m7") != null) {
@@ -1400,7 +1381,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry8(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1419,12 +1401,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -1506,24 +1487,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection25 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_25 = hmObjects.get("exp");
-		if (entry_exp_25 != null) {
-			refSelection25 = new SpecificObjectSelection(packages, model, entry_exp_25.getKey(), "leftOperand");
+		ObSelectionStrategy refSelection45 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_45 = hmObjects.get("exp");
+		if (entry_exp_45 != null) {
+			refSelection45 = new SpecificObjectSelection(packages, model, entry_exp_45.getKey(), "leftOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_25 = hmList.get("exp");
-			if (listEntry_exp_25 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_45 = hmList.get("exp");
+			if (listEntry_exp_45 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_25) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_45) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection25 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
+				refSelection45 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection25);
+		refs.put("operand", refSelection45);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -1538,7 +1519,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("p", entry);
-				AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry9(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -1554,35 +1535,14 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m9") != null) {
 			cMut.setDef(hmMutator.get("m9"));
@@ -1675,7 +1635,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry10(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1704,12 +1665,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -1719,6 +1679,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		refMut0.setRefName("leftOperand");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("leftOperand"));
+		refMut0.setTo(mutator.getNext("leftOperand"));
 		if (hmMutator.get("m10") != null) {
 			previous = mutator.getPrevious("leftOperand");
 			next = mutator.getNext("leftOperand");
@@ -1896,7 +1858,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp", entry);
-						AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry11(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1915,7 +1877,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m11") != null) {
@@ -2013,7 +1975,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry12(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2032,12 +1995,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2119,24 +2081,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection26 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_26 = hmObjects.get("exp");
-		if (entry_exp_26 != null) {
-			refSelection26 = new SpecificObjectSelection(packages, model, entry_exp_26.getKey(), "rightOperand");
+		ObSelectionStrategy refSelection46 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_46 = hmObjects.get("exp");
+		if (entry_exp_46 != null) {
+			refSelection46 = new SpecificObjectSelection(packages, model, entry_exp_46.getKey(), "rightOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_26 = hmList.get("exp");
-			if (listEntry_exp_26 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_46 = hmList.get("exp");
+			if (listEntry_exp_46 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_26) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_46) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection26 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
+				refSelection46 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection26);
+		refs.put("operand", refSelection46);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2151,7 +2113,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("p", entry);
-				AppMutation appMut = registry13(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry13(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -2167,35 +2129,14 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m13") != null) {
 			cMut.setDef(hmMutator.get("m13"));
@@ -2288,7 +2229,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry14(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry14(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2317,12 +2259,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2332,6 +2273,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		refMut0.setRefName("rightOperand");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("rightOperand"));
+		refMut0.setTo(mutator.getNext("rightOperand"));
 		if (hmMutator.get("m14") != null) {
 			previous = mutator.getPrevious("rightOperand");
 			next = mutator.getNext("rightOperand");
@@ -2509,7 +2452,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("rt", entry);
-						AppMutation appMut = registry15(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry15(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2528,7 +2471,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m15") != null) {
@@ -2625,7 +2568,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry16(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry16(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2644,12 +2588,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2731,24 +2674,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection27 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_27 = hmObjects.get("rt");
-		if (entry_rt_27 != null) {
-			refSelection27 = new SpecificObjectSelection(packages, model, entry_rt_27.getKey(), "expression");
+		ObSelectionStrategy refSelection47 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_47 = hmObjects.get("rt");
+		if (entry_rt_47 != null) {
+			refSelection47 = new SpecificObjectSelection(packages, model, entry_rt_47.getKey(), "expression");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_27 = hmList.get("rt");
-			if (listEntry_rt_27 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_47 = hmList.get("rt");
+			if (listEntry_rt_47 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_27) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_47) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection27 = new SpecificObjectSelection(packages, model, objs, "expression");
+				refSelection47 = new SpecificObjectSelection(packages, model, objs, "expression");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection27);
+		refs.put("operand", refSelection47);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2763,7 +2706,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("p", entry);
-				AppMutation appMut = registry17(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry17(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -2779,35 +2722,14 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m17") != null) {
 			cMut.setDef(hmMutator.get("m17"));
@@ -2900,7 +2822,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry18(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry18(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2929,12 +2852,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2944,6 +2866,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		refMut0.setRefName("expression");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("expression"));
+		refMut0.setTo(mutator.getNext("expression"));
 		if (hmMutator.get("m18") != null) {
 			previous = mutator.getPrevious("expression");
 			next = mutator.getNext("expression");
@@ -3121,7 +3045,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("a", entry);
-						AppMutation appMut = registry19(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry19(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3140,7 +3064,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m19") != null) {
@@ -3237,7 +3161,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry20(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry20(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3256,12 +3181,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -3343,24 +3267,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection28 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_28 = hmObjects.get("a");
-		if (entry_a_28 != null) {
-			refSelection28 = new SpecificObjectSelection(packages, model, entry_a_28.getKey(), "rightHandSide");
+		ObSelectionStrategy refSelection48 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_48 = hmObjects.get("a");
+		if (entry_a_48 != null) {
+			refSelection48 = new SpecificObjectSelection(packages, model, entry_a_48.getKey(), "rightHandSide");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_28 = hmList.get("a");
-			if (listEntry_a_28 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_48 = hmList.get("a");
+			if (listEntry_a_48 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_28) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_48) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection28 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
+				refSelection48 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection28);
+		refs.put("operand", refSelection48);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -3375,7 +3299,7 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("p", entry);
-				AppMutation appMut = registry21(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry21(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -3391,35 +3315,14 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m21") != null) {
 			cMut.setDef(hmMutator.get("m21"));
@@ -3512,7 +3415,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry22(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry22(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3541,12 +3445,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry22(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry22(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -3556,6 +3459,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		refMut0.setRefName("rightHandSide");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("rightHandSide"));
+		refMut0.setTo(mutator.getNext("rightHandSide"));
 		if (hmMutator.get("m22") != null) {
 			previous = mutator.getPrevious("rightHandSide");
 			next = mutator.getNext("rightHandSide");
@@ -3745,7 +3650,8 @@ public class testJavaDLMStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry23(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry23(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3774,12 +3680,11 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry23(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry23(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;

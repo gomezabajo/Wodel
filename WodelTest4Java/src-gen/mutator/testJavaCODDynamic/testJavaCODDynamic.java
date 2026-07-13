@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testJavaCODDynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -88,7 +90,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("ifstmt", entry);
-						AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry1(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -107,8 +109,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m1") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -270,7 +272,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("exp1", entry);
-							AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry2(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -290,8 +292,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -347,7 +349,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("neg", entry);
-				AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -364,39 +366,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m3") != null) {
 			cMut.setDef(hmMutator.get("m3"));
@@ -434,24 +411,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection29 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_29 = hmObjects.get("exp1");
-		if (entry_exp1_29 != null) {
-			refSelection29 = new SpecificObjectSelection(packages, model, entry_exp1_29.getKey());
+		ObSelectionStrategy refSelection25 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_25 = hmObjects.get("exp1");
+		if (entry_exp1_25 != null) {
+			refSelection25 = new SpecificObjectSelection(packages, model, entry_exp1_25.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_29 = hmList.get("exp1");
-			if (listEntry_exp1_29 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_25 = hmList.get("exp1");
+			if (listEntry_exp1_25 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_29) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_25) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection29 = new SpecificObjectSelection(packages, model, objs);
+				refSelection25 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection29);
+		refs.put("expression", refSelection25);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -466,7 +443,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("par", entry);
-				AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry4(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -492,39 +469,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m4") != null) {
 			cMut.setDef(hmMutator.get("m4"));
@@ -675,7 +627,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("rtstmt", entry);
-						AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry5(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -694,8 +646,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m5") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -857,7 +809,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("exp1", entry);
-							AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry6(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -877,8 +829,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m6") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -934,7 +886,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("neg", entry);
-				AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry7(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -951,39 +903,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m7") != null) {
 			cMut.setDef(hmMutator.get("m7"));
@@ -1021,24 +948,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection30 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_30 = hmObjects.get("exp1");
-		if (entry_exp1_30 != null) {
-			refSelection30 = new SpecificObjectSelection(packages, model, entry_exp1_30.getKey());
+		ObSelectionStrategy refSelection26 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_26 = hmObjects.get("exp1");
+		if (entry_exp1_26 != null) {
+			refSelection26 = new SpecificObjectSelection(packages, model, entry_exp1_26.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_30 = hmList.get("exp1");
-			if (listEntry_exp1_30 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_26 = hmList.get("exp1");
+			if (listEntry_exp1_26 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_30) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_26) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection30 = new SpecificObjectSelection(packages, model, objs);
+				refSelection26 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection30);
+		refs.put("expression", refSelection26);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -1053,7 +980,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("par", entry);
-				AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry8(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -1079,39 +1006,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m8") != null) {
 			cMut.setDef(hmMutator.get("m8"));
@@ -1262,7 +1164,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp0", entry);
-						AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry9(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1281,8 +1183,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1444,7 +1346,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("exp1", entry);
-							AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry10(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -1464,8 +1366,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m10") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1521,7 +1423,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("neg", entry);
-				AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry11(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -1538,39 +1440,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m11") != null) {
 			cMut.setDef(hmMutator.get("m11"));
@@ -1608,24 +1485,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection31 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_31 = hmObjects.get("exp1");
-		if (entry_exp1_31 != null) {
-			refSelection31 = new SpecificObjectSelection(packages, model, entry_exp1_31.getKey());
+		ObSelectionStrategy refSelection27 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_27 = hmObjects.get("exp1");
+		if (entry_exp1_27 != null) {
+			refSelection27 = new SpecificObjectSelection(packages, model, entry_exp1_27.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_31 = hmList.get("exp1");
-			if (listEntry_exp1_31 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_27 = hmList.get("exp1");
+			if (listEntry_exp1_27 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_31) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_27) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection31 = new SpecificObjectSelection(packages, model, objs);
+				refSelection27 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection31);
+		refs.put("expression", refSelection27);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -1640,7 +1517,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("par", entry);
-				AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry12(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -1666,39 +1543,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m12") != null) {
 			cMut.setDef(hmMutator.get("m12"));
@@ -1849,7 +1701,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("exp0", entry);
-						AppMutation appMut = registry13(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry13(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1868,8 +1720,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m13") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2031,7 +1883,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("exp1", entry);
-							AppMutation appMut = registry14(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry14(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2051,8 +1903,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m14") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2108,7 +1960,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("neg", entry);
-				AppMutation appMut = registry15(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry15(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -2125,39 +1977,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m15") != null) {
 			cMut.setDef(hmMutator.get("m15"));
@@ -2195,24 +2022,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection32 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_32 = hmObjects.get("exp1");
-		if (entry_exp1_32 != null) {
-			refSelection32 = new SpecificObjectSelection(packages, model, entry_exp1_32.getKey());
+		ObSelectionStrategy refSelection28 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_28 = hmObjects.get("exp1");
+		if (entry_exp1_28 != null) {
+			refSelection28 = new SpecificObjectSelection(packages, model, entry_exp1_28.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_32 = hmList.get("exp1");
-			if (listEntry_exp1_32 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_28 = hmList.get("exp1");
+			if (listEntry_exp1_28 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_32) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_28) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection32 = new SpecificObjectSelection(packages, model, objs);
+				refSelection28 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection32);
+		refs.put("expression", refSelection28);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -2227,7 +2054,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(),
 						resourceEntry);
 				hmObjects.put("par", entry);
-				AppMutation appMut = registry16(mut, hmMutator, seed, mutPaths, packages);
+				AppMutation appMut = registry16(mut, hmMutator, seed, model, mutPaths, packages);
 				if (appMut != null) {
 					muts.getMuts().add(appMut);
 				}
@@ -2253,39 +2080,14 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m16") != null) {
 			cMut.setDef(hmMutator.get("m16"));
@@ -2446,7 +2248,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("main", entry);
-						AppMutation appMut = registry17(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry17(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2465,8 +2267,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m17") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2628,7 +2430,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("if0", entry);
-							AppMutation appMut = registry18(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry18(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2648,8 +2450,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m18") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2811,7 +2613,7 @@ public class testJavaCODDynamic extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("b2", entry);
-							AppMutation appMut = registry19(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry19(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2831,8 +2633,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m19") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -2926,7 +2728,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry20(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry20(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2945,12 +2748,11 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -2960,6 +2762,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 		refMut0.setRefName("statements");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("statements"));
+		refMut0.setTo(mutator.getNext("statements"));
 		if (hmMutator.get("m20") != null) {
 			previous = mutator.getPrevious("statements");
 			next = mutator.getNext("statements");
@@ -3041,7 +2845,8 @@ public class testJavaCODDynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry21(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry21(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3070,12 +2875,12 @@ public class testJavaCODDynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}

@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testJavaLODynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -129,7 +131,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry1(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -158,12 +161,11 @@ public class testJavaLODynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -374,7 +376,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry2(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -403,12 +406,11 @@ public class testJavaLODynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -619,7 +621,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry3(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -648,12 +651,11 @@ public class testJavaLODynamic extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;

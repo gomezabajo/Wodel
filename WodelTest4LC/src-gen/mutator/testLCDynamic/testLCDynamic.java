@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testLCDynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -90,14 +92,14 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRetyped rMut = AppliedMutationsFactory.eINSTANCE.createObjectRetyped();
 		if (mut.getObject() != null) {
 			rMut.getObject().add(mut.getObject());
 		}
-		EObject foundObject = findEObjectForRegistry(seed, mut.getRemovedObject(), mut.getObjectByID(),
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getRemovedObject(), mut.getObjectByID(),
 				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getRemovedObject().add(foundObject);
@@ -222,7 +224,7 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -310,8 +312,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -407,8 +409,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m3") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -504,8 +506,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m4") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -573,12 +575,11 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -588,6 +589,8 @@ public class testLCDynamic extends MutatorUtils {
 		refMut0.setRefName("src");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("src"));
+		refMut0.setTo(mutator.getNext("src"));
 		if (hmMutator.get("m5") != null) {
 			previous = mutator.getPrevious("src");
 			next = mutator.getNext("src");
@@ -643,12 +646,12 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -772,7 +775,7 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("n0", entry);
 										}
-										AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry2(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -797,7 +800,7 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("i0", entry);
 										}
-										AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -822,7 +825,7 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("o0", entry);
 										}
-										AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry4(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -846,7 +849,7 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry5(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -870,7 +873,7 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry6(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -957,8 +960,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m7") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -993,39 +996,14 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m8") != null) {
 			cMut.setDef(hmMutator.get("m8"));
@@ -1115,8 +1093,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1206,8 +1184,8 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m10") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1267,39 +1245,14 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m11") != null) {
 			cMut.setDef(hmMutator.get("m11"));
@@ -1359,39 +1312,14 @@ public class testLCDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m12") != null) {
 			cMut.setDef(hmMutator.get("m12"));
@@ -1512,7 +1440,7 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("g0", entry);
 										}
-										AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry7(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1543,7 +1471,7 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry8(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1568,7 +1496,7 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("o0", entry);
 										}
-										AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry9(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1593,7 +1521,8 @@ public class testLCDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("i0", entry);
 										}
-										AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry10(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1617,7 +1546,8 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry11(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1641,7 +1571,8 @@ public class testLCDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry12(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}

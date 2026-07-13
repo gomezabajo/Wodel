@@ -1,10 +1,26 @@
-# Wodel-Test for Finite Automata
+<p align="center">
+  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20Finite%20Automata/">
+    <img src="https://gomezabajo.github.io/Wodel-Test/assets/img/wodeltest.png" width="224" height="120" alt="Wodel-Test logo" />
+  </a>
+</p>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stars][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![EPL License][license-shield]][license-url]
+<h1 align="center">Wodel-Test for Finite Automata</h1>
+
+<p align="center"><i>A mutation testing (MT) tool for finite automata</i></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-2.3-blue" alt="Version 2.3">
+  <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel" alt="Contributors"></a>
+  <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel" alt="Forks"></a>
+  <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel" alt="Stars"></a>
+  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE"><img src="https://img.shields.io/github/license/gomezabajo/Wodel" alt="License"></a>
+</p>
+
+<p align="center">
+  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20ATL/">Website</a> &middot;
+  <a href="https://github.com/gomezabajo/Wodel-Test/wiki/Get-Started-with-Wodel%E2%80%90Test-Designer">Tutorial</a> &middot;
+  <a href="https://github.com/gomezabajo/Wodel/issues">Report a bug</a>
+</p>
 
 **Wodel-Test for Finite Automata** is a mutation testing (MT) tool for finite automata, automatically generated with [Wodel-Test](https://gomezabajo.github.io/Wodel-Test/), a model-based framework for engineering language-specific mutation-testing tools.
 

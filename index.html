@@ -93,34 +93,6 @@ with commands {
 
 <p>The third extension, <strong><a href="https://github.com/gomezabajo/Wodel4diac">Wodel4diac</a></strong>, <strong>enables the mutation of IEC 61499 industrial automation applications</strong> authored in <a href="https://eclipse.dev/4diac/">Eclipse 4diac</a>. It supports the systematic generation of variants of function-block applications for purposes such as mutation testing, fault seeding, robustness analysis, and the automated generation of learning exercises for industrial-automation engineering.</p>
 
-<h3 id="wodel-usage">Wodel usage</h3>
-
-<p style="text-align: justify; text-justify: inter-word;">The <em>blocks</em> directive specifies when mutants are generated during the execution of a Wodel program.</p>
-
-<p style="text-align: justify; text-justify: inter-word;">A block can mutate models produced by an earlier block rather than the original seed models.</p>
-
-<p>You can also define OCL constraints that every generated mutant must satisfy:</p>
-
-<pre><code>generate mutants
-in "data/out/"
-from "data/model/exercise1.model"
-metamodel "http://dfaAutomaton/1.0"
-
-with blocks {
-    first {
-         modify target tar from one Transition to other State [3]             
-    } [2]
-    second from first repeat=no {
-         modify one State with { name = random-string(4,6)}
-    } [3]
-}
-constraints {
-    context State connected: "isInitial or Set{self}-&gt;
-            closure(s | Transition.allInstances()-&gt;
-            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
-}
-</code></pre>
-
 <h3 id="how-wodel-works">How Wodel works</h3>
 
 <p>Wodel is used through a development environment integrated in the Eclipse IDE. The following steps summarise the typical workflow, from the creation of a Wodel project to the analysis of the generated mutants.</p>
@@ -219,6 +191,34 @@ constraints {
 <img src="images/wodel-architecture.svg" class="wk-figure wk-figure-plain" style="max-width: 860px;" alt="Wodel architecture overview">
 
 <p class="wk-figure-caption">High-level architecture of Wodel. The framework integrates with Eclipse through the Xtext-based editor, wizards, footprint views, and preferences pages. The engine compiles Wodel programs into Java, generates valid mutants over EMF models, and records the applied mutations in a registry, while extension points connect the framework with the Wodel-EDU, Wodel-Test, and Wodel4diac post-processors.</p>
+
+<h3 id="wodel-usage">Wodel usage</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The <em>blocks</em> directive specifies when mutants are generated during the execution of a Wodel program.</p>
+
+<p style="text-align: justify; text-justify: inter-word;">A block can mutate models produced by an earlier block rather than the original seed models.</p>
+
+<p>You can also define OCL constraints that every generated mutant must satisfy:</p>
+
+<pre><code>generate mutants
+in "data/out/"
+from "data/model/exercise1.model"
+metamodel "http://dfaAutomaton/1.0"
+
+with blocks {
+    first {
+         modify target tar from one Transition to other State [3]             
+    } [2]
+    second from first repeat=no {
+         modify one State with { name = random-string(4,6)}
+    } [3]
+}
+constraints {
+    context State connected: "isInitial or Set{self}-&gt;
+            closure(s | Transition.allInstances()-&gt;
+            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
+}
+</code></pre>
 
 <h3 id="demos">Video demos</h3>
 

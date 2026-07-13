@@ -22,12 +22,6 @@
   <a href="https://github.com/gomezabajo/Wodel/issues">Report a bug</a>
 </p>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stars][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![EPL License][license-shield]][license-url]
-
 **Wodel-Test for Logic Circuits** is a mutation testing (MT) tool for logic circuits, automatically generated with [Wodel-Test](https://gomezabajo.github.io/Wodel-Test/), a model-based framework for engineering language-specific mutation-testing tools.
 
 <p align="center">

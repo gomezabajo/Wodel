@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.jar.JarEntry;
@@ -468,6 +469,12 @@ public class Generator implements IGenerator {
 			
 			//final IFolder metaInf = mutProject.getFolder("META-INF");
 			//addTextToFile(metaInf, "MANIFEST.MF", "Export-Package: mutator." + mutProject.getName() + ",\n mutator.wodeltest." + mutProject.getName() + "\n", monitor);
+			List<String> folders = new ArrayList<String>();
+			folders.add("src");
+			folders.add("src-gen");
+			folders.add("resources");
+			
+			createBuildProps(monitor, mutProject, folders);
 			createPlugin(monitor, mutProject);
 			
 		} catch (IOException e) {
@@ -615,6 +622,20 @@ public class Generator implements IGenerator {
 	private InputStream openTestStream() {
 		String contents = "";
 		return new ByteArrayInputStream(contents.getBytes());
+	}
+	
+	private static void createBuildProps(final IProgressMonitor progressMonitor, final IProject project,
+			final List<String> srcFolders) {
+		final StringBuilder bpContent = new StringBuilder("source.. = ");
+		for (final Iterator<String> iterator = srcFolders.iterator(); iterator.hasNext();) {
+			bpContent.append(iterator.next()).append('/');
+			if (iterator.hasNext()) {
+				bpContent.append(",");
+			}
+		}
+		bpContent.append("\n");
+		bpContent.append("bin.includes = META-INF/,plugin.xml,.,sample/,bin/,data/,icons/,src/,lib/\n");
+		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 	
 	

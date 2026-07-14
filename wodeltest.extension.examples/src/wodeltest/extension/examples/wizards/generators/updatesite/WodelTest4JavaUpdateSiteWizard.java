@@ -55,7 +55,6 @@ import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
 import wodel.dsls.WodelUtils;
-import wodeltest.extension.examples.wizards.WodelTest4JavaWizard;
 import wodeltest.extension.examples.wizards.generators.feature.CreateFeatureProjectOperation;
 
 import java.util.Map;
@@ -616,7 +615,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		try {
 		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 		//URL fileURL = bundle.getEntry("content");
-		final File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		final File jarFile = new File(WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		String srcName = "";
 		if (jarFile.isFile()) {
 			final JarFile jar = new JarFile(jarFile);
@@ -656,7 +655,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		    jar.close();
 		}
 		else {
-			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "resources/wodeltest/report";
+			srcName = WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "resources/wodeltest/report";
 			final File src = new Path(srcName).toFile();
 			final File dest = resourcesContainer.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
@@ -873,7 +872,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 
 			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 			//URL fileURL = bundle.getEntry("content");
-			File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			File jarFile = new File(WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -897,7 +896,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 			    jar.close();
 			}
 			else {
-				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				srcName = WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
 				final File src = new Path(srcName).toFile();
 				for (File f : src.listFiles()) {
 					if (!f.isDirectory()) {
@@ -919,7 +918,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 
 			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 			//URL fileURL = bundle.getEntry("content");
-			jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			jarFile = new File(WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -943,7 +942,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 			    jar.close();
 			}
 			else {
-				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
+				srcName = WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
 				final File src = new Path(srcName).toFile();
 				for (File f : src.listFiles()) {
 					if (!f.isDirectory()) {
@@ -955,7 +954,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 			}
 			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 			//URL fileURL = bundle.getEntry("content");
-			jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			jarFile = new File(WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -979,7 +978,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 			    jar.close();
 			}
 			else {
-				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/lib/java";
+				srcName = WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/lib/java";
 				final File src = new Path(srcName).toFile();
 				for (File f : src.listFiles()) {
 					final IFile dest = libFolder.getFile(new Path(f.getName()));

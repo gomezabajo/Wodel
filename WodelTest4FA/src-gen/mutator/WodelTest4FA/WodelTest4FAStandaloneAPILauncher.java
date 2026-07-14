@@ -14,25 +14,19 @@ import java.io.IOException;
 import java.io.File;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.MutatorUtils;
-import mutator.testFA2.testFA2StandaloneAPI;
 import mutator.testFA1.testFA1StandaloneAPI;
+import mutator.testFA2.testFA2StandaloneAPI;
 
 public class WodelTest4FAStandaloneAPILauncher {
 	public static void createMutants(String inputFolder, String outputFolder)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-New_configuration13/WodelTest4FA/data/model/DFAAutomaton.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration22/WodelTest4FA/data/model/DFAAutomaton.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
-		mutatorNames.add("testFA2");
 		mutatorNames.add("testFA1");
+		mutatorNames.add("testFA2");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
-		List<String> mutatorOperatorNamestestFA2 = new ArrayList<String>();
-		mutatorOperatorNamestestFA2.add("ctr");
-		mutatorOperatorNamestestFA2.add("mis");
-		mutatorOperatorNamestestFA2.add("sdt");
-		mutatorOperatorNamestestFA2.add("ctr_mis");
-		operatorNames.add(mutatorOperatorNamestestFA2);
 		List<String> mutatorOperatorNamestestFA1 = new ArrayList<String>();
 		mutatorOperatorNamestestFA1.add("cfs");
 		mutatorOperatorNamestestFA1.add("ccs");
@@ -45,6 +39,12 @@ public class WodelTest4FAStandaloneAPILauncher {
 		mutatorOperatorNamestestFA1.add("clt");
 		mutatorOperatorNamestestFA1.add("cst");
 		operatorNames.add(mutatorOperatorNamestestFA1);
+		List<String> mutatorOperatorNamestestFA2 = new ArrayList<String>();
+		mutatorOperatorNamestestFA2.add("ctr");
+		mutatorOperatorNamestestFA2.add("mis");
+		mutatorOperatorNamestestFA2.add("sdt");
+		mutatorOperatorNamestestFA2.add("ctr_mis");
+		operatorNames.add(mutatorOperatorNamestestFA2);
 		String[] arrMutatorNames = new String[mutatorNames.size()];
 		mutatorNames.toArray(arrMutatorNames);
 		String[][] arrOperatorNames = new String[mutatorNames.size()][];
@@ -55,7 +55,7 @@ public class WodelTest4FAStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-New_configuration13/WodelTest4FA/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-New_configuration22/WodelTest4FA/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -73,9 +73,9 @@ public class WodelTest4FAStandaloneAPILauncher {
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
-		testFA2StandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
 		testFA1StandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testFA2StandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		File mutantWodelFolder = new File(outputWodelFolder);
 		File outputCustomizedFolder = new File(outputFolder);

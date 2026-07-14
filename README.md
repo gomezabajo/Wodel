@@ -100,7 +100,7 @@ Download a ready-to-use Eclipse distribution with Wodel-Test for Chatbots alread
 
 ## Publications
 
-- P. Gómez-Abajo, E. Guerra, J. de Lara, M. G. Merayo. *Wodel-Test: A model-based framework for engineering language-specific mutation testing tools*. **SoftwareX** (Elsevier), 2025.
+- P. Gómez-Abajo, E. Guerra, J. de Lara. *Wodel-Test: A model-based framework for engineering language-specific mutation testing tools*. **SoftwareX** (Elsevier), 2025.
 - P. Gómez-Abajo, S. Pérez-Soler, P. C. Cañizares, E. Guerra, J. de Lara. *Mutation Testing for Task-Oriented Chatbots*. **EASE 2024** (ACM), 2024.
 - P. Gómez-Abajo, E. Guerra, J. de Lara, M. G. Merayo. *Wodel-Test: a model-based framework for language-independent mutation testing*. **Software and Systems Modeling** (Springer), 2021.
 

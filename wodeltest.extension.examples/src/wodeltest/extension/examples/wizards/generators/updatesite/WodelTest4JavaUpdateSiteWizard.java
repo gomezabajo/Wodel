@@ -55,7 +55,7 @@ import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
 import wodel.dsls.WodelUtils;
-
+import wodeltest.extension.examples.wizards.WodelTest4JavaWizard;
 import wodeltest.extension.examples.wizards.generators.feature.CreateFeatureProjectOperation;
 
 import java.util.Map;
@@ -353,6 +353,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
+		folders.add("resources");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
 		Set<String> requiredBundles = new LinkedHashSet<String>();
@@ -607,6 +608,64 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 			}
 		}
 		
+		final IFolder resourcesContainer = project.getFolder("resources");
+		if (!resourcesContainer.exists()) {
+			resourcesContainer.create(false, true, new SubProgressMonitor(monitor, 1));
+		}
+
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("resources/wodeltest/report")) {
+						final String name = entry.getName();
+						final File f = resourcesContainer.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("resources/wodeltest/report", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "resources/wodeltest/report";
+			final File src = new Path(srcName).toFile();
+			final File dest = resourcesContainer.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolderWithReplacements(src, dest, replacements);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
 		final IFolder mutFolder = srcFolder.getFolder(new Path("mutator"));
 		try {
 			mutFolder.create(true, true, monitor);
@@ -805,46 +864,135 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		} catch (IOException e) {
 		}
 
-		final IFolder libFolder = project.getFolder(new Path("lib"));
-		libFolder.create(true, true, monitor);
-
 		try {
-		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
-		//URL fileURL = bundle.getEntry("content");
-		final File jarFile = new File(WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-		String srcName = "";
-		if (jarFile.isFile()) {
-			final JarFile jar = new JarFile(jarFile);
-			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-		    while(entries.hasMoreElements()) {
-		    	JarEntry entry = entries.nextElement();
-				if (! entry.isDirectory()) {
-					if (entry.getName().startsWith("wodeltest/lib/java")) {
-						final String name = entry.getName();
-						final File f = libFolder.getRawLocation().makeAbsolute().toFile();
-						File dest = new File(f.getPath() + '/' + entry.getName().substring("wodeltest/lib/java".length(), entry.getName().length()).split("/")[1]);
-						InputStream input = jar.getInputStream(entry);
-						final IFile output = libFolder.getFile(new Path(dest.getName()
-								.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
-						output.create(input, true, monitor);
-						output.refreshLocal(IResource.DEPTH_ZERO, monitor);
-						input.close();
+			
+			final IFolder libFolder = project.getFolder(new Path("lib"));
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/") && !entry.getName().contains("/modelValidatorPlugin/x86/")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
 					}
 				}
-		    }
-		    jar.close();
-		}
-		else {
-			srcName = WodelTest4JavaUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/lib/java";
-			final File src = new Path(srcName).toFile();
-			for (File f : src.listFiles()) {
-				final IFile dest = libFolder.getFile(new Path(f.getName()));
-				dest.create(new FileInputStream(f), true, monitor);
-				dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
 			}
-		}
+			
+			final IFolder modelValidatorPluginFolder = libFolder.getFolder(new Path("modelValidatorPlugin"));
+			if (!modelValidatorPluginFolder.exists()) {
+				modelValidatorPluginFolder.create(true, true, monitor);
+			}
+			final IFolder modelValidatorPluginx86Folder = modelValidatorPluginFolder.getFolder(new Path("x86"));
+			if (!modelValidatorPluginx86Folder.exists()) {
+				modelValidatorPluginx86Folder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/modelValidatorPlugin/x86/")) {
+							final String name = entry.getName();
+							final File f = modelValidatorPluginx86Folder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib/modelValidatorPlugin/x86".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = modelValidatorPluginx86Folder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = modelValidatorPluginx86Folder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("wodeltest/lib/java")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("wodeltest/lib/java".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/lib/java";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = libFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
 		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		
 		final IFolder iconsFolder = project.getFolder(new Path("icons"));
 		iconsFolder.create(true, true, monitor);

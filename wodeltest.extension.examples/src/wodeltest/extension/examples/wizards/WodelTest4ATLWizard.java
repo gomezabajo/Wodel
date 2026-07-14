@@ -137,6 +137,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
+		folders.add("resources");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
 		Set<String> requiredBundles = new LinkedHashSet<String>();
@@ -428,17 +429,17 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		final IJavaProject javaProject = JavaCore.create(project);
+		//final IJavaProject javaProject = JavaCore.create(project);
 		//final IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
 		//		project);
 		//projectDescription.setLocation(null);
 		//wodelProject.create(projectDescription, new SubProgressMonitor(monitor, 1));
-		final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
-		final IClasspathEntry srcClasspathEntry = JavaCore.newSourceEntry(resourcesContainer.getFullPath());
-		classpathEntries.add(0, srcClasspathEntry);
+		//final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
+		//final IClasspathEntry srcClasspathEntry = JavaCore.newSourceEntry(resourcesContainer.getFullPath());
+		//classpathEntries.add(0, srcClasspathEntry);
 		
-		javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
-				new SubProgressMonitor(monitor, 1));
+		//javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
+		//		new SubProgressMonitor(monitor, 1));
 		
 		final IFolder mutFolder = srcFolder.getFolder(new Path("mutator"));
 		try {

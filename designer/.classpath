@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/vtd-xml.jar"/>
 	<classpathentry kind="lib" path="lib/ModelValidatorPlugin-5.2.0-r1.jar"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

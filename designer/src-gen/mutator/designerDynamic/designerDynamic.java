@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class designerDynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -68,39 +70,14 @@ public class designerDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m1") != null) {
 			cMut.setDef(hmMutator.get("m1"));
@@ -206,7 +183,7 @@ public class designerDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}

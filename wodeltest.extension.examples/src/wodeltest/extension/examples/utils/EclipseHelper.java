@@ -359,7 +359,7 @@ public class EclipseHelper {
 			}
 		}
 		bpContent.append("\n");
-		bpContent.append("bin.includes = META-INF/,plugin.xml,.,sample/,bin/,data/,icons/,src/,lib/\n");
+		bpContent.append("bin.includes = META-INF/,plugin.xml,.,sample/,bin/,data/,icons/,src/,resources/,lib/\n");
 		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 

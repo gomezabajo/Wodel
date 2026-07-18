@@ -1,60 +1,352 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>WodelTest4FA.updatesite</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>@import url("web/site.css");</style>
-<script type="text/javascript">
-	var returnval = 0;
-	var stylesheet, xmlFile, cache, doc;
-	function init(){
-		// NSCP 7.1+ / Mozilla 1.4.1+ / Safari
-		// Use the standard DOM Level 2 technique, if it is supported
-		if (document.implementation && document.implementation.createDocument) {
-			xmlFile = document.implementation.createDocument("", "", null);
-			stylesheet = document.implementation.createDocument("", "", null);
-			if (xmlFile.load){
-				xmlFile.load("site.xml");
-				stylesheet.load("web/site.xsl");
-			} else {
-				alert("Document could not be loaded by browser.");
-			}
-			xmlFile.addEventListener("load", transform, false);
-			stylesheet.addEventListener("load", transform, false);
-		}
-		//IE 6.0+ solution
-		else if (window.ActiveXObject) {
-			xmlFile = new ActiveXObject("msxml2.DOMDocument.3.0");
-			xmlFile.async = false;
-			xmlFile.load("site.xml");
-			stylesheet = new ActiveXObject("msxml2.FreeThreadedDOMDocument.3.0");
-			stylesheet.async = false;
-			stylesheet.load("web/site.xsl");
-			cache = new ActiveXObject("msxml2.XSLTemplate.3.0");
-			cache.stylesheet = stylesheet;
-			transformData();
-		}
-	}
-	// separate transformation function for IE 6.0+
-	function transformData(){
-		var processor = cache.createProcessor();
-		processor.input = xmlFile;
-		processor.transform();
-		data.innerHTML = processor.output;
-	}
-	// separate transformation function for NSCP 7.1+ and Mozilla 1.4.1+ 
-	function transform(){
-		returnval+=1;
-		if (returnval==2){
-			var processor = new XSLTProcessor();
-			processor.importStylesheet(stylesheet); 
-			doc = processor.transformToDocument(xmlFile);
-			document.getElementById("data").innerHTML = doc.documentElement.innerHTML;
-		}
-	}
-</script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wodel software repository | Wodel</title>
+<meta name="author" content="Pablo Gómez-Abajo">
+<meta name="keywords" content="Wodel, model mutation, Eclipse, update site, p2 repository">
+<meta name="description" content="Eclipse p2 software repository for Wodel, Wodel-Edu and Wodel-Test. Use this URL from within Eclipse via Help → Install New Software.">
+<meta property="og:title" content="Wodel-Test for FA software repository">
+<meta property="og:description" content="Eclipse p2 software repository for Wodel-Test for FA.">
+<style>
+/*
+ * Self-contained stylesheet reproducing the layout of the Eclipse Foundation
+ * Solstice/Quicksilver theme (EPL-2.0, https://github.com/eclipsefdn/solstice-assets),
+ * rewritten from scratch for the Wodel update site.
+ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.6;color:#4c4d4e;background:#fff;
+}
+a{color:#367dad;text-decoration:none}
+a:hover,a:focus{color:#25567a;text-decoration:underline}
+a:focus-visible{outline:2px solid #f7941e;outline-offset:2px}
+img,svg{max-width:100%;height:auto}
+.container{max-width:1170px;margin:0 auto;padding:0 15px}
+.row{display:flex;flex-wrap:wrap;margin:0 -15px}
+[class^="col-"]{padding:0 15px;width:100%}
+.col-main{flex:0 0 75%;max-width:75%}
+.col-side{flex:0 0 25%;max-width:25%}
+@media (max-width:991px){.col-main,.col-side{flex:0 0 100%;max-width:100%}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.hidden-xs{display:block}
+@media (max-width:767px){.hidden-xs{display:none!important}}
+
+/* ---------- Toolbar row (top strip) ---------- */
+.toolbar-container-wrapper{background:#f4f4f4;border-bottom:1px solid #e0e0e0}
+.toolbar-row{display:flex;justify-content:flex-end;align-items:center;min-height:30px;font-size:12px}
+.toolbar-row ul{list-style:none;margin:0;padding:0;display:flex;gap:18px}
+.toolbar-link{color:#666;text-transform:uppercase;letter-spacing:.02em}
+.toolbar-link:hover{color:#367dad;text-decoration:none}
+.toolbar-link .ticon{width:12px;height:12px;vertical-align:-1px;margin-right:4px;fill:currentColor}
+
+/* ---------- Header ---------- */
+.header-wrapper{background:#000;color:#fff}
+#header-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:16px 0}
+.wrapper-logo-default a{display:inline-flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo-wodel{
+  font-size:34px;font-weight:800;letter-spacing:.5px;line-height:1;color:#fff;
+}
+.logo-wodel .logo-dot{color:#f7941e}
+.logo-tagline{font-size:11px;color:#9b9b9b;letter-spacing:.18em;text-transform:uppercase}
+#main-menu-wrapper{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#main-menu ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
+#main-menu li a{
+  display:block;padding:10px 15px;color:#fff;font-size:14px;
+}
+#main-menu li a:hover,#main-menu li a:focus{color:#f7941e;text-decoration:none}
+#btn-call-for-action .btn-warning{
+  display:inline-block;background:#f7941e;color:#fff;font-weight:700;font-size:16px;
+  padding:10px 22px;border-radius:4px;border:1px solid #e08414;text-decoration:none;
+}
+#btn-call-for-action .btn-warning:hover{background:#e08414;color:#fff}
+.hicon{width:14px;height:14px;vertical-align:-1px;margin-right:6px;fill:currentColor}
+
+/* ---------- Breadcrumb ---------- */
+#breadcrumb{background:#f8f8f8;border-bottom:1px solid #e5e5e5}
+.breadcrumb{list-style:none;margin:0;padding:10px 0;display:flex;flex-wrap:wrap;font-size:13px}
+.breadcrumb li+li::before{content:"/";padding:0 8px;color:#ccc}
+.breadcrumb li{color:#767676}
+
+/* ---------- Main ---------- */
+main{padding:30px 0 0;margin-bottom:50px}
+h1{font-size:38px;font-weight:300;margin:10px 0 18px;color:#4c4d4e}
+h2{font-size:26px;font-weight:400;margin:34px 0 14px;color:#4c4d4e}
+p{margin:0 0 10px}
+.repo-line{margin:14px 0 22px}
+.repo-line code{
+  font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-size:14px;background:#f4f4f4;border:1px solid #ddd;border-radius:3px;
+  padding:6px 10px;color:#4c4d4e;
+}
+.btn-copy{
+  display:inline-block;margin-left:8px;background:#f7941e;color:#fff;border:1px solid #e08414;
+  border-radius:3px;font:inherit;font-size:13px;font-weight:600;padding:5px 12px;cursor:pointer;
+}
+.btn-copy:hover{background:#e08414}
+.copy-note{display:inline-block;margin-left:10px;font-size:12px;color:#767676}
+.screenshot{margin:20px 0 6px}
+.screenshot svg{display:block;border:1px solid #ddd}
+
+/* ---------- Directory listing (as on download.eclipse.org) ---------- */
+#dirlist table{
+  width:100%;border-collapse:collapse;
+  font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;font-size:medium;
+}
+#dirlist td{padding:2px 0;vertical-align:top}
+#dirlist td.size{text-align:right;padding-right:15px;white-space:nowrap}
+#dirlist td.date{white-space:nowrap;color:#4c4d4e}
+.ficon{width:15px;height:15px;vertical-align:-2px;margin-right:6px;fill:none;stroke:#4c4d4e;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Sidebar ---------- */
+#main-sidebar .ul-left-nav{list-style:none;margin:0;padding:0}
+#main-sidebar li{padding:6px 0;font-size:14px;border-bottom:1px solid #f0f0f0}
+#main-sidebar li.separator{
+  font-weight:700;color:#4c4d4e;text-transform:none;border-bottom:1px solid #ccc;
+  padding-bottom:8px;margin-bottom:2px;font-size:15px;
+}
+.caret-icon{width:10px;height:10px;margin-right:8px;vertical-align:-1px;fill:#767676}
+
+/* ---------- Footer ---------- */
+#solstice-footer{background:#171717;color:#b5b5b5;font-size:13px;margin-top:40px}
+.foot-grid{display:flex;flex-wrap:wrap;padding:40px 0 10px;margin:0 -15px}
+.foot-grid section{flex:1 1 25%;min-width:220px;padding:0 15px;margin-bottom:25px}
+.section-title{font-size:16px;font-weight:400;color:#fff;margin:0 0 14px}
+#solstice-footer ul{list-style:none;margin:0;padding:0}
+#solstice-footer li{padding:3px 0}
+#solstice-footer a{color:#b5b5b5}
+#solstice-footer a:hover,#solstice-footer a:focus{color:#fff;text-decoration:underline}
+.foot-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid #2b2b2b;padding:18px 0 26px}
+#copyright-text{margin:0}
+.social-media ul{display:flex;gap:12px;list-style:none;margin:0;padding:0}
+.social-media-link{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid #b5b5b5;border-radius:50%}
+.social-media-link:hover{border-color:#fff}
+.social-media-link svg{width:16px;height:16px;fill:#b5b5b5}
+.social-media-link:hover svg{fill:#fff}
+.scrollup{color:#b5b5b5;font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
 </head>
-<body onload="init();">
-<!--[insert static HTML here]-->
-<div id="data"><!-- this is where the transformed data goes --></div>
+<body id="body_solstice">
+<a class="sr-only" href="#content">Skip to main content</a>
+
+<header class="header-wrapper" id="header-wrapper">
+  <div class="toolbar-container-wrapper">
+    <div class="container">
+      <div class="toolbar-row">
+        <ul>
+          <li><a class="toolbar-link" href="https://github.com/gomezabajo/Wodel"><svg class="ticon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></li>
+          <li><a class="toolbar-link" href="mailto:Pablo.GomezA@uam.es"><svg class="ticon" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zm1.6.5L8 8.7 14.4 4H1.6zM15 5.2 8.4 10a.7.7 0 0 1-.8 0L1 5.2v7.3c0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5V5.2z"/></svg> Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div id="header-row">
+      <div id="header-left">
+        <div class="wrapper-logo-default">
+          <a href="https://gomezabajo.github.io/Wodel/" aria-label="Wodel home">
+            <span class="logo-wodel">Wodel<span class="logo-dot">.</span></span>
+            <span class="logo-tagline hidden-xs">Model mutation DSL</span>
+          </a>
+        </div>
+      </div>
+      <div id="main-menu-wrapper">
+        <div class="navbar" id="main-menu">
+          <ul>
+            <li><a href="https://gomezabajo.github.io/Wodel/">Wodel</a></li>
+            <li><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></li>
+            <li><a href="https://gomezabajo.github.io/Wodel/Wodel-Test/">Wodel-Test</a></li>
+            <li><a href="https://gomezabajo.github.io/Wodel/get-started.html">Get Started</a></li>
+          </ul>
+        </div>
+        <div id="btn-call-for-action" class="hidden-xs">
+          <a href="https://gomezabajo.github.io/Wodel/#installation" class="btn-warning"><svg class="hicon" viewBox="0 0 16 16" aria-hidden="true" style="fill:#fff"><path d="M8 11.5 3.5 7h3V1h3v6h3L8 11.5zM2 13h12v2H2z"/></svg>Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="default-breadcrumbs" id="breadcrumb">
+  <div class="container">
+    <h3 class="sr-only">Breadcrumbs</h3>
+    <ol class="breadcrumb">
+      <li><a href="https://gomezabajo.github.io/">Home</a></li>
+      <li><a href="https://gomezabajo.github.io/Wodel/">Wodel</a></li>
+      <li>Add Software</li>
+    </ol>
+  </div>
+</section>
+<!-- /#breadcrumb -->
+
+<main id="content">
+  <div class="container" id="novaContent">
+    <div class="row">
+
+      <div class="col-main">
+        <h1>You're close!</h1>
+        <p>This URL is an Eclipse <b>software repository</b>; you must use it in Eclipse
+          (<a href="https://help.eclipse.org/topic/org.eclipse.platform.doc.user/tasks/tasks-127.htm">see how</a>).
+          It provides the <b>Wodel</b>, <b>Wodel-Edu</b> and <b>Wodel-Test</b> features.</p>
+
+        <p class="repo-line">
+          <code id="repo-url-text">https://gomezabajo.github.io/Wodel/Wodel-Test/fa/update-site/</code><button type="button" class="btn-copy" onclick="copyRepoUrl()">Copy</button><span class="copy-note" id="copy-note" aria-live="polite"></span>
+        </p>
+
+        <div class="screenshot">
+          <svg viewBox="0 0 640 300" role="img" aria-label="The Eclipse Install New Software dialog with the Wodel update site URL entered in the Work with field">
+            <rect x="0" y="0" width="640" height="300" fill="#fbfbfb"/>
+            <rect x="0" y="0" width="640" height="32" fill="#3c3f41"/>
+            <circle cx="20" cy="16" r="5" fill="#e5675b"/><circle cx="38" cy="16" r="5" fill="#e5c15a"/><circle cx="56" cy="16" r="5" fill="#7bbf6a"/>
+            <text x="320" y="21" text-anchor="middle" font-family="'Open Sans',Arial,sans-serif" font-size="13" fill="#ffffff">Install — Available Software</text>
+            <text x="24" y="61" font-family="'Open Sans',Arial,sans-serif" font-size="13" fill="#4c4d4e">Work with:</text>
+            <rect x="100" y="45" width="420" height="24" fill="#ffffff" stroke="#c9c9c9"/>
+            <text x="108" y="61" font-family="Consolas,monospace" font-size="12" fill="#4c4d4e">https://gomezabajo.github.io/Wodel/Wodel-Test/update-site/</text>
+            <rect x="530" y="45" width="86" height="24" fill="#f0f0f0" stroke="#c9c9c9"/>
+            <text x="573" y="61" text-anchor="middle" font-family="'Open Sans',Arial,sans-serif" font-size="12" fill="#4c4d4e">Add…</text>
+            <rect x="24" y="83" width="592" height="165" fill="#ffffff" stroke="#c9c9c9"/>
+            <rect x="34" y="95" width="12" height="12" fill="#367dad"/>
+            <text x="54" y="105" font-family="'Open Sans',Arial,sans-serif" font-size="13" fill="#4c4d4e">▸ Wodel</text>
+            <rect x="34" y="121" width="12" height="12" fill="#ffffff" stroke="#a9a9a9"/>
+            <text x="54" y="131" font-family="'Open Sans',Arial,sans-serif" font-size="13" fill="#4c4d4e">▸ Wodel-Edu</text>
+            <rect x="34" y="147" width="12" height="12" fill="#ffffff" stroke="#a9a9a9"/>
+            <text x="54" y="157" font-family="'Open Sans',Arial,sans-serif" font-size="13" fill="#4c4d4e">▸ Wodel-Test</text>
+            <line x1="24" y1="258" x2="616" y2="258" stroke="#e0e0e0"/>
+            <rect x="446" y="266" width="80" height="24" fill="#f7941e" stroke="#e08414"/>
+            <text x="486" y="282" text-anchor="middle" font-family="'Open Sans',Arial,sans-serif" font-size="12" fill="#ffffff">Next &gt;</text>
+            <rect x="536" y="266" width="80" height="24" fill="#f0f0f0" stroke="#c9c9c9"/>
+            <text x="576" y="282" text-anchor="middle" font-family="'Open Sans',Arial,sans-serif" font-size="12" fill="#4c4d4e">Cancel</text>
+          </svg>
+        </div>
+
+        <div>
+          <h2>Directory Contents</h2>
+          <div id="dirlist">
+            <table>
+              <tbody>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><a href="https://gomezabajo.github.io/Wodel/"> ..</a></td>
+                  <td class="size"></td><td class="date"></td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> features/</td>
+                  <td class="size"></td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> plugins/</td>
+                  <td class="size"></td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> web/</td>
+                  <td class="size"></td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><a href="artifacts.jar"> artifacts.jar</a></td>
+                  <td class="size">2058</td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><a href="content.jar"> content.jar</a></td>
+                  <td class="size">18547</td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><a href="index.html"> index.html</a></td>
+                  <td class="size"></td><td class="date">2026-07-17 13:24</td>
+                </tr>
+                <tr>
+                  <td><svg class="ficon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><a href="site.xml"> site.xml</a></td>
+                  <td class="size">2393</td><td class="date">2026-07-17 13:24</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-side">
+        <aside id="main-sidebar">
+          <ul id="leftnav" class="ul-left-nav">
+            <li class="separator">Useful links</li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="https://gomezabajo.github.io/Wodel/">Wodel home</a></li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="https://gomezabajo.github.io/Wodel/get-started.html">Get started</a></li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="https://gomezabajo.github.io/Wodel/Wodel-Test/">Wodel-Test</a></li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="https://github.com/gomezabajo/Wodel">Source on GitHub</a></li>
+            <li><svg class="caret-icon" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1l6 5-6 5z"/></svg><a href="mailto:Pablo.GomezA@uam.es">Email the maintainer</a></li>
+          </ul>
+        </aside>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer id="solstice-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <section id="footer-wodel">
+        <h2 class="section-title">Wodel</h2>
+        <ul>
+          <li><a href="https://gomezabajo.github.io/Wodel/">About Wodel</a></li>
+          <li><a href="https://gomezabajo.github.io/Wodel/get-started.html">Get Started</a></li>
+          <li><a href="https://gomezabajo.github.io/Wodel/#installation">Installation</a></li>
+          <li><a href="https://github.com/gomezabajo/Wodel">GitHub Repository</a></li>
+        </ul>
+      </section>
+      <section id="footer-ecosystem">
+        <h2 class="section-title">Ecosystem</h2>
+        <ul>
+          <li><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></li>
+          <li><a href="https://gomezabajo.github.io/Wodel/Wodel-Test/">Wodel-Test</a></li>
+          <li><a href="https://gomezabajo.github.io/Wodel4diac/">Wodel4diac</a></li>
+        </ul>
+      </section>
+      <section id="footer-legal">
+        <h2 class="section-title">Legal</h2>
+        <ul>
+          <li><a href="https://www.eclipse.org/legal/epl-2.0/">Eclipse Public License 2.0</a></li>
+        </ul>
+      </section>
+      <section id="footer-research">
+        <h2 class="section-title">Research</h2>
+        <ul>
+          <li><a href="https://miso.es">MISO Research Group</a></li>
+          <li><a href="https://www.uam.es">Universidad Autónoma de Madrid</a></li>
+          <li><a href="https://www.gomezabajo.es">Pablo Gómez-Abajo</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="foot-bottom">
+      <p id="copyright-text">Copyright © Pablo Gómez-Abajo · MISO research group, Universidad Autónoma de Madrid.</p>
+      <div class="social-media">
+        <ul>
+          <li><a class="social-media-link" href="https://github.com/gomezabajo" aria-label="GitHub"><svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a></li>
+          <li><a class="social-media-link" href="https://www.gomezabajo.es" aria-label="Personal website"><svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm5.9 6.3h-2.3a11 11 0 0 0-.9-3.9 5.62 5.62 0 0 1 3.2 3.9zM8 2.4c.6.8 1.3 2.2 1.5 4H6.5c.2-1.8.9-3.2 1.5-4zM2.1 8.7h2.3c.1 1.4.4 2.8.9 3.9a5.62 5.62 0 0 1-3.2-3.9zm2.3-1.4H2.1a5.62 5.62 0 0 1 3.2-3.9c-.5 1.1-.8 2.5-.9 3.9zm2.1 1.4h3c-.2 1.8-.9 3.2-1.5 4-.6-.8-1.3-2.2-1.5-4zm4.2 3.9c.5-1.1.8-2.5.9-3.9h2.3a5.62 5.62 0 0 1-3.2 3.9z"/></svg></a></li>
+          <li><a class="social-media-link" href="mailto:Pablo.GomezA@uam.es" aria-label="Email"><svg viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zm1.6.5L8 8.7 14.4 4H1.6zM15 5.2 8.4 10a.7.7 0 0 1-.8 0L1 5.2v7.3c0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5V5.2z"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="#body_solstice" class="scrollup">Back to the top</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyRepoUrl(){
+  var url = document.getElementById('repo-url-text').textContent;
+  var note = document.getElementById('copy-note');
+  function done(){ note.textContent = 'Copied.'; setTimeout(function(){ note.textContent=''; }, 2500); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done, function(){ note.textContent = url; });
+  } else {
+    note.textContent = url;
+  }
+}
+</script>
 </body>
 </html>

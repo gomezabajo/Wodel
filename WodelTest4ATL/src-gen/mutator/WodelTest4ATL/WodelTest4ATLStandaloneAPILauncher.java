@@ -14,53 +14,53 @@ import java.io.IOException;
 import java.io.File;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.MutatorUtils;
-import mutator.testATLMR.testATLMRStandaloneAPI;
-import mutator.testATLF.testATLFStandaloneAPI;
-import mutator.testATLOPE.testATLOPEStandaloneAPI;
-import mutator.testATLB.testATLBStandaloneAPI;
 import mutator.testATLIPE.testATLIPEStandaloneAPI;
+import mutator.testATLB.testATLBStandaloneAPI;
+import mutator.testATLF.testATLFStandaloneAPI;
+import mutator.testATLMR.testATLMRStandaloneAPI;
+import mutator.testATLOPE.testATLOPEStandaloneAPI;
 
 public class WodelTest4ATLStandaloneAPILauncher {
 	public static void createMutants(String inputFolder, String outputFolder)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-New_configuration20/WodelTest4ATL/data/model/ATL.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration25/WodelTest4ATL/data/model/ATL.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
-		mutatorNames.add("testATLMR");
-		mutatorNames.add("testATLF");
-		mutatorNames.add("testATLOPE");
-		mutatorNames.add("testATLB");
 		mutatorNames.add("testATLIPE");
+		mutatorNames.add("testATLB");
+		mutatorNames.add("testATLF");
+		mutatorNames.add("testATLMR");
+		mutatorNames.add("testATLOPE");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
-		List<String> mutatorOperatorNamestestATLMR = new ArrayList<String>();
-		mutatorOperatorNamestestATLMR.add("cmr");
-		mutatorOperatorNamestestATLMR.add("rmr");
-		mutatorOperatorNamestestATLMR.add("ncmr");
-		operatorNames.add(mutatorOperatorNamestestATLMR);
-		List<String> mutatorOperatorNamestestATLF = new ArrayList<String>();
-		mutatorOperatorNamestestATLF.add("cf");
-		mutatorOperatorNamestestATLF.add("rf");
-		mutatorOperatorNamestestATLF.add("ccf");
-		operatorNames.add(mutatorOperatorNamestestATLF);
-		List<String> mutatorOperatorNamestestATLOPE = new ArrayList<String>();
-		mutatorOperatorNamestestATLOPE.add("cope");
-		mutatorOperatorNamestestATLOPE.add("rope");
-		mutatorOperatorNamestestATLOPE.add("ccope");
-		mutatorOperatorNamestestATLOPE.add("ncope");
-		operatorNames.add(mutatorOperatorNamestestATLOPE);
-		List<String> mutatorOperatorNamestestATLB = new ArrayList<String>();
-		mutatorOperatorNamestestATLB.add("cb");
-		mutatorOperatorNamestestATLB.add("rb");
-		mutatorOperatorNamestestATLB.add("vcb");
-		mutatorOperatorNamestestATLB.add("fc");
-		operatorNames.add(mutatorOperatorNamestestATLB);
 		List<String> mutatorOperatorNamestestATLIPE = new ArrayList<String>();
 		mutatorOperatorNamestestATLIPE.add("cipe");
 		mutatorOperatorNamestestATLIPE.add("ripe");
 		mutatorOperatorNamestestATLIPE.add("ccipe");
 		mutatorOperatorNamestestATLIPE.add("ncipe");
 		operatorNames.add(mutatorOperatorNamestestATLIPE);
+		List<String> mutatorOperatorNamestestATLB = new ArrayList<String>();
+		mutatorOperatorNamestestATLB.add("cb");
+		mutatorOperatorNamestestATLB.add("rb");
+		mutatorOperatorNamestestATLB.add("vcb");
+		mutatorOperatorNamestestATLB.add("fc");
+		operatorNames.add(mutatorOperatorNamestestATLB);
+		List<String> mutatorOperatorNamestestATLF = new ArrayList<String>();
+		mutatorOperatorNamestestATLF.add("cf");
+		mutatorOperatorNamestestATLF.add("rf");
+		mutatorOperatorNamestestATLF.add("ccf");
+		operatorNames.add(mutatorOperatorNamestestATLF);
+		List<String> mutatorOperatorNamestestATLMR = new ArrayList<String>();
+		mutatorOperatorNamestestATLMR.add("cmr");
+		mutatorOperatorNamestestATLMR.add("rmr");
+		mutatorOperatorNamestestATLMR.add("ncmr");
+		operatorNames.add(mutatorOperatorNamestestATLMR);
+		List<String> mutatorOperatorNamestestATLOPE = new ArrayList<String>();
+		mutatorOperatorNamestestATLOPE.add("cope");
+		mutatorOperatorNamestestATLOPE.add("rope");
+		mutatorOperatorNamestestATLOPE.add("ccope");
+		mutatorOperatorNamestestATLOPE.add("ncope");
+		operatorNames.add(mutatorOperatorNamestestATLOPE);
 		String[] arrMutatorNames = new String[mutatorNames.size()];
 		mutatorNames.toArray(arrMutatorNames);
 		String[][] arrOperatorNames = new String[mutatorNames.size()][];
@@ -71,7 +71,7 @@ public class WodelTest4ATLStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-New_configuration20/WodelTest4ATL/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-New_configuration25/WodelTest4ATL/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -89,15 +89,15 @@ public class WodelTest4ATLStandaloneAPILauncher {
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
-		testATLMRStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
-		testATLFStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
-		testATLOPEStandaloneAPI.createMutants(arrOperatorNames[i]);
+		testATLIPEStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		testATLBStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
-		testATLIPEStandaloneAPI.createMutants(arrOperatorNames[i]);
+		testATLFStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testATLMRStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testATLOPEStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		File mutantWodelFolder = new File(outputWodelFolder);
 		File outputCustomizedFolder = new File(outputFolder);

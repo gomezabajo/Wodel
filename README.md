@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://gomezabajo.github.io/Wodel/">
-    <img src="https://gomezabajo.github.io/Wodel/images/wodel.png" width="120" height="120" alt="Wodel logo" />
+    <img src="https://gomezabajo.github.io/Wodel/images/wodel.png" width="173" height="120" alt="Wodel logo" />
   </a>
 </p>
 

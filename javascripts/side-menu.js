@@ -32,6 +32,7 @@
     [/exercis/i, "assignment"],
     [/wodel-edu/i, "school"],
     [/wodel-test/i, "bug_report"],
+    [/4diac/i, "electrical_services"],
     [/get started/i, "play_arrow"],
     [/github/i, "code"],
     [/update site/i, "download"],

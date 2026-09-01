@@ -21,6 +21,7 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
@@ -72,15 +73,19 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
       }
       String projectFolderName = _xifexpression_1;
       this.fileURI = resource.getURI();
-      Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
+      final Function1<MutatorEnvironment, Boolean> _function = (MutatorEnvironment it) -> {
+        Definition _definition = it.getDefinition();
+        return Boolean.valueOf((_definition instanceof Program));
+      };
+      Iterable<MutatorEnvironment> _filter = IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function);
       for (final MutatorEnvironment e : _filter) {
         {
           Definition _definition = ((MutatorEnvironment) e).getDefinition();
           this.program = ((Program) _definition);
-          String _replaceAll = this.fileURI.lastSegment().replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
-          String fileName = (_replaceAll + ".mutator");
-          fileName = fileName.replace(".mutator", "Dynamic.java");
-          this.className = fileName.replace("Dynamic.java", "Dynamic");
+          String mutatorName = this.fileURI.lastSegment().replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
+          String fileName = (mutatorName + ".mutator");
+          fileName = (mutatorName + "Dynamic.java");
+          this.className = (mutatorName + "Dynamic");
           int i = 1;
           EList<Mutator> _commands = e.getCommands();
           for (final Mutator mut : _commands) {
@@ -99,13 +104,13 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
           if (_isFile) {
             fsa.deleteFile(((("mutator/" + this.className) + "/") + fileName));
           }
-          fsa.generateFile(((("mutator/" + this.className) + "/") + fileName), JavaUtils.format(this.compile(e, this.project), false));
+          fsa.generateFile(((("mutator/" + this.className) + "/") + fileName), JavaUtils.format(this.compile(e, this.project, mutatorName), false));
         }
       }
-      final Function1<IFile, String> _function = (IFile it) -> {
+      final Function1<IFile, String> _function_1 = (IFile it) -> {
         return it.getName().replace(".mutator", "");
       };
-      List<String> mutators = ListExtensions.<IFile, String>map(ProjectUtils.getMutatorFiles(this.project), _function);
+      List<String> mutators = ListExtensions.<IFile, String>map(WodelUtils.getMutatorFiles(this.project), _function_1);
       String _replaceAll = this.project.getName().replaceAll("[.]", "/");
       String _plus = ("mutator/" + _replaceAll);
       String _plus_1 = (_plus + "/");
@@ -128,7 +133,11 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
       String _replaceAll_5 = this.project.getName().replaceAll("[.]", "_");
       String _plus_10 = (_plus_9 + _replaceAll_5);
       String _plus_11 = (_plus_10 + "DynamicLauncher.java");
-      fsa.generateFile(_plus_11, JavaUtils.format(this.launcher(IterableExtensions.<MutatorEnvironment>toList(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class)), this.project, mutators), false));
+      final Function1<MutatorEnvironment, Boolean> _function_2 = (MutatorEnvironment it) -> {
+        Definition _definition = it.getDefinition();
+        return Boolean.valueOf((_definition instanceof Program));
+      };
+      fsa.generateFile(_plus_11, JavaUtils.format(this.launcher(IterableExtensions.<MutatorEnvironment>toList(IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function_2)), this.project, mutators), false));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -26,7 +26,7 @@ public class SpecificObjectSelection extends SpecificSelection{
 	/**
 	 * Object to select
 	 */
-	private EObject obj;
+	//private EObject obj;
 	
 	private List<EObject> objs;
 	
@@ -222,6 +222,14 @@ public class SpecificObjectSelection extends SpecificSelection{
 					if (EcoreUtil.equals(object, obj)) {
 						return object;
 					}
+				}
+			}
+		}
+		List<EObject> objs = getObjects();
+		if (objs != null && !objs.isEmpty()) {
+			for (EObject obj : objs) {
+				if (obj != null) {
+					return obj;
 				}
 			}
 		}

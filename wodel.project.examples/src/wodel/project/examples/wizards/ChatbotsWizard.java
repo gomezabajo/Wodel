@@ -42,7 +42,7 @@ import org.eclipse.ui.ide.IDE;
 
 import com.google.common.io.CharStreams;
 
-import wodel.dsls.WodelUtils;
+import wodel.dsls.runner.WodelUtils;
 import wodel.project.examples.utils.EclipseHelper;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ProjectUtils;

@@ -22,6 +22,7 @@ import wodel.utils.manager.ModelManager;
 import wodeledu.dsls.generator.ComparableSimpleEntry;
 import wodeledu.dsls.generator.EduTestSuperGenerator;
 import wodeledu.dsls.generator.TestOption;
+import wodeledu.utils.manager.WodelEduManager;
 
 @SuppressWarnings("all")
 public class EduTestMoodleGeneratorDragAndDropText {
@@ -215,7 +216,7 @@ public class EduTestMoodleGeneratorDragAndDropText {
           int _size_1 = this.generator.getOptions().get(this.exercise).get(test).size();
           boolean _greaterThan_1 = (_size_1 > 0);
           if (_greaterThan_1) {
-            int rndIndex = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
+            int rndIndex = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
             _builder.newLineIfNotEmpty();
             {
               List<TestOption> _get = this.generator.getOptions().get(this.exercise).get(test).get(rndIndex);

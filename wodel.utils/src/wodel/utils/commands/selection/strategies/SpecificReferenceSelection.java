@@ -21,24 +21,24 @@ import wodel.utils.exceptions.ReferenceNonExistingException;
  */
 public class SpecificReferenceSelection extends SpecificSelection{
 	
-	private EObject oe;
+	//private EObject oe;
 	private String refType;
 	
-	public SpecificReferenceSelection(List<EPackage> metaModel, Resource model, String refType, EObject oe){
+	public SpecificReferenceSelection(List<EPackage> metaModel, Resource model, String refType, EObject obj){
 		super(metaModel, model);
-		this.oe = oe;
+		this.obj = obj;
 		this.refType = refType;
 	}
 
-	public SpecificReferenceSelection(List<EPackage> metaModel, List<Resource> models, String refType, EObject oe){
+	public SpecificReferenceSelection(List<EPackage> metaModel, List<Resource> models, String refType, EObject obj){
 		super(metaModel, models);
-		this.oe = oe;
+		this.obj = obj;
 		this.refType = refType;
 	}
 
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {
-		if(oe == null) return null;
-		return ModelManager.getReferenceByName(refType, oe);
+		if(obj == null) return null;
+		return ModelManager.getReferenceByName(refType, obj);
 	}
 }

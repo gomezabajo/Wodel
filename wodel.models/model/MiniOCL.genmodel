@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/wodel.models/src" modelPluginID="wodel.models"
+    modelName="MiniOCL" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>MiniOCL.ecore</foreignModel>
+  <genPackages prefix="MiniOCL" basePackage="mutatorenvironment" disposableProviderFactory="true" ecorePackage="MiniOCL.ecore#/">
+    <genClasses ecoreClass="MiniOCL.ecore#//RootCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//RootCS/packages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//RootCS/contraints"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//PackageCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//PackageCS/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//PackageCS/packages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//PackageCS/classes"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ClassCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//ClassCS/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ClassCS/extends"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ClassCS/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ClassCS/operations"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//PropertyCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//PropertyCS/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//PropertyCS/typeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//OperationCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//OperationCS/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//OperationCS/params"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//OperationCS/resultRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//OperationCS/body"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ParameterCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//ParameterCS/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ParameterCS/typeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ConstraintCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ConstraintCS/typeRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ConstraintCS/invariants"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//InvariantCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//InvariantCS/exp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//LogicExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//LogicExpCS/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//LogicExpCS/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//LogicExpCS/right"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//CallExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//CallExpCS/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//CallExpCS/navExp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//PrimaryExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//NameExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NameExpCS/expName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NameExpCS/roundedBrackets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NameExpCS/callExp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//LoopExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//LoopExpCS/itVar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//LoopExpCS/logicOp"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//LoopExpCS/exp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//CollectExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//IteratorVarCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//IteratorVarCS/itName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//IteratorVarCS/itType"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//IterateExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//IterateExpCS/accVar"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//AccVarCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//AccVarCS/accVarName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//AccVarCS/accType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//AccVarCS/accInitExp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//RoundedBracketClauseCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//RoundedBracketClauseCS/args"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//LiteralExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//IntLiteralExpCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//IntLiteralExpCS/intSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//StringLiteralExpCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//StringLiteralExpCS/stringSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//BooleanLiteralExpCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//PathNameCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//PathNameCS/path"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//PathCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//PathVariableCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//PathVariableCS/varName"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//PathElementCS">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference MiniOCL.ecore#//PathElementCS/pathName"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//BooleanExpCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//BooleanExpCS/boolSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ExistsExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ExistsExpCS/accVars"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationNameExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NavigationNameExpCS/expName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NavigationNameExpCS/roundedBrackets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NavigationNameExpCS/callExp"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationPathNameCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//NavigationPathNameCS/path"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationPathCS"/>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationPathVariableCS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MiniOCL.ecore#//NavigationPathVariableCS/varName"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//NavigationPathElementCS">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference MiniOCL.ecore#//NavigationPathElementCS/pathName"/>
+    </genClasses>
+    <genClasses ecoreClass="MiniOCL.ecore#//ForAllExpCS">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MiniOCL.ecore#//ForAllExpCS/accVars"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

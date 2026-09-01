@@ -35,6 +35,7 @@ import java.util.Set
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
+import wodeledu.utils.manager.WodelEduManager
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -364,7 +365,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 		«var Test t = test»
 		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
           «var int counter = 0»
-          «{rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test)); ""}»
+          «{rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test)); ""}»
           «var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
           «IF options.get(exercise).get(test).size() > 0»
           «FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
@@ -452,7 +453,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 			«{Collections.shuffle(selectedOptions); ""}»
 			«IF diagrams.size() > 0»
 			<!--«var int rndSolution = -1»-->
-			«{rndSolution = ModelManager.getRandomIndex(diagrams); ""}»
+			«{rndSolution = WodelEduManager.getRandomIndex(diagrams); ""}»
             <!--«var List<String> diagram = new ArrayList<String>()»-->
             <!--«var String d = diagrams.get(rndSolution)»-->
 			«IF d.length > 0»w
@@ -573,7 +574,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «var List<String> textOptions = new ArrayList<String>()»
           «var int k = 0»
           «var int counter = 0»
-          «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+          «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
           «IF options.get(exercise).get(test).size() > 0»
           «FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
           «FOR String key : opt.text.keySet()»
@@ -599,7 +600,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «var int k = 0»
           «var int counter = 0»
           <!--«var Map<TestOption, String> mapOptions = new HashMap<TestOption, String>()»-->
-          «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+          «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
           «IF options.get(exercise).get(test).size() > 0»
           «FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
           «var List<String> textOptions = new ArrayList<String>()»
@@ -655,7 +656,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
         «var int k = 0»
         «FOR Test test : exercise.tests»
         <!--«var TestOption opt = null»-->
-        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
         «IF options.get(exercise).get(test).size() > 0»
         «IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).get(rndIndex).size() > index)»
         <!--«opt = options.get(exercise).get(test).get(rndIndex).get(index)»-->

@@ -21,8 +21,52 @@ public class MutatorHelper {
 	
 	private File source = null;
 	private IWodelTest test = null;
+	
+	private void collectMutators(File folder, Map<String, Class<?>> mutators) {
+
+	    if (folder == null || !folder.exists() || !folder.isDirectory()) {
+	        return;
+	    }
+
+	    File[] files = folder.listFiles();
+
+	    if (files == null) {
+	        return;
+	    }
+
+	    for (File file : files) {
+	        if (file.isDirectory()) {
+	            collectMutators(file, mutators);
+	            continue;
+	        }
+	        if (!file.isFile() || !file.getName().endsWith(".mutator")) {
+	            continue;
+	        }
+
+	        String mutatorName = file.getName().substring(0, file.getName().length() - ".mutator".length());
+
+	        String className = "mutator." + mutatorName + "Dynamic." + mutatorName + "Dynamic";
+	        
+	        /*
+	         * Programs generate this class.
+	         * Libraries deliberately do not.
+	         */
+	        Class<?> mutator =  WodelTestUtils.tryLoadMutatorClass(className, this.test);
+
+	        if (mutator != null) {
+	        	mutators.put(mutatorName, mutator);
+	        }
+	    }
+	}
 
 	private Map<String, Class<?>> getMutators(File folder) {
+		
+		Map<String, Class<?>> mutators =  new LinkedHashMap<String, Class<?>>();
+		collectMutators(folder, mutators);
+
+		return mutators;
+		
+/*
 		Map<String, Class<?>> mutators = new LinkedHashMap<String, Class<?>>();
 		if (folder.exists() && folder.isDirectory()) {
 			for (File file : folder.listFiles()) {
@@ -30,6 +74,7 @@ public class MutatorHelper {
 					if (file.getName().endsWith(".mutator")) {
 						String mutatorName = file.getName().replace(".mutator", "");
 						String className = "mutator." + mutatorName + "Dynamic." + mutatorName + "Dynamic";
+						
 						Class<?> mutator = WodelTestUtils.loadClass(className, test);
 						mutators.put(mutatorName, mutator);
 					}
@@ -44,12 +89,13 @@ public class MutatorHelper {
 		}
 
 		return mutators;
+*/
 	}
 
 	public SimpleEntry<String, Class<?>> getLauncher() {
 		String projectName = test.getProjectName();
 		String className = "mutator." + projectName + "." + projectName + "DynamicLauncher";
-		Class<?> cls = WodelTestUtils.loadClass(className, test);
+		Class<?> cls = WodelTestUtils.loadClass(className, this.test);
 		return new SimpleEntry<String, Class<?>>(className, cls);
 	}
 	
@@ -61,7 +107,7 @@ public class MutatorHelper {
 					if (file.getName().endsWith(".mutator")) {
 						String mutatorName = file.getName().replace(".mutator", "");
 						String className = "mutator." + mutatorName + "Dynamic." + mutatorName + "Dynamic";
-						Class<?> mutator = WodelTestUtils.loadClass(className, test);
+						Class<?> mutator = WodelTestUtils.loadClass(className, this.test);
 						mutators.put(mutatorName, mutator);
 					}
 				}

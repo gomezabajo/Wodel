@@ -11,10 +11,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -30,273 +29,465 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
-import com.google.common.base.Charsets;
-
 /**
+ * Java utility methods.
+ *
+ * Provides support for formatting generated Java source code
+ * and handling temporary empty-comment markers.
+ *
  * @author Pablo Gomez-Abajo
- * 
- * Java code formatting
- * 
  */
+public final class JavaUtils {
 
-public class JavaUtils {
+    private static final String EMPTY_COMMENT_MARKER = "\t\t//";
 
-	/**
-	 * Removes comments from Java code
-	 */
-	private static CharSequence removeComments(CharSequence sequence) {
-		List<String> comments = new ArrayList<String>();
-		Pattern commentsPattern = Pattern.compile("(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)");
+    private JavaUtils() {
+        // Utility class.
+    }
 
-        String text = sequence.toString();
-        String noStrings = text.replaceAll("(\".*?(?<!\\\\)\")", "");
-        Matcher commentsMatcher = commentsPattern.matcher(noStrings);
+    /**
+     * Removes Java line and block comments while preserving strings
+     * and character literals.
+     *
+     * @param sequence Java source code
+     * @return source code without comments
+     */
+    private static CharSequence removeComments(CharSequence sequence) {
+        if (sequence == null) {
+            return "";
+        }
 
-        while (commentsMatcher.find()) {
-            String comment = commentsMatcher.group();
-            if (!comments.contains(comment)) {
-            	comments.add(comment);
+        String source = sequence.toString();
+        StringBuilder result = new StringBuilder(source.length());
+
+        boolean inString = false;
+        boolean inChar = false;
+        boolean inLineComment = false;
+        boolean inBlockComment = false;
+        boolean escaped = false;
+
+        for (int i = 0; i < source.length(); i++) {
+            char current = source.charAt(i);
+            char next = i + 1 < source.length()
+                    ? source.charAt(i + 1)
+                    : '\0';
+
+            if (inLineComment) {
+                if (current == '\n') {
+                    inLineComment = false;
+                    result.append(current);
+                }
+                continue;
             }
+
+            if (inBlockComment) {
+                if (current == '*' && next == '/') {
+                    inBlockComment = false;
+                    i++;
+                } else if (current == '\n') {
+                    // Keep line structure.
+                    result.append(current);
+                }
+                continue;
+            }
+
+            if (inString) {
+                result.append(current);
+
+                if (escaped) {
+                    escaped = false;
+                } else if (current == '\\') {
+                    escaped = true;
+                } else if (current == '"') {
+                    inString = false;
+                }
+
+                continue;
+            }
+
+            if (inChar) {
+                result.append(current);
+
+                if (escaped) {
+                    escaped = false;
+                } else if (current == '\\') {
+                    escaped = true;
+                } else if (current == '\'') {
+                    inChar = false;
+                }
+
+                continue;
+            }
+
+            if (current == '"') {
+                inString = true;
+                result.append(current);
+                continue;
+            }
+
+            if (current == '\'') {
+                inChar = true;
+                result.append(current);
+                continue;
+            }
+
+            if (current == '/' && next == '/') {
+                inLineComment = true;
+                i++;
+                continue;
+            }
+
+            if (current == '/' && next == '*') {
+                inBlockComment = true;
+                i++;
+                continue;
+            }
+
+            result.append(current);
         }
-        comments.sort((c1, c2) -> c2.length() - c1.length());
-        
-        for (String comment : comments) {
-        	Pattern commentPattern = null;
-        	if (comment.length() == 2) {
-        		commentPattern = Pattern.compile(Pattern.quote(comment) + "\r?\n");
-        	}
-        	else {
-        		commentPattern = Pattern.compile(Pattern.quote(comment));
-        	}
-        	Matcher commentMatcher = commentPattern.matcher(text);
-        	text = commentMatcher.replaceAll("");
+
+        return result.toString()
+                .replaceAll("(?m)^[ \\t]*\\r?\\n", "");
+    }
+
+    /**
+     * Formats Java source code using the Eclipse JDT formatter.
+     *
+     * @param sequence source code
+     * @param comments true to preserve and format comments;
+     *                 false to remove comments
+     * @return formatted Java source code
+     */
+    public static CharSequence format(
+            CharSequence sequence,
+            boolean comments) {
+
+        if (sequence == null) {
+            return null;
         }
 
-        return text.replaceAll("(?m)^[ \t]*\r?\n", "");
-	}
-	
-	/**
-	 * Correct indentation for Java code
-	 */
-	public static CharSequence format(CharSequence sequence, boolean comments) {
-		String code = null;
-		if (comments == false) {
-			code = removeComments(sequence).toString();
-		}
-		CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(null);
-		TextEdit textEdit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, // format a compilation unit
-				code, // source to format
-                0, // starting position
-                code.length(), // length
-                0, // initial indentation
-                System.getProperty("line.separator") // line separator
-		);
-		IDocument doc = new Document(code);
-		try {
-        	textEdit.apply(doc);
-        	return doc.get();
-		} catch (MalformedTreeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	private static void removeComments(IFile file) {
-		try {
-			InputStream is = file.getContents();
-			InputStreamReader ir = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(ir);
-			List<String> lines = new ArrayList<String>();
-			String read = "";
-			while ((read = br.readLine()) != null) {
-				if (read.endsWith("\t\t//")) {
-					lines.add(read.substring(0, read.indexOf("\t\t//")));
-				}
-			}
-			br.close();
-			is.close();
-			is.close();
-			String content = "";
-			for (String line : lines) {
-				content += line + "\n";
-			}
-			is = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-			file.delete(true, new NullProgressMonitor());
-			file.create(is, true, new NullProgressMonitor());
-			is.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        String code = sequence.toString();
 
-	private static void removeComments(IFolder folder) {
-		try {
-			for (IResource resource : folder.members()) {
-				if (resource instanceof IFile) {
-					removeComments((IFile) resource);
-				}
-				if (resource instanceof IFolder) {
-					removeComments((IFolder) resource);
-				}
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removeComments(IProject project) {
-		try {
-			IFolder folder = project.getFolder("src");
-			for (IResource resource : folder.members()) {
-				if (resource instanceof IFile) {
-					removeComments((IFile) resource);
-				}
-				if (resource instanceof IFolder) {
-					removeComments((IFolder) resource);
-				}
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        if (!comments) {
+            code = removeComments(code).toString();
+        }
 
-	private static void addComments(IFile file) {
-		try {
-			InputStream is = file.getContents();
-			InputStreamReader ir = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(ir);
-			List<String> lines = new ArrayList<String>();
-			String read = "";
-			while ((read = br.readLine()) != null) {
-				lines.add(read + "\t\t//");
-			}
-			br.close();
-			is.close();
-			is.close();
-			String content = "";
-			for (String line : lines) {
-				content += line + "\n";
-			}
-			is = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-			file.delete(true, new NullProgressMonitor());
-			file.create(is, true, new NullProgressMonitor());
-			is.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private static void addComments(IFolder folder) {
-		try {
-			for (IResource resource : folder.members()) {
-				if (resource instanceof IFile) {
-					addComments((IFile) resource);
-				}
-				if (resource instanceof IFolder) {
-					addComments((IFolder) resource);
-				}
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void addComments(IProject project) {
-		try {
-			IFolder folder = project.getFolder("src");
-			for (IResource resource : folder.members()) {
-				if (resource instanceof IFile) {
-					addComments((IFile) resource);
-				}
-				if (resource instanceof IFolder) {
-					addComments((IFolder) resource);
-				}
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private static void removeEmptyComments(File file) {
-		try {
-			if (file.isDirectory()) {
-				for (File f : file.listFiles()) {
-					removeEmptyComments(f);
-				}
-			}
-			else {
-				FileInputStream fis = new FileInputStream(file);
-				InputStreamReader is = new InputStreamReader(fis);
-				BufferedReader br = new BufferedReader(is);
+        CodeFormatter formatter =
+                ToolFactory.createCodeFormatter(null);
 
-				List<String> lines = new ArrayList<String>();
-				String line = "";
-				while ((line = br.readLine()) != null) {
-					if (line.endsWith("//")) {
-						line = line.substring(0, line.indexOf("//"));
-						if (line.length() > 0) {
-							lines.add(line);
-						}
-					}
-					else {
-						lines.add(line);
-					}
-				}
-				br.close();
-				is.close();
-				fis.close();
-				
-				FileOutputStream fos = new FileOutputStream(file);
-				OutputStreamWriter os = new OutputStreamWriter(fos);
-				PrintWriter pw = new PrintWriter(os);
-				
-				for (String code : lines) {
-					pw.println(code);
-				}
-				pw.flush();
-				pw.close();
-				os.close();
-				fos.close();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removeEmptyComments(String path) {
-		File file = new File(path);
-		removeEmptyComments(file);
-	}
-	
-	public static boolean isNumeric(String strNum) {
-	    if (strNum == null) {
-	        return false;
-	    }
-	    try {
-	        double d = Double.parseDouble(strNum);
-	    } catch (NumberFormatException nfe) {
-	        return false;
-	    }
-	    return true;
-	}
+        int kind = CodeFormatter.K_COMPILATION_UNIT;
+
+        if (comments) {
+            kind |= CodeFormatter.F_INCLUDE_COMMENTS;
+        }
+
+        TextEdit edit = formatter.format(
+                kind,
+                code,
+                0,
+                code.length(),
+                0,
+                System.lineSeparator());
+
+        /*
+         * CodeFormatter.format() returns null if JDT cannot
+         * format the supplied source. In that case, keep the
+         * original source rather than breaking code generation.
+         */
+        if (edit == null) {
+            return code;
+        }
+
+        IDocument document = new Document(code);
+
+        try {
+            edit.apply(document);
+            return document.get();
+        } catch (MalformedTreeException | BadLocationException e) {
+            e.printStackTrace();
+            return code;
+        }
+    }
+
+    /**
+     * Removes temporary empty-comment markers from an Eclipse file.
+     */
+    private static void removeComments(IFile file) {
+        if (file == null || !file.exists() ||
+                !"java".equalsIgnoreCase(file.getFileExtension())) {
+            return;
+        }
+
+        try (
+            InputStream input = file.getContents();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            input,
+                            StandardCharsets.UTF_8))
+        ) {
+
+            StringBuilder content = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.endsWith(EMPTY_COMMENT_MARKER)) {
+                    line = line.substring(
+                            0,
+                            line.length()
+                                    - EMPTY_COMMENT_MARKER.length());
+                }
+
+                content.append(line)
+                       .append(System.lineSeparator());
+            }
+
+            try (InputStream newContents =
+                    new ByteArrayInputStream(
+                            content.toString().getBytes(
+                                    StandardCharsets.UTF_8))) {
+
+                file.setContents(
+                        newContents,
+                        IResource.FORCE,
+                        new NullProgressMonitor());
+            }
+
+        } catch (IOException | CoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Recursively removes temporary empty-comment markers.
+     */
+    private static void removeComments(IFolder folder) {
+        if (folder == null || !folder.exists()) {
+            return;
+        }
+
+        try {
+            for (IResource resource : folder.members()) {
+
+                if (resource instanceof IFile) {
+                    removeComments((IFile) resource);
+
+                } else if (resource instanceof IFolder) {
+                    removeComments((IFolder) resource);
+                }
+            }
+
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes temporary empty-comment markers from Java files
+     * contained in the project's src folder.
+     */
+    public static void removeComments(IProject project) {
+        if (project == null || !project.exists()) {
+            return;
+        }
+
+        IFolder sourceFolder = project.getFolder("src");
+
+        if (sourceFolder.exists()) {
+            removeComments(sourceFolder);
+        }
+    }
+
+    /**
+     * Adds temporary empty-comment markers to an Eclipse Java file.
+     */
+    private static void addComments(IFile file) {
+        if (file == null || !file.exists() ||
+                !"java".equalsIgnoreCase(file.getFileExtension())) {
+            return;
+        }
+
+        try (
+            InputStream input = file.getContents();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            input,
+                            StandardCharsets.UTF_8))
+        ) {
+
+            StringBuilder content = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (!line.endsWith(EMPTY_COMMENT_MARKER)) {
+                    line += EMPTY_COMMENT_MARKER;
+                }
+
+                content.append(line)
+                       .append(System.lineSeparator());
+            }
+
+            try (InputStream newContents =
+                    new ByteArrayInputStream(
+                            content.toString().getBytes(
+                                    StandardCharsets.UTF_8))) {
+
+                file.setContents(
+                        newContents,
+                        IResource.FORCE,
+                        new NullProgressMonitor());
+            }
+
+        } catch (IOException | CoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Recursively adds temporary empty-comment markers.
+     */
+    private static void addComments(IFolder folder) {
+        if (folder == null || !folder.exists()) {
+            return;
+        }
+
+        try {
+            for (IResource resource : folder.members()) {
+
+                if (resource instanceof IFile) {
+                    addComments((IFile) resource);
+
+                } else if (resource instanceof IFolder) {
+                    addComments((IFolder) resource);
+                }
+            }
+
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Adds temporary empty-comment markers to Java files
+     * contained in the project's src folder.
+     */
+    public static void addComments(IProject project) {
+        if (project == null || !project.exists()) {
+            return;
+        }
+
+        IFolder sourceFolder = project.getFolder("src");
+
+        if (sourceFolder.exists()) {
+            addComments(sourceFolder);
+        }
+    }
+
+    /**
+     * Removes temporary empty-comment markers from generated
+     * Java files on the filesystem.
+     */
+    private static void removeEmptyComments(File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+
+        if (file.isDirectory()) {
+
+            File[] children = file.listFiles();
+
+            if (children != null) {
+                for (File child : children) {
+                    removeEmptyComments(child);
+                }
+            }
+
+            return;
+        }
+
+        if (!file.getName().toLowerCase().endsWith(".java")) {
+            return;
+        }
+
+        try (
+            FileInputStream input = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            input,
+                            StandardCharsets.UTF_8))
+        ) {
+
+            List<String> lines = new ArrayList<>();
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.endsWith(EMPTY_COMMENT_MARKER)) {
+
+                    line = line.substring(
+                            0,
+                            line.length()
+                                    - EMPTY_COMMENT_MARKER.length());
+
+                    /*
+                     * Preserve the previous behaviour:
+                     * discard lines that contained only the
+                     * temporary comment marker.
+                     */
+                    if (!line.isEmpty()) {
+                        lines.add(line);
+                    }
+
+                } else {
+                    lines.add(line);
+                }
+            }
+
+            try (
+                FileOutputStream output =
+                        new FileOutputStream(file);
+
+                OutputStreamWriter writer =
+                        new OutputStreamWriter(
+                                output,
+                                StandardCharsets.UTF_8);
+
+                PrintWriter printer =
+                        new PrintWriter(writer)
+            ) {
+
+                for (String code : lines) {
+                    printer.println(code);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeEmptyComments(String path) {
+        if (path != null) {
+            removeEmptyComments(new File(path));
+        }
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+
+        try {
+            Double.parseDouble(strNum);
+            return true;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

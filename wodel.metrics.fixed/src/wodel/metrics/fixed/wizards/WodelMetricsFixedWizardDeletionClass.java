@@ -35,7 +35,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.osgi.framework.Bundle;
 
-import wodel.dsls.WodelUtils;
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.exceptions.ReferenceNonExistingException;

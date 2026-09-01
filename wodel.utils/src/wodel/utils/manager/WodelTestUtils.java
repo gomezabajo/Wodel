@@ -73,6 +73,27 @@ public class WodelTestUtils {
 	private static IWorkbenchWindow window = null;
 	private static IProject currentProject = null;
 	
+	public static Class<?> tryLoadMutatorClass(String className, Object source) {
+
+	    try {
+	        return Class.forName(className);
+	    }
+	    catch (ClassNotFoundException e) {
+	        // Try the Wodel-Test extension class loader.
+	    }
+
+	    try {
+	        return source.getClass().getClassLoader().loadClass(className);
+	    }
+	    catch (ClassNotFoundException e) {
+	        /*
+	         * Expected for Wodel library specifications:
+	         * libraries do not generate executable mutator classes.
+	         */
+	        return null;
+	    }
+	}
+	
 	public static Class<?> loadClass(String className, Object source) {
 		Class<?> cls = null;
 		String classname = className;

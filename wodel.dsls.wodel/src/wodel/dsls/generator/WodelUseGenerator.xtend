@@ -26,8 +26,9 @@ import org.eclipse.emf.ecore.EPackage
 import wodel.utils.manager.UseGeneratorUtils
 import mutatorenvironment.Constraint
 import mutatorenvironment.miniOCL.InvariantCS
-import wodel.dsls.WodelUtils
 import org.eclipse.emf.ecore.EStructuralFeature
+import mutatorenvironment.Program
+import wodel.dsls.runner.WodelUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel USE code generator.
@@ -134,7 +135,7 @@ class WodelUseGenerator extends AbstractGenerator {
 		path = ProjectUtils.getProject.getLocation.toFile.getPath	
 
 		var MutatorEnvironment mutatorEnvironment = null
-		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
+		for(e: resource.allContents.toIterable.filter(MutatorEnvironment).filter[definition instanceof Program]) {
 			maxInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum integer value", "100", null))
 			minInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Minimum integer value", "-100", null))
 			maxReal = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum real value", "100", null))

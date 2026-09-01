@@ -9,6 +9,9 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import com.google.inject.Inject
 import org.eclipse.core.runtime.Platform
+import wodel.dsls.imports.WodelImporterResolver
+import mutatorenvironment.MutatorEnvironment
+import mutatorenvironment.Library
 
 /**
  * @author Pablo Gomez-Abajo - Main Wodel code generator.
@@ -23,17 +26,34 @@ class WodelGenerator extends AbstractGenerator {
 	@Inject WodelUseGenerator useGenerator
 	@Inject WodelDynamicAPIGenerator dynamicApiGenerator
 	@Inject WodelStandaloneAPIGenerator standaloneApiGenerator
-
+	
+	@Inject WodelImporterResolver importerResolver
+	
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		mutatorDynamicGenerator.doGenerate(input, fsa, context)
-		mutatorStandaloneGenerator.doGenerate(input, fsa, context)
+		val environment = input.contents.get(0) as MutatorEnvironment
+		/*
+		 * A library is reusable source material.
+		 * It does not generate executable artifacts itself.
+		 */
+		if (environment.definition instanceof Library) {
+			return
+		}
+		
+		/*
+		 * From this point onward every generator receives the
+		 * flattened/effective program.
+		 */
+		val resolvedInput = importerResolver.resolve(input)
+		
+		mutatorDynamicGenerator.doGenerate(resolvedInput, fsa, context)
+		mutatorStandaloneGenerator.doGenerate(resolvedInput, fsa, context)
 		try {
 			var boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
 			if (seedModelSynthesis == true) {
-				useGenerator.doGenerate(input, fsa, context)
+				useGenerator.doGenerate(resolvedInput, fsa, context)
 			}
 		} catch (Exception ex) {}
-		dynamicApiGenerator.doGenerate(input, fsa, context)
-		standaloneApiGenerator.doGenerate(input, fsa, context)
+		dynamicApiGenerator.doGenerate(resolvedInput, fsa, context)
+		standaloneApiGenerator.doGenerate(resolvedInput, fsa, context)
 	}
 }

@@ -19,10 +19,7 @@ import modeldraw.NodeStyle;
 import modeldraw.NodeType;
 import modeldraw.Relation;
 import modeldraw.ValuedFeature;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -38,7 +35,6 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
-import wodel.utils.manager.ProjectUtils;
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -56,70 +52,69 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
 
   private List<EClass> roots;
 
-  private IProject project;
-
-  private String projectName;
-
-  public static IProject projectOf(final Resource r) {
-    Object _xblockexpression = null;
+  private String lastSegment(final String value) {
+    String _xblockexpression = null;
     {
-      URI _uRI = null;
-      if (r!=null) {
-        _uRI=r.getURI();
+      if (((value == null) || value.isEmpty())) {
+        return "";
       }
-      final URI uri = _uRI;
-      if (((uri != null) && uri.isPlatformResource())) {
-        final String projectName = uri.segment(1);
-        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      final String normalized = value.replace("\\", "/");
+      final int slash = normalized.lastIndexOf("/");
+      String _xifexpression = null;
+      if ((slash >= 0)) {
+        _xifexpression = normalized.substring((slash + 1));
+      } else {
+        _xifexpression = normalized;
       }
-      _xblockexpression = null;
+      _xblockexpression = _xifexpression;
     }
-    return ((IProject)_xblockexpression);
+    return _xblockexpression;
+  }
+
+  private String javaString(final String value) {
+    String _xblockexpression = null;
+    {
+      if ((value == null)) {
+        return "";
+      }
+      _xblockexpression = value.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+    return _xblockexpression;
+  }
+
+  private String rootTypeName() {
+    String _xblockexpression = null;
+    {
+      if (((((this.roots != null) && (!this.roots.isEmpty())) && (this.roots.get(0) != null)) && (this.roots.get(0).getName() != null))) {
+        return this.roots.get(0).getName();
+      }
+      _xblockexpression = "Model";
+    }
+    return _xblockexpression;
   }
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
       int i = 0;
-      this.fileName = resource.getURI().lastSegment();
-      String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
-      String _plus = (_replaceAll + ".draw");
-      this.fileName = _plus;
-      this.project = ModelDrawDotGenerator.projectOf(resource);
-      IProject _xifexpression = null;
-      if ((this.project != null)) {
-        _xifexpression = this.project;
-      } else {
-        _xifexpression = ProjectUtils.getProject();
-      }
-      this.project = _xifexpression;
-      String _xifexpression_1 = null;
-      if ((this.project != null)) {
-        _xifexpression_1 = this.project.getName();
-      } else {
-        _xifexpression_1 = null;
-      }
-      this.projectName = _xifexpression_1;
+      final String baseName = resource.getURI().lastSegment().replace(".draw", "").replace(".", "_");
       Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
       for (final MutatorDraw e : _filter) {
         {
+          String _xifexpression = null;
           if ((i == 0)) {
-            String _replace = this.fileName.replace(".draw", "");
-            String _plus_1 = (_replace + "Draw.java");
-            this.fileName = _plus_1;
+            _xifexpression = (baseName + "Draw.java");
           } else {
-            String _replace_1 = this.fileName.replace(".draw", "");
-            String _plus_2 = (_replace_1 + Integer.valueOf(i));
-            String _plus_3 = (_plus_2 + "Draw.java");
-            this.fileName = _plus_3;
+            _xifexpression = ((baseName + Integer.valueOf(i)) + "Draw.java");
           }
+          this.fileName = _xifexpression;
           ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
           this.metamodel = _arrayList;
           this.metamodel.addAll(ModelManager.loadMetaModel(e.getMetamodel()));
           ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
           this.roots = _arrayList_1;
           this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
-          this.className = this.fileName.replaceAll("Draw.java", "");
+          this.className = this.fileName.replace("Draw.java", "");
           fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
           i++;
         }
@@ -129,13 +124,13 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     }
   }
 
-  public CharSequence generate(final MutatorDraw draw, final String folder) {
+  public CharSequence generate(final MutatorDraw draw) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("Map<EObject, LabelStyle> dotnodes = new HashMap<EObject, LabelStyle>();");
+    _builder.append("Map<EObject, LabelStyle> dotnodes = new LinkedHashMap<EObject, LabelStyle>();");
     _builder.newLine();
-    _builder.append("Map<String, List<Map<String, String>>> dotrels = new HashMap<String, List<Map<String, String>>>();");
+    _builder.append("Map<String, List<Map<String, String>>> dotrels = new LinkedHashMap<String, List<Map<String, String>>>();");
     _builder.newLine();
-    _builder.append("Map<String, List<String>> dottext = new HashMap<String, List<String>>();");
+    _builder.append("Map<String, List<String>> dottext = new LinkedHashMap<String, List<String>>();");
     _builder.newLine();
     _builder.append("List<String> dotcode = new ArrayList<String>();");
     _builder.newLine();
@@ -636,19 +631,23 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
+    _builder.append("import java.io.BufferedReader;");
+    _builder.newLine();
     _builder.append("import java.io.File;");
-    _builder.newLine();
-    _builder.append("import java.io.FileNotFoundException;");
-    _builder.newLine();
-    _builder.append("import java.io.PrintWriter;");
     _builder.newLine();
     _builder.append("import java.io.IOException;");
     _builder.newLine();
-    _builder.append("import java.io.UnsupportedEncodingException;");
-    _builder.newLine();
     _builder.append("import java.lang.InterruptedException;");
     _builder.newLine();
-    _builder.append("import java.util.Arrays;");
+    _builder.append("import java.net.URL;");
+    _builder.newLine();
+    _builder.append("import java.net.URISyntaxException;");
+    _builder.newLine();
+    _builder.append("import java.nio.charset.StandardCharsets;");
+    _builder.newLine();
+    _builder.append("import java.nio.file.Files;");
+    _builder.newLine();
+    _builder.append("import java.nio.file.Path;");
     _builder.newLine();
     _builder.append("import java.util.ArrayList;");
     _builder.newLine();
@@ -659,6 +658,10 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("import java.util.LinkedHashMap;");
     _builder.newLine();
     _builder.append("import java.util.List;");
+    _builder.newLine();
+    _builder.append("import java.util.Collections;");
+    _builder.newLine();
+    _builder.append("import java.util.concurrent.TimeUnit;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EAttribute;");
@@ -693,7 +696,13 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("import wodel.utils.manager.DrawUtils.LabelStyle;");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("import org.eclipse.core.runtime.FileLocator;");
+    _builder.newLine();
     _builder.append("import org.eclipse.core.runtime.IProgressMonitor;");
+    _builder.newLine();
+    _builder.append("import org.eclipse.core.runtime.NullProgressMonitor;");
+    _builder.newLine();
+    _builder.append("import org.eclipse.core.runtime.Platform;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("import org.eclipse.jface.operation.IRunnableWithProgress;");
@@ -717,70 +726,98 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import org.eclipse.jface.dialogs.ProgressMonitorDialog;");
     _builder.newLine();
-    _builder.append("import org.eclipse.jface.operation.IRunnableWithProgress;");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("import org.eclipse.swt.widgets.Display;");
     _builder.newLine();
     _builder.append("import org.eclipse.swt.widgets.Shell;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("import org.eclipse.ui.handlers.HandlerUtil;");
+    _builder.newLine();
+    _builder.append("import org.osgi.framework.Bundle;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
     _builder.append(this.className);
     _builder.append("Draw extends AbstractHandler implements wodeledu.extension.run.commands.IMutatorDraw {");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("private Display activeDisplay = null;");
+    _builder.append("private static final String MODEL_EXTENSION = \".model\";");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("private Shell activeShell = null;");
+    _builder.append("private static final String ECORE_EXTENSION = \".ecore\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private static final String DIAGRAM_PREFIX = \"");
+    String _javaString = this.javaString(this.rootTypeName());
+    _builder.append(_javaString, "\t");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("private static final String METAMODEL_FILE_NAME = \"");
+    String _javaString_1 = this.javaString(this.lastSegment(draw.getMetamodel()));
+    _builder.append(_javaString_1, "\t");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("private static final String RENDERER_PLUGIN_ID = \"wodeledu.dsls.EduTest\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private static final String RENDERER_PREFERENCE = \"Model-Draw renderer path\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private static final String[] LOGIC_IMAGE_BUNDLE_IDS = {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("\"wodel.wodeledu\",");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("\"wodeledu.models\"");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("};");
     _builder.newLine();
     _builder.newLine();
     _builder.append("\t");
     _builder.append("private class RunMutatorDrawWithProgress implements IRunnableWithProgress {");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
+    _builder.append("\t\t");
     _builder.append("@Override");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {");
-    _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("public void run(IProgressMonitor monitor)");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("throws InvocationTargetException, InterruptedException {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t\t");
+    _builder.append("\t\t\t\t");
     _builder.append("generate(monitor);");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("\t\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("catch (MetaModelNotFoundException e) {");
+    _builder.append("\t\t\t");
+    _builder.append("catch (InterruptedException e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("Thread.currentThread().interrupt();");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("throw e;");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("catch (ModelNotFoundException e) {");
+    _builder.append("\t\t\t");
+    _builder.append("catch (Exception e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("throw new InvocationTargetException(e);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t");
     _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("catch (FileNotFoundException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("e.printStackTrace();");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("}");
@@ -788,12 +825,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t\t");
     _builder.newLine();
-    _builder.append("\t");
-    String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
-    String folder = (_replace + "/");
-    _builder.newLineIfNotEmpty();
     {
       EList<Node> _nodes = draw.getInstances().get(0).getNodes();
       boolean _tripleNotEquals = (_nodes != null);
@@ -994,7 +1026,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                 _builder.append("\t");
                                 _builder.append("\t\t");
                                 _builder.append("\t");
-                                _builder.append("style.path = \"C:/eclipse/workspace/wodel.wodeledu/content/images/logic_\" + typeName.toLowerCase() + \".png\";");
+                                _builder.append("style.path = resolveLogicImage(typeName);");
                                 _builder.newLine();
                               }
                             }
@@ -1094,7 +1126,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                 _builder.append("\t");
                                 _builder.append("\t\t");
                                 _builder.append("\t");
-                                _builder.append("style.path = \"C:/eclipse/workspace/wodel.wodeledu/content/images/logic_\" + typeName.toLowerCase() + \".png\";");
+                                _builder.append("style.path = resolveLogicImage(typeName);");
                                 _builder.newLine();
                               }
                             }
@@ -1347,24 +1379,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.append("style.border = \"0\";");
                                         _builder.newLine();
                                         {
-                                          NodeShape _shape_7 = node.getShape();
-                                          boolean _notEquals = (!Objects.equals(_shape_7, NodeShape.LOAD));
-                                          if (_notEquals) {
+                                          if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("style.shape = \"shape = ");
-                                            NodeShape _shape_8 = node.getShape();
-                                            _builder.append(_shape_8, "\t\t\t\t\t\t");
+                                            NodeShape _shape_7 = node.getShape();
+                                            _builder.append(_shape_7, "\t\t\t\t\t\t");
                                             _builder.append("\";");
                                             _builder.newLineIfNotEmpty();
                                           }
                                         }
                                         {
-                                          NodeShape _shape_9 = node.getShape();
-                                          boolean _equals_12 = Objects.equals(_shape_9, NodeShape.LOAD);
+                                          NodeShape _shape_8 = node.getShape();
+                                          boolean _equals_12 = Objects.equals(_shape_8, NodeShape.LOGIC);
                                           if (_equals_12) {
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("style.path = resolveLogicImage(typeName);");
+                                            _builder.newLine();
+                                          }
+                                        }
+                                        {
+                                          NodeShape _shape_9 = node.getShape();
+                                          boolean _equals_13 = Objects.equals(_shape_9, NodeShape.LOAD);
+                                          if (_equals_13) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1398,8 +1440,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     }
                                     {
                                       NodeType _type_3 = node.getType();
-                                      boolean _equals_13 = Objects.equals(_type_3, NodeType.NODE);
-                                      if (_equals_13) {
+                                      boolean _equals_14 = Objects.equals(_type_3, NodeType.NODE);
+                                      if (_equals_14) {
                                         _builder.append("\t");
                                         _builder.append("\t\t");
                                         _builder.append("\t");
@@ -1451,24 +1493,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.append("style.border = \"0\";");
                                         _builder.newLine();
                                         {
-                                          NodeShape _shape_10 = node.getShape();
-                                          boolean _notEquals_1 = (!Objects.equals(_shape_10, NodeShape.LOAD));
-                                          if (_notEquals_1) {
+                                          if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("style.shape = \"shape = ");
-                                            NodeShape _shape_11 = node.getShape();
-                                            _builder.append(_shape_11, "\t\t\t\t\t\t");
+                                            NodeShape _shape_10 = node.getShape();
+                                            _builder.append(_shape_10, "\t\t\t\t\t\t");
                                             _builder.append("\";");
                                             _builder.newLineIfNotEmpty();
                                           }
                                         }
                                         {
+                                          NodeShape _shape_11 = node.getShape();
+                                          boolean _equals_15 = Objects.equals(_shape_11, NodeShape.LOGIC);
+                                          if (_equals_15) {
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("style.path = resolveLogicImage(typeName);");
+                                            _builder.newLine();
+                                          }
+                                        }
+                                        {
                                           NodeShape _shape_12 = node.getShape();
-                                          boolean _equals_14 = Objects.equals(_shape_12, NodeShape.LOAD);
-                                          if (_equals_14) {
+                                          boolean _equals_16 = Objects.equals(_shape_12, NodeShape.LOAD);
+                                          if (_equals_16) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1490,8 +1542,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     }
                                     {
                                       NodeShape _shape_13 = node.getShape();
-                                      boolean _equals_15 = Objects.equals(_shape_13, NodeShape.RECORD);
-                                      if (_equals_15) {
+                                      boolean _equals_17 = Objects.equals(_shape_13, NodeShape.RECORD);
+                                      if (_equals_17) {
                                         _builder.append("\t");
                                         _builder.append("\t\t");
                                         _builder.append("\t");
@@ -1538,8 +1590,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeStyle _style_2 = node.getStyle();
-                                          boolean _equals_16 = Objects.equals(_style_2, NodeStyle.ITALIC);
-                                          if (_equals_16) {
+                                          boolean _equals_18 = Objects.equals(_style_2, NodeStyle.ITALIC);
+                                          if (_equals_18) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1550,8 +1602,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeStyle _style_3 = node.getStyle();
-                                          boolean _equals_17 = Objects.equals(_style_3, NodeStyle.UNDERLINE);
-                                          if (_equals_17) {
+                                          boolean _equals_19 = Objects.equals(_style_3, NodeStyle.UNDERLINE);
+                                          if (_equals_19) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1635,8 +1687,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_4 = node.getType();
-                                          boolean _equals_18 = Objects.equals(_type_4, NodeType.MARKEDNODE);
-                                          if (_equals_18) {
+                                          boolean _equals_20 = Objects.equals(_type_4, NodeType.MARKEDNODE);
+                                          if (_equals_20) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1712,24 +1764,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_14 = node.getShape();
-                                              boolean _notEquals_2 = (!Objects.equals(_shape_14, NodeShape.LOAD));
-                                              if (_notEquals_2) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_15 = node.getShape();
-                                                _builder.append(_shape_15, "\t\t\t\t\t\t");
+                                                NodeShape _shape_14 = node.getShape();
+                                                _builder.append(_shape_14, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_15 = node.getShape();
+                                              boolean _equals_21 = Objects.equals(_shape_15, NodeShape.LOGIC);
+                                              if (_equals_21) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_16 = node.getShape();
-                                              boolean _equals_19 = Objects.equals(_shape_16, NodeShape.LOAD);
-                                              if (_equals_19) {
+                                              boolean _equals_22 = Objects.equals(_shape_16, NodeShape.LOAD);
+                                              if (_equals_22) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -1763,8 +1825,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_5 = node.getType();
-                                          boolean _equals_20 = Objects.equals(_type_5, NodeType.NODE);
-                                          if (_equals_20) {
+                                          boolean _equals_23 = Objects.equals(_type_5, NodeType.NODE);
+                                          if (_equals_23) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1816,24 +1878,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_17 = node.getShape();
-                                              boolean _notEquals_3 = (!Objects.equals(_shape_17, NodeShape.LOAD));
-                                              if (_notEquals_3) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_18 = node.getShape();
-                                                _builder.append(_shape_18, "\t\t\t\t\t\t");
+                                                NodeShape _shape_17 = node.getShape();
+                                                _builder.append(_shape_17, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_18 = node.getShape();
+                                              boolean _equals_24 = Objects.equals(_shape_18, NodeShape.LOGIC);
+                                              if (_equals_24) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_19 = node.getShape();
-                                              boolean _equals_21 = Objects.equals(_shape_19, NodeShape.LOAD);
-                                              if (_equals_21) {
+                                              boolean _equals_25 = Objects.equals(_shape_19, NodeShape.LOAD);
+                                              if (_equals_25) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -1855,8 +1927,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_20 = node.getShape();
-                                          boolean _equals_22 = Objects.equals(_shape_20, NodeShape.RECORD);
-                                          if (_equals_22) {
+                                          boolean _equals_26 = Objects.equals(_shape_20, NodeShape.RECORD);
+                                          if (_equals_26) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -1903,8 +1975,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_4 = node.getStyle();
-                                              boolean _equals_23 = Objects.equals(_style_4, NodeStyle.ITALIC);
-                                              if (_equals_23) {
+                                              boolean _equals_27 = Objects.equals(_style_4, NodeStyle.ITALIC);
+                                              if (_equals_27) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -1915,8 +1987,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_5 = node.getStyle();
-                                              boolean _equals_24 = Objects.equals(_style_5, NodeStyle.UNDERLINE);
-                                              if (_equals_24) {
+                                              boolean _equals_28 = Objects.equals(_style_5, NodeStyle.UNDERLINE);
+                                              if (_equals_28) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2004,8 +2076,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           boolean _isNegation_1 = feat.isNegation();
-                                          boolean _equals_25 = (_isNegation_1 == true);
-                                          if (_equals_25) {
+                                          boolean _equals_29 = (_isNegation_1 == true);
+                                          if (_equals_29) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2029,8 +2101,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_6 = node.getType();
-                                          boolean _equals_26 = Objects.equals(_type_6, NodeType.MARKEDNODE);
-                                          if (_equals_26) {
+                                          boolean _equals_30 = Objects.equals(_type_6, NodeType.MARKEDNODE);
+                                          if (_equals_30) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2106,24 +2178,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_21 = node.getShape();
-                                              boolean _notEquals_4 = (!Objects.equals(_shape_21, NodeShape.LOAD));
-                                              if (_notEquals_4) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_22 = node.getShape();
-                                                _builder.append(_shape_22, "\t\t\t\t\t\t");
+                                                NodeShape _shape_21 = node.getShape();
+                                                _builder.append(_shape_21, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_22 = node.getShape();
+                                              boolean _equals_31 = Objects.equals(_shape_22, NodeShape.LOGIC);
+                                              if (_equals_31) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_23 = node.getShape();
-                                              boolean _equals_27 = Objects.equals(_shape_23, NodeShape.LOAD);
-                                              if (_equals_27) {
+                                              boolean _equals_32 = Objects.equals(_shape_23, NodeShape.LOAD);
+                                              if (_equals_32) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2157,8 +2239,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_7 = node.getType();
-                                          boolean _equals_28 = Objects.equals(_type_7, NodeType.NODE);
-                                          if (_equals_28) {
+                                          boolean _equals_33 = Objects.equals(_type_7, NodeType.NODE);
+                                          if (_equals_33) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2210,24 +2292,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_24 = node.getShape();
-                                              boolean _notEquals_5 = (!Objects.equals(_shape_24, NodeShape.LOAD));
-                                              if (_notEquals_5) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_25 = node.getShape();
-                                                _builder.append(_shape_25, "\t\t\t\t\t\t");
+                                                NodeShape _shape_24 = node.getShape();
+                                                _builder.append(_shape_24, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_25 = node.getShape();
+                                              boolean _equals_34 = Objects.equals(_shape_25, NodeShape.LOGIC);
+                                              if (_equals_34) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_26 = node.getShape();
-                                              boolean _equals_29 = Objects.equals(_shape_26, NodeShape.LOAD);
-                                              if (_equals_29) {
+                                              boolean _equals_35 = Objects.equals(_shape_26, NodeShape.LOAD);
+                                              if (_equals_35) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2249,8 +2341,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_27 = node.getShape();
-                                          boolean _equals_30 = Objects.equals(_shape_27, NodeShape.RECORD);
-                                          if (_equals_30) {
+                                          boolean _equals_36 = Objects.equals(_shape_27, NodeShape.RECORD);
+                                          if (_equals_36) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2297,8 +2389,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_6 = node.getStyle();
-                                              boolean _equals_31 = Objects.equals(_style_6, NodeStyle.ITALIC);
-                                              if (_equals_31) {
+                                              boolean _equals_37 = Objects.equals(_style_6, NodeStyle.ITALIC);
+                                              if (_equals_37) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2309,8 +2401,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_7 = node.getStyle();
-                                              boolean _equals_32 = Objects.equals(_style_7, NodeStyle.UNDERLINE);
-                                              if (_equals_32) {
+                                              boolean _equals_38 = Objects.equals(_style_7, NodeStyle.UNDERLINE);
+                                              if (_equals_38) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2391,8 +2483,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_8 = node.getType();
-                                          boolean _equals_33 = Objects.equals(_type_8, NodeType.MARKEDNODE);
-                                          if (_equals_33) {
+                                          boolean _equals_39 = Objects.equals(_type_8, NodeType.MARKEDNODE);
+                                          if (_equals_39) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2468,24 +2560,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_28 = node.getShape();
-                                              boolean _notEquals_6 = (!Objects.equals(_shape_28, NodeShape.LOAD));
-                                              if (_notEquals_6) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_29 = node.getShape();
-                                                _builder.append(_shape_29, "\t\t\t\t\t\t");
+                                                NodeShape _shape_28 = node.getShape();
+                                                _builder.append(_shape_28, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_29 = node.getShape();
+                                              boolean _equals_40 = Objects.equals(_shape_29, NodeShape.LOGIC);
+                                              if (_equals_40) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_30 = node.getShape();
-                                              boolean _equals_34 = Objects.equals(_shape_30, NodeShape.LOAD);
-                                              if (_equals_34) {
+                                              boolean _equals_41 = Objects.equals(_shape_30, NodeShape.LOAD);
+                                              if (_equals_41) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2519,8 +2621,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_9 = node.getType();
-                                          boolean _equals_35 = Objects.equals(_type_9, NodeType.NODE);
-                                          if (_equals_35) {
+                                          boolean _equals_42 = Objects.equals(_type_9, NodeType.NODE);
+                                          if (_equals_42) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2572,24 +2674,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_31 = node.getShape();
-                                              boolean _notEquals_7 = (!Objects.equals(_shape_31, NodeShape.LOAD));
-                                              if (_notEquals_7) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_32 = node.getShape();
-                                                _builder.append(_shape_32, "\t\t\t\t\t\t");
+                                                NodeShape _shape_31 = node.getShape();
+                                                _builder.append(_shape_31, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_32 = node.getShape();
+                                              boolean _equals_43 = Objects.equals(_shape_32, NodeShape.LOGIC);
+                                              if (_equals_43) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_33 = node.getShape();
-                                              boolean _equals_36 = Objects.equals(_shape_33, NodeShape.LOAD);
-                                              if (_equals_36) {
+                                              boolean _equals_44 = Objects.equals(_shape_33, NodeShape.LOAD);
+                                              if (_equals_44) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2611,8 +2723,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_34 = node.getShape();
-                                          boolean _equals_37 = Objects.equals(_shape_34, NodeShape.RECORD);
-                                          if (_equals_37) {
+                                          boolean _equals_45 = Objects.equals(_shape_34, NodeShape.RECORD);
+                                          if (_equals_45) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2659,8 +2771,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_8 = node.getStyle();
-                                              boolean _equals_38 = Objects.equals(_style_8, NodeStyle.ITALIC);
-                                              if (_equals_38) {
+                                              boolean _equals_46 = Objects.equals(_style_8, NodeStyle.ITALIC);
+                                              if (_equals_46) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2671,8 +2783,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_9 = node.getStyle();
-                                              boolean _equals_39 = Objects.equals(_style_9, NodeStyle.UNDERLINE);
-                                              if (_equals_39) {
+                                              boolean _equals_47 = Objects.equals(_style_9, NodeStyle.UNDERLINE);
+                                              if (_equals_47) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2785,8 +2897,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           boolean _isNegation_2 = feat.isNegation();
-                                          boolean _equals_40 = (_isNegation_2 == true);
-                                          if (_equals_40) {
+                                          boolean _equals_48 = (_isNegation_2 == true);
+                                          if (_equals_48) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2810,8 +2922,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_10 = node.getType();
-                                          boolean _equals_41 = Objects.equals(_type_10, NodeType.MARKEDNODE);
-                                          if (_equals_41) {
+                                          boolean _equals_49 = Objects.equals(_type_10, NodeType.MARKEDNODE);
+                                          if (_equals_49) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2887,24 +2999,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_35 = node.getShape();
-                                              boolean _notEquals_8 = (!Objects.equals(_shape_35, NodeShape.LOAD));
-                                              if (_notEquals_8) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_36 = node.getShape();
-                                                _builder.append(_shape_36, "\t\t\t\t\t\t");
+                                                NodeShape _shape_35 = node.getShape();
+                                                _builder.append(_shape_35, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_36 = node.getShape();
+                                              boolean _equals_50 = Objects.equals(_shape_36, NodeShape.LOGIC);
+                                              if (_equals_50) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_37 = node.getShape();
-                                              boolean _equals_42 = Objects.equals(_shape_37, NodeShape.LOAD);
-                                              if (_equals_42) {
+                                              boolean _equals_51 = Objects.equals(_shape_37, NodeShape.LOAD);
+                                              if (_equals_51) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -2938,8 +3060,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_11 = node.getType();
-                                          boolean _equals_43 = Objects.equals(_type_11, NodeType.NODE);
-                                          if (_equals_43) {
+                                          boolean _equals_52 = Objects.equals(_type_11, NodeType.NODE);
+                                          if (_equals_52) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -2991,24 +3113,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_38 = node.getShape();
-                                              boolean _notEquals_9 = (!Objects.equals(_shape_38, NodeShape.LOAD));
-                                              if (_notEquals_9) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_39 = node.getShape();
-                                                _builder.append(_shape_39, "\t\t\t\t\t\t");
+                                                NodeShape _shape_38 = node.getShape();
+                                                _builder.append(_shape_38, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_39 = node.getShape();
+                                              boolean _equals_53 = Objects.equals(_shape_39, NodeShape.LOGIC);
+                                              if (_equals_53) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_40 = node.getShape();
-                                              boolean _equals_44 = Objects.equals(_shape_40, NodeShape.LOAD);
-                                              if (_equals_44) {
+                                              boolean _equals_54 = Objects.equals(_shape_40, NodeShape.LOAD);
+                                              if (_equals_54) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3030,8 +3162,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_41 = node.getShape();
-                                          boolean _equals_45 = Objects.equals(_shape_41, NodeShape.RECORD);
-                                          if (_equals_45) {
+                                          boolean _equals_55 = Objects.equals(_shape_41, NodeShape.RECORD);
+                                          if (_equals_55) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -3078,8 +3210,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_10 = node.getStyle();
-                                              boolean _equals_46 = Objects.equals(_style_10, NodeStyle.ITALIC);
-                                              if (_equals_46) {
+                                              boolean _equals_56 = Objects.equals(_style_10, NodeStyle.ITALIC);
+                                              if (_equals_56) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3090,8 +3222,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_11 = node.getStyle();
-                                              boolean _equals_47 = Objects.equals(_style_11, NodeStyle.UNDERLINE);
-                                              if (_equals_47) {
+                                              boolean _equals_57 = Objects.equals(_style_11, NodeStyle.UNDERLINE);
+                                              if (_equals_57) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3172,8 +3304,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_12 = node.getType();
-                                          boolean _equals_48 = Objects.equals(_type_12, NodeType.MARKEDNODE);
-                                          if (_equals_48) {
+                                          boolean _equals_58 = Objects.equals(_type_12, NodeType.MARKEDNODE);
+                                          if (_equals_58) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -3249,24 +3381,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_42 = node.getShape();
-                                              boolean _notEquals_10 = (!Objects.equals(_shape_42, NodeShape.LOAD));
-                                              if (_notEquals_10) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_43 = node.getShape();
-                                                _builder.append(_shape_43, "\t\t\t\t\t\t");
+                                                NodeShape _shape_42 = node.getShape();
+                                                _builder.append(_shape_42, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_43 = node.getShape();
+                                              boolean _equals_59 = Objects.equals(_shape_43, NodeShape.LOGIC);
+                                              if (_equals_59) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_44 = node.getShape();
-                                              boolean _equals_49 = Objects.equals(_shape_44, NodeShape.LOAD);
-                                              if (_equals_49) {
+                                              boolean _equals_60 = Objects.equals(_shape_44, NodeShape.LOAD);
+                                              if (_equals_60) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3300,8 +3442,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_13 = node.getType();
-                                          boolean _equals_50 = Objects.equals(_type_13, NodeType.NODE);
-                                          if (_equals_50) {
+                                          boolean _equals_61 = Objects.equals(_type_13, NodeType.NODE);
+                                          if (_equals_61) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -3353,24 +3495,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.append("style.border = \"0\";");
                                             _builder.newLine();
                                             {
-                                              NodeShape _shape_45 = node.getShape();
-                                              boolean _notEquals_11 = (!Objects.equals(_shape_45, NodeShape.LOAD));
-                                              if (_notEquals_11) {
+                                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("style.shape = \"shape = ");
-                                                NodeShape _shape_46 = node.getShape();
-                                                _builder.append(_shape_46, "\t\t\t\t\t\t");
+                                                NodeShape _shape_45 = node.getShape();
+                                                _builder.append(_shape_45, "\t\t\t\t\t\t");
                                                 _builder.append("\";");
                                                 _builder.newLineIfNotEmpty();
                                               }
                                             }
                                             {
+                                              NodeShape _shape_46 = node.getShape();
+                                              boolean _equals_62 = Objects.equals(_shape_46, NodeShape.LOGIC);
+                                              if (_equals_62) {
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("style.path = resolveLogicImage(typeName);");
+                                                _builder.newLine();
+                                              }
+                                            }
+                                            {
                                               NodeShape _shape_47 = node.getShape();
-                                              boolean _equals_51 = Objects.equals(_shape_47, NodeShape.LOAD);
-                                              if (_equals_51) {
+                                              boolean _equals_63 = Objects.equals(_shape_47, NodeShape.LOAD);
+                                              if (_equals_63) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3392,8 +3544,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_48 = node.getShape();
-                                          boolean _equals_52 = Objects.equals(_shape_48, NodeShape.RECORD);
-                                          if (_equals_52) {
+                                          boolean _equals_64 = Objects.equals(_shape_48, NodeShape.RECORD);
+                                          if (_equals_64) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
                                             _builder.append("\t");
@@ -3440,8 +3592,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_12 = node.getStyle();
-                                              boolean _equals_53 = Objects.equals(_style_12, NodeStyle.ITALIC);
-                                              if (_equals_53) {
+                                              boolean _equals_65 = Objects.equals(_style_12, NodeStyle.ITALIC);
+                                              if (_equals_65) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -3452,8 +3604,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_13 = node.getStyle();
-                                              boolean _equals_54 = Objects.equals(_style_13, NodeStyle.UNDERLINE);
-                                              if (_equals_54) {
+                                              boolean _equals_66 = Objects.equals(_style_13, NodeStyle.UNDERLINE);
+                                              if (_equals_66) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
@@ -4510,8 +4662,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                 _builder.newLine();
                                 {
                                   boolean _isNegation_3 = feat_1.isNegation();
-                                  boolean _equals_55 = (_isNegation_3 == true);
-                                  if (_equals_55) {
+                                  boolean _equals_67 = (_isNegation_3 == true);
+                                  if (_equals_67) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("\t");
@@ -4677,8 +4829,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                 _builder.newLine();
                                 {
                                   boolean _isNegation_4 = feat_1.isNegation();
-                                  boolean _equals_56 = (_isNegation_4 == true);
-                                  if (_equals_56) {
+                                  boolean _equals_68 = (_isNegation_4 == true);
+                                  if (_equals_68) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("\t");
@@ -5198,8 +5350,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     _builder.newLine();
                                     {
                                       boolean _isNegation_5 = feat_2.isNegation();
-                                      boolean _equals_57 = (_isNegation_5 == true);
-                                      if (_equals_57) {
+                                      boolean _equals_69 = (_isNegation_5 == true);
+                                      if (_equals_69) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("\t");
@@ -5405,8 +5557,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     _builder.newLine();
                                     {
                                       boolean _isNegation_6 = feat_2.isNegation();
-                                      boolean _equals_58 = (_isNegation_6 == true);
-                                      if (_equals_58) {
+                                      boolean _equals_70 = (_isNegation_6 == true);
+                                      if (_equals_70) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("\t");
@@ -5923,8 +6075,8 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                           EList<EAttribute> _eAllAttributes = reference.getEReferenceType().getEAllAttributes();
                                           for(final EAttribute att : _eAllAttributes) {
                                             {
-                                              boolean _equals_59 = att.getName().equals(edge.getLabel().get(i).getName());
-                                              if (_equals_59) {
+                                              boolean _equals_71 = att.getName().equals(edge.getLabel().get(i).getName());
+                                              if (_equals_71) {
                                                 _builder.append("\t");
                                                 _builder.append("\t");
                                                 _builder.append("\t");
@@ -7339,189 +7491,695 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     }
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("public void generateGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {");
+    _builder.append("private File resolveProjectDirectory() throws IOException {");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("if (file.isFile()) {");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("String pathfile = file.getPath();");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("if (pathfile.endsWith(\".model\") == true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("String printPathfile = pathfile.replace(\"\\\\\", \"/\");");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("printPathfile = printPathfile.substring(printPathfile.lastIndexOf(\"/");
-    _builder.append(this.projectName, "\t\t\t");
-    _builder.append("/\") + (\"/");
-    _builder.append(this.projectName, "\t\t\t");
-    _builder.append("/\").length(), printPathfile.length());");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    _builder.append("monitor.subTask(\"Rendering image for mutant \" + printPathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("Resource model = ModelManager.loadModel(packages, pathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("String path = file.getParent().replace(\"\\\\\", \"/\").substring(\"");
-    _builder.append(folder, "\t\t\t");
-    _builder.append("data/out\".length()) + \"/\";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    _builder.append("String dotfile = \"");
-    _builder.append(folder, "\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + path + \"");
-    String _name_34 = this.roots.get(0).getName();
-    _builder.append(_name_34, "\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    _builder.append("String pngfile = \"");
-    _builder.append(folder, "\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + path + \"");
-    String _name_35 = this.roots.get(0).getName();
-    _builder.append(_name_35, "\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    CharSequence _generate = this.generate(draw, folder);
-    _builder.append(_generate, "\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    _builder.append("File exercisefolder = new File(\"");
-    _builder.append(folder, "\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + path);");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t");
-    _builder.append("if (exercisefolder.exists() != true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("exercisefolder.mkdirs();");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("PrintWriter dotwriter = new PrintWriter(dotfile, \"UTF-8\");");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("for (String dotline : dotcode) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("dotwriter.println(dotline);");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("dotwriter.close();");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("String[] command = {\"dot\", \"-Tpng\", dotfile, \"-o\", pngfile};");
-    _builder.newLine();
-    _builder.append("\t\t\t");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("Process proc = Runtime.getRuntime().exec(command);");
+    _builder.append("\t\t");
+    _builder.append("File location = new File(");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("proc.waitFor(); ");
+    _builder.append(this.className, "\t\t\t\t");
+    _builder.append("Draw.class");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".getProtectionDomain()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".getCodeSource()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".getLocation()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".toURI()");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (location.isFile()) {");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("} catch (IOException e) {");
+    _builder.append("location = location.getParentFile();");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
+    _builder.append("\t\t");
+    _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("e.printStackTrace();");
+    _builder.append("\t\t");
+    _builder.append("if (location != null && \"bin\".equals(location.getName())) {");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("} catch (InterruptedException e) {");
+    _builder.append("location = location.getParentFile();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("else if (location != null");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
+    _builder.append("&& \"classes\".equals(location.getName())");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("e.printStackTrace();");
+    _builder.append("&& location.getParentFile() != null");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("&& \"target\".equals(location.getParentFile().getName())) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("location = location.getParentFile().getParentFile();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (location != null && location.isDirectory()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("return location.getCanonicalFile();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("catch (URISyntaxException e) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("// Fall through to the Eclipse workspace lookup below.");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("IProject project = ProjectUtils.getProject();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (project != null && project.getLocation() != null) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return project.getLocation().toFile().getCanonicalFile();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("throw new IOException(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"Cannot determine the Wodel-EDU project directory for \"");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("+ ");
+    _builder.append(this.className, "\t\t\t");
+    _builder.append("Draw.class.getName()");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private ProjectFolders readProjectFolders(File projectDirectory) throws IOException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("File configFile = new File(projectDirectory, \"data/config/config.txt\");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (!configFile.isFile()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IOException(\"Cannot find Wodel configuration file: \" + configFile);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try (BufferedReader reader = Files.newBufferedReader(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("configFile.toPath(),");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("StandardCharsets.UTF_8");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(")) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String modelFolder = reader.readLine();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String mutantFolder = reader.readLine();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (modelFolder == null || modelFolder.isBlank()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("|| mutantFolder == null || mutantFolder.isBlank()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("throw new IOException(\"Invalid Wodel configuration file: \" + configFile);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return new ProjectFolders(");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("new File(projectDirectory, modelFolder).getCanonicalFile(),");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("new File(projectDirectory, mutantFolder).getCanonicalFile()");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private File resolveMetamodelFile(File modelDirectory) throws IOException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (METAMODEL_FILE_NAME != null && !METAMODEL_FILE_NAME.isBlank()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File expected = new File(modelDirectory, METAMODEL_FILE_NAME);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (expected.isFile()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("return expected;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("File[] files = modelDirectory.listFiles();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (files != null) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("for (File file : files) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("if (file.isFile() && file.getName().endsWith(ECORE_EXTENSION)) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("return file;");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("//Reload input");
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("throw new IOException(\"Cannot find an Ecore metamodel in \" + modelDirectory);");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private String resolveDotExecutable() {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String rendererPath = Platform.getPreferencesService().getString(");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("RENDERER_PLUGIN_ID,");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("RENDERER_PREFERENCE,");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"\",");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("null");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (rendererPath != null && !rendererPath.isBlank()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File configured = new File(rendererPath).getAbsoluteFile();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (configured.isFile()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("return configured.getAbsolutePath();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (configured.isDirectory()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("String executableName = isWindows() ? \"dot.exe\" : \"dot\";");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("File executable = new File(configured, executableName);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("if (executable.isFile()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("return executable.getAbsolutePath();");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("// Graphviz may already be available on PATH.");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return \"dot\";");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private boolean isWindows() {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return System.getProperty(\"os.name\", \"\")");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append(".toLowerCase()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append(".contains(\"win\");");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private String resolveLogicImage(String typeName) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String imageName = \"logic_\"");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("+ (typeName != null ? typeName.toLowerCase() : \"\")");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("+ \".png\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String entryPath = \"/content/images/\" + imageName;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("for (String bundleId : LOGIC_IMAGE_BUNDLE_IDS) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Bundle bundle = Platform.getBundle(bundleId);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (bundle == null) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("continue;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("URL entry = bundle.getEntry(entryPath);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (entry == null) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("continue;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("model.unload();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("model.load(null);");
+    _builder.append("\t\t\t");
+    _builder.append("URL fileUrl = FileLocator.toFileURL(entry);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("} catch (Exception e) {}");
+    _builder.append("return new File(fileUrl.toURI())");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".getAbsolutePath()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(".replace(\'\\\\\', \'/\');");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("catch (Exception e) {");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("// Try the next candidate bundle.");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("throw new IllegalStateException(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"Cannot resolve ModelDraw logic image: \" + imageName");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private void runGraphviz(");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String dotExecutable,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File dotFile,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File pngFile,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("IProgressMonitor monitor)");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throws IOException, InterruptedException {");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("checkCanceled(monitor);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("ProcessBuilder builder = new ProcessBuilder(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("dotExecutable,");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"-Tpng\",");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("dotFile.getAbsolutePath(),");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"-o\",");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("pngFile.getAbsolutePath()");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("builder.directory(dotFile.getParentFile());");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("builder.redirectError(ProcessBuilder.Redirect.INHERIT);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("Process process;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("process = builder.start();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("catch (IOException e) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IOException(");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("\"Cannot execute Graphviz \'dot\'. Configure \'\"");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("+ RENDERER_PREFERENCE");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("+ \"\' with the Graphviz executable/bin directory or add Graphviz to PATH.\",");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("e");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("waitForProcess(process, monitor, \"Graphviz dot\");");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (!pngFile.isFile()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IOException(\"Graphviz did not create the expected PNG: \" + pngFile);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private void waitForProcess(");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Process process,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("IProgressMonitor monitor,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String description)");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throws IOException, InterruptedException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("while (!process.waitFor(200, TimeUnit.MILLISECONDS)) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("checkCanceled(monitor);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("int exitCode = process.exitValue();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (exitCode != 0) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("throw new IOException(description + \" failed with exit code \" + exitCode);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("catch (InterruptedException e) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (process.isAlive()) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("process.destroyForcibly();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Thread.currentThread().interrupt();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw e;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private void renderModel(");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File modelFile,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("List<EPackage> packages,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File outputDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File projectDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String dotExecutable,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("IProgressMonitor monitor,");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("boolean mutant)");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throws MetaModelNotFoundException, ModelNotFoundException,");
+    _builder.newLine();
+    _builder.append("\t\t       ");
+    _builder.append("IOException, InterruptedException {");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (modelFile == null || !modelFile.isFile()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("|| !modelFile.getName().endsWith(MODEL_EXTENSION)) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("checkCanceled(monitor);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("ensureDirectory(outputDirectory);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String displayPath = safeRelativize(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("projectDirectory.toPath().toAbsolutePath().normalize(),");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("modelFile.toPath().toAbsolutePath().normalize()");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("monitor.subTask(");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("\"Rendering image for \" + (mutant ? \"mutant \" : \"model \") + displayPath");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("Resource model = null;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("model = ModelManager.loadModel(packages, modelFile.getAbsolutePath());");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _generate = this.generate(draw);
+    _builder.append(_generate, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("String outputBaseName = DIAGRAM_PREFIX + \"_\" + stripExtension(modelFile.getName());");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File dotFile = new File(outputDirectory, outputBaseName + \".dot\");");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("File pngFile = new File(outputDirectory, outputBaseName + \".png\");");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Files.write(dotFile.toPath(), dotcode, StandardCharsets.UTF_8);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("runGraphviz(dotExecutable, dotFile, pngFile, monitor);");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("monitor.worked(1);");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("}");
-    _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("else {");
+    _builder.append("finally {");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("generateGraphsRecursive(file, packages, exercise, monitor);");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("public void generateGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("if (file.getName().equals(\"registry\") != true && !file.getName().endsWith(\"vs\")) {");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("File[] filesInBlock = file.listFiles();");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("if (filesInBlock != null && filesInBlock.length > 0) {");
+    _builder.append("if (model != null && model.isLoaded()) {");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("for (File fileInBlock : filesInBlock) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("if (fileInBlock.isFile()) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("generateGraphs(fileInBlock, packages, exercise, monitor);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("else {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("generateGraphsRecursive(fileInBlock, packages, exercise, monitor);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("}");
+    _builder.append("model.unload();");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("}");
@@ -7531,478 +8189,195 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
+    _builder.newLine();
+    _builder.append("public void generate(IProgressMonitor progressMonitor)");
+    _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("throws MetaModelNotFoundException, ModelNotFoundException,");
+    _builder.newLine();
+    _builder.append("\t\t       ");
+    _builder.append("IOException, InterruptedException {");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {");
+    _builder.append("IProgressMonitor monitor = progressMonitor != null");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("? progressMonitor");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("String metamodel = \"");
-    String _replace_1 = ModelManager.getMetaModel().replace("\\", "/");
-    _builder.append(_replace_1, "\t\t");
-    _builder.append("\";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
-    _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
+    _builder.append("\t\t\t");
+    _builder.append(": new NullProgressMonitor();");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("String projectName = \"");
-    _builder.append(this.projectName, "\t\t");
-    _builder.append("\";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("\t");
+    _builder.append("File projectDirectory = resolveProjectDirectory();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("ProjectFolders folders = readProjectFolders(projectDirectory);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("File metamodelFile = resolveMetamodelFile(folders.modelDirectory);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("File diagramsDirectory = new File(projectDirectory, \"src-gen/html/diagrams\");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("ensureDirectory(diagramsDirectory);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String dotExecutable = resolveDotExecutable();");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodelFile.getAbsolutePath());");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("List<String> models = ModelManager.getModels(");
-    _builder.append(this.className, "\t\t");
+    _builder.append(this.className, "\t");
     _builder.append("Draw.class);");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
+    _builder.append("\t");
     _builder.append("List<String> mutants = ModelManager.getMutants(");
-    _builder.append(this.className, "\t\t");
+    _builder.append(this.className, "\t");
     _builder.append("Draw.class);");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t");
+    _builder.append("\t");
+    _builder.append("if (models == null) {");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("int totalTasks = models.size() + mutants.size();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("monitor.beginTask(\"Rendering models\", totalTasks);");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("// GENERATES PNG FILES FROM SOURCE MODELS");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("File folder = new File(\"");
-    _builder.append(folder, "\t\t");
-    _builder.append("data/model\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
-    _builder.append("for (File file : folder.listFiles()) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("if (file.isFile()) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("String pathfile = file.getPath();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("if (pathfile.endsWith(\".model\") == true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String printPathfile = pathfile.replace(\"\\\\\", \"/\");");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("printPathfile = printPathfile.substring(printPathfile.lastIndexOf(\"/\" + projectName + \"/\") + (\"/\" + projectName + \"/\").length(), printPathfile.length());");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("monitor.subTask(\"Rendering image for model \" + printPathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("Resource model = ModelManager.loadModel(packages, pathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String dotfile = \"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \"\") + \"/\" +");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("\"");
-    String _name_36 = this.roots.get(0).getName();
-    _builder.append(_name_36, "\t\t\t\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String pngfile = \"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \"\") + \"/\" +");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("\"");
-    String _name_37 = this.roots.get(0).getName();
-    _builder.append(_name_37, "\t\t\t\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    CharSequence _generate_1 = this.generate(draw, folder);
-    _builder.append(_generate_1, "\t\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("File diagramsfolder = new File(\"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("if (diagramsfolder.exists() != true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("diagramsfolder.mkdir();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("File dotfolder = new File(\"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \"\") + \"/\");");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("if (dotfolder.exists() != true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotfolder.mkdir();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("PrintWriter dotwriter = null;");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotwriter = new PrintWriter(dotfile, \"UTF-8\");");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("for (String dotline : dotcode) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("dotwriter.println(dotline);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotwriter.close();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (UnsupportedEncodingException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("//Reload input");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("model.unload();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("model.load(null);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("} catch (Exception ex) {}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("continue;");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String[] command = {\"dot\", \"-Tpng\", dotfile, \"-o\", pngfile};");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("Process proc = Runtime.getRuntime().exec(command);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("proc.waitFor(); ");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (IOException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (InterruptedException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("//Reload input");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("model.unload();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("model.load(null);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (Exception e) {}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("monitor.worked(1);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("// GENERATES PNG FILES FROM MUTANTS");
-    _builder.newLine();
-    _builder.append("folder = new File(\"");
-    _builder.append(folder);
-    _builder.append("data/out\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("for (File exercise : folder.listFiles()) {");
+    _builder.append("models = Collections.emptyList();");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("if (exercise.isDirectory()) {");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (mutants == null) {");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("for (File file : exercise.listFiles()) {");
+    _builder.append("mutants = Collections.emptyList();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("monitor.beginTask(\"Rendering GraphViz diagrams\", models.size() + mutants.size());");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("for (String modelPath : models) {");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("if (file.isFile()) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("String pathfile = file.getPath();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("if (pathfile.endsWith(\".model\") == true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String printPathfile = pathfile.replace(\"\\\\\", \"/\");");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("printPathfile = printPathfile.substring(printPathfile.lastIndexOf(\"/\" + projectName + \"/\") + (\"/\" + projectName + \"/\").length(), printPathfile.length());");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("monitor.subTask(\"Rendering image for mutant \" + printPathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("Resource model = ModelManager.loadModel(packages, pathfile);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String dotfile = \"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("\"");
-    String _name_38 = this.roots.get(0).getName();
-    _builder.append(_name_38, "\t\t\t\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String pngfile = \"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("\"");
-    String _name_39 = this.roots.get(0).getName();
-    _builder.append(_name_39, "\t\t\t\t\t");
-    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    CharSequence _generate_2 = this.generate(draw, folder);
-    _builder.append(_generate_2, "\t\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("File diagramsfolder = new File(\"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("if (diagramsfolder.exists() != true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("diagramsfolder.mkdir();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("File dotfolder = new File(\"");
-    _builder.append(folder, "\t\t\t\t\t");
-    _builder.append("src-gen/html/diagrams/\" + exercise.getName() + \"/\");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("if (dotfolder.exists() != true) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotfolder.mkdir();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("PrintWriter dotwriter = null;");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotwriter = new PrintWriter(dotfile, \"UTF-8\");");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("for (String dotline : dotcode) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("dotwriter.println(dotline);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("dotwriter.close();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (UnsupportedEncodingException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("//Reload input");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("model.unload();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("model.load(null);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("} catch (Exception ex) {}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("continue;");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("String[] command = {\"dot\", \"-Tpng\", dotfile, \"-o\", pngfile};");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("Process proc = Runtime.getRuntime().exec(command);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("proc.waitFor(); ");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (IOException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (InterruptedException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("//Reload input");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("model.unload();");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("model.load(null);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("} catch (Exception e) {}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("monitor.worked(1);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("}");
+    _builder.append("checkCanceled(monitor);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("}");
+    _builder.append("File modelFile = new File(modelPath);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("else {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("if (file.getName().equals(\"registry\") != true && !file.getName().endsWith(\"vs\")) {");
+    _builder.append("File outputDirectory = new File(");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("File[] filesBlock = file.listFiles();");
+    _builder.append("diagramsDirectory,");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("for (File fileBlock : filesBlock) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("generateGraphs(fileBlock, packages, exercise, monitor);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("} catch (UnsupportedEncodingException e) {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("continue;");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("}");
+    _builder.append("stripExtension(modelFile.getName())");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("renderModel(");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("modelFile,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("packages,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("outputDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("projectDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("dotExecutable,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("monitor,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("false");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Path mutantRoot = folders.mutantDirectory.toPath().toAbsolutePath().normalize();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("for (String mutantPath : mutants) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("checkCanceled(monitor);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("File mutantFile = new File(mutantPath);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("File parentFile = mutantFile.getParentFile();");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("String relative = parentFile != null");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("? safeRelativize(mutantRoot, parentFile.toPath().toAbsolutePath().normalize())");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(": \"\";");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("File outputDirectory = relative.isEmpty()");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("? diagramsDirectory");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append(": new File(diagramsDirectory, relative);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("renderModel(");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("mutantFile,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("packages,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("outputDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("projectDirectory,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("dotExecutable,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("monitor,");
+    _builder.newLine();
+    _builder.append("\t\t\t\t\t");
+    _builder.append("true");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append(");");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("}");
@@ -8010,87 +8385,330 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.append("finally {");
+    _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("}");
+    _builder.append("monitor.done();");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
+    _builder.newLine();
+    _builder.append("private String safeRelativize(Path root, Path child) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (child.startsWith(root)) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("return root.relativize(child).toString();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("catch (IllegalArgumentException e) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("// Different filesystem roots; use the common output directory.");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return \"\";");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private String stripExtension(String fileName) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (fileName == null) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return \"\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("int dot = fileName.lastIndexOf(\'.\');");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return dot > 0 ? fileName.substring(0, dot) : fileName;");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private void ensureDirectory(File directory) throws IOException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (directory.isDirectory()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (!directory.mkdirs() && !directory.isDirectory()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IOException(\"Cannot create directory: \" + directory);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private void checkCanceled(IProgressMonitor monitor) throws InterruptedException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (monitor != null && monitor.isCanceled()) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new InterruptedException(\"GraphViz rendering was canceled\");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("private static final class ProjectFolders {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private final File modelDirectory;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private final File mutantDirectory;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private ProjectFolders(File modelDirectory, File mutantDirectory) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.modelDirectory = modelDirectory;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.mutantDirectory = mutantDirectory;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("            ");
     _builder.append("@Override");
     _builder.newLine();
+    _builder.append("            ");
     _builder.append("public Object execute(ExecutionEvent event) throws ExecutionException {");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("                ");
+    _builder.append("/*");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* Interactive command entry point. When Eclipse invokes this");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* handler from the UI, use the active shell for a progress");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* dialog. If no UI shell is available, fall back to direct");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* execution rather than failing.");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("Shell shell = event != null ? HandlerUtil.getActiveShell(event) : null;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("if (shell == null || shell.isDisposed()) {");
+    _builder.newLine();
+    _builder.append("                    ");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();");
+    _builder.append("                        ");
+    _builder.append("generate(new NullProgressMonitor());");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("monitor.run(true, true, runMutatorDrawWithProgress);");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("} catch (InvocationTargetException e) {");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("} catch (InterruptedException e) {");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("// TODO Auto-generated catch block");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("e.printStackTrace();");
-    _builder.newLine();
-    _builder.append("\t");
+    _builder.append("                    ");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("                    ");
+    _builder.append("catch (InterruptedException e) {");
+    _builder.newLine();
+    _builder.append("                        ");
+    _builder.append("Thread.currentThread().interrupt();");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("catch (Exception e) {");
+    _builder.newLine();
+    _builder.append("                        ");
+    _builder.append("throw new ExecutionException(");
+    _builder.newLine();
+    _builder.append("                                ");
+    _builder.append("\"Error rendering Wodel-EDU GraphViz diagrams\",");
+    _builder.newLine();
+    _builder.append("                                ");
+    _builder.append("e");
+    _builder.newLine();
+    _builder.append("                        ");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("                    ");
     _builder.append("return null;");
     _builder.newLine();
+    _builder.append("                ");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("@Override");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("public void run() {");
+    _builder.append("                ");
+    _builder.append("ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("                ");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("execute(null);");
+    _builder.append("                    ");
+    _builder.append("dialog.run(true, true, new RunMutatorDrawWithProgress());");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("                ");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("catch (ExecutionException e) {");
+    _builder.append("                ");
+    _builder.append("catch (InvocationTargetException e) {");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("// TODO Auto-generated catch block");
+    _builder.append("                    ");
+    _builder.append("Throwable cause = e.getCause() != null ? e.getCause() : e;");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("e.printStackTrace();");
+    _builder.append("                    ");
+    _builder.append("throw new ExecutionException(");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("                            ");
+    _builder.append("\"Error rendering Wodel-EDU GraphViz diagrams\",");
+    _builder.newLine();
+    _builder.append("                            ");
+    _builder.append("cause");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("                ");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("                ");
+    _builder.append("catch (InterruptedException e) {");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("Thread.currentThread().interrupt();");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("return null;");
+    _builder.newLine();
+    _builder.append("            ");
     _builder.append("}");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("            ");
+    _builder.append("@Override");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("public void run() {");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("/*");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* Non-UI extension entry point used reflectively by Wodel.");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* It is commonly called from Wodel\'s existing background");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* progress operation, where there may be no active workbench");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("* window. Do not open a nested ProgressMonitorDialog here.");
+    _builder.newLine();
+    _builder.append("                 ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("generate(new NullProgressMonitor());");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("catch (InterruptedException e) {");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("Thread.currentThread().interrupt();");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("throw new IllegalStateException(");
+    _builder.newLine();
+    _builder.append("                            ");
+    _builder.append("\"GraphViz rendering was interrupted\",");
+    _builder.newLine();
+    _builder.append("                            ");
+    _builder.append("e");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("catch (Exception e) {");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("throw new IllegalStateException(");
+    _builder.newLine();
+    _builder.append("                            ");
+    _builder.append("\"Error rendering Wodel-EDU GraphViz diagrams\",");
+    _builder.newLine();
+    _builder.append("                            ");
+    _builder.append("e");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append(");");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        ");
     _builder.append("}");
     _builder.newLine();
     return _builder;

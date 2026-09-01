@@ -9,7 +9,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 
 import wodel.utils.manager.IWodelTest;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;
 import wodel.utils.manager.WodelTestResultInfo;
@@ -23,9 +22,6 @@ public class SubsumptionMutationOptimiser extends MutationOptimiser {
 		public WodelTestClassInfo mutant;
 		public List<WodelTestClassInfo> subsumed;
 		public int max;
-		
-		public SubsumedMutantsData() {
-		}
 	}
 	
 	@Override

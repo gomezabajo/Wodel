@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import javax.xml.stream.events.Characters;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -53,12 +56,12 @@ import org.eclipse.ui.ide.IDE;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ProjectUtils;
 import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
-import wodel.dsls.WodelUtils;
 
 public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 
@@ -282,9 +285,9 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 			}
 			br.close();
 			InputStream stream = openContentStream();
-			String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+			String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 			content += def;
-			stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+			stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 			metamodelFile.create(stream, true, monitor);
 			stream.close();
 		} catch (IOException e) {

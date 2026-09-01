@@ -141,7 +141,8 @@ public class ATLSemanticValidation extends SemanticValidation {
 			ModelFactory modelFactory = new EMFModelFactory();
 			IReferenceModel atlMetamodel = AtlParser.getDefault().getAtlMetamodel();
 			IModel atlModel = modelFactory.newModel(atlMetamodel);
-			String path = modelFile.getPath();
+			String path = modelFile.getPath().replace("\\", "/");
+			//System.out.println("ATL modelToProject(path--> " +  path + ")");
 			IInjector injector = new EMFInjector();
 			injector.inject(atlModel, "file:/" + path);
 
@@ -153,6 +154,8 @@ public class ATLSemanticValidation extends SemanticValidation {
 			}
 			AtlParser atlParser = new AtlParser();
 			atlParser.extract(atlModel, outputPath + modelFile.getName().replace(".model", ".atl"));
+		} catch (org.eclipse.m2m.atl.core.ATLCoreException e) {
+			//e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

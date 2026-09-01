@@ -19,6 +19,7 @@ import wodel.utils.manager.ModelManager;
 import wodeledu.dsls.generator.ComparableSimpleEntry;
 import wodeledu.dsls.generator.EduTestSuperGenerator;
 import wodeledu.dsls.generator.TestOption;
+import wodeledu.utils.manager.WodelEduManager;
 
 @SuppressWarnings("all")
 public class EduTestMoodleGeneratorMissingWords {
@@ -102,7 +103,7 @@ public class EduTestMoodleGeneratorMissingWords {
           int _size = this.generator.getOptions().get(this.exercise).get(test).size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
-            int rndIndex = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
+            int rndIndex = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
             _builder.newLineIfNotEmpty();
             {
               List<TestOption> _get = this.generator.getOptions().get(this.exercise).get(test).get(rndIndex);

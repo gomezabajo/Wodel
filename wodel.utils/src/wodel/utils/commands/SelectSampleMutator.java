@@ -85,6 +85,174 @@ public class SelectSampleMutator extends Mutator {
 		this.features = features;
 	}
 	
+	public List<List<EObject>> getCandidateSamples() {
+
+	    List<List<EObject>> candidates =
+	        new ArrayList<List<EObject>>();
+
+	    if (objectSelection == null) {
+	        return candidates;
+	    }
+
+	    List<EObject> selected = null;
+		try {
+			selected = objectSelection.getObjects();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	    /*
+	     * This method represents the collection-based form of
+	     *
+	     *     select sample from ...
+	     *
+	     * The existing single-EObject/reference case can continue
+	     * to be handled by mutate().
+	     */
+	    if (selected == null
+	            || selected.isEmpty()) {
+
+	        return candidates;
+	    }
+
+	    /*
+	     * A collection containing one element has one possible
+	     * sample.
+	     */
+	    if (selected.size() == 1) {
+
+	        List<EObject> candidate =
+	            new ArrayList<EObject>();
+
+	        candidate.add(
+	            selected.get(0));
+
+	        candidates.add(
+	            candidate);
+
+	        return candidates;
+	    }
+
+
+	    EClass eClass =
+	        selected.get(0)
+	            .eClass();
+
+
+	    LinkedHashMap<
+	        EStructuralFeature,
+	        HashMap<Object, List<EObject>>> classify =
+	            new LinkedHashMap<
+	                EStructuralFeature,
+	                HashMap<Object, List<EObject>>>();
+
+
+	    /*
+	     * Same classification performed by mutate().
+	     */
+	    for (String feature :
+	            features) {
+
+	        for (EStructuralFeature feat :
+	                eClass.getEAllStructuralFeatures()) {
+
+	            if (!feat.getName()
+	                    .equals(feature)) {
+
+	                continue;
+	            }
+
+
+	            for (EObject object :
+	                    selected) {
+
+	                Object value =
+	                    object.eGet(
+	                        feat);
+
+
+	                HashMap<Object, List<EObject>>
+	                    sameValue =
+	                        classify.get(
+	                            feat);
+
+
+	                if (sameValue == null) {
+
+	                    sameValue =
+	                        new LinkedHashMap<
+	                            Object,
+	                            List<EObject>>();
+	                }
+
+
+	                List<EObject> objects =
+	                    sameValue.get(
+	                        value);
+
+
+	                if (objects == null) {
+
+	                    objects =
+	                        new ArrayList<EObject>();
+	                }
+
+
+	                objects.add(
+	                    object);
+
+
+	                sameValue.put(
+	                    value,
+	                    objects);
+
+
+	                classify.put(
+	                    feat,
+	                    sameValue);
+	            }
+	        }
+	    }
+
+
+	    List<List<EObject>> combinations =
+	        new ArrayList<List<EObject>>();
+
+
+	    /*
+	     * with distinct {...}
+	     */
+	    if (!equals) {
+
+	        combinations.addAll(
+	            selectSampleDifferentFeaturesObjectsHelper(
+	                eClass,
+	                classify));
+	    }
+
+
+	    /*
+	     * with equals {...}
+	     */
+	    if (equals) {
+
+	        combinations.addAll(
+	            selectSampleEqualFeaturesObjectsHelper(
+	                eClass,
+	                classify,
+	                selected));
+	    }
+
+
+	    candidates.addAll(
+	        getCandidates(
+	            combinations));
+
+
+	    return candidates;
+	}
+	
 	private void selectSampleDifferentFeaturesOneObjectHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, List<EObject>> hmEObjects) {
 		List<String> otherFeatures = null;
 		for (String feature : features) {
@@ -361,6 +529,7 @@ public class SelectSampleMutator extends Mutator {
 			}
 		}
 		// a list of objects
+		/*
 		if (objects != null) {
 			List<EObject> selected = objects;
 			if (selected.size() > 1) {
@@ -409,6 +578,20 @@ public class SelectSampleMutator extends Mutator {
 			else {
 				result = selected;
 			}
+		}
+		*/
+		if (objects != null) {
+
+		    List<List<EObject>> candidates =
+		        getCandidateSamples();
+
+		    if (!candidates.isEmpty()) {
+
+		        result =
+		            candidates.get(
+		                ModelManager.getRandomIndex(
+		                    candidates));
+		    }
 		}
 		
 		return this.result;

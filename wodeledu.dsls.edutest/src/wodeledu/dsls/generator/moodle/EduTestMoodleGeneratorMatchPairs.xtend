@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.emf.common.util.URI
 import org.eclipse.core.resources.ResourcesPlugin
 import wodeledu.dsls.generator.TestOption
+import wodeledu.utils.manager.WodelEduManager
 
 class EduTestMoodleGeneratorMatchPairs {
 	var MatchPairs exercise
@@ -68,7 +69,7 @@ class EduTestMoodleGeneratorMatchPairs {
 «var List<String> textOptions = new ArrayList<String>()»
 «var int k = 0»
 «var int counter = 0»
-«var int rndIndex = ModelManager.getRandomIndex(generator.options.get(exercise).get(test))»
+«var int rndIndex = WodelEduManager.getRandomIndex(generator.options.get(exercise).get(test))»
 «IF generator.options.get(exercise).get(test).size() > 0»
 «FOR TestOption opt : generator.options.get(exercise).get(test).get(rndIndex)»
 «FOR String key : opt.text.keySet()»
@@ -94,7 +95,7 @@ class EduTestMoodleGeneratorMatchPairs {
 «var int k = 0»
 «var int counter = 0»
 <!--«var Map<TestOption, String> mapOptions = new LinkedHashMap<TestOption, String>()»-->
-«var int rndIndex = ModelManager.getRandomIndex(generator.options.get(exercise).get(test))»
+«var int rndIndex = WodelEduManager.getRandomIndex(generator.options.get(exercise).get(test))»
 «IF generator.options.get(exercise).get(test).size() > 0»
 «FOR TestOption opt : generator.options.get(exercise).get(test).get(rndIndex)»
 «var List<String> textOptions = new ArrayList<String>()»
@@ -150,7 +151,7 @@ class EduTestMoodleGeneratorMatchPairs {
 «var int k = 0»
 «FOR Test test : exercise.tests»
 <!--«var TestOption opt = null»-->
-«var int rndIndex = ModelManager.getRandomIndex(generator.options.get(exercise).get(test))»
+«var int rndIndex = WodelEduManager.getRandomIndex(generator.options.get(exercise).get(test))»
 «IF generator.options.get(exercise).get(test).size() > 0»
 «IF (generator.options.get(exercise).get(test) !== null && generator.options.get(exercise).get(test).get(rndIndex).size() > index)»
 <!--«opt = generator.options.get(exercise).get(test).get(rndIndex).get(index)»-->

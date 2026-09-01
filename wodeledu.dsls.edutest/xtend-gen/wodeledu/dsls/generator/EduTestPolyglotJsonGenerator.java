@@ -49,6 +49,7 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
+import wodeledu.utils.manager.WodelEduManager;
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -1004,7 +1005,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       int counter_3 = 0;
                       _builder.newLineIfNotEmpty();
-                      int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_4));
+                      int rndIndex = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_4));
                       _builder.newLineIfNotEmpty();
                       {
                         int _size_7 = this.options.get(exercise).get(test_4).size();
@@ -1090,7 +1091,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       Map<TestOption, String> mapOptions = new HashMap<TestOption, String>();
                       _builder.newLineIfNotEmpty();
-                      int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_5));
+                      int rndIndex_1 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_5));
                       _builder.newLineIfNotEmpty();
                       {
                         int _size_8 = this.options.get(exercise).get(test_5).size();
@@ -1289,7 +1290,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                   TestOption opt_2 = null;
                   _builder.newLineIfNotEmpty();
                   _builder.append("        ");
-                  int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_6));
+                  int rndIndex_2 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_6));
                   _builder.newLineIfNotEmpty();
                   {
                     int _size_10 = this.options.get(exercise).get(test_6).size();

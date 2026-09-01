@@ -2,10 +2,6 @@
  */
 package mutatorenvironment.miniOCL.impl;
 
-import mutatorenvironment.MutatorenvironmentPackage;
-
-import mutatorenvironment.impl.MutatorenvironmentPackageImpl;
-
 import mutatorenvironment.miniOCL.AccVarCS;
 import mutatorenvironment.miniOCL.BooleanExpCS;
 import mutatorenvironment.miniOCL.BooleanLiteralExpCS;
@@ -50,6 +46,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -357,17 +354,14 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 
 		isInited = true;
 
-		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
-		MutatorenvironmentPackageImpl theMutatorenvironmentPackage = (MutatorenvironmentPackageImpl)(registeredPackage instanceof MutatorenvironmentPackageImpl ? registeredPackage : MutatorenvironmentPackage.eINSTANCE);
+		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theMiniOCLPackage.createPackageContents();
-		theMutatorenvironmentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMiniOCLPackage.initializePackageContents();
-		theMutatorenvironmentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMiniOCLPackage.freeze();
@@ -1584,6 +1578,9 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 
 		initEClass(forAllExpCSEClass, ForAllExpCS.class, "ForAllExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getForAllExpCS_AccVars(), this.getAccVarCS(), null, "accVars", null, 0, -1, ForAllExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Create resource
+		createResource(eNS_URI);
 
 		// Create annotations
 		// http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName

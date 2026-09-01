@@ -32,7 +32,7 @@ public interface IMutatorExecutor {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry,
 			boolean metrics, boolean debugMetrics, String[] blockNames, IProject project,
 			IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes,
-			Map<String, EPackage> registeredPackages)  
+			Map<String, EPackage> registeredPackages, long executionSeed)  
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 				AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 				MetaModelNotFoundException,	ModelNotFoundException, IOException;

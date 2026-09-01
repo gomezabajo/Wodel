@@ -3,13 +3,58 @@
  */
 package wodel.dsls;
 
+import org.eclipse.emf.ecore.EPackage;
 
-/**
- * Initialization support for running Xtext languages without Equinox extension registry.
- */
-public class WodelStandaloneSetup extends WodelStandaloneSetupGenerated {
+import com.google.inject.Injector;
 
-	public static void doSetup() {
-		new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}
+import mutatorenvironment.MutatorenvironmentPackage;
+
+public class WodelStandaloneSetup
+        extends WodelStandaloneSetupGenerated {
+
+    public static void doSetup() {
+        new WodelStandaloneSetup()
+            .createInjectorAndDoEMFRegistration();
+    }
+
+    @Override
+    public Injector createInjectorAndDoEMFRegistration() {
+
+        /*
+         * CRITICAL for standalone/headless Xtext.
+         *
+         * Wodel.xtext imports the existing metamodel by nsURI:
+         *
+         *     import "http://mutatorenvironment/1.0"
+         *
+         * Therefore the package must already be available globally
+         * while Xtext initializes the grammar.
+         */
+        ensureWodelMetamodelRegistered();
+
+        return super.createInjectorAndDoEMFRegistration();
+    }
+
+    private static void ensureWodelMetamodelRegistered() {
+
+        /*
+         * Force initialization of the generated EPackage.
+         */
+        MutatorenvironmentPackage pkg =
+            MutatorenvironmentPackage.eINSTANCE;
+
+        String nsURI =
+            MutatorenvironmentPackage.eNS_URI;
+
+        Object registered =
+            EPackage.Registry.INSTANCE.get(nsURI);
+
+        if (registered != pkg) {
+
+            EPackage.Registry.INSTANCE.put(
+                nsURI,
+                pkg
+            );
+        }
+    }
 }

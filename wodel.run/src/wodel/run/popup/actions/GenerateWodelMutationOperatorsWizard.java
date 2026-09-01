@@ -44,7 +44,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
-import wodel.dsls.WodelUtils;
+
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.IOUtils;

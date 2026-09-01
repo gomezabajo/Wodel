@@ -1,5 +1,6 @@
 package wodel.utils.commands.selection.strategies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -25,16 +26,37 @@ public class TypedSelection extends ObSelectionStrategy {
 		super(metaModel, model);
 		this.type = type;
 	}
+	
+	public TypedSelection(List<EPackage> metaModel, List<Resource> models, String type) {
+		super(metaModel, models);
+		this.type = type;
+	}
 
 	@Override
 	public List<EObject> getObjects() {
-		return ModelManager.getObjectsOfType(type, this.getModel());
+		List<EObject> l = new ArrayList<EObject>();
+		if (this.getModel() != null) {
+			l = ModelManager.getObjectsOfType(type, this.getModel()); 
+		}
+		else if (this.getModels() != null) {
+			l = ModelManager.getObjectsOfType(type, this.getModels());
+		}
+		if(l==null || l.isEmpty()) return null;
+		ModelManager.sortEObjectsDeterministically(l);
+		return l;
 	}
 
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {
-		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
-		if(l==null || l.size()==0) return null;
+		List<EObject> l = new ArrayList<EObject>();
+		if (this.getModel() != null) {
+			l = ModelManager.getObjectsOfType(type, this.getModel()); 
+		}
+		else if (this.getModels() != null) {
+			l = ModelManager.getObjectsOfType(type, this.getModels());
+		}
+		if(l==null || l.isEmpty()) return null;
+		ModelManager.sortEObjectsDeterministically(l);
 		return l.get(ModelManager.getRandomIndex(l));
 	}
 }

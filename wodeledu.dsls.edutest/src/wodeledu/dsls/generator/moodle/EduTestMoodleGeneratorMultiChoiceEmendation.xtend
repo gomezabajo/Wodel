@@ -26,6 +26,7 @@ import wodeledu.dsls.generator.TestOption
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import wodeledu.utils.manager.WodelEduManager
 
 class EduTestMoodleGeneratorMultiChoiceEmendation {
  	var MultiChoiceEmendation exercise
@@ -70,7 +71,7 @@ class EduTestMoodleGeneratorMultiChoiceEmendation {
 «var Test t = test»
 «IF generator.options.get(exercise) !== null && generator.options.get(exercise).get(test) !== null»
 «var int counter = 0»
-«{rndIndex = ModelManager.getRandomIndex(generator.options.get(exercise).get(test)); ""}»
+«{rndIndex = WodelEduManager.getRandomIndex(generator.options.get(exercise).get(test)); ""}»
 «var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
 «IF generator.options.get(exercise).get(test).size() > 0»
 «FOR TestOption opt : generator.options.get(exercise).get(test).get(rndIndex)»
@@ -160,7 +161,7 @@ class EduTestMoodleGeneratorMultiChoiceEmendation {
 «{Collections.shuffle(selectedOptions); ""}»
 «IF diagrams.size() > 0»
 <!--«var int rndSolution = -1»-->
-«{rndSolution = ModelManager.getRandomIndex(diagrams); ""}»
+«{rndSolution = WodelEduManager.getRandomIndex(diagrams); ""}»
 <!--«var List<String> diagram = new ArrayList<String>()»-->
 <!--«var List<String> code = new ArrayList<String>()»-->
 <!--«var String d = diagrams.get(rndSolution)»-->

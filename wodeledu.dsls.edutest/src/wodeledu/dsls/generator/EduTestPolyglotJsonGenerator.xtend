@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializationFeature
 import java.io.OutputStream
 import com.fasterxml.jackson.databind.SequenceWriter
+import wodeledu.utils.manager.WodelEduManager
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -364,7 +365,7 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
           «var List<String> textOptions = new ArrayList<String>()»
           «var int k = 0»
           «var int counter = 0»
-          «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+          «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
           «IF options.get(exercise).get(test).size() > 0»
           «FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
           «FOR String key : opt.text.keySet()»
@@ -390,7 +391,7 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
           «var int k = 0»
           «var int counter = 0»
           «var Map<TestOption, String> mapOptions = new HashMap<TestOption, String>()»
-          «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+          «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
           «IF options.get(exercise).get(test).size() > 0»
           «FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
           «var List<String> textOptions = new ArrayList<String>()»
@@ -446,7 +447,7 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
         «var int k = 0»
         «FOR Test test : exercise.tests»
         «var TestOption opt = null»
-        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
         «IF options.get(exercise).get(test).size() > 0»
         «IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).get(rndIndex).size() > index)»
         «{opt = options.get(exercise).get(test).get(rndIndex).get(index); ""}»

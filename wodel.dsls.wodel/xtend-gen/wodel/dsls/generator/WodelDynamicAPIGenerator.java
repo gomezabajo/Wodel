@@ -18,8 +18,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import wodel.dsls.WodelUtils;
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
@@ -31,6 +33,8 @@ import wodel.utils.manager.ProjectUtils;
  */
 @SuppressWarnings("all")
 public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
+  protected String className;
+
   public static IProject projectOf(final Resource r) {
     Object _xblockexpression = null;
     {
@@ -73,7 +77,11 @@ public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
     String mutatorName = "";
     this.fileURI = resource.getURI();
     Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>();
-    Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
+    final Function1<MutatorEnvironment, Boolean> _function = (MutatorEnvironment it) -> {
+      Definition _definition = it.getDefinition();
+      return Boolean.valueOf((_definition instanceof Program));
+    };
+    Iterable<MutatorEnvironment> _filter = IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function);
     for (final MutatorEnvironment e : _filter) {
       {
         String xTextFileName = this.getMutatorPath(e, this.project, files);
@@ -84,7 +92,7 @@ public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
         String _replaceAll = this.fileURI.lastSegment().replaceAll(".mutator", ".model");
         String _plus_1 = (_plus + _replaceAll);
         this.xmiFileName = _plus_1;
-        WodelUtils.serialize(xTextFileName, this.xmiFileName);
+        WodelUtils.serialize(((MutatorEnvironment) e), this.xmiFileName);
         String _replaceAll_1 = this.fileURI.lastSegment().replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
         String fileName = (_replaceAll_1 + ".mutator");
         mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");

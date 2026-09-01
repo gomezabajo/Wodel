@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -49,7 +50,7 @@ import wodeledu.utils.manager.WodelEduUtils;
 
 public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 	
-	private static String folder = null;
+	private String folder = null;
 	private LabelFieldEditor label = null;
 	private int height = 0;
 	private Button button = null;
@@ -68,24 +69,19 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 		} catch (OperationCanceledException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		catch (InterruptedException e) {
+		    Thread.currentThread().interrupt();
 		}
 	}
 
     @Override
     protected void createFieldEditors() {
     	
-    	IProject project = null;
-    	if (ProjectUtils.getProject() != null) {
-    		project = ProjectUtils.getProject();
-    	}
-    	
-    	if (project == null) {
-    		return;
-    	}
-    	
+    	IProject project = ProjectUtils.getProject();
+   		if (project == null) {
+   		    return;
+   		}    	
     	composite = getFieldEditorParent();
 		String[][] values = new String[7][2];
 		values[0][0] = "";
@@ -125,51 +121,53 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     	combo = new ComboFieldEditor("Model-Draw mode", "", values, composite);
     	addField(combo);
 
+		DirectoryFieldEditor rendererPath = new DirectoryFieldEditor("Model-Draw renderer path", "Model-Draw renderer path:", getFieldEditorParent());
+		addField(rendererPath);
+
+		/*
     	new LabelFieldEditor(" \n\n", composite);
 		new LabelFieldEditor("\n\nModel-Draw renderer path", composite);
+		*/
 		
 		IPreferenceStore preferenceStore = doGetPreferenceStore();
+		
+			
 		folder = preferenceStore.getDefaultString("Model-Draw renderer path");
 		if (folder == null || folder.isEmpty()) {
 			folder = project.getFolder("dpic").getLocation().toFile().getPath();
 		}
 		
 		String metamodelPath = ModelManager.getMetaModel();
-		List<EPackage> metamodel = null;
+		List<EPackage> metamodel;
+
 		try {
-			metamodel = ModelManager.loadMetaModel(metamodelPath);
-		} catch (MetaModelNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		    metamodel =
+		        ModelManager.loadMetaModel(
+		            metamodelPath
+		        );
 		}
-		String uri = metamodel.get(0).getNsURI();
+		catch (MetaModelNotFoundException e) {
+		    e.printStackTrace();
+		    return;
+		}
+
+		if (metamodel == null ||
+		    metamodel.isEmpty()) {
+
+		    return;
+		}
+
+		String uri =  metamodel.get(0).getNsURI();
 		
-		switch(uri) {
-			case "http://dfaAutomaton/1.0":
-				extension = WodelEduExtension.DFA;
-				preferenceStore.setDefault("Model-Draw mode", "Dot");
-				break;
-			case "http://lc/1.0":
-				extension = WodelEduExtension.LC;
-				preferenceStore.setDefault("Model-Draw mode", "Circuit");
-				break;
-			case "http://UMLDiagram/1.0":
-				extension = WodelEduExtension.UML;
-				preferenceStore.setDefault("Model-Draw mode", "PlantUML");
-				break;
-			case "http://www.python.org/pythonast/3.14":
-				extension = WodelEduExtension.UML;
-				preferenceStore.setDefault("Model-Draw mode", "PyCode");
-				break;
-			default:
-				return;
+		extension =  WodelEduExtension.fromURI(metamodel.get(0).getNsURI());
+		if (extension != null) {
+			preferenceStore.setDefault("Model-Draw mode", extension.getModelDrawMode());
 		}
 		
 		String projectName = project.getName();
 		String filename = projectName + ".draw";
 
-		IFile generatedCodeFile = project.getFile(new Path("/src-gen/mutator/" + project.getName() + "/" + filename.replace(".draw", "Draw.java")));
-
+		IFile generatedCodeFile = project.getFile(new Path("src-gen/mutator/" + project.getName() + "/" + projectName + "Draw.java"));
 		try {
 			if (generatedCodeFile.exists() == true) {
 				generatedCodeFile.delete(true, new NullProgressMonitor());
@@ -179,16 +177,41 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 				return;
 			}
 			final IFile dslFile = src.getFile(new Path(filename));
-			InputStream stream = dslFile.getContents();
 			if (dslFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-				dslFile.setContents(stream, true, true, null);
+			    try (InputStream input = dslFile.getContents()) {
+
+			        String content =
+			            CharStreams.toString(
+			                new InputStreamReader(
+			                    input,
+			                    Charsets.UTF_8
+			                )
+			            );
+
+			        try (InputStream updated =
+			                new ByteArrayInputStream(
+			                    content.getBytes(
+			                        Charsets.UTF_8
+			                    )
+			                )) {
+
+			            dslFile.setContents(
+			                updated,
+			                true,
+			                true,
+			                null
+			            );
+			        }
+			    }
 			}
 			else {
+				if (!dslFile.exists()) {
+					return;
+				}
+				InputStream stream = dslFile.getContents();
 				dslFile.create(stream, true, null);
+				stream.close();
 			}
-			stream.close();
 
 			/*
 			String path = project.getLocation().toFile().getPath().replace("\\", "/");
@@ -230,6 +253,7 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			e1.printStackTrace();
 		}
 
+		/*
 		String generatedCode = generatedCodeFile.getLocation().toFile().getPath().replace("\\", "/");
 		
 		try {
@@ -238,6 +262,7 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		*/
 
 		new LabelFieldEditor(" \n\n", composite);
 		button = new Button(composite, SWT.NONE);
@@ -297,7 +322,10 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			folder = folderDialog.open();
 			label = new LabelFieldEditor(folder != null ? folder : "", composite);
 			IPreferenceStore preferenceStore = doGetPreferenceStore();
-	    	preferenceStore.setDefault("Model-Draw renderer path", folder != null ? folder : null);
+	    	//preferenceStore.setDefault("Model-Draw renderer path", folder != null ? folder : null);
+			if (folder != null) {
+				preferenceStore.setValue("Model-Draw renderer path", folder);
+			}
 
 	    	IProject project = null;
 	    	if (ProjectUtils.getProject() != null) {

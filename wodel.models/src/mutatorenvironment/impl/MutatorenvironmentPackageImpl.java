@@ -100,15 +100,13 @@ import mutatorenvironment.TypedSelection;
 import mutatorenvironment.UpperStringType;
 
 import mutatorenvironment.miniOCL.MiniOCLPackage;
-
-import mutatorenvironment.miniOCL.impl.MiniOCLPackageImpl;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -822,17 +820,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		isInited = true;
 
-		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
-		MiniOCLPackageImpl theMiniOCLPackage = (MiniOCLPackageImpl)(registeredPackage instanceof MiniOCLPackageImpl ? registeredPackage : MiniOCLPackage.eINSTANCE);
+		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
+		MiniOCLPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theMutatorenvironmentPackage.createPackageContents();
-		theMiniOCLPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMutatorenvironmentPackage.initializePackageContents();
-		theMiniOCLPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMutatorenvironmentPackage.freeze();
@@ -3573,9 +3569,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		// Obtain other dependent packages
 		MiniOCLPackage theMiniOCLPackage = (MiniOCLPackage)EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
-
-		// Add subpackages
-		getESubpackages().add(theMiniOCLPackage);
 
 		// Create type parameters
 

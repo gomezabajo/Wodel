@@ -1,0 +1,89 @@
+generate exhaustive mutants
+in "data/out/"
+from "data/model/"
+metamodel "/[@**@]/data/model/python.ecore"
+
+with blocks {
+	aor_add {
+		retype one Add as [Sub, Div, Mult, ModOp, Pow, FloorDiv]
+	}
+	aor_sub {
+		retype one Sub as [Add, Div, Mult, ModOp, Pow, FloorDiv]
+	}
+	aor_div {
+		retype one Div as [Add, Sub, Mult, ModOp, Pow, FloorDiv]
+	}
+	aor_mult {
+		retype one Mult as [Add, Sub, Div, ModOp, Pow, FloorDiv]
+	}
+	aor_mod {
+		retype one ModOp as [Add, Sub, Div, Mult, Pow, FloorDiv]
+	}
+	aor_pow {
+		retype one Pow as [Add, Sub, Mult, Div, ModOp, FloorDiv]
+	}
+	aor_floordiv {
+		retype one FloorDiv as [Add, Sub, Mult, Div, ModOp, Pow]
+	}
+	remove_else {
+		if = select one If where {orelse <> null}
+		remove all Stmt from if->orelse
+	}
+	ror_lt {
+		retype one Lt as [LtE, Gt, GtE, Eq, NotEq]
+	}
+	ror_lte {
+		retype one LtE as [Lt, Gt, GtE, Eq, NotEq]
+	}
+	ror_gt {
+		retype one Gt as [GtE, Lt, LtE, Eq, NotEq]
+	}
+	ror_gte {
+		retype one GtE as [Gt, Lt, LtE, Eq, NotEq]
+	}
+	ror_eq {
+		retype one Eq as [NotEq, Lt, Gt, LtE, GtE]
+	}
+	ror_noteq {
+		retype one NotEq as [Eq, Lt, Gt, LtE, GtE]
+	}
+	lcr_and {
+		retype one And as [Or]
+	}
+	lcr_or {
+		retype one Or as [And]
+	}
+	uor_not {
+		retype one Not as [UAdd, USub, Invert]
+	}
+	uor_uadd {
+		retype one UAdd as [Not, USub, Invert]
+	}
+	uor_usub {
+		retype one USub as [Not, UAdd, Invert]
+	}
+	uor_invert {
+		retype one Invert as [Not, UAdd, USub]
+	}
+	bwor_lshift {
+		retype one LShift as [RShift, BitOr, BitXor, BitAnd]
+	}
+	bwor_rshift {
+		retype one RShift as [LShift, BitOr, BitXor, BitAnd]
+	}
+	bwor_bitor {
+		retype one BitOr as [LShift, RShift, BitXor, BitAnd]
+	}
+	bwor_bitxor {
+		retype one BitXor as [LShift, RShift, BitOr, BitAnd]
+	}
+	bwor_bitand {
+		retype one BitAnd as [LShift, RShift, BitOr, BitXor]
+	}
+	bcr_break {
+		retype one Break as [Continue]
+	}
+	bcr_continue {
+		retype one Continue as [Break]
+	}
+}

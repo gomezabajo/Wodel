@@ -25,6 +25,7 @@ import edutest.MatchPairs
 import java.util.ArrayList
 import java.util.AbstractMap.SimpleEntry
 import org.eclipse.emf.ecore.EClass
+import wodeledu.utils.manager.WodelEduManager
 
 class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	
@@ -101,7 +102,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 									«FOR test : exercise.tests»
 										«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
 											«IF (options.get(exercise).get(test) !== null)»
-									        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+									        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 												«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 													«IF opt.text.size > 0»
 														«IF opt.solution == true»
@@ -156,7 +157,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 											«var List<String> textOptions = new ArrayList<String>()»
 											«var int k = 0»
 											«var int counter = 0»
-									        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+									        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
           									«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 												«FOR String key : opt.text.keySet()»
 							         				«FOR String text : opt.text.get(key)»
@@ -177,7 +178,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 									«var int k = 0»
 									«FOR test : exercise.tests»
 										«var TestOption opt = null»
-								        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+								        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 										«IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).get(rndIndex).size() > index)»
 											//«opt = options.get(exercise).get(test).get(rndIndex).get(index)»
 										«ENDIF»
@@ -1105,7 +1106,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 												«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
 													«var counter = 0»
 													«var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
-											        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+											        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 														«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 														«FOR String key : opt.text.keySet()»
 															«FOR String text : opt.text.get(key)»
@@ -1126,7 +1127,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 												«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
 												 	«var String diagram = ''»
 													«IF (options.get(exercise).get(test) !== null)»
-											        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+											        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 														«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 															«IF opt.text.size > 0»
 																«{diagram = opt.path; ""}»
@@ -1135,7 +1136,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 													«ENDIF»
 													«IF !diagram.equals('')»
 														«IF (options.get(exercise).get(test) !== null)»
-														        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+														        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 																«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 																«var List<String> textOptions = new ArrayList<String>()»
 												          		«IF opt.text.size > 0»
@@ -1191,7 +1192,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 													«var List<String> textOptions = new ArrayList<String>()»
 													«var int k = 0»
 													«var int counter = 0»
-											        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+											        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 														«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 														«FOR String key : opt.text.keySet()»
 									         				«FOR String text : opt.text.get(key)»

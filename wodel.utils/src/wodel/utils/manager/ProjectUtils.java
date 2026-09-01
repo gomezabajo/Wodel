@@ -1,6 +1,7 @@
 package wodel.utils.manager;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +26,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionService;
@@ -54,7 +54,7 @@ public final class ProjectUtils {
 			Collections.synchronizedMap(new WeakHashMap<>());
 
 	private ProjectUtils() {}
-
+	
 	// ---------------------------------------------------------------------
 	// Public API: project resolution
 	// ---------------------------------------------------------------------
@@ -187,7 +187,7 @@ public final class ProjectUtils {
 
 		return result;
 	}
-
+	
 	/**
 	 * Convenience: all *.mutator files in <project>/src (or whole project if src missing).
 	 */
@@ -199,7 +199,7 @@ public final class ProjectUtils {
 			base = project;
 		}
 
-		List<IFile> files = new ArrayList<>(findFilesByExtension(base, "mutator"));
+		List<IFile> files = new ArrayList<IFile>(findFilesByExtension(base, "mutator"));
 		files.sort(Comparator.comparing(f -> f.getProjectRelativePath().toString(), String.CASE_INSENSITIVE_ORDER));
 		return files;
 	}
@@ -224,13 +224,18 @@ public final class ProjectUtils {
 		return mutators.isEmpty() ? Optional.empty() : Optional.of(mutators.get(0));
 	}
 
+	public static IProject getProject() {
+		IProject activeProject = getActiveWodelProject().orElse(null);
+		if (activeProject != null) {
+			ModelManager.setProjectRoot(Paths.get(activeProject.getLocation().toOSString().replace("\\", "/")));
+		}
+		return activeProject;
+	}
+
+
 	// ---------------------------------------------------------------------
 	// Compatibility helpers (avoid global state)
 	// ---------------------------------------------------------------------
-
-	public static IProject getProject() {
-		return getActiveWodelProject().orElse(null);
-	}
 
 	public static void setProject(IProject project) {
 		setActiveWindowProject(project);

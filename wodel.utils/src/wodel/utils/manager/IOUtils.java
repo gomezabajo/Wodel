@@ -293,6 +293,7 @@ public class IOUtils {
 	}
 
 	public static void copyFolder(File src, File dest, String ext) throws IOException {
+		System.out.println(src.getName() + " >> " + dest.getName());
 		
 		if (src.getPath().equals(dest.getPath())) {
 			return;

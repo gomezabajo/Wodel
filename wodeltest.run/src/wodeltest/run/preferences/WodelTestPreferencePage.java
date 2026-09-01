@@ -214,7 +214,12 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 					for (String mutatorName : valueMap.get(projectName).keySet()) {
 						Class<?> cls = valueMap.get(projectName).get(mutatorName);
 						Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(cls) + "/" + mutatorName + ".model");
-						EObject program = ModelManager.getObjectsOfType("Program", model).get(0);
+						List<EObject> programs = ModelManager.getObjectsOfType("Program", model);
+						if (programs == null || programs.isEmpty()) {
+							continue;
+						}
+						EObject program = programs.get(0);
+						//EObject program = ModelManager.getObjectsOfType("Program", model).get(0);
 						String description = ModelManager.getStringAttribute("description", program);
 						String label = mutatorName + (description != null ? ": " + description : "");
 						addField(new LabelFieldEditor(label, composite));

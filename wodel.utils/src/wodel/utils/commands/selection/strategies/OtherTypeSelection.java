@@ -21,7 +21,7 @@ public class OtherTypeSelection extends OtherSelection {
 	 * Object type
 	 */
 	private String type;
-	private Object obj;
+	private Object ob;
 	
 	/**
 	 * @param metaModel
@@ -29,24 +29,26 @@ public class OtherTypeSelection extends OtherSelection {
 	 * @param type
 	 * Normal constructor
 	 */
-	public OtherTypeSelection(List<EPackage> metaModel, Resource model, String type, Object obj){
+	public OtherTypeSelection(List<EPackage> metaModel, Resource model, String type, Object ob){
 		super(metaModel, model);
 		this.type = type;
-		this.obj = obj;
+		this.ob = ob;
 	}
 
 	@Override
 	public EObject getObject() {
 		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
-		l.remove(obj);
+		l.remove(ob);
 		if(l==null || l.size()==0) return null;
+		ModelManager.sortEObjectsDeterministically(l);
 		return l.get(ModelManager.getRandomIndex(l));
 	}
 	@Override
 	public List<EObject> getObjects() {
 		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
-		l.remove(obj);
+		l.remove(ob);
 		if(l==null || l.size()==0) return null;
+		ModelManager.sortEObjectsDeterministically(l);
 		return l;
 	}
 }

@@ -11,11 +11,11 @@ import mutatorenvironment.Program
 import java.util.ArrayList
 import java.util.List
 import wodel.utils.manager.JavaUtils
-import wodel.dsls.WodelUtils
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
 import java.util.Map
 import java.util.LinkedHashMap
+import wodel.dsls.runner.WodelUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -24,6 +24,8 @@ import java.util.LinkedHashMap
  * 
  */
 class WodelDynamicAPIGenerator extends WodelAPIGenerator {
+	
+	protected String className
 
 	def static IProject projectOf(Resource r) {
 		val uri = r?.URI
@@ -45,12 +47,12 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 		//var List<String> mutators = ProjectUtils.getMutatorFiles(project).map[name.replace(".mutator", "")]
 		fileURI = resource.URI
 			var Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>()
-		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
+		for(e: resource.allContents.toIterable.filter(MutatorEnvironment).filter[definition instanceof Program]) {
 			
 			var String xTextFileName = getMutatorPath(e, this.project, files)
 			program = (e as MutatorEnvironment).definition as Program
 			xmiFileName = "file:/" + projectFolderName + program.output + fileURI.lastSegment.replaceAll(".mutator", ".model")
-			WodelUtils.serialize(xTextFileName, xmiFileName)
+			WodelUtils.serialize(e as MutatorEnvironment, xmiFileName)
 
 			var String fileName = fileURI.lastSegment.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */

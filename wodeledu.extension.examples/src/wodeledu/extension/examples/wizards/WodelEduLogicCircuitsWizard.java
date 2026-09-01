@@ -47,9 +47,9 @@ import org.eclipse.ui.ide.IDE;
 
 import com.google.common.io.CharStreams;
 
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ProjectUtils;
-import wodel.dsls.WodelUtils;
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
 import wodeledu.extension.examples.builder.WodelEduNature;

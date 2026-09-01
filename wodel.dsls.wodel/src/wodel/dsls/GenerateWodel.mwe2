@@ -6,6 +6,18 @@ import org.eclipse.xtext.xtext.generator.model.project.*
 var rootPath = ".."
 
 Workflow {
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+		scanClassPath = true
+		platformUri = rootPath
+		uriMap = {
+			from = "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"
+			to = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
+		}
+		uriMap = {
+			from = "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"
+			to = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore"
+		}
+	}
 	
 	component = XtextGenerator {
 		configuration = {
@@ -27,7 +39,8 @@ Workflow {
 		language = StandardLanguage {
 			name = "wodel.dsls.Wodel"
 			fileExtensions = "mutator"
-			referencedResource = "platform:/resource/wodel.models/model/mutatorenvironment.genmodel"
+			referencedResource = "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"
+			referencedResource = "platform:/resource/wodel.models/model/MutatorEnvironment.genmodel"
 			
 			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
 
@@ -58,7 +71,7 @@ Workflow {
 				generateJavaMain = true
 			}
 			junitSupport = {
-				junitVersion = "5"
+				junitVersion = "6"
 			}
 		}
 	}

@@ -39,6 +39,7 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
+import wodeledu.utils.manager.WodelEduManager;
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -1046,7 +1047,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   _builder.newLineIfNotEmpty();
                   String _xblockexpression_40 = null;
                   {
-                    rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_3));
+                    rndIndex = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_3));
                     _xblockexpression_40 = "";
                   }
                   _builder.append(_xblockexpression_40);
@@ -1374,7 +1375,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       String _xblockexpression_56 = null;
                       {
-                        rndSolution = ModelManager.getRandomIndex(diagrams);
+                        rndSolution = WodelEduManager.getRandomIndex(diagrams);
                         _xblockexpression_56 = "";
                       }
                       _builder.append(_xblockexpression_56, "\t\t");
@@ -1789,7 +1790,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   _builder.newLineIfNotEmpty();
                   int counter_5 = 0;
                   _builder.newLineIfNotEmpty();
-                  int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_4));
+                  int rndIndex_1 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_4));
                   _builder.newLineIfNotEmpty();
                   {
                     int _size_20 = this.options.get(exercise).get(test_4).size();
@@ -1879,7 +1880,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   Map<TestOption, String> mapOptions = new HashMap<TestOption, String>();
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
-                  int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_5));
+                  int rndIndex_2 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_5));
                   _builder.newLineIfNotEmpty();
                   {
                     int _size_21 = this.options.get(exercise).get(test_5).size();
@@ -2084,7 +2085,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
               _builder.append("-->");
               _builder.newLineIfNotEmpty();
               _builder.append("        ");
-              int rndIndex_3 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_6));
+              int rndIndex_3 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_6));
               _builder.newLineIfNotEmpty();
               {
                 int _size_23 = this.options.get(exercise).get(test_6).size();

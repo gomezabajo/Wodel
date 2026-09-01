@@ -22,19 +22,30 @@ import java.util.LinkedHashMap
  * 
  */
 class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
-	var Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>()
+	protected String className
+	protected Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>()
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		standalone = true
-		var IProject project = ProjectUtils.project
+		var IProject project = projectOf(resource)
+		project = project !== null ? project : ProjectUtils.project
 		this.project = project !== null ? project : this.project
-		var String projectFolderName = this.project !== null ? this.project.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
-		var File projectFolder = new File(projectFolderName)
-		var File[] files = projectFolder.listFiles
+		if (this.project === null) {
+			throw new IllegalStateException(
+				"Cannot determine the Wodel project for headless generation. " +
+				"Use a platform:/resource URI or run with an Eclipse workspace containing the project.")
+		}
+		project = this.project
+		//var String projectFolderName = this.project !== null ? this.project.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"
+		
+		val String projectFolder = project.location.toFile.absolutePath.replace("\\", "/")	
+		//var File projectFolder = new File(projectFolderName)
+		
+		var File[] files = new File(projectFolder).listFiles
 		var String mutatorName = ""
 		var MutatorEnvironment mutatorEnvironment = null
 		fileURI = resource.URI
-		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
+		for(e: resource.allContents.toIterable.filter(MutatorEnvironment).filter[definition instanceof Program]) {
 			
 			program = (e as MutatorEnvironment).definition as Program
 
@@ -63,6 +74,6 @@ class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 		if (fsa.isFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")) {
 			fsa.deleteFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")
      	}
-		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(resource.allContents.toIterable.filter(MutatorEnvironment).toList().launcherStandalone(this.project, mutMap), false))
+		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(resource.allContents.toIterable.filter(MutatorEnvironment).filter[definition instanceof Program].toList().launcherStandalone(this.project, mutMap), false))
 	}
 }

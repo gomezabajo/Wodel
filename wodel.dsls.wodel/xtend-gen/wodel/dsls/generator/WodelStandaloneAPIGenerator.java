@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 
 /**
@@ -29,34 +29,44 @@ import wodel.utils.manager.ProjectUtils;
  */
 @SuppressWarnings("all")
 public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
-  private Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>();
+  protected String className;
+
+  protected Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>();
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.standalone = true;
-    IProject project = ProjectUtils.getProject();
+    IProject project = WodelAPIGenerator.projectOf(resource);
     IProject _xifexpression = null;
     if ((project != null)) {
       _xifexpression = project;
     } else {
-      _xifexpression = this.project;
+      _xifexpression = ProjectUtils.getProject();
     }
-    this.project = _xifexpression;
-    String _xifexpression_1 = null;
-    if ((this.project != null)) {
-      String _replace = this.project.getLocation().toFile().getPath().replace("\\", "/");
-      _xifexpression_1 = (_replace + "/");
+    project = _xifexpression;
+    IProject _xifexpression_1 = null;
+    if ((project != null)) {
+      _xifexpression_1 = project;
     } else {
-      String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-      _xifexpression_1 = (_workspaceAbsolutePathWithProjectName + "/");
+      _xifexpression_1 = this.project;
     }
-    String projectFolderName = _xifexpression_1;
-    File projectFolder = new File(projectFolderName);
-    File[] files = projectFolder.listFiles();
+    this.project = _xifexpression_1;
+    if ((this.project == null)) {
+      throw new IllegalStateException(
+        ("Cannot determine the Wodel project for headless generation. " + 
+          "Use a platform:/resource URI or run with an Eclipse workspace containing the project."));
+    }
+    project = this.project;
+    final String projectFolder = project.getLocation().toFile().getAbsolutePath().replace("\\", "/");
+    File[] files = new File(projectFolder).listFiles();
     String mutatorName = "";
     MutatorEnvironment mutatorEnvironment = null;
     this.fileURI = resource.getURI();
-    Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
+    final Function1<MutatorEnvironment, Boolean> _function = (MutatorEnvironment it) -> {
+      Definition _definition = it.getDefinition();
+      return Boolean.valueOf((_definition instanceof Program));
+    };
+    Iterable<MutatorEnvironment> _filter = IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function);
     for (final MutatorEnvironment e : _filter) {
       {
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
@@ -113,6 +123,10 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
     String _replaceAll_5 = project.getName().replaceAll("[.]", "_");
     String _plus_10 = (_plus_9 + _replaceAll_5);
     String _plus_11 = (_plus_10 + "StandaloneAPILauncher.java");
-    fsa.generateFile(_plus_11, JavaUtils.format(this.launcherStandalone(IterableExtensions.<MutatorEnvironment>toList(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class)), this.project, this.mutMap), false));
+    final Function1<MutatorEnvironment, Boolean> _function_1 = (MutatorEnvironment it) -> {
+      Definition _definition = it.getDefinition();
+      return Boolean.valueOf((_definition instanceof Program));
+    };
+    fsa.generateFile(_plus_11, JavaUtils.format(this.launcherStandalone(IterableExtensions.<MutatorEnvironment>toList(IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function_1)), this.project, this.mutMap), false));
   }
 }

@@ -45,8 +45,8 @@ import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ProjectUtils;
+import wodel.dsls.runner.WodelUtils;
 import wodel.project.examples.utils.EclipseHelper;
-import wodel.dsls.WodelUtils;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel new Automata 2 example project Wizard.

@@ -16,7 +16,8 @@ Require-Bundle: wodeledu.models,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  slf4j.simple,
- slf4j.api
+ slf4j.api,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.scoping,

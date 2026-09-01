@@ -4,12 +4,17 @@
 package wodel.dsls.generator;
 
 import com.google.inject.Inject;
+import mutatorenvironment.Definition;
+import mutatorenvironment.Library;
+import mutatorenvironment.MutatorEnvironment;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import wodel.dsls.imports.WodelImporterResolver;
 
 /**
  * @author Pablo Gomez-Abajo - Main Wodel code generator.
@@ -34,14 +39,24 @@ public class WodelGenerator extends AbstractGenerator {
   @Inject
   private WodelStandaloneAPIGenerator standaloneApiGenerator;
 
+  @Inject
+  private WodelImporterResolver importerResolver;
+
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.mutatorDynamicGenerator.doGenerate(input, fsa, context);
-    this.mutatorStandaloneGenerator.doGenerate(input, fsa, context);
+    EObject _get = input.getContents().get(0);
+    final MutatorEnvironment environment = ((MutatorEnvironment) _get);
+    Definition _definition = environment.getDefinition();
+    if ((_definition instanceof Library)) {
+      return;
+    }
+    final Resource resolvedInput = this.importerResolver.resolve(input);
+    this.mutatorDynamicGenerator.doGenerate(resolvedInput, fsa, context);
+    this.mutatorStandaloneGenerator.doGenerate(resolvedInput, fsa, context);
     try {
       boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
       if ((seedModelSynthesis == true)) {
-        this.useGenerator.doGenerate(input, fsa, context);
+        this.useGenerator.doGenerate(resolvedInput, fsa, context);
       }
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
@@ -49,7 +64,7 @@ public class WodelGenerator extends AbstractGenerator {
         throw Exceptions.sneakyThrow(_t);
       }
     }
-    this.dynamicApiGenerator.doGenerate(input, fsa, context);
-    this.standaloneApiGenerator.doGenerate(input, fsa, context);
+    this.dynamicApiGenerator.doGenerate(resolvedInput, fsa, context);
+    this.standaloneApiGenerator.doGenerate(resolvedInput, fsa, context);
   }
 }

@@ -6,8 +6,7 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: wodel.dsls.wodel; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: wodel.models,
- org.eclipse.xtext,
+Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.16.0",
  org.eclipse.xtext.xbase.lib;bundle-version="2.32.0",
@@ -17,17 +16,21 @@ Require-Bundle: wodel.models,
  wodel.utils,
  wodel.models,
  slf4j.simple,
- slf4j.api
+ slf4j.api,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Export-Package: wodel.dsls.parser.antlr.internal,
+Export-Package: wodel.dsls,
  wodel.dsls.formatting2,
- wodel.dsls.services,
- wodel.dsls.parser.antlr,
- wodel.dsls.scoping,
- wodel.dsls.validation,
  wodel.dsls.generator,
- wodel.dsls,
- wodel.dsls.serializer
-Import-Package: org.apache.log4j,
- org.apache.commons.logging,
- org.slf4j
+ wodel.dsls.parser.antlr,
+ wodel.dsls.parser.antlr.internal,
+ wodel.dsls.runner,
+ wodel.dsls.scoping,
+ wodel.dsls.serializer,
+ wodel.dsls.services,
+ wodel.dsls.validation
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j,
+ org.eclipse.xtext.xtext.generator;version="[2.43.0,3.0.0)",
+ org.slf4j,
+ wodel.utils.manager

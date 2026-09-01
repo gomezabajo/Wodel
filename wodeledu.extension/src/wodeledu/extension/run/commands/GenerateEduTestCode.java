@@ -1,7 +1,5 @@
 package wodeledu.extension.run.commands;
 
-import java.net.URL;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -12,45 +10,23 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
-import org.osgi.framework.Bundle;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import com.google.inject.Injector;
-
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
-import wodel.utils.manager.WodelTestUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
-
-
-import wodeledu.dsls.EduTestStandaloneSetup;
-import wodeledu.dsls.generator.EduTestAndroidAppGenerator;
-import wodeledu.dsls.generator.EduTestGenerator;
-import wodeledu.dsls.generator.EduTestMoodleGenerator;
-import wodeledu.dsls.generator.EduTestWebGenerator;
-import wodeledu.dsls.generator.EduTestiOSAppGenerator;
 import wodeledu.utils.manager.WodelEduUtils;
 
 public class GenerateEduTestCode extends AbstractHandler {

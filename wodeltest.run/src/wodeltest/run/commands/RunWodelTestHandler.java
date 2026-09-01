@@ -410,9 +410,11 @@ public class RunWodelTestHandler extends AbstractHandler {
 				String classesPath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 				Map<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
+				
+				MutatorUtils.initializeOCL();
 				try {
 					ob = cls.getDeclaredConstructor().newInstance();
-					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class});
+					Method m = cls.getMethod("execute", int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class, long.class);
 					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
@@ -432,7 +434,8 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					String[] blockNamesArray = new String[blockNames.size()];
 					blockNames.toArray(blockNamesArray);
-					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes, registeredPackages);
+					long executionSeed = System.nanoTime();
+					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes, registeredPackages, executionSeed);
 					// ime = (IMutatorExecutor)ob;
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -456,9 +459,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 				
 				long mutationTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 				if (mutationResults != null) {
-					numMutatorsApplied += mutationResults.numMutatorsApplied;
-					if (mutationResults.mutatorsApplied != null) {
-						mutatorsApplied.addAll(mutationResults.mutatorsApplied);
+					numMutatorsApplied += mutationResults.getNumMutatorsApplied();
+					if (mutationResults.getMutatorsApplied() != null) {
+						mutatorsApplied.addAll(mutationResults.getMutatorsApplied());
 					}
 					//numMutantsGenerated += mutationResults.numMutantsGenerated;
 
@@ -571,7 +574,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							postprocessing = extensionClass.getDeclaredConstructor().newInstance();
 							Method getName = extensionClass.getDeclaredMethod("getName");
 							if (getName.invoke(postprocessing).equals(extensionName) ) {
-								doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, List.class, Resource.class, String.class});
+								doProcess = extensionClass.getDeclaredMethod("doProcess", String.class, List.class, Resource.class, String.class);
 							}
 						}
 					}

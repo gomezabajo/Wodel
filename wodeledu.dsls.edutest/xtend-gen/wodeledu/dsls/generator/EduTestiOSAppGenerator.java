@@ -35,6 +35,7 @@ import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
+import wodeledu.utils.manager.WodelEduManager;
 
 @SuppressWarnings("all")
 public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
@@ -205,7 +206,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         boolean _tripleNotEquals = (_get != null);
                         if (_tripleNotEquals) {
                           _builder.append("\t\t\t\t\t\t\t\t\t        ");
-                          int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_1));
+                          int rndIndex = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_1));
                           _builder.newLineIfNotEmpty();
                           {
                             List<TestOption> _get_1 = this.options.get(exercise).get(test_1).get(rndIndex);
@@ -413,7 +414,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       int counter = 0;
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t\t\t\t\t\t\t        ");
-                      int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_3));
+                      int rndIndex_1 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_3));
                       _builder.newLineIfNotEmpty();
                       {
                         List<TestOption> _get_3 = this.options.get(exercise).get(test_3).get(rndIndex_1);
@@ -492,7 +493,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                   TestOption opt_2 = null;
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t\t\t\t\t\t\t        ");
-                  int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_4));
+                  int rndIndex_2 = WodelEduManager.getRandomIndex(this.options.get(exercise).get(test_4));
                   _builder.newLineIfNotEmpty();
                   {
                     if (((this.options.get(exercise).get(test_4) != null) && (this.options.get(exercise).get(test_4).get(rndIndex_2).size() > index))) {
@@ -3182,7 +3183,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       List<AbstractMap.SimpleEntry<String, Boolean>> textOptions = new ArrayList<AbstractMap.SimpleEntry<String, Boolean>>();
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t\t\t\t\t\t\t\t\t        ");
-                      int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
+                      int rndIndex = WodelEduManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
                       _builder.newLineIfNotEmpty();
                       {
                         List<TestOption> _get_1 = this.options.get(exercise_1).get(test_3).get(rndIndex);
@@ -3256,7 +3257,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         boolean _tripleNotEquals = (_get_3 != null);
                         if (_tripleNotEquals) {
                           _builder.append("\t\t\t\t\t\t\t\t\t\t\t        ");
-                          int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
+                          int rndIndex_1 = WodelEduManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
                           _builder.newLineIfNotEmpty();
                           {
                             List<TestOption> _get_4 = this.options.get(exercise_1).get(test_3).get(rndIndex_1);
@@ -3288,7 +3289,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                             boolean _tripleNotEquals_1 = (_get_5 != null);
                             if (_tripleNotEquals_1) {
                               _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t        ");
-                              int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
+                              int rndIndex_2 = WodelEduManager.getRandomIndex(this.options.get(exercise_1).get(test_3));
                               _builder.newLineIfNotEmpty();
                               {
                                 List<TestOption> _get_6 = this.options.get(exercise_1).get(test_3).get(rndIndex_2);
@@ -3466,7 +3467,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       int counter_1 = 0;
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t\t\t\t\t\t\t\t\t        ");
-                      int rndIndex_3 = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_4));
+                      int rndIndex_3 = WodelEduManager.getRandomIndex(this.options.get(exercise_1).get(test_4));
                       _builder.newLineIfNotEmpty();
                       {
                         List<TestOption> _get_11 = this.options.get(exercise_1).get(test_4).get(rndIndex_3);

@@ -26,6 +26,7 @@ import wodel.utils.manager.HTMLUtils;
 import wodel.utils.manager.ModelManager;
 import wodeledu.dsls.generator.EduTestSuperGenerator;
 import wodeledu.dsls.generator.TestOption;
+import wodeledu.utils.manager.WodelEduManager;
 
 @SuppressWarnings("all")
 public class EduTestMoodleGeneratorMultiChoiceEmendation {
@@ -113,7 +114,7 @@ public class EduTestMoodleGeneratorMultiChoiceEmendation {
             _builder.newLineIfNotEmpty();
             String _xblockexpression = null;
             {
-              rndIndex = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
+              rndIndex = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
               _xblockexpression = "";
             }
             _builder.append(_xblockexpression);
@@ -438,7 +439,7 @@ public class EduTestMoodleGeneratorMultiChoiceEmendation {
                 _builder.newLineIfNotEmpty();
                 String _xblockexpression_16 = null;
                 {
-                  rndSolution = ModelManager.getRandomIndex(diagrams);
+                  rndSolution = WodelEduManager.getRandomIndex(diagrams);
                   _xblockexpression_16 = "";
                 }
                 _builder.append(_xblockexpression_16);

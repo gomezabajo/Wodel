@@ -179,6 +179,9 @@ public class CircuitUtils {
         protected boolean computeOutputInternal() {
             List<LogicalNode> inputs = getInputs();
             boolean result = true;
+            if (inputs == null) {
+            	return true;
+            }
             for (int idx = 0; idx < inputs.size() && result; idx++) {
                 result = result && inputs.get(idx).computeOutput();
             }
@@ -191,6 +194,9 @@ public class CircuitUtils {
         protected boolean computeOutputInternal() {
             List<LogicalNode> inputs = getInputs();
             boolean result = false;
+            if (inputs == null) {
+            	return true;
+            }
             for (int idx = 0; idx < inputs.size(); idx++) {
                 result = inputs.get(idx).computeOutput();
                 if (result)
@@ -275,6 +281,9 @@ public class CircuitUtils {
     	
     	@Override
     	public LogicalNode getNode(String name) {
+    		if (nodes == null) {
+    			return null;
+    		}
     		for (LogicalNode node : nodes) {
     			if (node.getName().equals(name)) {
     				return node;
@@ -285,9 +294,15 @@ public class CircuitUtils {
     	
     	@Override
     	public LogicalNode getNextNode(LogicalNode node) {
+    		if (node == null || nodes == null) {
+    			return null;
+    		}
     		LogicalOutputPin outputPin = node.getOutputPin();
     		for (LogicalNode n : nodes) {
     			List<LogicalInputPin> inputPins = n.getInputPins();
+    			if (inputPins == null) {
+    				continue;
+    			}
     			for (LogicalInputPin inputPin : inputPins) {
     				if (inputPin.getSource() != null) {
     					if (inputPin.getSource().equals(outputPin)) {
@@ -301,6 +316,9 @@ public class CircuitUtils {
     	
     	@Override
     	public LogicalNode getNodeWithOutput(String output) {
+    		if (output == null || nodes == null) {
+    			return null;
+    		}
 			for (LogicalNode node : nodes) {
 				LogicalOutputPin outputPin = node.getOutputPin();
 				if (outputPin.getName().equals(output)) {
@@ -312,8 +330,14 @@ public class CircuitUtils {
     	
     	@Override
     	public LogicalNode getNodeWithInput(String input) {
+    		if (input == null || nodes == null) {
+    			return null;
+    		}
 			for (LogicalNode node : nodes) {
 				List<LogicalInputPin> inputPins = node.getInputPins();
+				if (inputPins == null) {
+					continue;
+				}
 				for (LogicalInputPin inputPin : inputPins) {
 					if (inputPin.getName().equals(input)) {
 						return node;
@@ -326,8 +350,14 @@ public class CircuitUtils {
     	@Override
     	public List<LogicalInputPin> getInputPins() {
     		List<LogicalInputPin> initialInputPins = new ArrayList<LogicalInputPin>();
+    		if (nodes == null) {
+    			return null;
+    		}
     		for (LogicalNode node : nodes) {
     			List<LogicalInputPin> inputPins = node.getInputPins();
+    			if (inputPins == null) {
+    				continue;
+    			}
     			for (LogicalInputPin inputPin : inputPins) {
     				if (inputPin != null && inputPin.isInitial()) {
     	    			initialInputPins.add(inputPin);
@@ -340,6 +370,9 @@ public class CircuitUtils {
     	
     	@Override
     	public LogicalOutputPin getOutputPin() {
+    		if (nodes == null) {
+    			return null;
+    		}
     		for (LogicalNode node : nodes) {
     			LogicalOutputPin outputPin = node.getOutputPin();
     			if (outputPin != null && outputPin.isFinal()) {
@@ -351,6 +384,9 @@ public class CircuitUtils {
 
     	@Override
     	public LogicalNode getOutputNode() {
+    		if (nodes == null) {
+    			return null;
+    		}
     		for (LogicalNode node : nodes) {
     			LogicalOutputPin outputPin = node.getOutputPin();
     			if (outputPin != null && outputPin.isFinal()) {
@@ -378,6 +414,9 @@ public class CircuitUtils {
     		List<LogicalInputPin> inputPins = this.getInputPins();
 			List<LogicalInputPin> processed = new ArrayList<LogicalInputPin>();
     		int distance = 0;
+    		if (inputPins == null) {
+    			return distance;
+    		}
     		for (LogicalInputPin inputPin : inputPins) {
     			LogicalNode node = this.getNodeWithInput(inputPin.getName());
     			LogicalOutputPin output = node.getOutputPin();
@@ -404,6 +443,9 @@ public class CircuitUtils {
     	try {
     		EObject root = ModelManager.getRoot(model);
 			List<EObject> gates = ModelManager.getReferences("gates", root);
+			if (gates == null) {
+				return logicalCircuit;
+			}
 			for (EObject gate : gates) {
 				LogicalNode node = null;
 				if (gate.eClass().getName().equals("NOT")) {
@@ -419,6 +461,9 @@ public class CircuitUtils {
 					String name = ModelManager.getStringAttribute("name", gate);
 					node.setName(name);
 					List<EObject> inputPins = ModelManager.getReferences("input", gate);
+					if (inputPins == null) {
+						continue;
+					}
 					for (EObject inputPinEObject : inputPins) {
 						String pin = ModelManager.getStringAttribute("name", inputPinEObject);
 						LogicalInputPin inputPin = new LogicalInputPin();
@@ -471,6 +516,9 @@ public class CircuitUtils {
 						LogicalNode outputNode = logicalCircuit.getNodeWithInput(input);
 						if (outputNode != null) {
 							if (current.getOutputPin() != null) {
+								if (outputNode.getInputPins() == null) {
+									continue;
+								}
 								for (LogicalInputPin inputPin : outputNode.getInputPins()) {
 									if (inputPin.getName().equals(input)) {
 										current.getOutputPin().setTarget(inputPin);

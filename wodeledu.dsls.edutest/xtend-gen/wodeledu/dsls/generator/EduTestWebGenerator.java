@@ -40,6 +40,7 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
+import wodeledu.utils.manager.WodelEduManager;
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -1348,7 +1349,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                   boolean _tripleNotEquals_5 = (_get_16 != null);
                   if (_tripleNotEquals_5) {
                     _builder.append("\t\t        ");
-                    int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_8));
+                    int rndIndex = WodelEduManager.getRandomIndex(this.options.get(exercise_1).get(test_8));
                     _builder.newLineIfNotEmpty();
                     {
                       List<TestOption> _get_17 = this.options.get(exercise_1).get(test_8).get(rndIndex);
@@ -2742,7 +2743,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
           boolean _tripleNotEquals = (_get_2 != null);
           if (_tripleNotEquals) {
             _builder.append("\t        ");
-            int rndIndex = ModelManager.getRandomIndex(this.options.get(sc).get(test_1));
+            int rndIndex = WodelEduManager.getRandomIndex(this.options.get(sc).get(test_1));
             _builder.newLineIfNotEmpty();
             {
               List<TestOption> _get_3 = this.options.get(sc).get(test_1).get(rndIndex);
@@ -2857,7 +2858,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
           boolean _tripleNotEquals_1 = (_get_4 != null);
           if (_tripleNotEquals_1) {
             _builder.append("\t        ");
-            int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(sc).get(test_1));
+            int rndIndex_1 = WodelEduManager.getRandomIndex(this.options.get(sc).get(test_1));
             _builder.newLineIfNotEmpty();
             {
               List<TestOption> _get_5 = this.options.get(sc).get(test_1).get(rndIndex_1);

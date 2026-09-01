@@ -26,7 +26,11 @@ Require-Bundle: org.eclipse.emf.ecore,
  com.google.guava,
  wodel.registry,
  org.eclipse.emf.common,
- org.eclipse.core.filesystem
+ org.eclipse.core.filesystem,
+ com.google.inject;bundle-version="[7.0.0,8.0.0)",
+ org.eclipse.xtext;bundle-version="[2.43.0,3.0.0)",
+ org.eclipse.ocl.pivot,
+ org.eclipse.ocl.xtext.essentialocl;bundle-version="[1.24.0,2.0.0)"
 Export-Package: .,
  wodel.utils.commands,
  wodel.utils.commands.log,
@@ -37,3 +41,4 @@ Export-Package: .,
  wodel.utils.manager
 Bundle-ClassPath: .,
  lib/jython-standalone-2.7.4.jar
+Import-Package: org.eclipse.m2m.atl.engine.injectors

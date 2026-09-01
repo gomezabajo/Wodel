@@ -4,6 +4,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +18,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -33,15 +36,12 @@ import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.Block;
-import mutatorenvironment.BooleanType;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
-import mutatorenvironment.DoubleType;
 import mutatorenvironment.Evaluation;
 import mutatorenvironment.Expression;
-import mutatorenvironment.IntegerType;
 import mutatorenvironment.ListStringType;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.ModifySourceReferenceMutator;
@@ -67,7 +67,6 @@ import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificObjectSelection;
 import mutatorenvironment.SpecificStringType;
-import mutatorenvironment.StringType;
 import mutatorenvironment.TypedSelection;
 
 /**
@@ -149,13 +148,45 @@ public class UseGeneratorUtils {
 		String to = "";
 	}
 
-	private static HashMap<URI, Boolean> closures = new HashMap<URI, Boolean>();
+	private static final String PIVOT_OCL_URI = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";
 
-	private static String dummyClassName = "Dummy";
+	private static final class GenerationState {
+		final HashMap<URI, Boolean> closures = new HashMap<URI, Boolean>();
+		String dummyClassName = "Dummy";
+		MutatorDependencies mutatorDependencies;
+		final HashMap<String, HashMap<String, List<Constraint>>> mutConstraint =
+				new HashMap<String, HashMap<String, List<Constraint>>>();
+	}
 
-	private static MutatorDependencies mutatorDependencies;
+	private static final ThreadLocal<GenerationState> GENERATION_STATE =
+			ThreadLocal.withInitial(GenerationState::new);
 
-	private static HashMap<String, HashMap<String, List<Constraint>>> mutConstraint = new HashMap<String, HashMap<String, List<Constraint>>>();
+	private static GenerationState state() {
+		return GENERATION_STATE.get();
+	}
+
+	/** Options for USE text generation. Defaults preserve the historical output. */
+	public static final class UseGenerationOptions {
+		private boolean includeEnsureContainer = true;
+		private boolean includeSingleContainerConstraint = false;
+		private boolean includeContainmentAcyclicity = false;
+		private boolean includeMetamodelOcl = true;
+		private boolean strictMetamodelOcl = false;
+		private int containmentAcyclicityDepth = 5;
+
+		public static UseGenerationOptions defaults() { return new UseGenerationOptions(); }
+		public UseGenerationOptions includeEnsureContainer(boolean value) { this.includeEnsureContainer = value; return this; }
+		public UseGenerationOptions includeSingleContainerConstraint(boolean value) { this.includeSingleContainerConstraint = value; return this; }
+		public UseGenerationOptions includeContainmentAcyclicity(boolean value) { this.includeContainmentAcyclicity = value; return this; }
+		public UseGenerationOptions includeMetamodelOcl(boolean value) { this.includeMetamodelOcl = value; return this; }
+		public UseGenerationOptions strictMetamodelOcl(boolean value) { this.strictMetamodelOcl = value; return this; }
+		public UseGenerationOptions containmentAcyclicityDepth(int value) {
+			if (value < 1) throw new IllegalArgumentException("containmentAcyclicityDepth must be >= 1");
+			this.containmentAcyclicityDepth = value;
+			return this;
+		}
+	}
+
 
 	/**
 	 * Returns unique USE name
@@ -165,20 +196,18 @@ public class UseGeneratorUtils {
 	 * @return
 	 */
 	private static String getUniqueName(String newName, Map<URI, String> names, int n) {
-		String returnName = newName;
-		Map<URI, String> nextNames = new HashMap<URI, String>();
-		if (names.size() > 0) {
-			if (names.containsValue(newName)) {
-				returnName = newName + n;
-				for (URI uri : names.keySet()) {
-					if (!names.get(uri).equals(newName)) {
-						nextNames.put(uri, names.get(uri));
-					}
-				}
-				returnName = getUniqueName(returnName, nextNames, n + 1);
-			}
+		if (newName == null || newName.isEmpty()) {
+			newName = "Unnamed";
 		}
-		return returnName;
+		if (names == null || !names.containsValue(newName)) {
+			return newName;
+		}
+		int suffix = Math.max(0, n);
+		String candidate;
+		do {
+			candidate = newName + suffix++;
+		} while (names.containsValue(candidate));
+		return candidate;
 	}
 
 	/**
@@ -467,9 +496,9 @@ public class UseGeneratorUtils {
 					}
 				}
 			}
-		} catch (ReferenceNonExistingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ReferenceNonExistingException ex) {
+			throw new IllegalStateException("Could not derive containment size constraints for "
+					+ (eClass == null ? "<null>" : eClass.getName()), ex);
 		}
 	}
 
@@ -708,11 +737,11 @@ public class UseGeneratorUtils {
 	 */
 	private static void storeMutatorName(Constraint constraint, String blockName, String mutName) {
 		HashMap<String, List<Constraint>> nameConstraint = null;
-		if (mutConstraint.get(blockName) == null) {
+		if (state().mutConstraint.get(blockName) == null) {
 			nameConstraint = new HashMap<String, List<Constraint>>();
 		}
 		else {
-			nameConstraint = mutConstraint.get(blockName);
+			nameConstraint = state().mutConstraint.get(blockName);
 		}
 		List<Constraint> constraints = null;
 		if (nameConstraint.get(mutName) == null) {
@@ -723,7 +752,7 @@ public class UseGeneratorUtils {
 		}
 		addConstraint(constraints, constraint);
 		nameConstraint.put(mutName, constraints);
-		mutConstraint.put(blockName, nameConstraint);
+		state().mutConstraint.put(blockName, nameConstraint);
 	}
 
 	/**
@@ -733,9 +762,9 @@ public class UseGeneratorUtils {
 	 * @return
 	 */
 	public static HashMap<URI, HashMap<URI, Entry<String, String>>> getUseReferences(List<EPackage> packages, HashMap<URI, String> classNames) {
-		HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = new HashMap<URI, HashMap<URI, Entry<String, String>>>();
-		HashMap<String, Integer> associationNames = new HashMap<String, Integer>();
-		HashMap<String, Integer> roleNames = new HashMap<String, Integer>();
+		HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = new LinkedHashMap<URI, HashMap<URI, Entry<String, String>>>();
+		HashMap<String, Integer> associationNames = new LinkedHashMap<String, Integer>();
+		HashMap<String, Integer> roleNames = new LinkedHashMap<String, Integer>();
 		for (EClass eClass : ModelManager.getEClasses(packages)) {
 			String clName = classNames.get(EcoreUtil.getURI(eClass));
 			List<EReference> refs = eClass.getEReferences();
@@ -755,7 +784,7 @@ public class UseGeneratorUtils {
 						uriUseReference = useReferences.get(EcoreUtil.getURI(eClass));
 					}
 					else {
-						uriUseReference = new HashMap<URI, Entry<String, String>>();
+						uriUseReference = new LinkedHashMap<URI, Entry<String, String>>();
 					}
 					String srcRoleName = clName.toLowerCase() + "xxxx" + ref.getName();
 					if (roleNames.get(srcRoleName) != null) {
@@ -835,6 +864,10 @@ public class UseGeneratorUtils {
 	 * @param word
 	 * @return
 	 */
+	public static boolean isUseKeyword(String word) {
+		return word != null && USE_KEYWORDS.contains(word);
+	}
+
 	public static String encodeWord(String word) {
 		if (word == null || word.isEmpty()) {
 			return word;
@@ -1016,7 +1049,16 @@ public class UseGeneratorUtils {
 
 	// constraint: an object cannot be contained itself through a composition relation, directly or indirectly
 	// [NOTE: we do this because the USE Validator does not take into account the semantics of composition]
-	public static String compositionConstraint (EReference ref, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
+	public static String compositionConstraint(EReference ref,
+			Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
+		return compositionConstraint(ref, useReferences, classNames, 5);
+	}
+
+	public static String compositionConstraint(EReference ref,
+			Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames, int maxDepth) {
+		if (maxDepth < 1) {
+			throw new IllegalArgumentException("maxDepth must be >= 1");
+		}
 		if (ref == null) {
 			return "";
 		}
@@ -1032,7 +1074,7 @@ public class UseGeneratorUtils {
 
 		final String className = classNames.get(EcoreUtil.getURI(ref.getEContainingClass()));
 		final String type = encodeWord(className);
-		final int numTerms = 5;
+		final int numTerms = maxDepth;
 		final String role = getTarUseReference(ref, useReferences);
 		final String setOpen = (ref.getUpperBound() == 1) ? "Set{" : ""; // add monovalued features to a set
 		final String setClose = (ref.getUpperBound() == 1) ? "}" : "";
@@ -1664,42 +1706,75 @@ public class UseGeneratorUtils {
 	 * @param attConstraint
 	 * @param className
 	 */
-	private static void compileAttributeType(AttributeEvaluation attev, List<Constraint> constraints, Constraint attConstraint, String className) {
-		String operator = "";
-		if ((((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.EQUALS.getLiteral()))) {
-			operator = "=";
+	private static void compileAttributeType(AttributeEvaluation attev, List<Constraint> constraints,
+			Constraint attConstraint, String className) {
+		if (attev == null || attev.getName() == null || !(attev.getValue() instanceof AttributeType)) {
+			return;
 		}
-		if ((((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.DIFFERENT.getLiteral()))) {
-			operator = "<>";
-		}
-		if (attev.getValue() instanceof StringType) {
-			attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + encodeWord(attev.getName().getName()) + " " + operator + " '" + ((SpecificStringType) attev.getValue()).getValue() + "')";
-			attConstraint.variables.add(className.substring(0, 1).toLowerCase());
-		}
-		if (attev.getValue() instanceof DoubleType) {
-			attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + ((SpecificDoubleType) attev.getValue()).getValue() + ")";
-			attConstraint.variables.add(className.substring(0, 1).toLowerCase());  
-		}
-		if (attev.getValue() instanceof BooleanType) {
-			attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + ((SpecificBooleanType) attev.getValue()).isValue() + ")";
-			attConstraint.variables.add(className.substring(0, 1).toLowerCase());  
-		}
-		if (attev.getValue() instanceof IntegerType) {
-			attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + ((SpecificIntegerType) attev.getValue()).getValue() + ")";
-			attConstraint.variables.add(className.substring(0, 1).toLowerCase());  
-		}
-		if (attev.getValue() instanceof ListStringType) {
-			attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | ";
-			ListStringType listStringType = (ListStringType) attev.getValue();
-			for (String value : listStringType.getValue()) {
-				attConstraint.text += className.substring(0, 1).toLowerCase() + "." + encodeWord(attev.getName().getName()) + " = '" + value + "' or ";
+		AttributeType value = (AttributeType) attev.getValue();
+		String operator = Operator.DIFFERENT.equals(value.getOperator()) ? "<>" : "=";
+		String variable = className.substring(0, 1).toLowerCase();
+		String feature = encodeWord(attev.getName().getName());
+		String prefix = encodeWord(className) + ".allInstances()->exists(" + variable + " | "
+				+ variable + "." + feature + " " + operator + " ";
+
+		if (value instanceof SpecificStringType) {
+			String literal = ((SpecificStringType) value).getValue();
+			if (attev.getName().getEType() instanceof EEnum) {
+				Integer enumValue = enumLiteralValue((EEnum) attev.getName().getEType(), literal);
+				if (enumValue == null) return;
+				attConstraint.text = prefix + enumValue + ")";
+			} else {
+				attConstraint.text = prefix + "'" + escapeUseString(literal) + "')";
 			}
-			attConstraint.text = attConstraint.text.substring(0, attConstraint.text.lastIndexOf(" or ")) + ")";
-			attConstraint.variables.add(className.substring(0, 1).toLowerCase());
+			attConstraint.variables.add(variable);
+		} else if (value instanceof SpecificDoubleType) {
+			attConstraint.text = prefix + ((SpecificDoubleType) value).getValue() + ")";
+			attConstraint.variables.add(variable);
+		} else if (value instanceof SpecificBooleanType) {
+			attConstraint.text = prefix + ((SpecificBooleanType) value).isValue() + ")";
+			attConstraint.variables.add(variable);
+		} else if (value instanceof SpecificIntegerType) {
+			attConstraint.text = prefix + ((SpecificIntegerType) value).getValue() + ")";
+			attConstraint.variables.add(variable);
+		} else if (value instanceof ListStringType) {
+			ListStringType list = (ListStringType) value;
+			if (list.getValue() == null || list.getValue().isEmpty()) return;
+			StringBuilder text = new StringBuilder(encodeWord(className)).append(".allInstances()->exists(")
+					.append(variable).append(" | ");
+			boolean first = true;
+			for (String item : list.getValue()) {
+				String rendered;
+				if (attev.getName().getEType() instanceof EEnum) {
+					Integer enumValue = enumLiteralValue((EEnum) attev.getName().getEType(), item);
+					if (enumValue == null) continue;
+					rendered = String.valueOf(enumValue);
+				} else {
+					rendered = "'" + escapeUseString(item) + "'";
+				}
+				if (!first) text.append(" or ");
+				first = false;
+				text.append(variable).append('.').append(feature).append(" = ").append(rendered);
+			}
+			if (first) return;
+			text.append(')');
+			attConstraint.text = text.toString();
+			attConstraint.variables.add(variable);
 			attConstraint.list = true;
 			attConstraint.clauses.add(attConstraint.text);
-			attConstraint = unite(constraints, attConstraint);
+			unite(constraints, attConstraint);
 		}
+	}
+
+	private static String escapeUseString(String value) {
+		return value == null ? "" : value.replace("'", "''");
+	}
+
+	private static Integer enumLiteralValue(EEnum eEnum, String literal) {
+		if (eEnum == null || literal == null) return null;
+		EEnumLiteral byLiteral = eEnum.getEEnumLiteralByLiteral(literal);
+		if (byLiteral == null) byLiteral = eEnum.getEEnumLiteral(literal);
+		return byLiteral == null ? null : byLiteral.getValue();
 	}
 
 	/**
@@ -1777,7 +1852,14 @@ public class UseGeneratorUtils {
 	private static void compileReferedConstraint(List<Constraint> constraints, List<Constraint> expConstraints, Constraint refConstraint, SpecificObjectSelection selection, String blockName, String className, String operator) {
 		String v1 = className.substring(0, 1).toLowerCase() + "0";
 		String v2 = className.substring(0, 1).toLowerCase() + "1";
-		List<Constraint> referedConstraints = mutConstraint.get(blockName).get(selection.getObjSel().getName());
+		HashMap<String, List<Constraint>> byName = state().mutConstraint.get(blockName);
+		if (byName == null || selection == null || selection.getObjSel() == null) {
+			return;
+		}
+		List<Constraint> referedConstraints = byName.get(selection.getObjSel().getName());
+		if (referedConstraints == null) {
+			return;
+		}
 		for (Constraint referedConstraint : referedConstraints) {
 			if (referedConstraint.type.equals("exists") && referedConstraint.className.equals(className)) {
 				if (referedConstraint.type.equals("exists") && referedConstraint.className.equals(className)) {
@@ -1874,7 +1956,7 @@ public class UseGeneratorUtils {
 		if (refev.getValue() instanceof SpecificObjectSelection) {
 			SpecificObjectSelection selection = (SpecificObjectSelection) refev.getValue();
 			// if this mutation refers to previous one
-			if (mutConstraint.get(blockName) != null && mutConstraint.get(blockName).get(selection.getObjSel().getName()) != null) {
+			if (state().mutConstraint.get(blockName) != null && state().mutConstraint.get(blockName).get(selection.getObjSel().getName()) != null) {
 				compileReferedConstraint(constraints, expConstraints, refConstraint, selection, blockName, className, operator);
 			}
 			else {
@@ -2243,129 +2325,49 @@ public class UseGeneratorUtils {
 	 * @param useReferences
 	 * @param classNames
 	 */
-	public static void compile(Resource model, Expression exp, EClass eClass, List<AttributeSet> attributes, List<Constraint> constraints, String blockName, String mutName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
+	public static void compile(Resource model, Expression exp, EClass eClass, List<AttributeSet> attributes,
+			List<Constraint> constraints, String blockName, String mutName,
+			Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
+		if (exp == null || eClass == null || constraints == null || classNames == null) {
+			return;
+		}
 		String className = classNames.get(EcoreUtil.getURI(eClass));
-		if (exp.getFirst() instanceof AttributeEvaluation) {
-			String operator = "";
-			Constraint attConstraint = new Constraint();
-			attConstraint.name = mutName;
-			attConstraint.className = className;
-			AttributeEvaluation attev = (AttributeEvaluation) exp.getFirst();
-			if (attev.getValue() instanceof AttributeType) {
-				if (((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.EQUALS.getLiteral())) {
-					operator = "=";
-				}
-				if (((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.DIFFERENT.getLiteral())) {
-					operator = "<>";
-				}
-				boolean isChanged = isChanged(attev, attributes);
-				if (isChanged == false) {
-					attConstraint.type = "exists";
-					if (attev.getValue() instanceof StringType) {
-						attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " '" + ((SpecificStringType) attev.getValue()).getValue() + "')"; 
-					}
-					if (attev.getValue() instanceof DoubleType) {
-						attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificDoubleType) attev.getValue()).getValue() + ")"; 
-					}
-					if (attev.getValue() instanceof BooleanType) {
-						attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificBooleanType) attev.getValue()).isValue() + ")"; 
-					}
-					if (attev.getValue() instanceof IntegerType) {
-						attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificIntegerType) attev.getValue()).getValue() + ")"; 
-					}
-				}
-			}
-			if (attev.getValue() instanceof ObjectAttributeType) {
-				ObjectAttributeType objectAttributeType = (ObjectAttributeType) attev.getValue();
-				if (objectAttributeType.getOperator().getLiteral().equals(Operator.EQUALS.getLiteral())) {
-					operator = "=";
-				}
-				if (objectAttributeType.getOperator().getLiteral().equals(Operator.DIFFERENT.getLiteral())) {
-					operator = "<>";
-				}
-				EClass type = MutatorUtils.getMutatorType(model, objectAttributeType.getObjSel().getName());
-				if (EcoreUtil.equals(type, eClass)) {
-					String v1 = className.substring(0, 1).toLowerCase() + "0";
-					String v2 = className.substring(0, 1).toLowerCase() + "1";
-					attConstraint.variables.add(v1);
-					attConstraint.variables.add(v2);
-					attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + ", " + v2 + " | " + v1 + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + v2 + "." + encodeWord(objectAttributeType.getAttribute().getName()) + ")";  
-				}
-				else {
-					String v1 = className.substring(0, 1).toLowerCase() + "0";
-					String v2 = type.getName().substring(0, 1).toLowerCase() + "1";
-					attConstraint.variables.add(v1);
-					attConstraint.variables.add(v2);
-					attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + encodeWord(type.getName()) + ".allInstances()->exists(" + v2 + " | " + v1 + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + v2 + "." + encodeWord(objectAttributeType.getAttribute().getName()) + "))";
-				}
-			}
-			if (getConstraint(constraints, attConstraint) == null && (attConstraint.text.length() > 0)) {
-				addConstraint(constraints, attConstraint);
-				storeMutatorName(attConstraint, blockName, mutName);
+		if (className == null) {
+			return;
+		}
+		compileAttributeEvaluation(model, exp.getFirst(), eClass, attributes, constraints, blockName, mutName, className);
+		if (exp.getSecond() != null) {
+			for (Evaluation evaluation : exp.getSecond()) {
+				compileAttributeEvaluation(model, evaluation, eClass, attributes, constraints, blockName, mutName, className);
 			}
 		}
-		if (exp.getSecond() != null) {
-			for (Evaluation ev : exp.getSecond()) {
-				String operator = "";
-				Constraint attConstraint = new Constraint();
-				attConstraint.name = mutName;
-				attConstraint.className = className;
-				if (ev instanceof AttributeEvaluation) {
-					AttributeEvaluation attev = (AttributeEvaluation) ev;
-					if (attev instanceof AttributeType) {
-						if (((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.EQUALS.getLiteral())) {
-							operator = "=";
-						}
-						if (((AttributeType) attev.getValue()).getOperator().getLiteral().equals(Operator.DIFFERENT.getLiteral())) {
-							operator = "<>";
-						}
-						boolean isChanged = isChanged(attev, attributes);
-						if (isChanged == false) {
-							attConstraint.type = "exists";
-							if (attev.getValue() instanceof StringType) {
-								attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " '" + ((SpecificStringType) attev.getValue()).getValue() + "')"; 
-							}
-							if (attev.getValue() instanceof DoubleType) {
-								attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificDoubleType) attev.getValue()).getValue() + ")"; 
-							}
-							if (attev.getValue() instanceof BooleanType) {
-								attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificBooleanType) attev.getValue()).isValue() + ")"; 
-							}
-							if (attev.getValue() instanceof IntegerType) {
-								attConstraint.text = className + ".allInstances()->exists(" + className.substring(0, 1).toLowerCase() + " | " + className.substring(0, 1).toLowerCase() + "." + attev.getName().getName() + " " + operator + " " + ((SpecificIntegerType) attev.getValue()).getValue() + ")"; 
-							}
-						}
-					}
-					if (attev instanceof ObjectAttributeType) {
-						ObjectAttributeType objectAttributeType = (ObjectAttributeType) attev.getValue();
-						if (objectAttributeType.getOperator().getLiteral().equals(Operator.EQUALS.getLiteral())) {
-							operator = "=";
-						}
-						if (objectAttributeType.getOperator().getLiteral().equals(Operator.DIFFERENT.getLiteral())) {
-							operator = "<>";
-						}
-						EClass type = MutatorUtils.getMutatorType(model, objectAttributeType.getObjSel().getName());
-						if (EcoreUtil.equals(type, eClass)) {
-							String v1 = className.substring(0, 1).toLowerCase() + "0";
-							String v2 = className.substring(0, 1).toLowerCase() + "1";
-							attConstraint.variables.add(v1);
-							attConstraint.variables.add(v2);
-							attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + ", " + v2 + " | " + v1 + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + v2 + "." + encodeWord(objectAttributeType.getAttribute().getName()) + ")";  
-						}
-						else {
-							String v1 = className.substring(0, 1).toLowerCase() + "0";
-							String v2 = type.getName().substring(0, 1).toLowerCase() + "1";
-							attConstraint.variables.add(v1);
-							attConstraint.variables.add(v2);
-							attConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + encodeWord(type.getName()) + ".allInstances()->exists(" + v2 + " | " + v1 + "." + encodeWord(attev.getName().getName()) + " " + operator + " " + v2 + "." + encodeWord(objectAttributeType.getAttribute().getName()) + "))";
-						}
-					}
-					if (getConstraint(constraints, attConstraint) == null && (attConstraint.text.length() > 0)) {
-						addConstraint(constraints, attConstraint);
-						storeMutatorName(attConstraint, blockName, mutName);
-					}
-				}
+	}
+
+	private static void compileAttributeEvaluation(Resource model, Evaluation evaluation, EClass eClass,
+			List<AttributeSet> attributes, List<Constraint> constraints, String blockName, String mutName,
+			String className) {
+		if (!(evaluation instanceof AttributeEvaluation)) {
+			return;
+		}
+		AttributeEvaluation attev = (AttributeEvaluation) evaluation;
+		if (attev.getName() == null || attev.getValue() == null) {
+			return;
+		}
+		Constraint constraint = new Constraint();
+		constraint.name = mutName;
+		constraint.className = className;
+		if (attev.getValue() instanceof AttributeType) {
+			if (!isChanged(attev, attributes)) {
+				constraint.type = "exists";
+				compileAttributeType(attev, constraints, constraint, className);
 			}
+		} else if (attev.getValue() instanceof ObjectAttributeType) {
+			constraint.type = "exists";
+			compileObjectAttributeType(model, attev, eClass, constraint, className);
+		}
+		if (constraint.text != null && !constraint.text.isEmpty() && getConstraint(constraints, constraint) == null) {
+			addConstraint(constraints, constraint);
+			storeMutatorName(constraint, blockName, mutName);
 		}
 	}
 
@@ -2717,8 +2719,14 @@ public class UseGeneratorUtils {
 	 * @param useReferences
 	 */
 	public static void compile(Resource model, List<Mutator> commands, EClass rootClass, List<EPackage> packages, Map<URI, String> classNames, List<Constraint> constraints, String blockName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<String, List<Relation>> roleNames) {
+		if (commands == null || commands.isEmpty()) {
+			return;
+		}
+		if (state().mutatorDependencies == null) {
+			state().mutatorDependencies = new MutatorDependencies(packages, commands);
+		}
 		for (Mutator mut : commands) {
-			Integer times = mutatorDependencies.needsOCLConstraints(mut);
+			Integer times = state().mutatorDependencies.needsOCLConstraints(mut);
 			if (times != null && times > 0) {
 				String mutName = MutatorUtils.getMutatorName(mut);
 				if (mut instanceof CreateObjectMutator) {
@@ -2970,7 +2978,7 @@ public class UseGeneratorUtils {
 						}
 						if (((SelectObjectMutator) mut).getContainer() != null) {
 							if (((SelectObjectMutator) mut).getContainer() instanceof SpecificClosureSelection) {
-								closures.put(EcoreUtil.getURI(eClass), true);
+								state().closures.put(EcoreUtil.getURI(eClass), true);
 							}
 						}
 					}
@@ -3235,6 +3243,55 @@ public class UseGeneratorUtils {
 		}
 	}
 
+	private static String getUseAttributeType(EAttribute attribute) {
+		if (attribute == null || attribute.getEType() == null) {
+			return null;
+		}
+		if (attribute.getEType() instanceof EEnum) {
+			// Keep historical Wodel/USE encoding: EEnum literal values are integers.
+			return "Integer";
+		}
+		String typeName = attribute.getEType().getName();
+		if (typeName == null) return null;
+		switch (typeName) {
+		case "EString":
+		case "String":
+		case "EChar":
+		case "ECharacterObject":
+		case "Character":
+			return "String";
+		case "EBoolean":
+		case "EBooleanObject":
+		case "Boolean":
+			return "Boolean";
+		case "EByte":
+		case "EByteObject":
+		case "EShort":
+		case "EShortObject":
+		case "EInt":
+		case "EIntegerObject":
+		case "ELong":
+		case "ELongObject":
+		case "EBigInteger":
+		case "EBigIntegerObject":
+		case "Integer":
+		case "Long":
+		case "Short":
+		case "Byte":
+			return "Integer";
+		case "EFloat":
+		case "EFloatObject":
+		case "EDouble":
+		case "EDoubleObject":
+		case "EBigDecimal":
+		case "Float":
+		case "Double":
+			return "Real";
+		default:
+			return null;
+		}
+	}
+
 	/**
 	 * Generates USE code for the given Wodel program
 	 * @param model
@@ -3244,13 +3301,29 @@ public class UseGeneratorUtils {
 	 * @return
 	 */
 	//		public static String generateUSE(Resource model, MutatorEnvironment e, String modelName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<String, Integer> numObjects, List<String> classesWithAttributeName, List<String> specificOCLCode) {
-	public static String generateUSE(Resource model, MutatorEnvironment e, String modelName, Map<URI, Map<URI, Entry<String, String>>> useReferences) {
+	public static String generateUSE(Resource model, MutatorEnvironment e, String modelName,
+			Map<URI, Map<URI, Entry<String, String>>> useReferences) {
+		return generateUSE(model, e, modelName, useReferences, UseGenerationOptions.defaults());
+	}
+
+	public static String generateUSE(Resource model, MutatorEnvironment e, String modelName,
+			Map<URI, Map<URI, Entry<String, String>>> useReferences, UseGenerationOptions options) {
+		if (e == null || e.getDefinition() == null || e.getDefinition().getMetamodel() == null) {
+			throw new IllegalArgumentException("A Wodel environment with a metamodel is required");
+		}
+		if (useReferences == null) {
+			throw new IllegalArgumentException("useReferences must not be null");
+		}
+		if (options == null) {
+			options = UseGenerationOptions.defaults();
+		}
+		GENERATION_STATE.set(new GenerationState());
 		StringBuilder useText = new StringBuilder(8192);
 		try {
-			useText.append("model ").append(encodeWord(modelName)).append("\n");
+			useText.append("model ").append(encodeWord(modelName == null || modelName.isBlank() ? "WodelSeed" : modelName)).append("\n");
 			List<EPackage> packages = ModelManager.loadMetaModel(e.getDefinition().getMetamodel());
 			List<EClass> classes = ModelManager.getEClasses(packages);
-			Map<URI, String> classNames = new HashMap<URI, String>();
+			Map<URI, String> classNames = buildClassNames(classes);
 			List<Constraint> constraints = new ArrayList<Constraint>();
 			Map<String, Integer> maxSize = new HashMap<String, Integer>();
 
@@ -3260,35 +3333,38 @@ public class UseGeneratorUtils {
 				if (containerTypes.size() == 0) {
 					rootClass = eClass;
 				}
-				EPackage pck = eClass.getEPackage();
-				String clName = pck.getName() + "XxxX" + eClass.getName();
-				classNames.put(EcoreUtil.getURI(eClass), clName);
-				closures.put(EcoreUtil.getURI(eClass), false);
+				state().closures.put(EcoreUtil.getURI(eClass), false);
+			}
+
+			if (rootClass == null && !classes.isEmpty()) {
+				rootClass = ModelManager.getRootEClass(packages);
+			}
+			if (rootClass == null) {
+				throw new IllegalStateException("Could not determine a root EClass for metamodel " + e.getDefinition().getMetamodel());
 			}
 
 			for (EClass eClass : classes) {
-				Map<EClass, String> superClasses = new HashMap<EClass, String>();
-				for (EClass superClass : eClass.getESuperTypes()) {
-					EPackage pck = superClass.getEPackage();
-					String superClName = pck.getName() + "XxxX" + superClass.getName();
-					superClasses.put(superClass, superClName);
-				}
 				String superClassesText = "";
 				String abst = "";
 				if (eClass.isAbstract() == true) {
 					abst = "abstract ";
 				}
 				String clName = classNames.get(EcoreUtil.getURI(eClass));
-				EClass[] superEClasses = new EClass[superClasses.keySet().size()];
-				superClasses.keySet().toArray(superEClasses);
-				if (superClasses.keySet().size() > 0) {
-					superClassesText = superClassesText + encodeWord(superClasses.get(superEClasses[0]));
-					if (superClasses.keySet().size() > 1) {
-						for (EClass superClass : Arrays.asList(superEClasses).subList(1, superEClasses.length)) {
-							superClassesText = superClassesText + ", " + encodeWord(superClasses.get(superClass));
-						}
+				List<EClass> directSupers = eClass.getESuperTypes();
+				if (!directSupers.isEmpty()) {
+					StringBuilder supers = new StringBuilder();
+					for (EClass superClass : directSupers) {
+						String superName = classNames.get(EcoreUtil.getURI(superClass));
+						if (superName == null) continue;
+						if (supers.length() > 0) supers.append(", ");
+						supers.append(encodeWord(superName));
 					}
-					useText.append(abst + "class " + encodeWord(clName) + " < " + superClassesText + "\n");
+					superClassesText = supers.toString();
+					if (!superClassesText.isEmpty()) {
+						useText.append(abst + "class " + encodeWord(clName) + " < " + superClassesText + "\n");
+					} else {
+						useText.append(abst + "class " + encodeWord(clName) + "\n");
+					}
 				}
 				else {
 					useText.append(abst + "class " + encodeWord(clName) + "\n");
@@ -3297,28 +3373,21 @@ public class UseGeneratorUtils {
 				if (atts.size() > 0) {
 					useText.append("\tattributes\n");
 					for (EAttribute att : atts) {
-						if (att.getEType().getName().equals("EString") || att.getEType().getName().equals("EChar") || att.getEType().getName().equals("String")) {
-							useText.append("\t\t" + encodeWord(att.getName()) + " : String\n");
+						String useType = getUseAttributeType(att);
+						if (useType == null) {
+							throw new IllegalArgumentException("Unsupported EAttribute type '"
+									+ (att.getEType() == null ? "null" : att.getEType().getName())
+									+ "' for " + eClass.getName() + "." + att.getName());
 						}
-						if (att.getEType().getName().equals("EBoolean") || att.getEType().getName().equals("EBooleanObject") || att.getEType().getName().equals("Boolean")) {
-							useText.append("\t\t" + encodeWord(att.getName()) + " : Boolean\n");
-						}
-						if (att.getEType().getName().equals("EInt") || att.getEType().getName().equals("EIntegerObject") || att.getEType().getName().equals("EBigInteger") || att.getEType().getName().equals("EBigIntegerObject") || att.getEType().getName().equals("Integer")) {
-							useText.append("\t\t" + encodeWord(att.getName()) +  " : Integer\n");
-						}
-						if (att.getEType().getName().equals("EDouble") || att.getEType().getName().equals("EDoubleObject") || att.getEType().getName().equals("EFloat") || att.getEType().getName().equals("EFloatObject") || att.getEType().getName().equals("Float") || att.getEType().getName().equals("Double")) {
-							useText.append("\t\t" + encodeWord(att.getName()) + " : Real\n");
-						}
-						if (att.getEType() instanceof EEnum) {
-							useText.append("\t\t" + encodeWord(att.getName()) + " : Integer\n");
-						}
+						useText.append("\t").append(encodeWord(att.getName())).append(" : ")
+								.append(useType).append("\n");
 					}
 				}
 				useText.append("end\n");
 			}
 
-			dummyClassName = getUniqueName(dummyClassName, classNames, 0);
-			useText.append("class " + encodeWord(dummyClassName) + "\n");
+			state().dummyClassName = getUniqueName(state().dummyClassName, classNames, 0);
+			useText.append("class " + encodeWord(state().dummyClassName) + "\n");
 			useText.append("end\n");
 
 			//				for (EClass eClass : classes) {
@@ -3337,8 +3406,8 @@ public class UseGeneratorUtils {
 			//					}
 			//				}
 
-			Map<String, List<Relation>> associationNames = new HashMap<String, List<Relation>>();
-			Map<String, List<Relation>> roleNames = new HashMap<String, List<Relation>>();
+			Map<String, List<Relation>> associationNames = new LinkedHashMap<String, List<Relation>>();
+			Map<String, List<Relation>> roleNames = new LinkedHashMap<String, List<Relation>>();
 			List<EReference> references = new ArrayList<EReference>();
 
 			for (EClass eClass : classes) {
@@ -3375,7 +3444,7 @@ public class UseGeneratorUtils {
 								uriUseReference = useReferences.get(EcoreUtil.getURI(eClass));
 							}
 							else {
-								uriUseReference = new HashMap<URI, Entry<String, String>>();
+								uriUseReference = new LinkedHashMap<URI, Entry<String, String>>();
 							}
 							String srcRoleName = clName.toLowerCase() + "xxxx" + ref.getName();
 							if (roleNames.get(srcRoleName) != null) {
@@ -3449,35 +3518,49 @@ public class UseGeneratorUtils {
 			}
 
 			if (e.getCommands().size() > 0) {
-				mutatorDependencies = new MutatorDependencies(packages, e.getCommands());
+				state().mutatorDependencies = new MutatorDependencies(packages, e.getCommands());
 				compile(model, e.getCommands(), rootClass, packages, classNames, constraints, "MAIN", useReferences, roleNames);
 			}
 
 			if (e.getBlocks().size() > 0) {
 				for (Block b : e.getBlocks()) {
-					mutatorDependencies = new MutatorDependencies(packages, b.getCommands());
+					state().mutatorDependencies = new MutatorDependencies(packages, b.getCommands());
 					compile(model, b.getCommands(), rootClass, packages, classNames, constraints, b.getName(), useReferences, roleNames);
 				}
 			}
 			useText.append("constraints\n");
-			//useText += compositionConstraint(packages, references, useReferences, classNames);
-			//				for (EReference ref : references) {
-			//					useText += compositionConstraint(ref, useReferences, classNames);
-			//				}
-			useText.append(ensureContainer(packages, classes, useReferences, classNames));
-			//useText += ensureCardinalities(packages, classes, useReferences, classNames);
-			useText.append("context " + dummyClassName + "\n");
+			if (options.includeSingleContainerConstraint) {
+				useText.append(compositionConstraint(packages, references, useReferences, classNames));
+			}
+			if (options.includeContainmentAcyclicity) {
+				for (EReference ref : references) {
+					useText.append(compositionConstraint(ref, useReferences, classNames, options.containmentAcyclicityDepth));
+				}
+			}
+			if (options.includeEnsureContainer) {
+				useText.append(ensureContainer(packages, classes, useReferences, classNames));
+			}
+			useText.append("context " + state().dummyClassName + "\n");
 			int i = 0;
+			if (options.includeMetamodelOcl) {
 			for (EClass eClass : classes) {
 				List<EAnnotation> annotations = eClass.getEAnnotations();
 				if (annotations.size() > 0) {
 					for (EAnnotation a : annotations) {
-						if (a.getSource().equals("http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"));
+						if (!PIVOT_OCL_URI.equals(a.getSource())) {
+							continue;
+						}
 						EMap<String, String> oclmap = a.getDetails();
 						Set<String> keys = oclmap.keySet();
 						if (keys.size() > 0) {
 							for (String key : keys) {
+								if (key == null || key.endsWith("$message")) {
+									continue;
+								}
 								String ocl = oclmap.get(key);
+								if (ocl == null || ocl.isBlank()) {
+									continue;
+								}
 								Constraint constraint = new Constraint();
 								if (ocl.indexOf("self.") == -1 && ocl.indexOf("->") == -1 && (ocl.indexOf("<>") != -1 || ocl.indexOf("=") != -1)) {
 									String operator = ocl.indexOf("<>") != -1 ? "<>" : "=";
@@ -3497,10 +3580,10 @@ public class UseGeneratorUtils {
 											break;
 										}
 									}
-									if (classNames.get(EcoreUtil.getURI(ref1.getEType())) != null && classNames.get(EcoreUtil.getURI(ref2.getEType())) != null) {
+									if (ref1 != null && ref2 != null && classNames.get(EcoreUtil.getURI(ref1.getEType())) != null && classNames.get(EcoreUtil.getURI(ref2.getEType())) != null) {
 										String className = classNames.get(EcoreUtil.getURI(eClass));
 										String v1 = eClass.getName().substring(0, 1).toLowerCase();
-										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + v1 + "." + encodeWord(classNames.get(EcoreUtil.getURI(ref1))) + " " + operator + " " + v1 + "." + encodeWord(classNames.get(EcoreUtil.getURI(ref2))) + ")";
+										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + v1 + "." + getTarUseReference(ref1, useReferences) + " " + operator + " " + v1 + "." + getTarUseReference(ref2, useReferences) + ")";
 										constraint.type = "metamodel";
 										constraint.className = className;
 										constraint.variables.add(v1);
@@ -3519,7 +3602,7 @@ public class UseGeneratorUtils {
 											break;
 										}
 									}
-									if (ocl.indexOf("oclIsKindOf") != -1) {
+									if (ref != null && ocl.indexOf("oclIsKindOf") != -1) {
 										String className = classNames.get(EcoreUtil.getURI(eClass));
 										String v1 = eClass.getName().toLowerCase().substring(0, 1);
 										String typeName = "";
@@ -3540,7 +3623,7 @@ public class UseGeneratorUtils {
 										if (ref.getUpperBound() > 1 || ref.getUpperBound() == -1) {
 											connector = "->";
 										}
-										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + v1 + "." + encodeWord(classNames.get(EcoreUtil.getURI(ref))) + connector + "oclIsKindOf(" + typeName + "))";
+										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + v1 + "." + getTarUseReference(ref, useReferences) + connector + "oclIsKindOf(" + typeName + "))";
 										constraint.type = "metamodel";
 										constraint.variables.add(v1);
 										constraint.className = className;
@@ -3555,7 +3638,7 @@ public class UseGeneratorUtils {
 											break;
 										}
 									}
-									if (ocl.indexOf("oclIsKindOf") == -1) {
+									if (ref != null && ocl.indexOf("oclIsKindOf") == -1) {
 										if (classNames.get(EcoreUtil.getURI(ref.getEReferenceType())) != null) {
 											//String refETypeName = classNames.get(EcoreUtil.getURI(ref.getEType()));
 											String className = classNames.get(EcoreUtil.getURI(ref.getEReferenceType()));
@@ -3574,7 +3657,13 @@ public class UseGeneratorUtils {
 															break;
 														}
 													}
+													if (rf == null) {
+														break;
+													}
 													String clName = classNames.get(EcoreUtil.getURI(rf.getEReferenceType()));
+													if (clName == null) {
+														break;
+													}
 													constraint.text = constraint.text.replace("self." + rf.getName(), clName + ".allInstances()");
 													if (constraint.text.indexOf("self.") != -1) {
 														remConstraint = constraint.text.substring(constraint.text.indexOf("self."), constraint.text.length());
@@ -3616,7 +3705,7 @@ public class UseGeneratorUtils {
 											constraint.variables.add(v1);
 										}
 									}
-									else {
+									else if (ref != null) {
 										String className = classNames.get(EcoreUtil.getURI(eClass));
 										String v1 = eClass.getName().toLowerCase().substring(0, 1);
 										String typeName = "";
@@ -3641,7 +3730,7 @@ public class UseGeneratorUtils {
 										if (ref.getUpperBound() > 1 || ref.getUpperBound() == -1) {
 											connector = "->";
 										}
-										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + v1 + "." + encodeWord(classNames.get(EcoreUtil.getURI(ref))) + connector + "oclIsKindOf(" + typeName + "))";
+										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + v1 + "." + getTarUseReference(ref, useReferences) + connector + "oclIsKindOf(" + typeName + "))";
 										constraint.type = "metamodel";
 										constraint.variables.add(v1);
 										constraint.className = className;
@@ -3682,6 +3771,9 @@ public class UseGeneratorUtils {
 									if (ocl.startsWith("not")) {
 										not = "not";
 									}
+									if (ref == null) {
+										continue;
+									}
 									String connector = ".";
 									if (ref.getUpperBound() > 1 || ref.getUpperBound() == -1) {
 										connector = "->";
@@ -3694,7 +3786,7 @@ public class UseGeneratorUtils {
 										logic = "and";
 									}
 									if (logic.equals("")) {
-										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + encodeWord(classNames.get(EcoreUtil.getURI(ref))) + " " + operator + " " + v1 + "))";
+										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + getTarUseReference(ref, useReferences) + " " + operator + " " + v1 + "))";
 									}
 									else {
 										String refName2 = ocl.substring(ocl.indexOf(logic) + logic.length(), ocl.length());
@@ -3714,16 +3806,25 @@ public class UseGeneratorUtils {
 												break;
 											}
 										}
-										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + encodeWord(classNames.get(EcoreUtil.getURI(ref))) + " " + operator + " " + v1 + " " + logic + " " + v2 + connector + encodeWord(classNames.get(EcoreUtil.getURI(ref2))) + " " + operator2 + " " + v1 + "))";
+										if (ref2 == null) {
+											continue;
+										}
+										constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + getTarUseReference(ref, useReferences) + " " + operator + " " + v1 + " " + logic + " " + v2 + connector + getTarUseReference(ref2, useReferences) + " " + operator2 + " " + v1 + "))";
 									}
 								}
-								if (getConstraint(constraints, constraint) == null && (constraint.text.length() > 0)) {
+								if (constraint.text == null || constraint.text.isEmpty()) {
+									if (options.strictMetamodelOcl) {
+										throw new IllegalArgumentException("Unsupported Pivot OCL invariant "
+												+ eClass.getName() + "::" + key + ": " + ocl);
+									}
+								} else if (getConstraint(constraints, constraint) == null) {
 									addConstraint(constraints, constraint);
 								}
 							}
 						}
 					}
 				}
+			}
 			}
 
 			for (Constraint constraint : constraints) {
@@ -3796,15 +3897,11 @@ public class UseGeneratorUtils {
 			//						useText += "inv mut" + i + " : " + oclCodeToUSE + "\n"; 
 			//					}
 			//				}
-		} catch (MetaModelNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			//			} catch (FileNotFoundException e1) {
-			//				// TODO Auto-generated catch block
-			//				e1.printStackTrace();
-			//			} catch (IOException e1) {
-			//				// TODO Auto-generated catch block
-			//				e1.printStackTrace();
+		} catch (MetaModelNotFoundException ex) {
+			throw new IllegalStateException("Could not load metamodel while generating USE specification: "
+					+ e.getDefinition().getMetamodel(), ex);
+		} finally {
+			GENERATION_STATE.remove();
 		}
 		return useText.toString();
 	}
@@ -3815,14 +3912,46 @@ public class UseGeneratorUtils {
 	 * @return
 	 */
 	public static HashMap<URI, String> buildClassNames(List<EClass> classes) {
-		HashMap<URI, String> classNames = new HashMap<URI, String>();
-
+		HashMap<URI, String> classNames = new LinkedHashMap<URI, String>();
+		if (classes == null) {
+			return classNames;
+		}
 		for (EClass eClass : classes) {
+			if (eClass == null || eClass.getName() == null) continue;
 			EPackage pck = eClass.getEPackage();
-			String clName = pck.getName() + "XxxX" + eClass.getName();
-			classNames.put(EcoreUtil.getURI(eClass), clName);
+			String packageName = pck != null && pck.getName() != null && !pck.getName().isBlank()
+					? pck.getName() : "package";
+			String base = packageName + "XxxX" + eClass.getName();
+			String unique = getUniqueName(base, classNames, 0);
+			classNames.put(EcoreUtil.getURI(eClass), unique);
 		}
 		return classNames;
+	}
+
+	/**
+	 * Creates a deterministic Model Validator properties/configuration section.
+	 * Values are emitted verbatim via String.valueOf so callers can use any
+	 * Model Validator option without this utility having to know every plugin
+	 * release-specific key.
+	 */
+	public static String generateModelValidatorProperties(String section, Map<String, ?> properties) {
+		StringBuilder out = new StringBuilder();
+		if (section != null && !section.isBlank()) {
+			out.append('[').append(section.trim()).append("]\n");
+		}
+		if (properties == null || properties.isEmpty()) {
+			return out.toString();
+		}
+		List<String> keys = new ArrayList<String>(properties.keySet());
+		Collections.sort(keys);
+		for (String key : keys) {
+			if (key == null || key.isBlank()) continue;
+			Object value = properties.get(key);
+			if (value != null) {
+				out.append(key.trim()).append(" = ").append(String.valueOf(value)).append('\n');
+			}
+		}
+		return out.toString();
 	}
 
 	/**

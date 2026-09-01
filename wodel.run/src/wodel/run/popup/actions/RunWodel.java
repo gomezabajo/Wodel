@@ -13,10 +13,12 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.random.RandomGenerator;
 
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.WodelUtils;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -73,44 +75,13 @@ public class RunWodel extends AbstractHandler {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-			Class<?> cls = null;
-			String mutatorName = file.getProject().getName();
-			String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "DynamicLauncher";
-
-			try {
-				cls = Class.forName(classname);
-			} catch (ClassNotFoundException e) {
-			}
-			
 			IProject project = file.getProject();
-			URLClassLoader classLoader = null;
+			String mutatorName = project.getName();
+			String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "DynamicLauncher";
+			Class<?> cls = WodelUtils.loadClass(project, classname);
+
 			if (cls == null) {
-				try {
-					if (project.hasNature(JavaCore.NATURE_ID)) {
-						IJavaProject javaProject = JavaCore.create(project);
-						// read class path entries of the project
-						String[] classPathEntries = JavaRuntime
-								.computeDefaultRuntimeClassPath(javaProject);
-						List<URL> urlList = new ArrayList<URL>();
-						for (String classPathEntry : classPathEntries) {
-							Path path = new Path(classPathEntry);
-							urlList.add(path.toFile().toURI().toURL());
-						}
-						// create url class loader whose parent is the class loader
-						// of the project
-						// and containing the class path entries of the project
-						ClassLoader parentClassLoader = project.getClass()
-								.getClassLoader();
-						URL[] urls = (URL[]) urlList
-								.toArray(new URL[urlList.size()]);
-						classLoader = new URLClassLoader(urls,
-								parentClassLoader);
-						// load class
-						cls = classLoader.loadClass(classname);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			    throw new InvocationTargetException(new ClassNotFoundException("Cannot load Wodel launcher: " + classname));
 			}
 			int maxAttempts = 10;
 			int numMutants = 3;
@@ -127,16 +98,20 @@ public class RunWodel extends AbstractHandler {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
+			
+			//MutatorUtils.initializeOCL();
+			
 			Object result = null;
 			try {
 				ob = cls.getDeclaredConstructor().newInstance();
-				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class});
+				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class, long.class});
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
 				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
-				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null, null);
+				long seed = System.nanoTime();
+				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null, null, seed);
 				// ime = (IMutatorExecutor)ob;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -400,11 +375,6 @@ public class RunWodel extends AbstractHandler {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			} catch (CoreException ex) {
 				ex.printStackTrace();
-			}
-			try {
-				classLoader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 	    }
 	}

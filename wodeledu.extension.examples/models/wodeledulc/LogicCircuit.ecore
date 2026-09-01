@@ -10,12 +10,6 @@
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="LogicCircuit">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="diff_names"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="diff_names" value="NamedItem.allInstances()->asSet()->forAll(n1, n2 | n1 &lt;> n2 implies n1.name &lt;> n2.name)"/>
-    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="gates" upperBound="-1"
         eType="#//Gate" containment="true">
       <eAnnotations source="http://www.eclipse.org/OCL/Collection">
@@ -28,6 +22,12 @@
         eType="#//OutputValue" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedItem" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="diff_names"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="diff_names" value="NamedItem.allInstances()->excluding(self)->forAll(n | n.name &lt;> self.name)"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//NamedItem">
@@ -52,7 +52,7 @@
       <details key="constraints" value="or_two_input_pins"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="or_two_input_pins" value="self.input->asSet()->size() = 2"/>
+      <details key="or_two_input_pins" value="self.input->size() = 2"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AND" eSuperTypes="#//Gate">
@@ -60,7 +60,7 @@
       <details key="constraints" value="and_two_input_pins"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="and_two_input_pins" value="self.input->asSet()->size() = 2"/>
+      <details key="and_two_input_pins" value="self.input->size() = 2"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NOT" eSuperTypes="#//Gate">

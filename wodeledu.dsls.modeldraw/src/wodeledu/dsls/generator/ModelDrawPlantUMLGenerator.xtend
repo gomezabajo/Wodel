@@ -7,8 +7,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import modeldraw.MutatorDraw
 import wodel.utils.manager.ModelManager
 import wodel.utils.manager.JavaUtils
-import org.eclipse.core.resources.IProject
-import wodel.utils.manager.ProjectUtils
 import modeldraw.Node
 import org.eclipse.xtext.generator.AbstractGenerator
 import modeldraw.NodeStyle
@@ -20,7 +18,6 @@ import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
-import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -35,46 +32,39 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	private String className
 	private List<EPackage> metamodel
 	private List<EClass> roots
-	private IProject project
-	private String projectName
-	private String workspacePath
-	
+	private def String lastSegment(String value) {
+		if (value === null || value.empty) {
+			return ""
+		}
+		val normalized = value.replace("\\", "/")
+		val slash = normalized.lastIndexOf("/")
+		if (slash >= 0) normalized.substring(slash + 1) else normalized
+	}
+
+	private def String javaString(String value) {
+		if (value === null) {
+			return ""
+		}
+		value.replace("\\", "\\\\").replace("\"", "\\\"")
+	}
+
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		var i = 0;
-		fileName = resource.URI.lastSegment
-		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
-		project = projectOf(resource)
-		project = project !== null ? project : ProjectUtils.project
-		projectName = project !== null ? project.getName() : null
-		workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()
+		var i = 0
+		val baseName = resource.URI.lastSegment.replace(".draw", "").replace(".", "_")
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
-			if (i == 0) {
-				fileName = fileName.replace(".draw", "") + 'Draw.java'
-			}
-			else {
-				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
-			}
+			fileName = if (i == 0) baseName + "Draw.java" else baseName + i + "Draw.java"
 			metamodel = new ArrayList<EPackage>()
 			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
 			roots = new ArrayList<EClass>()
 			roots.addAll(ModelManager.getRootEClasses(metamodel))
-			className = fileName.replaceAll("Draw.java", "")
+			className = fileName.replace("Draw.java", "")
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
 		}
 	}
-	
-	def static IProject projectOf(Resource r) {
-		val uri = r?.URI
-		if (uri !== null && uri.platformResource) {
-			val projectName = uri.segment(1) // platform:/resource/<project>/...
-			return ResourcesPlugin.workspace.root.getProject(projectName)
-		}
-		null
-	}
 
-	def generate(MutatorDraw draw, String folder, int index) '''
-		Set<String> umlcode = new LinkedHashSet<String>();
+	def generate(MutatorDraw draw, int index) '''
+		umlcode = new LinkedHashSet<String>();
 		«IF draw.instances.get(index).nodes !== null»
 			«IF draw.instances.get(index).nodes.size() > 0»
 				generateUMLNodes(packages, model, umlnodes, umlrels, id);
@@ -82,11 +72,17 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 		«ENDIF»
 		umlcode.add("@startuml");
 		umlcode.add("skinparam classAttributeIconSize 0");
-		Set<String> rels = new LinkedHashSet<String>();
-		for (EObject umlnode : umlnodes.get(«index»).keySet()) {
-			if (umlnodes.get(«index»).get(umlnode) != null) {
-				for (LabelStyle label : umlnodes.get(«index»).get(umlnode)) {
-					umlcode.add((label.label.replaceAll("'", "") + " " + label.name.replaceAll("'", "")).trim());
+		rels = new LinkedHashSet<String>();
+		selectedNodes = umlnodes.get(«index»);
+		if (selectedNodes != null) {
+			for (EObject umlnode : selectedNodes.keySet()) {
+				List<LabelStyle> labels = selectedNodes.get(umlnode);
+				if (labels != null) {
+					for (LabelStyle label : labels) {
+						if (label != null && label.label != null && label.name != null) {
+							umlcode.add((label.label.replaceAll("'", "") + " " + label.name.replaceAll("'", "")).trim());
+						}
+					}
 				}
 			}
 		}
@@ -95,11 +91,20 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				generateUMLEdges(packages, model, umlnodes, umlrels, id);
 			«ENDIF»
 		«ENDIF»
-		for (EObject umlrel : umlrels.get(«index»).keySet()) {
-			if (umlrels.get(«index»).get(umlrel) != null) {
-				for (String key : umlrels.get(«index»).get(umlrel).keySet()) {
-					for (LabelStyle value : umlrels.get(«index»).get(umlrel).get(key)) {
-						rels.add((key.replaceAll("'", "") + " " + value.style + " " + value.name.replaceAll("'", "")).trim());
+		selectedRelations = umlrels.get(«index»);
+		if (selectedRelations != null) {
+			for (EObject umlrel : selectedRelations.keySet()) {
+				Map<String, List<LabelStyle>> relationMap = selectedRelations.get(umlrel);
+				if (relationMap != null) {
+					for (String key : relationMap.keySet()) {
+						List<LabelStyle> values = relationMap.get(key);
+						if (values != null) {
+							for (LabelStyle value : values) {
+								if (value != null && value.style != null && value.name != null) {
+									rels.add((key.replaceAll("'", "") + " " + value.style + " " + value.name.replaceAll("'", "")).trim());
+								}
+							}
+						}
 					}
 				}
 			}
@@ -113,63 +118,51 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	def compile(MutatorDraw draw) '''
 		package mutator.«className»;
 		
+		import java.io.BufferedReader;
 		import java.io.File;
-		import java.io.FileNotFoundException;
-		import java.io.FileOutputStream;
 		import java.io.IOException;
-		import java.io.OutputStream;
-		import java.io.PrintWriter;
-		import java.io.UnsupportedEncodingException;
-		import java.util.List;
+		import java.lang.reflect.InvocationTargetException;
+		import java.net.URISyntaxException;
+		import java.nio.charset.StandardCharsets;
+		import java.nio.file.Files;
+		import java.nio.file.Path;
 		import java.util.ArrayList;
-		import java.util.Map;
-		import java.util.Arrays;	
-		import java.util.HashMap;
+		import java.util.Collections;
 		import java.util.LinkedHashMap;
-		import java.util.Set;
 		import java.util.LinkedHashSet;
-			
+		import java.util.List;
+		import java.util.Map;
+		import java.util.Set;
+		
+		import org.eclipse.core.commands.AbstractHandler;
+		import org.eclipse.core.commands.ExecutionEvent;
+		import org.eclipse.core.commands.ExecutionException;
+		import org.eclipse.core.resources.IProject;
+		import org.eclipse.core.runtime.IProgressMonitor;
+		import org.eclipse.core.runtime.NullProgressMonitor;
 		import org.eclipse.emf.ecore.EObject;
 		import org.eclipse.emf.ecore.EPackage;
 		import org.eclipse.emf.ecore.resource.Resource;
-		import org.eclipse.emf.ecore.util.EcoreUtil;
-		
-		import org.eclipse.core.resources.IProject;
-		
-		import net.sourceforge.plantuml.SourceStringReader;
-		import wodel.utils.exceptions.MetaModelNotFoundException;
-		import wodel.utils.exceptions.ModelNotFoundException;
-		import wodel.utils.exceptions.ReferenceNonExistingException;
-		import wodel.utils.manager.ProjectUtils;
-		import wodel.utils.manager.ModelManager;
-		import wodel.utils.manager.DrawUtils.LabelStyle;
+		import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+		import org.eclipse.jface.operation.IRunnableWithProgress;
+		import org.eclipse.swt.widgets.Shell;
+		import org.eclipse.ui.handlers.HandlerUtil;
 		
 		import net.sourceforge.plantuml.GeneratedImage;
 		import net.sourceforge.plantuml.SourceFileReader;
-		
-		import org.eclipse.core.runtime.IProgressMonitor;
-			
-		import org.eclipse.jface.operation.IRunnableWithProgress;
-				
-		import java.lang.reflect.InvocationTargetException;
-				
-		import org.eclipse.core.commands.AbstractHandler;
-			
-		import org.eclipse.core.commands.ExecutionEvent;
-		import org.eclipse.core.commands.ExecutionException;
-			
-		import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-		import org.eclipse.jface.operation.IRunnableWithProgress;
-			
-		import org.eclipse.swt.widgets.Display;
-		import org.eclipse.swt.widgets.Shell;
-		
+		import wodel.utils.exceptions.MetaModelNotFoundException;
+		import wodel.utils.exceptions.ModelNotFoundException;
+		import wodel.utils.exceptions.ReferenceNonExistingException;
+		import wodel.utils.manager.DrawUtils.LabelStyle;
+		import wodel.utils.manager.ModelManager;
+		import wodel.utils.manager.ProjectUtils;
 		
 		public class «className»Draw extends AbstractHandler implements wodeledu.extension.run.commands.IMutatorDraw {
-			
-			private Display activeDisplay = null;
-			private Shell activeShell = null;
-			
+
+			private static final String MODEL_EXTENSION = ".model";
+			private static final String ECORE_EXTENSION = ".ecore";
+			private static final String METAMODEL_FILE_NAME = "«javaString(lastSegment(draw.metamodel))»";
+
 			private String getOrdinalFor(int value) {
 				int hundredRemainder = value % 100;
 				int tenRemainder = value % 10;
@@ -190,42 +183,51 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			}
 			
 			private Set<EObject> getSuperClasses(EObject cl) {
-				Set<EObject> superclasses = new LinkedHashSet<EObject>();
-				try {
-					Object ob = ModelManager.getReferences("superclass", cl);
-					if (ob instanceof List<?>) {
-						superclasses.addAll((List<EObject>) ob);
+				Set<EObject> result = new LinkedHashSet<EObject>();
+				List<EObject> pending = new ArrayList<EObject>();
+				pending.add(cl);
+
+				while (!pending.isEmpty()) {
+					EObject current = pending.remove(pending.size() - 1);
+					try {
+						Object ob = ModelManager.getReferences("superclass", current);
+						if (ob instanceof List<?>) {
+							for (Object candidate : (List<?>) ob) {
+								if (candidate instanceof EObject && result.add((EObject) candidate)) {
+									pending.add((EObject) candidate);
+								}
+							}
+						}
+						else if (ob instanceof EObject && result.add((EObject) ob)) {
+							pending.add((EObject) ob);
+						}
 					}
-					for (EObject supercl : superclasses) {
-						Set<EObject> supsuperclasses = getSuperClasses(supercl);
-						superclasses.addAll(supsuperclasses);
+					catch (ReferenceNonExistingException e) {
+						// This object simply has no superclass reference.
 					}
-				} catch (ReferenceNonExistingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-				return superclasses;
+
+				result.remove(cl);
+				return result;
 			}
 			
 			private class RunMutatorDrawWithProgress implements IRunnableWithProgress {
-						
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
 					try {
 						generate(monitor);
 					}
-					catch (MetaModelNotFoundException e) {
-						e.printStackTrace();
+					catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						throw e;
 					}
-					catch (ModelNotFoundException e) {
-						e.printStackTrace();
-					}
-					catch (FileNotFoundException e) {
-						e.printStackTrace();
+					catch (Exception e) {
+						throw new InvocationTargetException(e);
 					}
 				}
-				
-				«var String folder = workspacePath + "/" + projectName + "/"»
+			}
+
 				private void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {
 					// COUNTER: «var int counter = 0»
 					Map<EObject, List<LabelStyle>> localnodes = null;
@@ -622,259 +624,351 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				«ENDFOR»
 				}
 				
-					public void generateUMLGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
-						//«counter = 1»
-						«FOR MutatorInstance instance : draw.instances»			
-							if (file.isFile()) {
-								String pathfile = file.getPath();
-								if (pathfile.endsWith(".model") == true) {
-									String printPathfile = pathfile.replace("\\", "/");
-									printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
-									«IF roots !== null && roots.size() > counter»
-										monitor.subTask("Rendering image for mutant " + printPathfile + " («roots.get(counter).name»)");
-										Resource model = ModelManager.loadModel(packages, pathfile);
-										String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
-										String umlfile = "«folder»src-gen/html/diagrams/" + 
-											path + "/«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
-										Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
-										Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-										Map<String, Integer> id = new LinkedHashMap<String, Integer>();
-										«draw.generate(folder, counter - 1)»
-										File diagramsfolder = new File("«folder»src-gen/html/diagrams/");
-										if (diagramsfolder.exists() != true) {
-											diagramsfolder.mkdirs();
-										}
-										File exercisefolder = new File("«folder»src-gen/html/diagrams/" + path + "/");
-										if (exercisefolder.exists() != true) {
-											exercisefolder.mkdirs();
-										}
-										PrintWriter umlwriter = new PrintWriter(umlfile, "UTF-8");
-										for (String umlline : umlcode) {
-											umlwriter.println(umlline);
-										}
-										umlwriter.close();
-										try {
-											SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
-											List<GeneratedImage> list = reader.getGeneratedImages();
-											File umlpng = list.get(0).getPngFile();
-											umlpng.createNewFile();
-										} catch (IOException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										//Reload input
-										try {
-											model.unload();
-											model.load(null);
-										} catch (Exception e) {}
-										monitor.worked(1);
-									«ENDIF»
-								}
-							}
-							else {
-								generateUMLGraphsRecursive(file, packages, exercise, monitor);
-							}
-							//«counter ++»
-						«ENDFOR»
-						}
-					public void generateUMLGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
-						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-							File[] filesInBlock = file.listFiles();
-							if (filesInBlock != null && filesInBlock.length > 0) {
-								for (File fileInBlock : filesInBlock) {
-									if (fileInBlock.isFile()) {
-										generateUMLGraphs(fileInBlock, packages, exercise, monitor);
-									}
-									else {
-										generateUMLGraphsRecursive(fileInBlock, packages, exercise, monitor);
-									}
-								}
-							}
-						}
-					}
-						
-						public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
-							
-							String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
-							List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-							String projectName = "«projectName»";
-							List<String> models = ModelManager.getModels(«className»Draw.class);
-							List<String> mutants = ModelManager.getMutants(«className»Draw.class);
-											
-							int totalTasks = (models.size() + mutants.size()) * «draw.instances.size()»;
-										
-							monitor.beginTask("Rendering models", totalTasks);
-		
-				// GENERATES PNG FILES FROM SOURCE MODELS
-				File folder = new File("«folder»data/model");
-				for (File file : folder.listFiles()) {
-				//«counter = 1»
-				«FOR MutatorInstance instance : draw.instances»			
-					if (file.isFile()) {
-						String pathfile = file.getPath();
-						if (pathfile.endsWith(".model") == true) {
-							String printPathfile = pathfile.replace("\\", "/");
-							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
-							«IF roots !== null && roots.size() > counter»
-								monitor.subTask("Rendering image for model " + printPathfile + " («roots.get(counter).name»)");
-								Resource model = ModelManager.loadModel(packages, pathfile);
-								String umlfile = "«folder»src-gen/html/diagrams/" + 
-									file.getName().replace(".model", "") + "/" +
-									"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
-								Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
-								Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-								Map<String, Integer> id = new LinkedHashMap<String, Integer>();
-								«draw.generate(folder, counter - 1)»
-								File diagramsfolder = new File("«folder»src-gen/html/diagrams/");
-								if (diagramsfolder.exists() != true) {
-									diagramsfolder.mkdirs();
-								}
-								File umlfolder = new File("«folder»src-gen/html/diagrams/" + 
-									file.getName().replace(".model", "") + "/");
-								if (umlfolder.exists() != true) {
-									umlfolder.mkdirs();
-								}
-								try {
-									PrintWriter umlwriter = new PrintWriter(umlfile, "UTF-8");
-									for (String umlline : umlcode) {
-										umlwriter.println(umlline);
-									}
-									umlwriter.close();
-								} catch (UnsupportedEncodingException e) {
-									//Reload input
-												try {
-										model.unload();
-										model.load(null);
-									} catch (Exception ex) {}
-									continue;
-								}
-								try {
-									SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
-									List<GeneratedImage> list = reader.getGeneratedImages();
-									File umlpng = list.get(0).getPngFile();
-									umlpng.createNewFile();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception e) {}
-								monitor.worked(1);
-							«ENDIF»
-						}
-					}
-					//«counter ++»
-				«ENDFOR»
-				}
-				
-							// GENERATES PNG FILES FROM MUTANTS
-							folder = new File("«folder»data/out");
-							for (File exercise : folder.listFiles()) {
-								if (exercise.isDirectory()) {
-									for (File file : exercise.listFiles()) {
-									//«counter = 1»
-									«FOR MutatorInstance instance : draw.instances»			
-										if (file.isFile()) {
-											String pathfile = file.getPath();
-											if (pathfile.endsWith(".model") == true) {
-												String printPathfile = pathfile.replace("\\", "/");
-												printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
-												«IF roots !== null && roots.size() > counter»
-													monitor.subTask("Rendering image for mutant " + printPathfile + " («roots.get(counter).name»)");
-													Resource model = ModelManager.loadModel(packages, pathfile);
-													String umlfile = "«folder»src-gen/html/diagrams/" + exercise.getName() + "/" +
-														"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
-													Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
-													Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-													Map<String, Integer> id = new LinkedHashMap<String, Integer>();
-													«draw.generate(folder, counter - 1)»
-													File diagramsfolder = new File("«folder»src-gen/html/diagrams/");
-													if (diagramsfolder.exists() != true) {
-														diagramsfolder.mkdirs();
-													}
-													File umlfolder = new File("«folder»src-gen/html/diagrams/" + exercise.getName() + "/");
-													if (umlfolder.exists() != true) {
-														umlfolder.mkdirs();
-													}
-													try {
-														PrintWriter umlwriter = new PrintWriter(umlfile, "UTF-8");
-														for (String umlline : umlcode) {
-															umlwriter.println(umlline);
-														}
-														umlwriter.close();
-													} catch (UnsupportedEncodingException e) {
-														//Reload input
-																	try {
-															model.unload();
-															model.load(null);
-														} catch (Exception ex) {}
-														continue;
-													}
-													try {
-														SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
-														List<GeneratedImage> list = reader.getGeneratedImages();
-														File umlpng = list.get(0).getPngFile();
-														umlpng.createNewFile();
-													} catch (IOException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-													}
-													//Reload input
-													try {
-														model.unload();
-														model.load(null);
-													} catch (Exception e) {}
-													monitor.worked(1);
-												«ENDIF»
-											}
-										}
-										else {
-											if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-												File[] filesBlock = file.listFiles();
-												for (File fileBlock : filesBlock) {
-													try {
-														generateUMLGraphs(fileBlock, packages, exercise, monitor);
-													} catch (UnsupportedEncodingException e) {
-														continue;
-													}
-												}
-											}
-										}
-										//«counter ++»
-									«ENDFOR»
-									}
-								}
-							}
-				}
-				}
-				@Override
-				public Object execute(ExecutionEvent event) throws ExecutionException {
-					try {
-						RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();
-						ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
-						monitor.run(true, true, runMutatorDrawWithProgress);
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return null;
-				}
-			@Override
-			public void run() {
+
+			private File resolveProjectDirectory() throws IOException {
 				try {
-					execute(null);
+					File location = new File(
+							«className»Draw.class
+								.getProtectionDomain()
+								.getCodeSource()
+								.getLocation()
+								.toURI()
+					);
+
+					if (location.isFile()) {
+						location = location.getParentFile();
+					}
+					if (location != null && "bin".equals(location.getName())) {
+						location = location.getParentFile();
+					}
+					else if (location != null
+							&& "classes".equals(location.getName())
+							&& location.getParentFile() != null
+							&& "target".equals(location.getParentFile().getName())) {
+						location = location.getParentFile().getParentFile();
+					}
+
+					if (location != null && location.isDirectory()) {
+						return location.getCanonicalFile();
+					}
 				}
-				catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				catch (URISyntaxException e) {
+					// Fall through to the Eclipse workspace lookup below.
+				}
+
+				IProject project = ProjectUtils.getProject();
+				if (project != null && project.getLocation() != null) {
+					return project.getLocation().toFile().getCanonicalFile();
+				}
+
+				throw new IOException(
+						"Cannot determine the Wodel-EDU project directory for "
+						+ «className»Draw.class.getName()
+				);
+			}
+
+			private ProjectFolders readProjectFolders(File projectDirectory) throws IOException {
+				File configFile = new File(projectDirectory, "data/config/config.txt");
+				if (!configFile.isFile()) {
+					throw new IOException("Cannot find Wodel configuration file: " + configFile);
+				}
+
+				try (BufferedReader reader = Files.newBufferedReader(
+						configFile.toPath(),
+						StandardCharsets.UTF_8
+				)) {
+					String modelFolder = reader.readLine();
+					String mutantFolder = reader.readLine();
+					if (modelFolder == null || modelFolder.isBlank()
+							|| mutantFolder == null || mutantFolder.isBlank()) {
+						throw new IOException("Invalid Wodel configuration file: " + configFile);
+					}
+
+					return new ProjectFolders(
+							new File(projectDirectory, modelFolder).getCanonicalFile(),
+							new File(projectDirectory, mutantFolder).getCanonicalFile()
+					);
 				}
 			}
+
+			private File resolveMetamodelFile(File modelDirectory) throws IOException {
+				if (METAMODEL_FILE_NAME != null && !METAMODEL_FILE_NAME.isBlank()) {
+					File expected = new File(modelDirectory, METAMODEL_FILE_NAME);
+					if (expected.isFile()) {
+						return expected;
+					}
+				}
+
+				File[] files = modelDirectory.listFiles();
+				if (files != null) {
+					for (File file : files) {
+						if (file.isFile() && file.getName().endsWith(ECORE_EXTENSION)) {
+							return file;
+						}
+					}
+				}
+
+				throw new IOException("Cannot find an Ecore metamodel in " + modelDirectory);
 			}
+
+			private void renderPlantUML(File sourceFile) throws IOException {
+				SourceFileReader reader = new SourceFileReader(false, sourceFile);
+				List<GeneratedImage> images = reader.getGeneratedImages();
+				if (images == null || images.isEmpty()) {
+					throw new IOException(
+							"PlantUML did not generate an image for " + sourceFile
+					);
+				}
+
+				File image = images.get(0).getPngFile();
+				if (image == null || !image.isFile()) {
+					throw new IOException(
+							"PlantUML did not create the expected PNG for " + sourceFile
+					);
+				}
+			}
+
+			private void renderModel(
+					File modelFile,
+					List<EPackage> packages,
+					File outputDirectory,
+					File projectDirectory,
+					IProgressMonitor monitor,
+					boolean mutant)
+					throws ModelNotFoundException, IOException, InterruptedException {
+
+				if (modelFile == null || !modelFile.isFile()
+						|| !modelFile.getName().endsWith(MODEL_EXTENSION)) {
+					return;
+				}
+
+				checkCanceled(monitor);
+				ensureDirectory(outputDirectory);
+
+				String displayPath = safeRelativize(
+						projectDirectory.toPath().toAbsolutePath().normalize(),
+						modelFile.toPath().toAbsolutePath().normalize()
+				);
+
+				Resource model = null;
+				try {
+					model = ModelManager.loadModel(packages, modelFile.getAbsolutePath());
+					Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = null;
+					Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = null;
+					Map<String, Integer> id  = null;
+					Set<String> umlcode = null;
+					String outputBaseName = null;
+					File umlFile = null;
+					Set<String> rels = null;
+					Map<EObject, List<LabelStyle>> selectedNodes = null;
+					Map<EObject, Map<String, List<LabelStyle>>> selectedRelations = null;
+					//«var int renderIndex = 0»
+					«FOR MutatorInstance instance : draw.instances»
+						«IF roots !== null && roots.size() > renderIndex + 1»
+							checkCanceled(monitor);
+							monitor.subTask(
+									"Rendering image for " + (mutant ? "mutant " : "model ")
+									+ displayPath + " («roots.get(renderIndex + 1).name»)"
+							);
+
+							umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
+							umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
+							id = new LinkedHashMap<String, Integer>();
+							«draw.generate(renderIndex)»
+
+							outputBaseName = "«javaString(roots.get(renderIndex + 1).name)»_"
+									+ stripExtension(modelFile.getName());
+							umlFile = new File(outputDirectory, outputBaseName + ".txt");
+							Files.write(umlFile.toPath(), umlcode, StandardCharsets.UTF_8);
+							renderPlantUML(umlFile);
+							monitor.worked(1);
+						«ENDIF»
+						//«renderIndex++»
+					«ENDFOR»
+				}
+				finally {
+					if (model != null && model.isLoaded()) {
+						model.unload();
+					}
+				}
+			}
+
+			public void generate(IProgressMonitor progressMonitor)
+					throws MetaModelNotFoundException, ModelNotFoundException,
+					       IOException, InterruptedException {
+
+				IProgressMonitor monitor = progressMonitor != null
+						? progressMonitor
+						: new NullProgressMonitor();
+
+				File projectDirectory = resolveProjectDirectory();
+				ProjectFolders folders = readProjectFolders(projectDirectory);
+				File metamodelFile = resolveMetamodelFile(folders.modelDirectory);
+				File diagramsDirectory = new File(projectDirectory, "src-gen/html/diagrams");
+				ensureDirectory(diagramsDirectory);
+
+				List<EPackage> packages = ModelManager.loadMetaModel(metamodelFile.getAbsolutePath());
+				List<String> models = ModelManager.getModels(«className»Draw.class);
+				List<String> mutants = ModelManager.getMutants(«className»Draw.class);
+				if (models == null) {
+					models = Collections.emptyList();
+				}
+				if (mutants == null) {
+					mutants = Collections.emptyList();
+				}
+
+				int totalTasks = (models.size() + mutants.size()) * «draw.instances.size()»;
+				monitor.beginTask("Rendering PlantUML diagrams", totalTasks);
+				try {
+					for (String modelPath : models) {
+						checkCanceled(monitor);
+						File modelFile = new File(modelPath);
+						File outputDirectory = new File(
+								diagramsDirectory,
+								stripExtension(modelFile.getName())
+						);
+						renderModel(
+								modelFile,
+								packages,
+								outputDirectory,
+								projectDirectory,
+								monitor,
+								false
+						);
+					}
+
+					Path mutantRoot = folders.mutantDirectory.toPath().toAbsolutePath().normalize();
+					for (String mutantPath : mutants) {
+						checkCanceled(monitor);
+						File mutantFile = new File(mutantPath);
+						File parentFile = mutantFile.getParentFile();
+						String relative = parentFile != null
+								? safeRelativize(
+										mutantRoot,
+										parentFile.toPath().toAbsolutePath().normalize()
+								)
+								: "";
+						File outputDirectory = relative.isEmpty()
+								? diagramsDirectory
+								: new File(diagramsDirectory, relative);
+
+						renderModel(
+								mutantFile,
+								packages,
+								outputDirectory,
+								projectDirectory,
+								monitor,
+								true
+						);
+					}
+				}
+				finally {
+					monitor.done();
+				}
+			}
+
+			private String safeRelativize(Path root, Path child) {
+				try {
+					if (child.startsWith(root)) {
+						return root.relativize(child).toString();
+					}
+				}
+				catch (IllegalArgumentException e) {
+					// Different filesystem roots; use the common output directory.
+				}
+				return "";
+			}
+
+			private String stripExtension(String fileName) {
+				if (fileName == null) {
+					return "";
+				}
+				int dot = fileName.lastIndexOf('.');
+				return dot > 0 ? fileName.substring(0, dot) : fileName;
+			}
+
+			private void ensureDirectory(File directory) throws IOException {
+				if (directory.isDirectory()) {
+					return;
+				}
+				if (!directory.mkdirs() && !directory.isDirectory()) {
+					throw new IOException("Cannot create directory: " + directory);
+				}
+			}
+
+			private void checkCanceled(IProgressMonitor monitor) throws InterruptedException {
+				if (monitor != null && monitor.isCanceled()) {
+					throw new InterruptedException("PlantUML rendering was canceled");
+				}
+			}
+
+			private static final class ProjectFolders {
+				private final File modelDirectory;
+				private final File mutantDirectory;
+
+				private ProjectFolders(File modelDirectory, File mutantDirectory) {
+					this.modelDirectory = modelDirectory;
+					this.mutantDirectory = mutantDirectory;
+				}
+			}
+
+            @Override
+            public Object execute(ExecutionEvent event) throws ExecutionException {
+                Shell shell = event != null ? HandlerUtil.getActiveShell(event) : null;
+
+                if (shell == null || shell.isDisposed()) {
+                    try {
+                        generate(new NullProgressMonitor());
+                    }
+                    catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    catch (Exception e) {
+                        throw new ExecutionException(
+                                "Error rendering Wodel-EDU PlantUML diagrams",
+                                e
+                        );
+                    }
+                    return null;
+                }
+
+                ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+                try {
+                    dialog.run(true, true, new RunMutatorDrawWithProgress());
+                }
+                catch (InvocationTargetException e) {
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    throw new ExecutionException(
+                            "Error rendering Wodel-EDU PlantUML diagrams",
+                            cause
+                    );
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                return null;
+            }
+
+            @Override
+            public void run() {
+                try {
+                    generate(new NullProgressMonitor());
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException(
+                            "PlantUML rendering was interrupted",
+                            e
+                    );
+                }
+                catch (Exception e) {
+                    throw new IllegalStateException(
+                            "Error rendering Wodel-EDU PlantUML diagrams",
+                            e
+                    );
+                }
+            }
+
+        }
 			'''
 }

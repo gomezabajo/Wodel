@@ -202,12 +202,17 @@ public class RetypeObjectMutator extends Mutator {
 			result = null;
 			return null;
 		}
-		if (objNames != null) {
+		if (objNames != null && objNames.size() > 0) {
 			objNames.remove(obj.eClass().getName());
-			int index = ModelManager.getRandomIndex(objNames);
-			if (index < objNames.size()) {
-				objName = objNames.get(index);
+			if (objNames.size() > 0) {
+				int index = ModelManager.getRandomIndex(objNames);
+				if (index < objNames.size()) {
+					objName = objNames.get(index);
+				}
 			}
+		}
+		if (objName == null) {
+			return null;
 		}
 		newEType = ModelManager.getEClassByName(this.getMetaModel(), objName);
 		//If there is not a selected reference we choose the reference of the object to be retyped
@@ -228,11 +233,12 @@ public class RetypeObjectMutator extends Mutator {
 				else {
 					// selects a random compatible container
 					List<EObject> containers = ModelManager.getParentObjects(this.getMetaModel(), this.getModel(), objName);
-					Collections.shuffle(containers);
+					ModelManager.sortEObjectsDeterministically(containers);
+					//Collections.shuffle(containers);
 					if (containers.size() > 0) {
 						container = containers.get(ModelManager.getRandomIndex(containers));
 						refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-						Collections.shuffle(refs);
+						//Collections.shuffle(refs);
 						for (EReference ref : refs) {
 							if (ref.getEReferenceType().isSuperTypeOf(newEType)) {
 								reference = ref;

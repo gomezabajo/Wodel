@@ -13,10 +13,42 @@ import wodel.utils.exceptions.WrongAttributeTypeException;
 
 public abstract class MutatorStandaloneAPI {
 
-	public static void createMutants(String[] mutationOperators) 
-			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
-			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
-			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		
-	}
+    public static MutatorUtils.MutationResults createMutants(
+            String inputFolder,
+            String outputFolder,
+            String[] mutationOperators,
+            boolean registry,
+            long exeuctionSeed)
+            throws ReferenceNonExistingException,
+                   WrongAttributeTypeException,
+                   MaxSmallerThanMinException,
+                   AbstractCreationException,
+                   ObjectNoTargetableException,
+                   ObjectNotContainedException,
+                   MetaModelNotFoundException,
+                   ModelNotFoundException,
+                   IOException {
+
+        throw new UnsupportedOperationException(
+            "Generated standalone API required");
+    }
+
+    public static MutatorUtils.MutationResults createMutants(
+            String inputFolder,
+            String outputFolder,
+            String[] mutationOperators,
+            boolean registry)
+            throws ReferenceNonExistingException,
+                   WrongAttributeTypeException,
+                   MaxSmallerThanMinException,
+                   AbstractCreationException,
+                   ObjectNoTargetableException,
+                   ObjectNotContainedException,
+                   MetaModelNotFoundException,
+                   ModelNotFoundException,
+                   IOException {
+
+        throw new UnsupportedOperationException(
+            "Generated standalone API required");
+    }
 }

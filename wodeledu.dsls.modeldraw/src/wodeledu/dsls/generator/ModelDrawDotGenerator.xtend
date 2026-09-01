@@ -17,7 +17,6 @@ import modeldraw.Relation
 import wodel.utils.manager.JavaUtils
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EReference
-import wodel.utils.manager.ProjectUtils
 import modeldraw.ValuedFeature
 import modeldraw.Node
 import org.eclipse.xtext.generator.AbstractGenerator
@@ -25,8 +24,6 @@ import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -40,46 +37,49 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 	private String className
 	private List<EPackage> metamodel
 	private List<EClass> roots
-	private IProject project
-	private String projectName
 	
-	def static IProject projectOf(Resource r) {
-		val uri = r?.URI
-		if (uri !== null && uri.platformResource) {
-			val projectName = uri.segment(1) // platform:/resource/<project>/...
-			return ResourcesPlugin.workspace.root.getProject(projectName)
+	private def String lastSegment(String value) {
+		if (value === null || value.empty) {
+			return ""
 		}
-		null
+		val normalized = value.replace("\\", "/")
+		val slash = normalized.lastIndexOf("/")
+		if (slash >= 0) normalized.substring(slash + 1) else normalized
+	}
+
+	private def String javaString(String value) {
+		if (value === null) {
+			return ""
+		}
+		value.replace("\\", "\\\\").replace("\"", "\\\"")
+	}
+
+	private def String rootTypeName() {
+		if (roots !== null && !roots.empty && roots.get(0) !== null && roots.get(0).name !== null) {
+			return roots.get(0).name
+		}
+		"Model"
 	}
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		var i = 0;
-		fileName = resource.URI.lastSegment
-		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
-		project = projectOf(resource)
-		project = project !== null ? project : ProjectUtils.project
-		projectName = project !== null ? project.getName() : null
+		var i = 0
+		val baseName = resource.URI.lastSegment.replace(".draw", "").replace(".", "_")
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
-			if (i == 0) {
-				fileName = fileName.replace(".draw", "") + 'Draw.java'
-			}
-			else {
-				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
-			}
+			fileName = if (i == 0) baseName + "Draw.java" else baseName + i + "Draw.java"
 			metamodel = new ArrayList<EPackage>()
 			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
 			roots = new ArrayList<EClass>()
 			roots.addAll(ModelManager.getRootEClasses(metamodel))
-			className = fileName.replaceAll("Draw.java", "")
+			className = fileName.replace("Draw.java", "")
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
 		}
 	}
 
-	def generate(MutatorDraw draw, String folder) '''
-		Map<EObject, LabelStyle> dotnodes = new HashMap<EObject, LabelStyle>();
-		Map<String, List<Map<String, String>>> dotrels = new HashMap<String, List<Map<String, String>>>();
-		Map<String, List<String>> dottext = new HashMap<String, List<String>>();
+	def generate(MutatorDraw draw) '''
+		Map<EObject, LabelStyle> dotnodes = new LinkedHashMap<EObject, LabelStyle>();
+		Map<String, List<Map<String, String>>> dotrels = new LinkedHashMap<String, List<Map<String, String>>>();
+		Map<String, List<String>> dottext = new LinkedHashMap<String, List<String>>();
 		List<String> dotcode = new ArrayList<String>();
 		«IF draw.instances.get(0).nodes !== null»
 			«IF draw.instances.get(0).nodes.size() > 0»
@@ -262,18 +262,22 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 	def compile(MutatorDraw draw) '''
 		package mutator.«className»;
 		
+		import java.io.BufferedReader;
 		import java.io.File;
-		import java.io.FileNotFoundException;
-		import java.io.PrintWriter;
 		import java.io.IOException;
-		import java.io.UnsupportedEncodingException;
 		import java.lang.InterruptedException;
-		import java.util.Arrays;
+		import java.net.URL;
+		import java.net.URISyntaxException;
+		import java.nio.charset.StandardCharsets;
+		import java.nio.file.Files;
+		import java.nio.file.Path;
 		import java.util.ArrayList;
 		import java.util.HashMap;
 		import java.util.Map;
 		import java.util.LinkedHashMap;
 		import java.util.List;
+		import java.util.Collections;
+		import java.util.concurrent.TimeUnit;
 		
 		import org.eclipse.emf.ecore.EAttribute;
 		import org.eclipse.emf.ecore.EClass;
@@ -292,7 +296,10 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		import wodel.utils.manager.ModelManager;
 		import wodel.utils.manager.DrawUtils.LabelStyle;
 		
+		import org.eclipse.core.runtime.FileLocator;
 		import org.eclipse.core.runtime.IProgressMonitor;
+		import org.eclipse.core.runtime.NullProgressMonitor;
+		import org.eclipse.core.runtime.Platform;
 		
 		import org.eclipse.jface.operation.IRunnableWithProgress;
 			
@@ -306,35 +313,42 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		import org.eclipse.core.resources.IProject;
 		
 		import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-		import org.eclipse.jface.operation.IRunnableWithProgress;
 		
-		import org.eclipse.swt.widgets.Display;
 		import org.eclipse.swt.widgets.Shell;
 		
+		import org.eclipse.ui.handlers.HandlerUtil;
+		import org.osgi.framework.Bundle;
+		
 		public class «className»Draw extends AbstractHandler implements wodeledu.extension.run.commands.IMutatorDraw {
-			
-			private Display activeDisplay = null;
-			private Shell activeShell = null;
+
+			private static final String MODEL_EXTENSION = ".model";
+			private static final String ECORE_EXTENSION = ".ecore";
+			private static final String DIAGRAM_PREFIX = "«javaString(rootTypeName)»";
+			private static final String METAMODEL_FILE_NAME = "«javaString(lastSegment(draw.metamodel))»";
+			private static final String RENDERER_PLUGIN_ID = "wodeledu.dsls.EduTest";
+			private static final String RENDERER_PREFERENCE = "Model-Draw renderer path";
+			private static final String[] LOGIC_IMAGE_BUNDLE_IDS = {
+				"wodel.wodeledu",
+				"wodeledu.models"
+			};
 		
 			private class RunMutatorDrawWithProgress implements IRunnableWithProgress {
-			
-			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				try {
-					generate(monitor);
-				}
-				catch (MetaModelNotFoundException e) {
-					e.printStackTrace();
-				}
-				catch (ModelNotFoundException e) {
-					e.printStackTrace();
-				}
-				catch (FileNotFoundException e) {
-					e.printStackTrace();
+				@Override
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					try {
+						generate(monitor);
+					}
+					catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						throw e;
+					}
+					catch (Exception e) {
+						throw new InvocationTargetException(e);
+					}
 				}
 			}
-					
-			«var String folder = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/"»
+
 			«IF draw.instances.get(0).nodes !== null»
 				«IF draw.instances.get(0).nodes.size() > 0»
 					private void generateNodes(List<EPackage> packages, Resource model, Map<EObject, LabelStyle> dotnodes, Map<String, List<Map<String, String>>> dotrels) {
@@ -376,7 +390,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 											style.shape = "shape = «node.shape»";
 										«ENDIF»
 										«IF node.shape == NodeShape.LOGIC»
-											style.path = "C:/eclipse/workspace/wodel.wodeledu/content/images/logic_" + typeName.toLowerCase() + ".png";
+											style.path = resolveLogicImage(typeName);
 										«ENDIF»
 										«IF node.shape == NodeShape.LOAD»
 											style.path = "«node.pathShape»";
@@ -398,7 +412,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 											style.shape = "shape = «node.shape»";
 										«ENDIF»
 										«IF node.shape == NodeShape.LOGIC»
-											style.path = "C:/eclipse/workspace/wodel.wodeledu/content/images/logic_" + typeName.toLowerCase() + ".png";
+											style.path = resolveLogicImage(typeName);
 										«ENDIF»
 										«IF node.shape == NodeShape.LOAD»
 											style.path = "«node.pathShape»";
@@ -451,8 +465,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 															}
 															style.name = name;
 															style.border = "0";
-															«IF node.shape != NodeShape.LOAD»
+															«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																style.shape = "shape = «node.shape»";
+															«ENDIF»
+															«IF node.shape == NodeShape.LOGIC»
+																style.path = resolveLogicImage(typeName);
 															«ENDIF»
 															«IF node.shape == NodeShape.LOAD»
 																style.path = "«node.pathShape»";
@@ -470,8 +487,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 															}
 															style.name = name;
 															style.border = "0";
-															«IF node.shape != NodeShape.LOAD»
+															«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																style.shape = "shape = «node.shape»";
+															«ENDIF»
+															«IF node.shape == NodeShape.LOGIC»
+																style.path = resolveLogicImage(typeName);
 															«ENDIF»
 															«IF node.shape == NodeShape.LOAD»
 																style.path = "«node.pathShape»";
@@ -521,8 +541,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -540,8 +563,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -594,8 +620,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -613,8 +642,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -662,8 +694,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -681,8 +716,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -738,8 +776,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -757,8 +798,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -806,8 +850,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -825,8 +872,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 																}
 																style.name = name;
 																style.border = "0";
-																«IF node.shape != NodeShape.LOAD»
+																«IF node.shape != NodeShape.LOAD && node.shape != NodeShape.LOGIC»
 																	style.shape = "shape = «node.shape»";
+																«ENDIF»
+																«IF node.shape == NodeShape.LOGIC»
+																	style.path = resolveLogicImage(typeName);
 																«ENDIF»
 																«IF node.shape == NodeShape.LOAD»
 																	style.path = "«node.pathShape»";
@@ -1569,243 +1619,451 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 			«ENDIF»
 		«ENDIF»
 			
-		public void generateGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
-			if (file.isFile()) {
-				String pathfile = file.getPath();
-				if (pathfile.endsWith(".model") == true) {
-					String printPathfile = pathfile.replace("\\", "/");
-					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
-					monitor.subTask("Rendering image for mutant " + printPathfile);
-					Resource model = ModelManager.loadModel(packages, pathfile);
-					String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
-					String dotfile = "«folder»src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
-					String pngfile = "«folder»src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".png");
-					«draw.generate(folder)»
-					File exercisefolder = new File("«folder»src-gen/html/diagrams/" + path);
-					if (exercisefolder.exists() != true) {
-						exercisefolder.mkdirs();
-					}
-					PrintWriter dotwriter = new PrintWriter(dotfile, "UTF-8");
-					for (String dotline : dotcode) {
-						dotwriter.println(dotline);
-					}
-					dotwriter.close();
-					String[] command = {"dot", "-Tpng", dotfile, "-o", pngfile};
-					try {
-						Process proc = Runtime.getRuntime().exec(command);
-						proc.waitFor(); 
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//Reload input
-					try {
-						model.unload();
-						model.load(null);
-					} catch (Exception e) {}
-					monitor.worked(1);
-				}
-			}
-			else {
-				generateGraphsRecursive(file, packages, exercise, monitor);
-			}
-		}
-		public void generateGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
-			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-				File[] filesInBlock = file.listFiles();
-				if (filesInBlock != null && filesInBlock.length > 0) {
-					for (File fileInBlock : filesInBlock) {
-						if (fileInBlock.isFile()) {
-							generateGraphs(fileInBlock, packages, exercise, monitor);
-						}
-						else {
-							generateGraphsRecursive(fileInBlock, packages, exercise, monitor);
-						}
-					}
-				}
-			}
-		}
-				
-			public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
-					
-				String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String projectName = "«projectName»";
-				
-				List<String> models = ModelManager.getModels(«className»Draw.class);
-				List<String> mutants = ModelManager.getMutants(«className»Draw.class);
-								
-				int totalTasks = models.size() + mutants.size();
-								
-				monitor.beginTask("Rendering models", totalTasks);
-				
-				// GENERATES PNG FILES FROM SOURCE MODELS
-				File folder = new File("«folder»data/model");
-				for (File file : folder.listFiles()) {
-					if (file.isFile()) {
-						String pathfile = file.getPath();
-						if (pathfile.endsWith(".model") == true) {
-							String printPathfile = pathfile.replace("\\", "/");
-							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
-							monitor.subTask("Rendering image for model " + printPathfile);
-							Resource model = ModelManager.loadModel(packages, pathfile);
-							String dotfile = "«folder»src-gen/html/diagrams/" + 
-								file.getName().replace(".model", "") + "/" +
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
-							String pngfile = "«folder»src-gen/html/diagrams/" + 
-								file.getName().replace(".model", "") + "/" +
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
-							«draw.generate(folder)»
-							File diagramsfolder = new File("«folder»src-gen/html/diagrams/");
-							if (diagramsfolder.exists() != true) {
-								diagramsfolder.mkdir();
-							}
-							File dotfolder = new File("«folder»src-gen/html/diagrams/" + 
-								file.getName().replace(".model", "") + "/");
-							if (dotfolder.exists() != true) {
-								dotfolder.mkdir();
-							}
-							PrintWriter dotwriter = null;
-							try {
-								dotwriter = new PrintWriter(dotfile, "UTF-8");
-								for (String dotline : dotcode) {
-									dotwriter.println(dotline);
-								}
-								dotwriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-											try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {}
-								continue;
-							}
-							String[] command = {"dot", "-Tpng", dotfile, "-o", pngfile};
-							try {
-								Process proc = Runtime.getRuntime().exec(command);
-								proc.waitFor(); 
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							//Reload input
-										try {
-								model.unload();
-								model.load(null);
-							} catch (Exception e) {}
-							monitor.worked(1);
-						}
-					}
-				}
-		
-		// GENERATES PNG FILES FROM MUTANTS
-		folder = new File("«folder»data/out");
-		for (File exercise : folder.listFiles()) {
-			if (exercise.isDirectory()) {
-				for (File file : exercise.listFiles()) {
-					if (file.isFile()) {
-						String pathfile = file.getPath();
-						if (pathfile.endsWith(".model") == true) {
-							String printPathfile = pathfile.replace("\\", "/");
-							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
-							monitor.subTask("Rendering image for mutant " + printPathfile);
-							Resource model = ModelManager.loadModel(packages, pathfile);
-							String dotfile = "«folder»src-gen/html/diagrams/" + exercise.getName() + "/" +
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
-							String pngfile = "«folder»src-gen/html/diagrams/" + exercise.getName() + "/" +
-							"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
-							«draw.generate(folder)»
-							File diagramsfolder = new File("«folder»src-gen/html/diagrams/");
-							if (diagramsfolder.exists() != true) {
-								diagramsfolder.mkdir();
-							}
-							File dotfolder = new File("«folder»src-gen/html/diagrams/" + exercise.getName() + "/");
-							if (dotfolder.exists() != true) {
-								dotfolder.mkdir();
-							}
-							PrintWriter dotwriter = null;
-							try {
-								dotwriter = new PrintWriter(dotfile, "UTF-8");
-								for (String dotline : dotcode) {
-									dotwriter.println(dotline);
-								}
-								dotwriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-											try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {}
-								continue;
-							}
-							String[] command = {"dot", "-Tpng", dotfile, "-o", pngfile};
-							try {
-								Process proc = Runtime.getRuntime().exec(command);
-								proc.waitFor(); 
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							//Reload input
-										try {
-								model.unload();
-								model.load(null);
-							} catch (Exception e) {}
-							monitor.worked(1);
-						}
-					}
-					else {
-						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-							File[] filesBlock = file.listFiles();
-							for (File fileBlock : filesBlock) {
-								try {
-									generateGraphs(fileBlock, packages, exercise, monitor);
-								} catch (UnsupportedEncodingException e) {
-									continue;
-								}
-							}
-						}
-					}
-				}
-			}
-				}
-			}
-		}
-		@Override
-		public Object execute(ExecutionEvent event) throws ExecutionException {
+		private File resolveProjectDirectory() throws IOException {
 			try {
-				RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();
-				ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
-				monitor.run(true, true, runMutatorDrawWithProgress);
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				File location = new File(
+						«className»Draw.class
+							.getProtectionDomain()
+							.getCodeSource()
+							.getLocation()
+							.toURI()
+				);
+
+				if (location.isFile()) {
+					location = location.getParentFile();
+				}
+				if (location != null && "bin".equals(location.getName())) {
+					location = location.getParentFile();
+				}
+				else if (location != null
+						&& "classes".equals(location.getName())
+						&& location.getParentFile() != null
+						&& "target".equals(location.getParentFile().getName())) {
+					location = location.getParentFile().getParentFile();
+				}
+
+				if (location != null && location.isDirectory()) {
+					return location.getCanonicalFile();
+				}
 			}
-			return null;
+			catch (URISyntaxException e) {
+				// Fall through to the Eclipse workspace lookup below.
+			}
+
+			IProject project = ProjectUtils.getProject();
+			if (project != null && project.getLocation() != null) {
+				return project.getLocation().toFile().getCanonicalFile();
+			}
+
+			throw new IOException(
+					"Cannot determine the Wodel-EDU project directory for "
+					+ «className»Draw.class.getName()
+			);
 		}
-			@Override
-			public void run() {
+
+		private ProjectFolders readProjectFolders(File projectDirectory) throws IOException {
+			File configFile = new File(projectDirectory, "data/config/config.txt");
+			if (!configFile.isFile()) {
+				throw new IOException("Cannot find Wodel configuration file: " + configFile);
+			}
+
+			try (BufferedReader reader = Files.newBufferedReader(
+					configFile.toPath(),
+					StandardCharsets.UTF_8
+			)) {
+				String modelFolder = reader.readLine();
+				String mutantFolder = reader.readLine();
+				if (modelFolder == null || modelFolder.isBlank()
+						|| mutantFolder == null || mutantFolder.isBlank()) {
+					throw new IOException("Invalid Wodel configuration file: " + configFile);
+				}
+
+				return new ProjectFolders(
+						new File(projectDirectory, modelFolder).getCanonicalFile(),
+						new File(projectDirectory, mutantFolder).getCanonicalFile()
+				);
+			}
+		}
+
+		private File resolveMetamodelFile(File modelDirectory) throws IOException {
+			if (METAMODEL_FILE_NAME != null && !METAMODEL_FILE_NAME.isBlank()) {
+				File expected = new File(modelDirectory, METAMODEL_FILE_NAME);
+				if (expected.isFile()) {
+					return expected;
+				}
+			}
+
+			File[] files = modelDirectory.listFiles();
+			if (files != null) {
+				for (File file : files) {
+					if (file.isFile() && file.getName().endsWith(ECORE_EXTENSION)) {
+						return file;
+					}
+				}
+			}
+
+			throw new IOException("Cannot find an Ecore metamodel in " + modelDirectory);
+		}
+
+		private String resolveDotExecutable() {
+			String rendererPath = Platform.getPreferencesService().getString(
+					RENDERER_PLUGIN_ID,
+					RENDERER_PREFERENCE,
+					"",
+					null
+			);
+
+			if (rendererPath != null && !rendererPath.isBlank()) {
+				File configured = new File(rendererPath).getAbsoluteFile();
+				if (configured.isFile()) {
+					return configured.getAbsolutePath();
+				}
+				if (configured.isDirectory()) {
+					String executableName = isWindows() ? "dot.exe" : "dot";
+					File executable = new File(configured, executableName);
+					if (executable.isFile()) {
+						return executable.getAbsolutePath();
+					}
+				}
+			}
+
+			// Graphviz may already be available on PATH.
+			return "dot";
+		}
+
+		private boolean isWindows() {
+			return System.getProperty("os.name", "")
+					.toLowerCase()
+					.contains("win");
+		}
+
+		private String resolveLogicImage(String typeName) {
+			String imageName = "logic_"
+					+ (typeName != null ? typeName.toLowerCase() : "")
+					+ ".png";
+			String entryPath = "/content/images/" + imageName;
+
+			for (String bundleId : LOGIC_IMAGE_BUNDLE_IDS) {
+				Bundle bundle = Platform.getBundle(bundleId);
+				if (bundle == null) {
+					continue;
+				}
+				URL entry = bundle.getEntry(entryPath);
+				if (entry == null) {
+					continue;
+				}
 				try {
-					execute(null);
+					URL fileUrl = FileLocator.toFileURL(entry);
+					return new File(fileUrl.toURI())
+							.getAbsolutePath()
+							.replace('\\', '/');
 				}
-				catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				catch (Exception e) {
+					// Try the next candidate bundle.
 				}
 			}
-		
+
+			throw new IllegalStateException(
+					"Cannot resolve ModelDraw logic image: " + imageName
+			);
 		}
+
+		private void runGraphviz(
+				String dotExecutable,
+				File dotFile,
+				File pngFile,
+				IProgressMonitor monitor)
+				throws IOException, InterruptedException {
+
+			checkCanceled(monitor);
+
+			ProcessBuilder builder = new ProcessBuilder(
+					dotExecutable,
+					"-Tpng",
+					dotFile.getAbsolutePath(),
+					"-o",
+					pngFile.getAbsolutePath()
+			);
+			builder.directory(dotFile.getParentFile());
+			builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+			builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+			Process process;
+			try {
+				process = builder.start();
+			}
+			catch (IOException e) {
+				throw new IOException(
+						"Cannot execute Graphviz 'dot'. Configure '"
+						+ RENDERER_PREFERENCE
+						+ "' with the Graphviz executable/bin directory or add Graphviz to PATH.",
+						e
+				);
+			}
+
+			waitForProcess(process, monitor, "Graphviz dot");
+
+			if (!pngFile.isFile()) {
+				throw new IOException("Graphviz did not create the expected PNG: " + pngFile);
+			}
+		}
+
+		private void waitForProcess(
+				Process process,
+				IProgressMonitor monitor,
+				String description)
+				throws IOException, InterruptedException {
+			try {
+				while (!process.waitFor(200, TimeUnit.MILLISECONDS)) {
+					checkCanceled(monitor);
+				}
+				int exitCode = process.exitValue();
+				if (exitCode != 0) {
+					throw new IOException(description + " failed with exit code " + exitCode);
+				}
+			}
+			catch (InterruptedException e) {
+				if (process.isAlive()) {
+					process.destroyForcibly();
+				}
+				Thread.currentThread().interrupt();
+				throw e;
+			}
+		}
+
+		private void renderModel(
+				File modelFile,
+				List<EPackage> packages,
+				File outputDirectory,
+				File projectDirectory,
+				String dotExecutable,
+				IProgressMonitor monitor,
+				boolean mutant)
+				throws MetaModelNotFoundException, ModelNotFoundException,
+				       IOException, InterruptedException {
+
+			if (modelFile == null || !modelFile.isFile()
+					|| !modelFile.getName().endsWith(MODEL_EXTENSION)) {
+				return;
+			}
+
+			checkCanceled(monitor);
+			ensureDirectory(outputDirectory);
+
+			String displayPath = safeRelativize(
+					projectDirectory.toPath().toAbsolutePath().normalize(),
+					modelFile.toPath().toAbsolutePath().normalize()
+			);
+			monitor.subTask(
+					"Rendering image for " + (mutant ? "mutant " : "model ") + displayPath
+			);
+
+			Resource model = null;
+			try {
+				model = ModelManager.loadModel(packages, modelFile.getAbsolutePath());
+				«draw.generate()»
+
+				String outputBaseName = DIAGRAM_PREFIX + "_" + stripExtension(modelFile.getName());
+				File dotFile = new File(outputDirectory, outputBaseName + ".dot");
+				File pngFile = new File(outputDirectory, outputBaseName + ".png");
+
+				Files.write(dotFile.toPath(), dotcode, StandardCharsets.UTF_8);
+				runGraphviz(dotExecutable, dotFile, pngFile, monitor);
+				monitor.worked(1);
+			}
+			finally {
+				if (model != null && model.isLoaded()) {
+					model.unload();
+				}
+			}
+		}
+
+		public void generate(IProgressMonitor progressMonitor)
+				throws MetaModelNotFoundException, ModelNotFoundException,
+				       IOException, InterruptedException {
+
+			IProgressMonitor monitor = progressMonitor != null
+					? progressMonitor
+					: new NullProgressMonitor();
+
+			File projectDirectory = resolveProjectDirectory();
+			ProjectFolders folders = readProjectFolders(projectDirectory);
+			File metamodelFile = resolveMetamodelFile(folders.modelDirectory);
+			File diagramsDirectory = new File(projectDirectory, "src-gen/html/diagrams");
+			ensureDirectory(diagramsDirectory);
+			String dotExecutable = resolveDotExecutable();
+
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodelFile.getAbsolutePath());
+			List<String> models = ModelManager.getModels(«className»Draw.class);
+			List<String> mutants = ModelManager.getMutants(«className»Draw.class);
+			if (models == null) {
+				models = Collections.emptyList();
+			}
+			if (mutants == null) {
+				mutants = Collections.emptyList();
+			}
+
+			monitor.beginTask("Rendering GraphViz diagrams", models.size() + mutants.size());
+			try {
+				for (String modelPath : models) {
+					checkCanceled(monitor);
+					File modelFile = new File(modelPath);
+					File outputDirectory = new File(
+							diagramsDirectory,
+							stripExtension(modelFile.getName())
+					);
+					renderModel(
+							modelFile,
+							packages,
+							outputDirectory,
+							projectDirectory,
+							dotExecutable,
+							monitor,
+							false
+					);
+				}
+
+				Path mutantRoot = folders.mutantDirectory.toPath().toAbsolutePath().normalize();
+				for (String mutantPath : mutants) {
+					checkCanceled(monitor);
+					File mutantFile = new File(mutantPath);
+					File parentFile = mutantFile.getParentFile();
+					String relative = parentFile != null
+							? safeRelativize(mutantRoot, parentFile.toPath().toAbsolutePath().normalize())
+							: "";
+					File outputDirectory = relative.isEmpty()
+							? diagramsDirectory
+							: new File(diagramsDirectory, relative);
+
+					renderModel(
+							mutantFile,
+							packages,
+							outputDirectory,
+							projectDirectory,
+							dotExecutable,
+							monitor,
+							true
+					);
+				}
+			}
+			finally {
+				monitor.done();
+			}
+		}
+
+		private String safeRelativize(Path root, Path child) {
+			try {
+				if (child.startsWith(root)) {
+					return root.relativize(child).toString();
+				}
+			}
+			catch (IllegalArgumentException e) {
+				// Different filesystem roots; use the common output directory.
+			}
+			return "";
+		}
+
+		private String stripExtension(String fileName) {
+			if (fileName == null) {
+				return "";
+			}
+			int dot = fileName.lastIndexOf('.');
+			return dot > 0 ? fileName.substring(0, dot) : fileName;
+		}
+
+		private void ensureDirectory(File directory) throws IOException {
+			if (directory.isDirectory()) {
+				return;
+			}
+			if (!directory.mkdirs() && !directory.isDirectory()) {
+				throw new IOException("Cannot create directory: " + directory);
+			}
+		}
+
+		private void checkCanceled(IProgressMonitor monitor) throws InterruptedException {
+			if (monitor != null && monitor.isCanceled()) {
+				throw new InterruptedException("GraphViz rendering was canceled");
+			}
+		}
+
+		private static final class ProjectFolders {
+			private final File modelDirectory;
+			private final File mutantDirectory;
+
+			private ProjectFolders(File modelDirectory, File mutantDirectory) {
+				this.modelDirectory = modelDirectory;
+				this.mutantDirectory = mutantDirectory;
+			}
+		}
+
+            @Override
+            public Object execute(ExecutionEvent event) throws ExecutionException {
+                /*
+                 * Interactive command entry point. When Eclipse invokes this
+                 * handler from the UI, use the active shell for a progress
+                 * dialog. If no UI shell is available, fall back to direct
+                 * execution rather than failing.
+                 */
+                Shell shell = event != null ? HandlerUtil.getActiveShell(event) : null;
+
+                if (shell == null || shell.isDisposed()) {
+                    try {
+                        generate(new NullProgressMonitor());
+                    }
+                    catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    catch (Exception e) {
+                        throw new ExecutionException(
+                                "Error rendering Wodel-EDU GraphViz diagrams",
+                                e
+                        );
+                    }
+                    return null;
+                }
+
+                ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+                try {
+                    dialog.run(true, true, new RunMutatorDrawWithProgress());
+                }
+                catch (InvocationTargetException e) {
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    throw new ExecutionException(
+                            "Error rendering Wodel-EDU GraphViz diagrams",
+                            cause
+                    );
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                return null;
+            }
+
+            @Override
+            public void run() {
+                /*
+                 * Non-UI extension entry point used reflectively by Wodel.
+                 * It is commonly called from Wodel's existing background
+                 * progress operation, where there may be no active workbench
+                 * window. Do not open a nested ProgressMonitorDialog here.
+                 */
+                try {
+                    generate(new NullProgressMonitor());
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException(
+                            "GraphViz rendering was interrupted",
+                            e
+                    );
+                }
+                catch (Exception e) {
+                    throw new IllegalStateException(
+                            "Error rendering Wodel-EDU GraphViz diagrams",
+                            e
+                    );
+                }
+            }
+        }
 	'''
 }

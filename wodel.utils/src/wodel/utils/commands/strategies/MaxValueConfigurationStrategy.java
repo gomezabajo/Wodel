@@ -162,7 +162,7 @@ public class MaxValueConfigurationStrategy extends AttributeConfigurationStrateg
 
 	public MaxValueConfigurationStrategy(List<EPackage> packages, List<Resource> models, String className, List<EObject> candidates, String attName) {
 		super(attName);
-
+		
 		EClass eClass = ModelManager.getEClassByName(packages, className);
 		for (EAttribute att : eClass.getEAllAttributes()) {
 			if (att.getName().equals(attribute2mutate)) {

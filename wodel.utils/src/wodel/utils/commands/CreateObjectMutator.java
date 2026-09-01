@@ -2,6 +2,7 @@ package wodel.utils.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -188,33 +189,250 @@ public class CreateObjectMutator extends Mutator {
 			}
 		}
 	}
+	
+	private static String stableKey(
+	        EObject object) {
+
+	    if (object == null) {
+	        return "<null>";
+	    }
+
+	    String nsURI =
+	        object.eClass()
+	            .getEPackage()
+	            .getNsURI();
+
+	    String type =
+	        object.eClass()
+	            .getName();
+
+	    Resource resource =
+	        object.eResource();
+
+	    String fragment =
+	        resource != null
+	        ? resource.getURIFragment(
+	            object)
+	        : "<detached>";
+
+	    return nsURI
+	        + "#"
+	        + type
+	        + "#"
+	        + fragment;
+	}
+	
+	private static String referenceKey(
+	        EReference reference) {
+
+	    if (reference == null) {
+	        return "<null>";
+	    }
+
+	    EClass owner =
+	        reference.getEContainingClass();
+
+	    EPackage pack =
+	        owner != null
+	        ? owner.getEPackage()
+	        : null;
+
+	    return
+	        (pack != null
+	            ? pack.getNsURI()
+	            : "")
+	        + "#"
+	        + (owner != null
+	            ? owner.getName()
+	            : "")
+	        + "."
+	        + reference.getName()
+	        + "[containment="
+	        + reference.isContainment()
+	        + ", many="
+	        + reference.isMany()
+	        + ", lower="
+	        + reference.getLowerBound()
+	        + ", upper="
+	        + reference.getUpperBound()
+	        + "]";
+	}
+	
+	private static String stableReferenceKey(
+	        EReference reference) {
+
+	    if (reference == null) {
+	        return "";
+	    }
+
+	    EClass owner =
+	        reference.getEContainingClass();
+
+	    EPackage ePackage =
+	        owner != null
+	            ? owner.getEPackage()
+	            : null;
+
+	    String nsURI =
+	        ePackage != null
+	            ? String.valueOf(
+	                ePackage.getNsURI())
+	            : "";
+
+	    String ownerName =
+	        owner != null
+	            ? String.valueOf(
+	                owner.getName())
+	            : "";
+
+	    return nsURI
+	        + "|"
+	        + ownerName
+	        + "|"
+	        + reference.getName();
+	}
+	
+	private EReference selectApplicableContainmentReference(
+	        EObject container,
+	        EClass createdType) {
+
+	    if (container == null || createdType == null) {
+	        return null;
+	    }
+
+	    List<EReference> candidates =
+	        new ArrayList<>();
+
+	    for (EReference reference :
+	            container.eClass().getEAllContainments()) {
+
+	        EClass expectedType =
+	            reference.getEReferenceType();
+
+	        /*
+	         * The new object's type must be compatible with
+	         * the reference type.
+	         */
+	        if (expectedType == null
+	                || !expectedType.isSuperTypeOf(
+	                    createdType)) {
+
+	            continue;
+	        }
+
+	        /*
+	         * Multi-valued containment:
+	         * applicable while its upper bound has not
+	         * been reached.
+	         */
+	        if (reference.isMany()) {
+
+	            @SuppressWarnings("unchecked")
+	            List<EObject> values =
+	                (List<EObject>)
+	                    container.eGet(reference);
+
+	            int upper =
+	                reference.getUpperBound();
+
+	            if (upper < 0
+	                    || values.size() < upper) {
+
+	                candidates.add(reference);
+	            }
+
+	            continue;
+	        }
+
+	        /*
+	         * Single-valued containment:
+	         * a create operation may use it only when
+	         * the slot is currently empty.
+	         */
+	        Object current =
+	            container.eGet(reference);
+
+	        if (current == null) {
+	            candidates.add(reference);
+	        }
+	    }
+
+	    if (candidates.isEmpty()) {
+	        return null;
+	    }
+
+	    /*
+	     * Never depend on Ecore/collection traversal order
+	     * at a seeded random-selection boundary.
+	     */
+	    candidates.sort(
+	        Comparator.comparing(
+	            CreateObjectMutator::
+	                stableReferenceKey));
+
+	    return candidates.get(
+	        ModelManager.getRandomIndex(
+	            candidates));
+	}
+	
+	private boolean isSuccessfullyInserted(
+	        EObject created,
+	        EObject expectedContainer,
+	        Resource expectedResource) {
+
+	    if (created == null) {
+	        return false;
+	    }
+
+	    if (created.eResource()
+	            != expectedResource) {
+
+	        return false;
+	    }
+
+	    if (expectedContainer != null
+	            && created.eContainer()
+	                != expectedContainer) {
+
+	        return false;
+	    }
+
+	    return true;
+	}
 
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
 		//We select the container of the new Object
-		EObject container = containerSelection.getObject();
+		//EObject container = containerSelection.getObject();
 		//We select the container of the new Object
-		EReference reference = (EReference) referenceSelection.getObject();
+		//EReference reference = (EReference) referenceSelection.getObject();
 		
-		if(container==null){
-			result = null;
-			return null;
-		}
-		
-		EObject obj;
+		EObject container =
+			    containerSelection != null
+			        ? containerSelection.getObject()
+			        : null;
+
+			EReference reference =
+			    referenceSelection != null
+			        ? (EReference)
+			            referenceSelection.getObject()
+			        : null;
+
+
+		EObject obj = null;
 		
 		if(objName!=null){
 			//We get the new Object
 			obj = ModelManager.getObjectOfType(objName, this.getMetaModel());
 		}
 		
-		else{
-			//We get the new Object
-			obj = ModelManager.getObjectOfType(reference.getEType().getName(), this.getMetaModel());
-			if(((EClass) obj).isAbstract()==true){
-				throw new AbstractCreationException("The object '"+((EClass)obj).getName()+"' is abstract and cannot be instantiated.");
-			}
+		else if (reference != null) {
+				//We get the new Object
+				obj = ModelManager.getObjectOfType(reference.getEType().getName(), this.getMetaModel());
+				if(((EClass) obj).isAbstract()==true){
+					throw new AbstractCreationException("The object '"+((EClass)obj).getName()+"' is abstract and cannot be instantiated.");
+				}
 		}
 		
 		
@@ -222,6 +440,37 @@ public class CreateObjectMutator extends Mutator {
 			result = null;
 			return null;
 		}
+		
+			/*
+			 * A container was requested, but no explicit reference
+			 * was given: find a currently usable containment slot.
+			 */
+		if (container != null
+		        && reference == null) {
+
+		    reference =
+		        selectApplicableContainmentReference(
+		            container,
+		            (EClass) obj);
+
+		    if (reference == null) {
+
+		        result = null;
+		        return null;
+		    }
+		}
+		
+		if(container==null){
+			result = null;
+			return null;
+		}
+		
+		/*System.out.println(
+			    "[CREATE BEFORE]"
+			    + " type=" + objName
+			    + " container=" + stableKey(container)
+			    + " reference=" + referenceKey(reference));
+		*/
 		
 		//We create the object
 		EObject newObj = null;
@@ -245,7 +494,7 @@ public class CreateObjectMutator extends Mutator {
 		while (rf.hasNext()) {
 			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>) rf.next();
 			if (reference != null) {
-				if (!obj.eClass().isInstance(container.eGet(reference))
+				if (!((EClass) obj).isInstance(container.eGet(reference))
 						&& !(container.eGet(reference) instanceof List<?>)) {
 					if (e.getValue() != null && e.getValue().getObject() != null) {
 						if (!this.getModel().getContents().contains(e.getValue().getObject())) {
@@ -310,36 +559,69 @@ public class CreateObjectMutator extends Mutator {
 			}
 		}
 		
-		//If there is not a selected reference we choose a random one
-		if(reference == null && objName != null){
-			List<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-			EClass objType = ModelManager.getEClassByName(this.getMetaModel(), objName);
-			Collections.shuffle(refs);
-			for (EReference ref : refs) {
-				EClass type = (EClass) ref.getEType();
-				if (type.isSuperTypeOf(objType)) {
-					if (container.eGet(ref) == null) {
-						reference = ref;
-						break;
-					}
-					if (container.eGet(ref) instanceof List<?>) {
-						List<EObject> objects = (List<EObject>) container.eGet(ref);
-						if (ref.getUpperBound() == -1 || ref.getUpperBound() > objects.size()) {
-							reference = ref;
-							break;
-						}
-					}
-				}
-			}
-			if (reference == null) {
-				//stores the new object in the root object
-				List<EObject> o = (List<EObject>) this.getModel().getContents();
-				o.add(newObj);		
-				this.result = newObj;
-				return newObj;
-				//reference = refs.get(ModelManager.getRandomIndex(refs));
-			}
-		}
+//		//If there is not a selected reference we choose a random one
+//		if(reference == null && objName != null){
+//			List<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
+//			EClass objType = ModelManager.getEClassByName(this.getMetaModel(), objName);
+//			Collections.shuffle(refs);
+//			for (EReference ref : refs) {
+//				EClass type = (EClass) ref.getEType();
+//				if (type.isSuperTypeOf(objType)) {
+//					if (container.eGet(ref) == null) {
+//						reference = ref;
+//						break;
+//					}
+//					if (container.eGet(ref) instanceof List<?>) {
+//						List<EObject> objects = (List<EObject>) container.eGet(ref);
+//						if (ref.getUpperBound() == -1 || ref.getUpperBound() > objects.size()) {
+//							reference = ref;
+//							break;
+//						}
+//					}
+//				}
+//			}
+//			if (reference == null) {
+//				//stores the new object in the root object
+//				List<EObject> o = (List<EObject>) this.getModel().getContents();
+//				o.add(newObj);		
+//				this.result = newObj;
+//				System.out.println(
+//					    "[CREATE AFTER]"
+//					    + " created=" + stableKey(newObj)
+//					    + " eContainer="
+//					        + stableKey(
+//					        		newObj.eContainer())
+//					    + " containmentFeature="
+//					        + (newObj.eContainmentFeature()
+//					            != null
+//					            ? newObj.eContainmentFeature()
+//					                .getName()
+//					            : "<null>")
+//					    + " eResource="
+//					        + (newObj.eResource()
+//					            != null
+//					            ? newObj.eResource()
+//					                .getURI()
+//					            : "<null>"));
+//
+//				if (!isSuccessfullyInserted(
+//				        newObj,
+//				        container,
+//				        getModel())) {
+//
+//				    /*
+//				     * Do not expose a detached object as the result
+//				     * of a successful creation mutation.
+//				     */
+//				    result = null;
+//				    return null;
+//				}
+//
+//				result = newObj;
+//				return newObj;
+//				//reference = refs.get(ModelManager.getRandomIndex(refs));
+//			}
+//		}
 		
 		//boolean sup = false;
 		if(!reference.getEType().getName().equals(newObj.eClass().getName())){
@@ -390,7 +672,41 @@ public class CreateObjectMutator extends Mutator {
 			}
 			this.result = newObj;
 		}
+		/*
+		System.out.println(
+			    "[CREATE AFTER]"
+			    + " created=" + stableKey(newObj)
+			    + " eContainer="
+			        + stableKey(
+			        		newObj.eContainer())
+			    + " containmentFeature="
+			        + (newObj.eContainmentFeature()
+			            != null
+			            ? newObj.eContainmentFeature()
+			                .getName()
+			            : "<null>")
+			    + " eResource="
+			        + (newObj.eResource()
+			            != null
+			            ? newObj.eResource()
+			                .getURI()
+			            : "<null>"));
+		*/
 		//complete(this.getMetaModel(), this.getModel());
+		if (!isSuccessfullyInserted(
+		        newObj,
+		        container,
+		        getModel())) {
+
+		    /*
+		     * Do not expose a detached object as the result
+		     * of a successful creation mutation.
+		     */
+		    result = null;
+		    return null;
+		}
+
+		result = newObj;
 		return newObj;
 	}
 	

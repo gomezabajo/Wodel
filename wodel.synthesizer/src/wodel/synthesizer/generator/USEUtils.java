@@ -1,40 +1,30 @@
 package wodel.synthesizer.generator;
 
-import java.io.IOException;
-import java.net.URL;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.osgi.framework.Bundle;
 
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.UseGeneratorUtils;
-import mutatorenvironment.AttributeEvaluation;
-import mutatorenvironment.CloneObjectMutator;
-import mutatorenvironment.Expression;
 import mutatorenvironment.ListStringType;
-import mutatorenvironment.ModifyInformationMutator;
-import mutatorenvironment.ObSelectionStrategy;
-import mutatorenvironment.RandomTypeSelection;
-import mutatorenvironment.RemoveObjectMutator;
-import mutatorenvironment.RetypeObjectMutator;
-import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SpecificStringType;
+import mutatorenvironment.MutatorenvironmentPackage;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -53,13 +43,11 @@ public class USEUtils {
 	 * @return
 	 */
 	public static String[] decodeClassName(String className) {
-		String decodedClassName = className;
-		if (className.startsWith("xxxx")) {
-			if (Arrays.asList(UseGeneratorUtils.useWords).contains(className.substring(4, className.length()))) {
-				decodedClassName = className.substring(4, className.length());
-			}
+		if (className == null || className.isEmpty()) {
+			return new String[0];
 		}
-		return decodedClassName.split("XxxX");
+		String decodedClassName = UseGeneratorUtils.decodeWord(className);
+		return decodedClassName.split("XxxX", -1);
 	}
 	
 	/**
@@ -68,17 +56,22 @@ public class USEUtils {
 	 * @param classNames
 	 * @return
 	 */
-	private static URI getMetaModelURIFromXMI(URI xmiURI, HashMap<URI, String> classNames) {
-		URI metamodelURI = null;
+	private static URI getMetaModelURIFromXMI(URI xmiURI, Map<URI, String> classNames) {
+		if (xmiURI == null || classNames == null || classNames.isEmpty()) {
+			return null;
+		}
 		String uriValue = xmiURI.toString();
-		uriValue = uriValue.substring(uriValue.indexOf("#"), uriValue.length());
+		int fragment = uriValue.indexOf('#');
+		if (fragment < 0) {
+			return classNames.containsKey(xmiURI) ? xmiURI : null;
+		}
+		uriValue = uriValue.substring(fragment);
 		for (URI uri : classNames.keySet()) {
-			if (uri.toString().endsWith(uriValue)) {
-				metamodelURI = uri;
-				break;
+			if (uri != null && uri.toString().endsWith(uriValue)) {
+				return uri;
 			}
 		}
-		return metamodelURI;
+		return null;
 	}
 	
 	/**
@@ -86,12 +79,15 @@ public class USEUtils {
 	 * @param o
 	 * @return
 	 */
+	private static String escapeUseString(String value) {
+		return value == null ? "" : value.replace("'", "''");
+	}
+
 	private static String getStringName(Object o) {
-		String processed = "";
-		if (o instanceof String) {
-			processed = "'" + o.toString() + "'";
+		if (o instanceof String || o instanceof Character) {
+			return "'" + escapeUseString(String.valueOf(o)) + "'";
 		}
-		return processed;
+		return "";
 	}
 	
 	/**
@@ -100,19 +96,36 @@ public class USEUtils {
 	 * @return
 	 */
 	private static String completeParentheses(String constraint) {
+		if (constraint == null || constraint.isEmpty()) {
+			return constraint;
+		}
 		int count = 0;
-		for (char c : constraint.toCharArray()) {
+		boolean inString = false;
+		for (int i = 0; i < constraint.length(); i++) {
+			char c = constraint.charAt(i);
+			if (c == '\'') {
+				if (inString && i + 1 < constraint.length() && constraint.charAt(i + 1) == '\'') {
+					i++; // OCL/USE escaped apostrophe ('')
+					continue;
+				}
+				inString = !inString;
+				continue;
+			}
+			if (inString) continue;
 			if (c == '(') {
 				count++;
-			}
-			if (c == ')') {
-				count--;
+			} else if (c == ')') {
+				if (--count < 0) {
+					throw new IllegalArgumentException("Unbalanced OCL/USE expression: " + constraint);
+				}
 			}
 		}
-		for (int i = 0; i < count; i++) {
-			constraint += ")";
+		if (inString) {
+			throw new IllegalArgumentException("Unterminated OCL/USE string literal: " + constraint);
 		}
-		return constraint;
+		StringBuilder completed = new StringBuilder(constraint);
+		while (count-- > 0) completed.append(')');
+		return completed.toString();
 	}
 	
 	/**
@@ -518,6 +531,9 @@ public class USEUtils {
 	 * @return
 	 */
 	private static int getObjectMaxIndex(EObject eObject, HashMap<EObject, String> eObjectNamesHashMap) {
+		 if (eObject == null || eObjectNamesHashMap == null) {
+			 return 0;
+		 }
 		 String className = eObject.eClass().getName();
 		 String varName = className.substring(0, 1).toLowerCase();
 		 int max = 0;
@@ -540,22 +556,54 @@ public class USEUtils {
 	 * @return
 	 */
 	private static String processObject(Object o) {
-		String processed = "";
-		if (o instanceof Boolean) {
-			processed = o.toString();
+		if (o == null) {
+			return "null";
 		}
-		if (o instanceof String) {
-			processed = "'" + o.toString() + "'";
+		if (o instanceof Boolean || o instanceof Number) {
+			return String.valueOf(o);
 		}
-		if (o instanceof Double) {
-			processed = o.toString();
+		if (o instanceof String || o instanceof Character) {
+			return "'" + escapeUseString(String.valueOf(o)) + "'";
 		}
-		if (o instanceof Integer) {
-			processed = o.toString();
+		if (o instanceof EEnumLiteral) {
+			return Integer.toString(((EEnumLiteral) o).getValue());
 		}
-		return processed;
+		throw new IllegalArgumentException("Unsupported Ecore value for USE serialization: " + o.getClass().getName());
 	}
 	
+	private static String processReferenceValues(String ownerVariable, EReference ref, List<EObject> objects,
+			HashMap<EObject, String> eObjectNamesHashMap, HashMap<URI, String> classNames,
+			HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
+		String role = UseGeneratorUtils.encodeWord(
+				getTarUseReferenceName(ref.getEContainingClass(), ref, classNames, useReferences));
+		String navigation = ownerVariable + "." + role;
+		if (objects == null || objects.isEmpty()) {
+			return navigation + "->isEmpty()";
+		}
+		int index = getObjectMaxIndex(objects.get(0), eObjectNamesHashMap);
+		String className = ref.getEType().getName();
+		List<String> localNames = new ArrayList<String>();
+		StringBuilder result = new StringBuilder(navigation).append("->exists(");
+		for (int n = 0; n < objects.size(); n++) {
+			String local = className.substring(0, 1).toLowerCase() + index++;
+			localNames.add(local);
+			if (n < objects.size() - 1) {
+				result.append(local).append(", ");
+			} else {
+				result.append(local).append(" | ");
+			}
+		}
+		for (int n = 0; n < objects.size(); n++) {
+			if (n > 0) result.append(" and ");
+			String target = eObjectNamesHashMap.get(objects.get(n));
+			if (target == null) {
+				throw new IllegalStateException("Referenced EObject has no generated USE variable name: " + objects.get(n));
+			}
+			result.append(localNames.get(n)).append('=').append(target);
+		}
+		return result.append(')').toString();
+	}
+
 	/**
 	 * Process the object to USE format
 	 * @param object
@@ -613,26 +661,7 @@ public class USEUtils {
 							}
 							if (o instanceof List<?>) {
 								List<EObject> objs = (List<EObject>) o;
-								int i = getObjectMaxIndex(objs.get(0), eObjectNamesHashMap);
-								constraint += varNames.get(index) + "." + UseGeneratorUtils.encodeWord(getTarUseReferenceName(eObject.eClass(), ref, classNames, useReferences)) + "->exists(";
-								String className = ref.getEType().getName();
-								List<String> localVarNames = new ArrayList<String>();
-								String varName = "";
-								for (EObject obj : objs.subList(0, objs.size() - 1)) {
-									varName = className.substring(0, 1).toLowerCase() + i;
-									constraint += varName + ", ";
-									localVarNames.add(varName);
-									i++;
-								}
-								varName = className.substring(0, 1).toLowerCase() + i;
-								constraint += varName + " | ";
-								localVarNames.add(varName);
-								i = 0;
-								for (EObject obj : objs.subList(0, objs.size() - 1)) {
-									constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(obj) + " and ";
-									i++;
-								}
-								constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(objs.get(objs.size() - 1)) + ")";
+								constraint += processReferenceValues(varNames.get(index), ref, objs, eObjectNamesHashMap, classNames, useReferences);
 								addAnd = true;
 							}
 						}
@@ -695,26 +724,7 @@ public class USEUtils {
 						}
 						if (o instanceof List<?>) {
 							List<EObject> objs = (List<EObject>) o;
-							int i = getObjectMaxIndex(objs.get(0), eObjectNamesHashMap);
-							constraint += varNames.get(0) + "." + UseGeneratorUtils.encodeWord(getTarUseReferenceName(eObject.eClass(), ref, classNames, useReferences)) + "->exists(";
-							String className = ref.getEType().getName();
-							List<String> localVarNames = new ArrayList<String>();
-							String varName = "";
-							for (EObject obj : objs.subList(0, objs.size() - 1)) {
-								varName = className.substring(0, 1).toLowerCase() + i;
-								constraint += varName + ", ";
-								localVarNames.add(varName);
-								i++;
-							}
-							varName = className.substring(0, 1).toLowerCase() + i;
-							constraint += varName + " | ";
-							localVarNames.add(varName);
-							i = 0;
-							for (EObject obj : objs.subList(0, objs.size() - 1)) {
-								constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(obj) + " and ";
-								i++;
-							}
-							constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(objs.get(objs.size() - 1)) + ")";
+							constraint += processReferenceValues(varNames.get(0), ref, objs, eObjectNamesHashMap, classNames, useReferences);
 							addAnd = true;
 						}
 					}
@@ -774,26 +784,7 @@ public class USEUtils {
 						}
 						if (o instanceof List<?>) {
 							List<EObject> objs = (List<EObject>) o;
-							int i = getObjectMaxIndex(objs.get(0), eObjectNamesHashMap);
-							constraint += varNames.get(eObjects.size() - 1) + "." + UseGeneratorUtils.encodeWord(getTarUseReferenceName(eObject.eClass(), ref, classNames, useReferences)) + "->exists(";
-							String className = ref.getEType().getName();
-							List<String> localVarNames = new ArrayList<String>();
-							String varName = "";
-							for (EObject obj : objs.subList(0, objs.size() - 1)) {
-								varName = className.substring(0, 1).toLowerCase() + i;
-								constraint += varName + ", ";
-								localVarNames.add(varName);
-								i++;
-							}
-							varName = className.substring(0, 1).toLowerCase() + i;
-							constraint += varName + " | ";
-							localVarNames.add(varName);
-							i = 0;
-							for (EObject obj : objs.subList(0, objs.size() - 1)) {
-								constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(obj) + " and ";
-								i++;
-							}
-							constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(objs.get(objs.size() - 1)) + ")";
+							constraint += processReferenceValues(varNames.get(eObjects.size() - 1), ref, objs, eObjectNamesHashMap, classNames, useReferences);
 							addAnd = true;
 						}
 					}
@@ -854,26 +845,7 @@ public class USEUtils {
 					}
 					if (o instanceof List<?>) {
 						List<EObject> objs = (List<EObject>) o;
-						int i = getObjectMaxIndex(objs.get(0), eObjectNamesHashMap);
-						constraint += varName + "." + UseGeneratorUtils.encodeWord(getTarUseReferenceName(eObject.eClass(), ref, classNames, useReferences)) + "->exists(";
-						String className = ref.getEType().getName();
-						List<String> localVarNames = new ArrayList<String>();
-						String vName = "";
-						for (EObject obj : objs.subList(0, objs.size() - 1)) {
-							vName = className.substring(0, 1).toLowerCase() + i;
-							constraint += vName + ", ";
-							localVarNames.add(vName);
-							i++;
-						}
-						vName = className.substring(0, 1).toLowerCase() + i;
-						constraint += vName + " | ";
-						localVarNames.add(vName);
-						i = 0;
-						for (EObject obj : objs.subList(0, objs.size() - 1)) {
-							constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(obj) + " and ";
-							i++;
-						}
-						constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(objs.get(objs.size() - 1)) + ")";
+						constraint += processReferenceValues(varName, ref, objs, eObjectNamesHashMap, classNames, useReferences);
 						addAnd = true;
 					}
 				}
@@ -915,32 +887,34 @@ public class USEUtils {
 	 * @return
 	 */
 	private static String[] getNames(String text) {
+		if (text == null || text.isEmpty()) {
+			return new String[0];
+		}
 		List<String> names = new ArrayList<String>();
-		char[] chars = text.toCharArray();
-		int i = 0;
-		while (i < chars.length) {
-			if (chars[i] == '\'') {
-				int j = i + 1;
-				String name = "'";
-				while (j < chars.length) {
-					name += chars[j];
-					if (chars[j] == '\'') {
-						break;
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) != '\'') continue;
+			StringBuilder literal = new StringBuilder("'");
+			boolean closed = false;
+			for (int j = i + 1; j < text.length(); j++) {
+				char c = text.charAt(j);
+				literal.append(c);
+				if (c == '\'') {
+					if (j + 1 < text.length() && text.charAt(j + 1) == '\'') {
+						literal.append('\'');
+						j++;
+						continue;
 					}
-					j++;
+					closed = true;
+					i = j;
+					break;
 				}
-				names.add(name);
-				i= j+1;
 			}
-			i++;
+			if (!closed) {
+				throw new IllegalArgumentException("Unterminated USE string literal in: " + text);
+			}
+			names.add(literal.toString());
 		}
-		String[] ret = null;
-		if (names.size() > 0) {
-			ret = new String[names.size()];
-			names.toArray(ret);
-		}
-		
-		return ret;
+		return names.toArray(new String[0]);
 	}
 
 	
@@ -951,32 +925,17 @@ public class USEUtils {
 	 * @return
 	 */
 	public static String oclAddNames(String names, String oclText) {
-		String[] newNames = getNames(oclText);
-		if (newNames != null && newNames.length > 0) {
-			List<String> nl = new ArrayList<String>();
-			for (String newName : newNames) {
-				if (names.indexOf(newName) == - 1) {
-					nl.add(newName);
-				}
-			}
-			if (nl.size() > 0) {
-				if (names.length() == 0 || names.equals("String = Set{}")) {
-					names = "String = Set{";
-					names += nl.get(0);
-					for (String n : nl.subList(1, nl.size())) {
-						names += ", " + n;
-					}
-				}
-				else {
-					names = names.replace("}", "");
-					for (String n : nl) {
-						names += ", " + n;
-					}
-				}
-				names += "}";
-			}
+		LinkedHashSet<String> values = new LinkedHashSet<String>();
+		for (String value : getNames(names)) values.add(value);
+		for (String value : getNames(oclText)) values.add(value);
+		StringBuilder result = new StringBuilder("String = Set{");
+		boolean first = true;
+		for (String value : values) {
+			if (!first) result.append(", ");
+			first = false;
+			result.append(value);
 		}
-		return names;
+		return result.append('}').toString();
 	}
 	
 	/**
@@ -987,9 +946,18 @@ public class USEUtils {
 	 * @return
 	 */
 	public static String xmi2ocl(Resource model, HashMap<URI, String> classNames, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
+		if (model == null || classNames == null) {
+			throw new IllegalArgumentException("model and classNames must not be null");
+		}
 		EObject root = ModelManager.getRoot(model);
+		if (root == null) {
+			throw new IllegalArgumentException("The XMI resource has no root EObject: " + model.getURI());
+		}
 		String useText = "";
 		String className = classNames.get(getMetaModelURIFromXMI(EcoreUtil.getURI(root.eClass()), classNames));
+		if (className == null) {
+			throw new IllegalArgumentException("No USE class mapping for root EClass " + EcoreUtil.getURI(root.eClass()));
+		}
 		HashMap<String, Integer> varNamesHashMap = new HashMap<String, Integer>();
 		String varName = className.substring(0, 1).toLowerCase();
 		varNamesHashMap.put(varName, null);
@@ -1024,26 +992,7 @@ public class USEUtils {
 				}
 				if (o instanceof List<?>) {
 					List<EObject> objs = (List<EObject>) o;
-					int i = getObjectMaxIndex(objs.get(0), eObjectNamesHashMap);
-					constraint += varName + "." + UseGeneratorUtils.encodeWord(getTarUseReferenceName(root.eClass(), ref, classNames, useReferences)) + "->exists(";
-					String clName = ref.getEType().getName();
-					List<String> localVarNames = new ArrayList<String>();
-					String vName = "";
-					for (EObject obj : objs.subList(0, objs.size() - 1)) {
-						vName = clName.substring(0, 1).toLowerCase() + i;
-						constraint += vName + ", ";
-						localVarNames.add(vName);
-						i++;
-					}
-					vName = clName.substring(0, 1).toLowerCase() + i;
-					constraint += vName + " | ";
-					localVarNames.add(vName);
-					i = 0;
-					for (EObject obj : objs.subList(0, objs.size() - 1)) {
-						constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(obj) + " and ";
-						i++;
-					}
-					constraint += localVarNames.get(i) + "=" + eObjectNamesHashMap.get(objs.get(objs.size() - 1)) + ")";
+					constraint += processReferenceValues(varName, ref, objs, eObjectNamesHashMap, classNames, useReferences);
 					addAnd = true;
 				}
 			}
@@ -1087,7 +1036,13 @@ public class USEUtils {
 	 * @return
 	 */
 	public static String xmi2oclNames(Resource model, HashMap<URI, String> classNames) {
+		if (model == null || classNames == null) {
+			throw new IllegalArgumentException("model and classNames must not be null");
+		}
 		EObject root = ModelManager.getRoot(model);
+		if (root == null) {
+			throw new IllegalArgumentException("The XMI resource has no root EObject: " + model.getURI());
+		}
 		String oclNames = "String = Set{";
 		String className = root.eClass().getName();
 		HashMap<String, Integer> varNamesHashMap = new HashMap<String, Integer>();
@@ -1154,261 +1109,51 @@ public class USEUtils {
 	 * @return
 	 */
 	public static String wodel2useNames(String filename) {
-		String useNames = "String = Set{";
+		if (filename == null || filename.isBlank()) {
+			return "String = Set{}";
+		}
+		String outputPath = ModelManager.getOutputPath();
+		File modelFile = new File(outputPath == null ? "" : outputPath,
+				filename.replaceFirst("(?i)\\.mutator$", ".model"));
+		Resource wodel = null;
 		try {
-			String xmiFileName = "file:/" + ModelManager.getOutputPath() +  "/" + filename.replace(".mutator", ".model");
-			Bundle bundle = Platform.getBundle("wodel.models");
-			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
-			String ecore = FileLocator.resolve(fileURL).getFile();
-			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
-			Resource wodel = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
-			List<EObject> objects = ModelManager.getAllObjects(wodel);
-			List<String> names = new ArrayList<String>();
-			for (EObject object : objects) {
-				if (object instanceof RemoveObjectMutator) {
-					RemoveObjectMutator mut = (RemoveObjectMutator) object;
-					ObSelectionStrategy strategy = mut.getObject();
-					if (strategy instanceof RandomTypeSelection) {
-						RandomTypeSelection selection = (RandomTypeSelection) strategy;
-						Expression expression = selection.getExpression();
-						if (expression != null) {
-							if (expression.getFirst() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getFirst();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-							if (expression.getSecond() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getSecond();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-						}
+			List<EPackage> packages = new ArrayList<EPackage>();
+			packages.add(MutatorenvironmentPackage.eINSTANCE);
+			wodel = ModelManager.loadModel(packages, modelFile.getPath());
+			Set<String> names = new LinkedHashSet<String>();
+			for (EObject object : ModelManager.getAllObjects(wodel)) {
+				if (object instanceof SpecificStringType) {
+					String value = ((SpecificStringType) object).getValue();
+					if (value != null) {
+						names.add(value);
 					}
-				}
-				if (object instanceof SelectObjectMutator) {
-					SelectObjectMutator mut = (SelectObjectMutator) object;
-					ObSelectionStrategy strategy = mut.getObject();
-					if (strategy instanceof RandomTypeSelection) {
-						RandomTypeSelection selection = (RandomTypeSelection) strategy;
-						Expression expression = selection.getExpression();
-						if (expression != null) {
-							if (expression.getFirst() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getFirst();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-							if (expression.getSecond() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getSecond();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				if (object instanceof ModifyInformationMutator) {
-					ModifyInformationMutator mut = (ModifyInformationMutator) object;
-					ObSelectionStrategy strategy = mut.getObject();
-					if (strategy instanceof RandomTypeSelection) {
-						RandomTypeSelection selection = (RandomTypeSelection) strategy;
-						Expression expression = selection.getExpression();
-						if (expression != null) {
-							if (expression.getFirst() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getFirst();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-							if (expression.getSecond() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getSecond();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				if (object instanceof CloneObjectMutator) {
-					CloneObjectMutator mut = (CloneObjectMutator) object;
-					ObSelectionStrategy strategy = mut.getObject();
-					if (strategy instanceof RandomTypeSelection) {
-						RandomTypeSelection selection = (RandomTypeSelection) strategy;
-						Expression expression = selection.getExpression();
-						if (expression != null) {
-							if (expression.getFirst() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getFirst();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-							if (expression.getSecond() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getSecond();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				if (object instanceof RetypeObjectMutator) {
-					RetypeObjectMutator mut = (RetypeObjectMutator) object;
-					ObSelectionStrategy strategy = mut.getObject();
-					if (strategy instanceof RandomTypeSelection) {
-						RandomTypeSelection selection = (RandomTypeSelection) strategy;
-						Expression expression = selection.getExpression();
-						if (expression != null) {
-							if (expression.getFirst() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getFirst();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
-							if (expression.getSecond() instanceof AttributeEvaluation) {
-								AttributeEvaluation attev = (AttributeEvaluation) expression.getSecond();
-								if (attev.getValue() instanceof SpecificStringType) {
-									SpecificStringType stringType = (SpecificStringType) attev.getValue();
-									if (!names.contains(stringType.getValue())) {
-										names.add(stringType.getValue());
-									}
-								}
-								if (attev.getValue() instanceof ListStringType) {
-									ListStringType listStringType = (ListStringType) attev.getValue();
-									for (String value : listStringType.getValue()) {
-										if (!names.contains(value)) {
-											names.add(value);
-										}
-									}
-								}
-							}
+				} else if (object instanceof ListStringType) {
+					for (String value : ((ListStringType) object).getValue()) {
+						if (value != null) {
+							names.add(value);
 						}
 					}
 				}
 			}
+			StringBuilder result = new StringBuilder("String = Set{");
+			boolean first = true;
 			for (String name : names) {
-				useNames += name + ", ";
+				if (!first) {
+					result.append(", ");
+				}
+				first = false;
+				result.append("'").append(escapeUseString(name)).append("'");
 			}
-			if (useNames.indexOf(",") > 0) {
-				useNames = useNames.substring(0, useNames.lastIndexOf(","));
+			return result.append('}').toString();
+		} catch (Exception ex) {
+			throw new IllegalStateException("Could not collect string values from Wodel model: " + modelFile, ex);
+		} finally {
+			if (wodel != null) {
+				try { wodel.unload(); } catch (RuntimeException ignored) { }
 			}
-		} catch (ModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MetaModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		useNames += "}";
-		if (useNames.equals("String = Set{}")) {
-			useNames = "";
-		}
-		return useNames;
 	}
-	
+
 	/**
 	 * Converts EMF OCL to USE OCL
 	 * @param packages
@@ -1416,58 +1161,122 @@ public class USEUtils {
 	 * @param useReferences
 	 * @return
 	 */
-	public static String ocl2use(List<EPackage> packages, String oclText, HashMap<URI, String> classNames, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
-		String oclUseText = oclText;
-		char[] chars = oclUseText.toCharArray();
-		for (URI classURI : useReferences.keySet()) {
-			EClass eClass = ModelManager.getEClassByURI(packages, classURI);
-			String className = eClass.getName();
-			if (oclUseText.indexOf(className) != -1) {
-				int begin = oclUseText.indexOf(className) + className.length();
-				boolean flag = false;
-				int i = begin;
-				while (i < chars.length) {
-					if (chars[i] == '(') {
-						if (flag == true) {
-							break;
-						}
-					}
-					if (chars[i] == ')') {
-						flag = true;
-					}
-					i++;
+	public static String ocl2use(List<EPackage> packages, String oclText,
+			HashMap<URI, String> classNames,
+			HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
+		if (oclText == null || oclText.isBlank()) {
+			return oclText;
+		}
+		if (packages == null || classNames == null) {
+			throw new IllegalArgumentException("packages and classNames must not be null");
+		}
+
+		String translated = oclText;
+
+		/*
+		 * Reference names may be renamed by the USE association generator.  Only
+		 * perform a global token replacement when a source EReference name maps
+		 * unambiguously to a single USE target role.  This avoids the old
+		 * replaceAll(...) implementation accidentally changing string literals,
+		 * partial identifiers, or a same-named reference from another class.
+		 */
+		Map<String, String> uniqueReferenceNames = new LinkedHashMap<String, String>();
+		Set<String> ambiguousReferenceNames = new LinkedHashSet<String>();
+		if (useReferences != null) {
+			for (Map<URI, Entry<String, String>> byReference : useReferences.values()) {
+				if (byReference == null) {
+					continue;
 				}
-				begin = i + 1;
-				int end = 0;
-				int countParentheses = 1;
-				i = begin;
-				while (i < chars.length) {
-					if (chars[i] == '(') {
-						countParentheses ++;
+				for (Map.Entry<URI, Entry<String, String>> entry : byReference.entrySet()) {
+					EReference reference = findReferenceByURI(packages, entry.getKey());
+					if (reference == null || entry.getValue() == null) {
+						continue;
 					}
-					if (chars[i] == ')') {
-						countParentheses --;
+					String original = reference.getName();
+					String target = entry.getValue().getValue();
+					String previous = uniqueReferenceNames.putIfAbsent(original, target);
+					if (previous != null && !previous.equals(target)) {
+						ambiguousReferenceNames.add(original);
 					}
-					if (countParentheses == 0) {
-						end = i;
-					}
-					i++;
 				}
-				String part = oclUseText.substring(begin, end);
-				String newPart = part;
-				for (URI refURI : useReferences.get(classURI).keySet()) {
-					EReference ref = ModelManager.getEReferenceByURI(eClass, refURI);
-					newPart = newPart.replaceAll(ref.getName(), useReferences.get(classURI).get(refURI).getValue());
-				}
-				oclUseText = oclUseText.replace(part, newPart);
 			}
 		}
-		for (URI classURI : classNames.keySet()) {
-			EClass eClass = ModelManager.getEClassByURI(packages, classURI);
-			String className = eClass.getName();
-			oclUseText = oclUseText.replaceAll(className, classNames.get(classURI));
+		for (String ambiguous : ambiguousReferenceNames) {
+			uniqueReferenceNames.remove(ambiguous);
 		}
-		
-		return oclUseText;
+		for (Map.Entry<String, String> entry : uniqueReferenceNames.entrySet()) {
+			translated = replaceIdentifierOutsideStrings(translated, entry.getKey(), entry.getValue());
+		}
+
+		for (Map.Entry<URI, String> entry : classNames.entrySet()) {
+			EClass eClass = ModelManager.getEClassByURI(packages, entry.getKey());
+			if (eClass != null && eClass.getName() != null) {
+				translated = replaceIdentifierOutsideStrings(translated, eClass.getName(), entry.getValue());
+			}
+		}
+		return translated;
+	}
+
+	private static EReference findReferenceByURI(List<EPackage> packages, URI uri) {
+		if (packages == null || uri == null) {
+			return null;
+		}
+		for (EPackage ePackage : packages) {
+			if (ePackage == null) {
+				continue;
+			}
+			for (EClass eClass : ModelManager.getEClasses(java.util.Collections.singletonList(ePackage))) {
+				for (EReference reference : eClass.getEAllReferences()) {
+					if (uri.equals(EcoreUtil.getURI(reference))) {
+						return reference;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private static String replaceIdentifierOutsideStrings(String text, String identifier, String replacement) {
+		if (text == null || identifier == null || identifier.isEmpty() || replacement == null
+				|| identifier.equals(replacement)) {
+			return text;
+		}
+		StringBuilder result = new StringBuilder(text.length() + 16);
+		boolean inString = false;
+		for (int i = 0; i < text.length();) {
+			char c = text.charAt(i);
+			if (c == '\'' ) {
+				result.append(c);
+				if (inString && i + 1 < text.length() && text.charAt(i + 1) == '\'') {
+					result.append('\'');
+					i += 2;
+					continue;
+				}
+				inString = !inString;
+				i++;
+				continue;
+			}
+			if (!inString && isIdentifierStart(c)) {
+				int j = i + 1;
+				while (j < text.length() && isIdentifierPart(text.charAt(j))) {
+					j++;
+				}
+				String token = text.substring(i, j);
+				result.append(token.equals(identifier) ? replacement : token);
+				i = j;
+			} else {
+				result.append(c);
+				i++;
+			}
+		}
+		return result.toString();
+	}
+
+	private static boolean isIdentifierStart(char c) {
+		return Character.isLetter(c) || c == '_';
+	}
+
+	private static boolean isIdentifierPart(char c) {
+		return Character.isLetterOrDigit(c) || c == '_';
 	}
 }

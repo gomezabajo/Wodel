@@ -53,12 +53,12 @@ import org.eclipse.ui.ide.IDE;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ProjectUtils;
 import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
-import wodel.dsls.WodelUtils;
 
 public class WodelTest4FAWizard extends Wizard implements INewWizard {
 

@@ -6,8 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,14 +18,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.random.RandomGenerator;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
@@ -52,6 +56,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -80,12 +85,21 @@ import wodel.utils.exceptions.WrongAttributeTypeException;
  */
 
 public class ModelManager {
+	
+	private static java.nio.file.Path projectRoot = null;
+
+	public static void setProjectRoot(java.nio.file.Path root) {
+	    projectRoot = root.toAbsolutePath().normalize();
+	}
 
 	public static Random rn = new Random((int) System.currentTimeMillis());
 
 	public static final String NATURE_ID = "wodel.project.wodelNature";
 	
 	public static boolean isRegistered(List<EPackage> packages) {
+		if (packages == null) {
+			return false;
+		}
 		for (EPackage pack : packages) {
 			if(EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
 				return true;
@@ -96,6 +110,9 @@ public class ModelManager {
 
 	public static Map<String, EPackage> unregisterMetaModel (List<EPackage> packages) {
 		Map<String, EPackage> packs = new HashMap<String, EPackage>(); 
+		if (packages == null) {
+			return packs;
+		}
 		for (EPackage pack : packages) {
 			if (EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
 				packs.put(pack.getNsURI(), EPackage.Registry.INSTANCE.getEPackage(pack.getNsURI()));
@@ -104,15 +121,22 @@ public class ModelManager {
 		}
 		return packs;
 	}
-
+	
 	public static void registerMetaModel (Map<String, EPackage> packages) {
+		if (packages == null) {
+			return;
+		}
 		for (String nsURI : packages.keySet()) {
 			EPackage.Registry.INSTANCE.put(nsURI, packages.get(nsURI));
+			
 		}
 	}
 
 	public static Map<String, EPackage> registeredMetaModels (List<EPackage> packages) {
-		Map<String, EPackage> packs = new HashMap<String, EPackage>(); 
+		Map<String, EPackage> packs = new HashMap<String, EPackage>();
+		if (packages == null) {
+			return packs;
+		}
 		for (EPackage pack : packages) {
 			if (EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
 				packs.put(pack.getNsURI(), EPackage.Registry.INSTANCE.getEPackage(pack.getNsURI()));
@@ -138,11 +162,40 @@ public class ModelManager {
 		}
 		return cls;
 	}
+	
+	private static List<EPackage> loadDynamicEcore(String path) {
+		//System.out.println("loadDynamicEcore-path: " + path);
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
+		URI uri = URI.createFileURI(new File(path).getAbsolutePath());
+		//System.out.println("loadDynamicEcore-uri: " + uri.toFileString());
+		Resource resource = resourceSet.getResource(uri, true);
+		List<EPackage> result = new ArrayList<>();
+		for (EObject root : resource.getContents()) {
+			if (root instanceof EPackage pkg) {
+				registerLocally(resourceSet.getPackageRegistry(), pkg);
+				result.add(pkg);
+			}
+		}
+		return result;
+	}
 
+	private static void registerLocally(EPackage.Registry registry, EPackage pkg) {
+		if (pkg.getNsURI() != null) {
+			registry.put(pkg.getNsURI(), pkg);
+		}
+		for (EPackage sub : pkg.getESubpackages()) {
+			registerLocally(registry, sub);
+		}
+	}
+	
 	public static String processURI(String uri) {
+		if (uri == null) {
+			return null;
+		}
 		String processedURI = uri.replace("\\", "/");
-		processedURI = processedURI.startsWith("/") && processedURI.indexOf(":") != -1 ? processedURI.substring(1, processedURI.length()) : processedURI;
-		if (FileSystems.getDefault().getPath(processedURI).isAbsolute()) {
+		
+		if (new File(processedURI).isAbsolute() && new File(processedURI).exists() && !new File(processedURI).isDirectory()) {
 			return processedURI;
 		}
 		if (!processedURI.startsWith("/") && !processedURI.startsWith("./")) {
@@ -169,7 +222,7 @@ public class ModelManager {
 				}
 			}
 		}
-		else if (!new File(processedURI).exists()){
+		else if (!new File(processedURI).exists()) {
 			String path = getWorkspaceAbsolutePathWithProjectName();
 			if (path == null) {
 				return processedURI;
@@ -244,7 +297,6 @@ public class ModelManager {
 			String fullPath = path + uri.replace("\\", "/");
 			File fmm = new File(fullPath);
 			if (fmm.exists()) {
-				System.out.println(fullPath);
 				return fullPath;
 			}
 		}
@@ -282,9 +334,15 @@ public class ModelManager {
 	}
 
 	public static String getProjectName(String uri) {
-		String workspacePath = Platform.getLocation().toFile().toString();
+		if (projectRoot == null) {
+			return "";
+		}
+		String projectPath = projectRoot.toFile().getPath().replace("\\", "/");
+		projectPath = projectPath.endsWith("/") ? projectPath.substring(0, projectPath.length() - 1) : projectPath;
 		
+/*
 		String projectName = "";
+		uri = uri.replace("\\", "/");
 		if (uri.startsWith(workspacePath) && workspacePath.indexOf("/") != - 1) {
 			projectName = uri.substring((workspacePath + "/").length());
 			projectName = projectName.substring(0, projectName.indexOf("/"));
@@ -311,17 +369,30 @@ public class ModelManager {
 				projectName = uri.substring(0, uri.indexOf("\\"));
 			}
 		}
+*/
+		String projectName = projectPath.substring(projectPath.lastIndexOf("/") + 1);
+		//System.out.println("projectName: " + projectName);
 		return projectName;
 	}
-
-	public static String getMetaModelPathNoException(String projectName) {
-		if (projectName == null) {
-			return "";
+	
+	public static String getProjectAbsolutePath() {
+    	if (projectRoot == null) {
+   			return "";
 		}
+		String path = projectRoot.toFile().getPath().replace("\\", "/");
+		path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
+		//System.out.println("getWorkspaceAbsolutePath+path: " + path);
+		return path;
+	}
+
+	public static String getMetaModelPathNoException() {
 
 		try {
+			/*
 			String path = Platform.getLocation().toFile().toString() + '/'
 					+ projectName;
+			*/
+			String path = getProjectAbsolutePath();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -336,57 +407,55 @@ public class ModelManager {
 		return "";
 	}
 
+
 	public static List<EPackage> loadMetaModelNoException (String uri) {
 		List<EPackage> metamodel = null;
-		
+
 		if (uri == null) {
 			return metamodel;			
 		}
-		String projectName = getProjectName(uri);
 		
-		if (projectName.length() == 0) {
-			return metamodel;
+		String strURI = uri;
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
 		}
-	
-		try {
-			metamodel = new ArrayList<EPackage>();
+		strURI = processURI(strURI);
+		
+		String mmURI = strURI;
 			
-			String mmURI = uri;
+		File fmm = new File(strURI);
+		if (fmm.exists() == false && strURI.indexOf("/") != -1) {
+			mmURI = getMetaModelPathNoException() + "/" + strURI.substring(strURI.lastIndexOf("/") + 1, strURI.length());
+		}
+		if (fmm.exists() == false && strURI.indexOf("/") == -1) {
+			mmURI = getMetaModelPathNoException() + "/" + strURI;
+		}
+		metamodel = loadDynamicEcore(mmURI);
+		/*
+		
+		// check if it is already registered
+		EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+		
+		// otherwise
+		if (pck == null) {
+			EPackage.Registry.INSTANCE.put(strURI, EPackage.class);
+			if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 			
-			File fmm = new File(uri);
-			if (fmm.exists() == false && uri.indexOf("/") != -1) {
-				mmURI = getMetaModelPathNoException(projectName) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
-			}
-			if (fmm.exists() == false && uri.indexOf("/") == -1) {
-				mmURI = getMetaModelPathNoException(projectName) + "/" + uri;
-			}
-
-			// check if it is already registered
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
-			
-			// otherwise
-			if (pck == null) {
-				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
-				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
-					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-				
-				ResourceSetImpl resourceSet = new ResourceSetImpl();
-				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
-				for (EObject obj : resource.getContents()) {
-					if (obj instanceof EPackage) {
-						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
-						metamodel.add((EPackage)obj);
-					}
+			ResourceSetImpl resourceSet = new ResourceSetImpl();
+			Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+			for (EObject obj : resource.getContents()) {
+				if (obj instanceof EPackage) {
+					resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+					metamodel.add((EPackage)obj);
 				}
 			}
-			else metamodel.add(pck);
-
-			
 		}
-		catch (Exception e) {
-		}
-		
+		else metamodel.add(pck);
+		*/
+				
 		return metamodel;
+		
 	}
 	
 	public static List<EPackage> loadMetaModelNoException (String projectName, String uri) {
@@ -394,54 +463,126 @@ public class ModelManager {
 		if (uri == null) {
 			return metamodel;			
 		}
-		try {
-			metamodel = new ArrayList<EPackage>();
-			
-			String mmURI = uri;
-			
-			File fmm = new File(uri);
-			if (fmm.exists() == false && uri.indexOf("/") != -1) {
-				mmURI = getMetaModelPathNoException(projectName) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
-			}
-			if (fmm.exists() == false && uri.indexOf("/") == -1) {
-				mmURI = getMetaModelPathNoException(projectName) + "/" + uri;
-			}
+		
+		String strURI = uri;
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
 
-			// check if it is already registered
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+		strURI = processURI(strURI);
+		String mmURI = strURI;
 			
-			// otherwise
-			if (pck == null) {
-				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
-				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
-					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-				
-				ResourceSetImpl resourceSet = new ResourceSetImpl();
-				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
-				for (EObject obj : resource.getContents()) {
-					if (obj instanceof EPackage) {
-						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
-						metamodel.add((EPackage)obj);
-					}
+		File fmm = new File(strURI);
+		if (fmm.exists() == false && strURI.indexOf("/") != -1) {
+			mmURI = getMetaModelPathNoException() + "/" + strURI.substring(strURI.lastIndexOf("/") + 1, strURI.length());
+		}
+		if (fmm.exists() == false && strURI.indexOf("/") == -1) {
+			mmURI = getMetaModelPathNoException() + "/" + strURI;
+		}
+
+		metamodel = loadDynamicEcore(mmURI);
+		/*
+		
+		// check if it is already registered
+		EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+		
+		// otherwise
+		if (pck == null) {
+			EPackage.Registry.INSTANCE.put(strURI, EPackage.class);
+			if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+			
+			ResourceSetImpl resourceSet = new ResourceSetImpl();
+			Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+			for (EObject obj : resource.getContents()) {
+				if (obj instanceof EPackage) {
+					resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+					metamodel.add((EPackage)obj);
 				}
 			}
-			else metamodel.add(pck);
+		}
+		else metamodel.add(pck);
+		*/
+				
+		return metamodel;
+	}
+	
+	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = null;
+		String strURI = uri;
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
 
-			
+		String mmURI = processURI(strURI);
+
+		File fmm = new File(mmURI);
+		if (fmm.exists() == false) {
+			String absoluteURI = getAbsoluteMetaModelURI(mmURI);
+			if (absoluteURI == null) {
+				return null;
+			}
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
 		}
-		catch (Exception e) {
+		if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
+			String absoluteURI = getMetaModelPath() + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
 		}
+		if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
+			String absoluteURI = getMetaModelPath() + "/" + mmURI;
+			if (absoluteURI.startsWith("/") && (absoluteURI.indexOf(":") != -1)) {
+				absoluteURI = absoluteURI.substring(1, absoluteURI.length());
+			}
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
+		}
+		if (fmm.exists() == false) {
+			throw new MetaModelNotFoundException(mmURI);
+		}
+		metamodel = loadDynamicEcore(mmURI);
+		/*
 		
+		// check if it is already registered
+		EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+		
+		// otherwise
+		if (pck == null) {
+			EPackage.Registry.INSTANCE.put(strURI, EPackage.class);
+			if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+			
+			ResourceSetImpl resourceSet = new ResourceSetImpl();
+			Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+			for (EObject obj : resource.getContents()) {
+				if (obj instanceof EPackage) {
+					resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+					metamodel.add((EPackage)obj);
+				}
+			}
+		}
+		else metamodel.add(pck);
+		*/
+				
 		return metamodel;
 	}
 
+	public static List<EPackage> loadMetaModels (List<String> uris) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = new ArrayList<EPackage>();
+		for (String uri : uris) {
+			String strURI = uri;
+			if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+				strURI = strURI.substring(1);
+			}
 
-	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
-		List<EPackage> metamodel = null;
-		String mmURI = processURI(uri);
-
-		try {
-			metamodel = new ArrayList<EPackage>();
+			String mmURI = processURI(strURI);
 			
 			File fmm = new File(mmURI);
 			if (fmm.exists() == false) {
@@ -474,76 +615,10 @@ public class ModelManager {
 			if (fmm.exists() == false) {
 				throw new MetaModelNotFoundException(mmURI);
 			}
-			// check if it is already registered
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
-			
-			// otherwise
-			if (pck == null) {
-				EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
-				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
-					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-				
-				ResourceSetImpl resourceSet = new ResourceSetImpl();
-				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
-				
-				for (EObject obj : resource.getContents()) {
-					if (obj instanceof EPackage) {
-						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
-						metamodel.add((EPackage)obj);
-					}
-				}
-			}
-			else metamodel.add(pck);
 
-			
-		}
-		catch (Exception e) {
-			throw new MetaModelNotFoundException(mmURI);
-		}
-		
-		return metamodel;
-	}
+			metamodel.addAll(loadDynamicEcore(mmURI));
 
-	public static List<EPackage> loadMetaModels (List<String> uris) throws MetaModelNotFoundException {
-		List<EPackage> metamodel = null;
-		for (String uri : uris) {
-			String mmURI = processURI(uri);
-			
-			try {
-				metamodel = new ArrayList<EPackage>();
-				
-				File fmm = new File(mmURI);
-				if (fmm.exists() == false) {
-					String absoluteURI = getAbsoluteMetaModelURI(mmURI);
-					if (absoluteURI == null) {
-						return null;
-					}
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
-					String absoluteURI = getMetaModelPath() + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
-					String absoluteURI = getMetaModelPath() + "/" + mmURI;
-					if (absoluteURI.startsWith("/") && (absoluteURI.indexOf(":") != -1)) {
-						absoluteURI = absoluteURI.substring(1, absoluteURI.length());
-					}
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false) {
-					throw new MetaModelNotFoundException(mmURI);
-				}
-				
+			/*
 				// check if it is already registered
 				EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
 				
@@ -565,11 +640,7 @@ public class ModelManager {
 				}
 				else metamodel.add(pck);
 
-				
-			}
-			catch (Exception e) {
-				throw new MetaModelNotFoundException(mmURI);
-			}
+			*/
 		}
 		return metamodel;
 	}
@@ -577,9 +648,10 @@ public class ModelManager {
 	public static String processURI(String uri, Class<?> cls) {
 		String processedURI = uri.replace("\\", "/");
 		processedURI = processedURI.startsWith("/") && processedURI.indexOf(":") != -1 ? processedURI.substring(1, processedURI.length()) : processedURI;
-		if (FileSystems.getDefault().getPath(processedURI).isAbsolute()) {
+		if (new File(processedURI).isAbsolute() && new File(processedURI).exists() && !new File(processedURI).isDirectory()) {
 			return processedURI;
 		}
+
 		if (!processedURI.startsWith("/")) {
 			processedURI = "/" + processedURI;
 		}
@@ -701,9 +773,6 @@ public class ModelManager {
 			}
 		}
 		if (path == null || (path != null && path.length() == 0)) {
-			path = Platform.getLocation().toFile().getPath().replace("\\", "/");			
-		}
-		if (path == null || (path != null && path.length() == 0)) {
 			path = getWorkspaceAbsolutePath(cls).replace("\\", "/");
 		}
 		String fullPath = path + uri.replace("\\", "/");
@@ -733,9 +802,74 @@ public class ModelManager {
 	public static List<EPackage> loadMetaModel (String uri, Class<?> cls) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
 		String mmURI = processURI(uri, cls);
-		try {
-			metamodel = new ArrayList<EPackage>();
+		// check if it is already registered
+		File fmm = new File(mmURI);
+		if (fmm.exists() == false) {
+			String absoluteURI = getAbsoluteMetaModelURI(mmURI, cls);
+			if (absoluteURI == null) {
+				return null;
+			}
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
+		}
+		if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
+			String absoluteURI = getMetaModelPath(cls) + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
+		}
+		if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
+			String absoluteURI = getMetaModelPath(cls) + "/" + mmURI;
+			if (absoluteURI.startsWith("/") && (absoluteURI.indexOf(":") != -1)) {
+				absoluteURI = absoluteURI.substring(1, absoluteURI.length());
+			}
+			fmm = new File(absoluteURI);
+			if (fmm.exists()) {
+				mmURI = absoluteURI;
+			}
+		}
+		if (fmm.exists() == false) {
+			throw new MetaModelNotFoundException(mmURI);
+		}
+		
+		metamodel = loadDynamicEcore(mmURI);
+
+		/*
+		EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
 			
+		// otherwise
+		if (pck==null) {
+			EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
+			if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+			
+			ResourceSetImpl resourceSet = new ResourceSetImpl();
+			Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+			for (EObject obj : resource.getContents()) {
+				if (obj instanceof EPackage) {
+					resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+					metamodel.add((EPackage)obj);
+				}
+			}
+		}
+		else metamodel.add(pck);
+		*/
+			
+		return metamodel;
+	}
+
+	public static List<EPackage> loadMetaModels (List<String> uris, Class<?> cls) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = new ArrayList<EPackage>();
+		for (String uri : uris) {
+			String strURI = uri;
+			if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+				strURI = strURI.substring(1);
+			}
+						
+			String mmURI = processURI(strURI, cls);
 			// check if it is already registered
 			File fmm = new File(mmURI);
 			if (fmm.exists() == false) {
@@ -768,9 +902,11 @@ public class ModelManager {
 			if (fmm.exists() == false) {
 				throw new MetaModelNotFoundException(mmURI);
 			}
-			
+
+			metamodel.addAll(loadDynamicEcore(mmURI));
+			/*
 			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
-			
+				
 			// otherwise
 			if (pck==null) {
 				EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
@@ -788,78 +924,7 @@ public class ModelManager {
 			}
 			else metamodel.add(pck);
 
-			
-		}
-		catch (Exception e) {
-			throw new MetaModelNotFoundException(mmURI);
-		}
-		
-		return metamodel;
-	}
-
-	public static List<EPackage> loadMetaModels (List<String> uris, Class<?> cls) throws MetaModelNotFoundException {
-		List<EPackage> metamodel = null;
-		for (String uri : uris) {
-			String mmURI = processURI(uri, cls);
-			try {
-				metamodel = new ArrayList<EPackage>();
-				
-				// check if it is already registered
-				File fmm = new File(mmURI);
-				if (fmm.exists() == false) {
-					String absoluteURI = getAbsoluteMetaModelURI(mmURI, cls);
-					if (absoluteURI == null) {
-						return null;
-					}
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
-					String absoluteURI = getMetaModelPath(cls) + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
-					String absoluteURI = getMetaModelPath(cls) + "/" + mmURI;
-					if (absoluteURI.startsWith("/") && (absoluteURI.indexOf(":") != -1)) {
-						absoluteURI = absoluteURI.substring(1, absoluteURI.length());
-					}
-					fmm = new File(absoluteURI);
-					if (fmm.exists()) {
-						mmURI = absoluteURI;
-					}
-				}
-				if (fmm.exists() == false) {
-					throw new MetaModelNotFoundException(mmURI);
-				}
-				EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
-				
-				// otherwise
-				if (pck==null) {
-					EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
-					if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
-						Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-					
-					ResourceSetImpl resourceSet = new ResourceSetImpl();
-					Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
-					for (EObject obj : resource.getContents()) {
-						if (obj instanceof EPackage) {
-							resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
-							metamodel.add((EPackage)obj);
-						}
-					}
-				}
-				else metamodel.add(pck);
-
-				
-			}
-			catch (Exception e) {
-				throw new MetaModelNotFoundException(mmURI);
-			}
+			*/
 		}
 		
 		return metamodel;
@@ -941,7 +1006,11 @@ public class ModelManager {
 			}
 		}
 		if (ret == null || ret.equals("")) {
-			String path = Platform.getLocation().toFile().getPath();
+			//String path = Platform.getLocation().toFile().getPath();
+			if (projectRoot == null) {
+				return ret;
+			}
+			String path = projectRoot.toFile().getPath().replace("\\", "/");
 			URI uri = URI.createFileURI(path);
 			ret = uri.toString();
 			ret = ret.replaceFirst("file:/", "/");
@@ -987,7 +1056,11 @@ public class ModelManager {
 			}
 		}
 		if (ret == null || ret.equals("")) {
-			String path = Platform.getLocation().toFile().getPath();
+			//String path = Platform.getLocation().toFile().getPath();
+			if (projectRoot == null) {
+				return ret;
+			}
+			String path = projectRoot.toFile().getPath().replace("\\", "/");
 			URI uri = URI.createFileURI(path);
 			ret = uri.toString();
 			ret = ret.replaceFirst("file:/", "/");
@@ -1387,6 +1460,9 @@ public class ModelManager {
 				if (ProjectUtils.getProject() != null) {
 					path = ProjectUtils.getProject().getLocation().toFile().getPath();
 				}
+			}
+			if (path == null) {
+				return "";
 			}
 			path = path.replaceAll("\\\\", "/");
 			if (path.contains("/bin")) {
@@ -1822,7 +1898,7 @@ public class ModelManager {
 				if (ProjectUtils.getProject() != null) {
 					path = ProjectUtils.getProject().getLocation().toFile().getPath();
 				}
-				if (path.length() == 0) {
+				if (path == null || path.length() == 0) {
 					return "";
 				}
 			}
@@ -2459,7 +2535,7 @@ public class ModelManager {
 				if (ProjectUtils.getProject() != null) {
 					path = ProjectUtils.getProject().getLocation().toFile().getPath();
 				}
-				if (path.length() == 0) {
+				if (path == null || path.length() == 0) {
 					return "";
 				}
 			}
@@ -2699,6 +2775,10 @@ public class ModelManager {
 	 */
 	public static Resource loadModelWithoutOptions(List<EPackage> packages,
 			String strURI) throws ModelNotFoundException {
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (fm.exists() == false) {
@@ -2748,6 +2828,9 @@ public class ModelManager {
 	public static Resource loadModel(List<EPackage> packages,
 			String strURI) throws ModelNotFoundException {
 		
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (!fm.exists() && fm.isAbsolute()) {
@@ -2762,6 +2845,9 @@ public class ModelManager {
 			if (fm.exists() == false) {
 				throw new ModelNotFoundException(strURI);
 			}
+		}
+		if (fm.isDirectory()) {
+			return null;
 		}
 		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
 		URI uri = ModelManager.getModelWithFolder(modelURI);
@@ -2788,6 +2874,7 @@ public class ModelManager {
 			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (java.lang.NullPointerException e) {
 		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			r.printStackTrace();
@@ -2808,6 +2895,10 @@ public class ModelManager {
 	public static Resource loadModel(List<EPackage> packages,
 			String strURI, Class<?> cls) throws ModelNotFoundException {
 		
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (!fm.exists() && fm.isAbsolute()) {
@@ -2869,6 +2960,13 @@ public class ModelManager {
 	 */
 	public static Resource loadModelNoException(List<EPackage> packages,
 			String strURI) {
+		if (strURI == null) {
+			return null;
+		}
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (!fm.exists() && fm.isAbsolute()) {
@@ -2886,7 +2984,7 @@ public class ModelManager {
 			}
 		}
 		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
- 		URI uri = URI.createFileURI(modelURI);
+		URI uri = URI.createFileURI(modelURI);
  		
 		for (EPackage p : packages) {
 			// Add packages to package registry
@@ -2918,7 +3016,6 @@ public class ModelManager {
 
 		return model;
 	}
-
 	
 	/**
 	 * @param packages
@@ -2953,6 +3050,10 @@ public class ModelManager {
 	public static Resource loadMetaModelAsResource(List<EPackage> packages,
 			String strURI) throws ModelNotFoundException {
 
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+		
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (fm.exists() == false) {
@@ -2998,6 +3099,56 @@ public class ModelManager {
 		return model;
 	}
 	
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
+	public static Resource loadMetaModelAsResource(String strURI) throws ModelNotFoundException {
+
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+		
+		String modelURI = processURI(strURI);
+		File fm = new File(modelURI);
+		if (fm.exists() == false) {
+			modelURI = getAbsoluteModelURI(modelURI);
+			if (modelURI == null) {
+				return null;
+			}
+			fm = new File(modelURI);
+			if (fm.exists() == false) {
+				throw new ModelNotFoundException(strURI);
+			}
+		}
+
+		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+		URI uri = ModelManager.getModelWithFolder(modelURI);
+		final Map<Object, Object> options = resourceSet.getLoadOptions();
+		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
+		Resource model = null;
+		try {
+			model = resourceSet.createResource(uri);
+			model.load(options);
+			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
+		} catch (IOException r) {
+			throw new ModelNotFoundException(strURI);
+		}
+
+		return model;
+	}
+
 	private static String getAbsoluteMetaModelURINoException(String uri) {
 		IProject project = ProjectUtils.getProject();
 		String path = "";
@@ -3012,7 +3163,9 @@ public class ModelManager {
 			path = project.getLocation().toFile().getPath();
 		}
 		path = path.replace("\\", "/");
-		path = path.substring(0, path.lastIndexOf("/"));
+		if (path.length() > 0) {
+			path = path.substring(0, path.lastIndexOf("/"));
+		}
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -3041,6 +3194,10 @@ public class ModelManager {
 	 */
 	public static Resource loadMetaModelAsResourceNoException(List<EPackage> packages,
 			String strURI) {
+		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+			strURI = strURI.substring(1);
+		}
+		
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
 		if (fm.exists() == false) {
@@ -3092,6 +3249,7 @@ public class ModelManager {
 	 * @return boolean True if the MetaModel is validated
 	 * @throws MetaModelNotFoundException, ModelNotFoundException
 	 */
+	/*
 	public static boolean validateMetaModel(String metamodel)
 			throws MetaModelNotFoundException, ModelNotFoundException {
 
@@ -3103,6 +3261,56 @@ public class ModelManager {
 			return true;
 		}
 		return false;
+	}
+	*/
+	public static boolean validateMetaModel(String metamodel) throws MetaModelNotFoundException, ModelNotFoundException {
+
+	    Resource resource = loadMetaModelAsResource(metamodel);
+
+	    if (resource == null || resource.getContents().isEmpty()) {
+	        return false;
+	    }
+
+	    boolean valid = true;
+	    for (EObject root : resource.getContents()) {
+	        Diagnostic diagnostic = Diagnostician.INSTANCE.validate(root);
+			if (diagnostic.getSeverity() != Diagnostic.OK && diagnostic.getSeverity() != Diagnostic.INFO && diagnostic.getSeverity() != Diagnostic.WARNING && diagnostic.getSeverity() != Diagnostic.ERROR) {
+				printDiagnostic(diagnostic, ">>>INVALID META-MODEL>>> ");
+				valid = false;
+	        }
+	    }
+
+	    return valid;
+	}
+	
+	private static void printDiagnostic(
+	        Diagnostic diagnostic,
+	        String indent) {
+
+	    if (diagnostic.getSeverity()
+	            != Diagnostic.OK) {
+
+	        System.err.println(
+	            indent
+	            + "[severity="
+	            + diagnostic.getSeverity()
+	            + ", source="
+	            + diagnostic.getSource()
+	            + ", code="
+	            + diagnostic.getCode()
+	            + "] "
+	            + diagnostic.getMessage()
+	        );
+	    }
+
+	    for (Diagnostic child :
+	            diagnostic.getChildren()) {
+
+	        printDiagnostic(
+	            child,
+	            indent + "  "
+	        );
+	    }
 	}
 	
 	private static String safeLabel(EObject e) {
@@ -3231,6 +3439,7 @@ public class ModelManager {
 		return ok;
 	}
 
+/*
 	public static boolean validateModel(Resource model)
 			throws MetaModelNotFoundException, ModelNotFoundException {
 		Diagnostic combined = Diagnostic.OK_INSTANCE;
@@ -3252,6 +3461,95 @@ public class ModelManager {
 		return ok;
 
 //		return problems.isEmpty();
+	}
+*/
+	
+	private static boolean validateStructuralObject(EObject object, DiagnosticChain diagnostics, Map<Object, Object> context) {
+
+	    EObjectValidator validator = EObjectValidator.INSTANCE;
+
+	    boolean valid = true;
+
+	    /*
+	     * lowerBound / upperBound
+	     */
+	    valid &= validator.validate_EveryMultiplicityConforms(object, diagnostics, context);
+
+	    /*
+	     * Attribute values conform to their EDataTypes.
+	     */
+	    valid &= validator.validate_EveryDataValueConforms(object, diagnostics, context);
+
+	    /*
+	     * Non-containment references must point to
+	     * properly contained objects.
+	     */
+	    valid &= validator.validate_EveryReferenceIsContained(object, diagnostics, context);
+
+	    /*
+	     * Opposite references must agree.
+	     */
+	    valid &= validator.validate_EveryBidirectionalReferenceIsPaired(object, diagnostics, context);
+
+	    /*
+	     * Detect unresolved proxies.
+	     */
+	    valid &= validator.validate_EveryProxyResolves(object, diagnostics, context);
+
+	    return valid;
+	}
+	
+	public static boolean validateModel(Resource model) throws MetaModelNotFoundException, ModelNotFoundException {
+
+	    if (model == null) {
+	        return false;
+	    }
+
+	    /*
+	     * Loading/parsing problems.
+	     */
+	    if (!model.getErrors().isEmpty()) {
+
+	        System.err.println("Syntactically incorrect model: " + model.getURI());
+
+	        model.getErrors().forEach(error -> System.err.println("  " + error.getMessage()));
+
+	        return false;
+	    }
+
+	    BasicDiagnostic diagnostics = new BasicDiagnostic();
+
+	    Map<Object, Object> context = new LinkedHashMap<Object, Object>();
+
+	    boolean valid = true;
+
+	    for (EObject root : model.getContents()) {
+	        context.put(EObjectValidator.ROOT_OBJECT, root);
+	        /*
+	         * Validate root itself.
+	         */
+	        if (!validateStructuralObject(root, diagnostics, context)) {
+	            valid = false;
+	        }
+	        /*
+	         * Validate every contained EObject.
+	         */
+	        TreeIterator<EObject> iterator = root.eAllContents();
+
+	        while (iterator.hasNext()) {
+	            EObject object = iterator.next();
+	            if (!validateStructuralObject(object, diagnostics, context)) {
+	                valid = false;
+	            }
+	        }
+	    }
+
+	    if (!valid) {
+	        System.err.println("Structurally incorrect model: " + model.getURI());
+	        printDiagnostic(diagnostics, "  ");
+	    }
+
+	    return valid;
 	}
 
 	public static boolean checkModel(String model) {
@@ -3318,6 +3616,29 @@ public class ModelManager {
 					if (type.equals(t.getName())) {
 						objs.add(object);
 					}
+				}
+			}
+		}
+		return objs;
+	}
+	
+	public static List<EObject> getObjectsOfType(String type,
+			List<Resource> models) {
+		
+		List<EObject> objs = new ArrayList<EObject>();
+
+		if (type == null || models == null || models.isEmpty()) {
+			return objs;
+		}
+		
+		for (Resource model : models) {
+			List<EObject> objects = getObjectsOfType(type, model);
+			if (objects == null || objects.isEmpty()) {
+				continue;
+			}
+			for (EObject obj : objects) {
+				if (obj != null) {
+					objs.add(obj);
 				}
 			}
 		}
@@ -3726,6 +4047,7 @@ public class ModelManager {
 	 *            Loaded MetaModel
 	 * @return EObject Class or reference of the specified type
 	 */
+	/*
 	public static EObject getObjectOfType(String type, List<EPackage> metaModel) {
 
 		for (EPackage p : metaModel) {
@@ -3756,6 +4078,80 @@ public class ModelManager {
 		}
 
 		return null;
+	}
+	*/
+	public static EObject getObjectOfType(
+	        String type,
+	        List<EPackage> metaModel) {
+
+	    if (type == null ||
+	        metaModel == null) {
+
+	        return null;
+	    }
+
+	    List<EPackage> packages =
+	        new ArrayList<EPackage>(
+	            metaModel);
+
+	    for (EPackage p : packages) {
+
+	        if (p == null) {
+	            continue;
+	        }
+
+	        List<EClassifier> classifiers =
+	            new ArrayList<EClassifier>(
+	                p.getEClassifiers());
+
+	        for (EClassifier c : classifiers) {
+
+	            if (c == null) {
+	                continue;
+	            }
+
+	            if (type.equals(
+	                    c.getName())) {
+
+	                return c;
+	            }
+
+	            if (c instanceof EClass eClass) {
+
+	                List<EReference> references =
+	                    new ArrayList<EReference>(
+	                        eClass
+	                            .getEAllReferences());
+
+	                for (EReference r :
+	                        references) {
+
+	                    if (r != null &&
+	                        type.equals(
+	                            r.getName())) {
+
+	                        return r;
+	                    }
+	                }
+	            }
+	        }
+
+	        if (!p.getESubpackages()
+	                .isEmpty()) {
+
+	            EObject object =
+	                getObjectOfType(
+	                    type,
+	                    new ArrayList<EPackage>(
+	                        p.getESubpackages()));
+
+	            if (object != null) {
+	                return object;
+	            }
+	        }
+	    }
+
+	    return null;
 	}
 	
 	/**
@@ -3893,6 +4289,9 @@ public class ModelManager {
 
 		}
 
+		if (obj == null) {
+			return parents;
+		}
 		for (EObject mmo : mmobjs) {
 			// We search inside the object
 			for (EObject mmcont : mmo.eContents()) {
@@ -3926,6 +4325,28 @@ public class ModelManager {
 
 	}
 
+	public static List<EObject> getParentObjects(List<EPackage> packages, List<Resource> models,
+			String containing) {
+
+		List<EObject> parents = new ArrayList<EObject>();
+		if (packages == null || models == null || containing == null || packages.isEmpty() || models.isEmpty()) {
+			return parents;
+		}
+		
+		for (Resource model : models) {
+			List<EObject> pp = getParentObjects(packages, model, containing);
+			if (pp == null || pp.isEmpty()) {
+				continue;
+			}
+			for (EObject p : pp) {
+				if (p != null) {
+					parents.add(p);
+				}
+			}
+		}
+		return parents;
+
+	}
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -4357,6 +4778,9 @@ public class ModelManager {
 			//String partialID = identification.substring(identification.indexOf("#"), identification.indexOf("{"));
 			for (EObject obj : objs) {
 				String objID = EcoreUtil.getIdentification(obj);
+				if ((objID.indexOf("#") > objID.indexOf("@")) || objID.indexOf("#") == -1 || objID.indexOf("@") == -1) {
+					continue;
+				}
 				String objType = objID.substring(objID.indexOf("#"), objID.indexOf("@"));
 				String objURI = objID.substring(objID.lastIndexOf("#/") + 2, objID.indexOf("}"));
 				if (objURI.equals(uriToFind) && objType.equals(objectType)) {
@@ -4406,6 +4830,9 @@ public class ModelManager {
 		//String partialID = partID.substring(partID.indexOf("#"), partID.indexOf("{"));
 		for (EObject obj : objs) {
 			String objID = EcoreUtil.getIdentification(obj);
+			if ((objID.indexOf("#") > objID.indexOf("@")) || objID.indexOf("#") == -1 || objID.indexOf("@") == -1) {
+				continue;
+			}
 			String objType = objID.substring(objID.indexOf("#"), objID.indexOf("@"));
 			String objURI = objID.substring(objID.lastIndexOf("#/") + 2, objID.indexOf("}"));
 			if (objURI.equals(uriToFind) && objType.equals(objectType)) {
@@ -4658,6 +5085,9 @@ public class ModelManager {
 	 * @return String Value of the attribute named by -att-
 	 */
 	public static String getStringAttribute(String att, EObject object) {
+		if (object == null) {
+			return null;
+		}
 
 		EClass tipo = object.eClass();
 
@@ -5088,7 +5518,11 @@ public class ModelManager {
 				if (sf != null) {
 					if (sf.getName().equals(ref)) {
 						List<EObject> objects = (List<EObject>) object.eGet(sf);
-						objects.addAll(tarObjs);
+						for (EObject trObj : tarObjs) {
+							if (trObj != null) {
+								objects.add(tarObj);								
+							}
+						}
 					}
 				}
 			}
@@ -5677,6 +6111,42 @@ public class ModelManager {
 	 *            URI of the new created Model
 	 */
 	public static Resource cloneModel(Resource model, String outputURI) {
+		java.nio.file.Path target =
+			    Paths.get(
+			        outputURI)
+			        .toAbsolutePath()
+			        .normalize();
+
+		java.nio.file.Path parent =
+			    target.getParent();
+
+			if (parent != null) {
+
+				try {
+					java.nio.file.Files.createDirectories(
+					    parent);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			/*
+			 * A clone operation semantically means:
+			 *
+			 *     create a fresh model at target
+			 *
+			 * It must never mean:
+			 *
+			 *     reopen/reuse yesterday's clone.
+			 */
+			try {
+				java.nio.file.Files.deleteIfExists(
+				    target);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		ResourceSet rs = new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
 				.put("*", new XMLResourceFactoryImpl());
@@ -5688,11 +6158,72 @@ public class ModelManager {
 		return resource;
 	}
 	
+	public static void sortEObjectsDeterministically(
+	        List<EObject> objects) {
+
+	    if (objects == null
+	            || objects.size() < 2) {
+
+	        return;
+	    }
+
+
+	    objects.sort(
+	        Comparator.comparing(
+	            ModelManager::stableEObjectKey));
+	}
+
+
+	private static String stableEObjectKey(
+	        EObject object) {
+
+	    if (object == null) {
+
+	        return "";
+	    }
+
+
+	    EClass eClass =
+	        object.eClass();
+
+
+	    String nsURI =
+	        eClass.getEPackage() != null
+	        ? String.valueOf(
+	            eClass.getEPackage()
+	                .getNsURI())
+	        : "";
+
+
+	    String type =
+	        String.valueOf(
+	            eClass.getName());
+
+
+	    Resource resource =
+	        object.eResource();
+
+
+	    String fragment =
+	        resource != null
+	        ? resource.getURIFragment(
+	            object)
+	        : "";
+
+
+	    return nsURI
+	        + "|"
+	        + type
+	        + "|"
+	        + fragment;
+	}
+	
 	/**
 	 * @param l
 	 *            List in order to get the size and index
 	 * @return Random number
 	 */
+	/*
 	public static int getRandomIndex(List<?> l) {
 		if (l.size() <= 1)
 			return 0;
@@ -5702,6 +6233,147 @@ public class ModelManager {
 			index = index * -1;
 
 		return index;
+	}
+	*/
+	/*
+	public static int getRandomIndex(
+	        List<?> objects) {
+
+	    if (objects == null ||
+	        objects.isEmpty()) {
+
+	        return -1;
+	    }
+
+	    RandomGenerator random =
+	        WodelRandomContext.current();
+
+	    return random.nextInt(
+	        objects.size());
+	}
+	*/
+	
+	private static String randomCaller() {
+
+	    StackTraceElement[] stack =
+	        Thread.currentThread()
+	            .getStackTrace();
+
+	    for (StackTraceElement element :
+	            stack) {
+
+	        String className =
+	            element.getClassName();
+
+	        if (!className.equals(
+	                Thread.class.getName())
+	                && !className.equals(
+	                    ModelManager.class.getName())) {
+
+	            return className
+	                + "."
+	                + element.getMethodName()
+	                + ":"
+	                + element.getLineNumber();
+	        }
+	    }
+
+	    return "<unknown>";
+	}
+	
+	private static String debugKey(
+	        Object value) {
+
+	    if (!(value instanceof EObject object)) {
+	        return String.valueOf(
+	            value);
+	    }
+
+	    EClass eClass =
+	        object.eClass();
+
+	    String nsURI =
+	        eClass != null
+	        && eClass.getEPackage() != null
+	        ? String.valueOf(
+	            eClass.getEPackage()
+	                .getNsURI())
+	        : "";
+
+	    String type =
+	        eClass != null
+	        ? String.valueOf(
+	            eClass.getName())
+	        : "";
+
+	    Resource resource =
+	        object.eResource();
+
+	    String fragment =
+	        resource != null
+	        ? resource.getURIFragment(
+	            object)
+	        : "<detached>";
+
+	    return nsURI
+	        + "#"
+	        + type
+	        + "#"
+	        + fragment;
+	}
+	
+	private static String deterministicDebugKeys(
+	        List<?> values) {
+
+	    if (values == null) {
+	        return "null";
+	    }
+
+	    return values.stream()
+	        .map(
+	            ModelManager::debugKey)
+	        .toList()
+	        .toString();
+	}
+	
+	public static int getRandomIndex(
+	        List<?> objects) {
+
+	    /*
+	     * KEEP THE EXISTING RANDOM-SELECTION
+	     * IMPLEMENTATION HERE.
+	     */
+	    //int index =
+	        /* current implementation */;
+	    
+	    if (objects == null ||
+		        objects.isEmpty()) {
+
+		        return -1;
+		    }
+
+		    RandomGenerator random =
+		        WodelRandomContext.current();
+
+		    int index = random.nextInt(
+			        objects.size()); 
+
+	    /*System.out.println(
+	        "[WODEL INDEX] "
+	        + "caller="
+	        + randomCaller()
+	        + " size="
+	        + (objects != null
+	            ? objects.size()
+	            : -1)
+	        + " index="
+	        + index
+	        + " values="
+	        + deterministicDebugKeys(
+	            objects));
+	   */
+
+	    return index;
 	}
 
 	public static void saveOutModel(Resource model, String outputURI) {

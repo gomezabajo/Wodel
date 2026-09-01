@@ -255,9 +255,11 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				String classesPath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 				Map<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
+				
+				MutatorUtils.initializeOCL();
 				try {
 					ob = cls.getDeclaredConstructor().newInstance();
-					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class});
+					Method m = cls.getMethod("execute", int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class, long.class);
 					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
@@ -274,7 +276,8 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					}
 					String[] blockNamesArray = new String[blockNames.size()];
 					blockNames.toArray(blockNamesArray);
-					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes, registeredPackages);
+					long executionSeed = System.nanoTime();
+					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes, registeredPackages, executionSeed);
 					// ime = (IMutatorExecutor)ob;
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -298,9 +301,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				long mutationTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 
 				if (mutationResults != null) {
-					numMutatorsApplied += mutationResults.numMutatorsApplied;
-					if (mutationResults.mutatorsApplied != null) {
-						mutatorsApplied.addAll(mutationResults.mutatorsApplied);
+					numMutatorsApplied += mutationResults.getNumMutatorsApplied();
+					if (mutationResults.getMutatorsApplied() != null) {
+						mutatorsApplied.addAll(mutationResults.getMutatorsApplied());
 					}
 					//numMutantsGenerated += mutationResults.numMutantsGenerated;
 					try {

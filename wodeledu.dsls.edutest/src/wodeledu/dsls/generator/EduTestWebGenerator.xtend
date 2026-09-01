@@ -30,6 +30,7 @@ import java.util.Comparator
 import edutest.Mode
 import edutest.Navigation
 import org.eclipse.emf.ecore.EClass
+import wodeledu.utils.manager.WodelEduManager
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -402,7 +403,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     			var answered«num»_«part»Exercise = false;
 				//«var String diagram = ''»
 				«IF options.get(exercise).get(test) !== null»
-		        «var int rndIndex = ModelManager.getRandomIndex(options.get(exercise).get(test))»
+		        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(exercise).get(test))»
 				«FOR TestOption opt : options.get(exercise).get(test).get(rndIndex)»
 				«IF opt.solution == true»
 				//«diagram = opt.path»
@@ -726,7 +727,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		«FOR test : tests.get(sc)»
 			<!--«var String diagram = ''»-->
 			«IF (options.get(sc).get(test) !== null)»
-	        «var int rndIndex = ModelManager.getRandomIndex(options.get(sc).get(test))»
+	        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(sc).get(test))»
 			«FOR TestOption opt : options.get(sc).get(test).get(rndIndex)»
 			«IF opt.solution == true»
 				<!--«diagram = opt.path»-->
@@ -754,7 +755,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 			<table class="pretty" width="100%">
 			<!--«var i = 0»-->
 			«IF options.get(sc).get(test) !== null»
-	        «var int rndIndex = ModelManager.getRandomIndex(options.get(sc).get(test))»
+	        «var int rndIndex = WodelEduManager.getRandomIndex(options.get(sc).get(test))»
 			«FOR TestOption opt : options.get(sc).get(test).get(rndIndex)»
 			«IF sc.config.mode == Mode.CHECKBOX»
 			«IF opt.text.size > 0»

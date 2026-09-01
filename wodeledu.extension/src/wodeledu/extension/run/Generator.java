@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -20,7 +19,6 @@ import java.util.jar.JarFile;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 
-import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -45,8 +43,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 import wodeledu.dsls.EduTestUtils;
 import wodeledu.dsls.ModelDrawUtils;
@@ -119,6 +115,7 @@ public class Generator implements IGenerator {
 		List<String> requiredBundles = new ArrayList<String>();
 		requiredBundles.add("wodeledu.extension");
 		requiredBundles.add("wodeledu.models");
+		requiredBundles.add("org.eclipse.ui.ide");
 		return requiredBundles;
 	}
 	
@@ -746,8 +743,7 @@ public class Generator implements IGenerator {
 					// create url class loader whose parent is the class loader
 					// of the project
 					// and containing the class path entries of the project
-					ClassLoader parentClassLoader = project.getClass()
-							.getClassLoader();
+					ClassLoader parentClassLoader = Generator.class.getClassLoader();
 					URL[] urls = (URL[]) urlList.toArray(new URL[urlList.size()]);
 					if (sharedClassLoader == null) {
 					    sharedClassLoader = new MutableURLClassLoader(urls, parentClassLoader);

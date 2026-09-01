@@ -60,17 +60,35 @@ public class RemoveObjectMutator extends Mutator {
 	/**
 	 * Identification
 	 */
+	/*
 	private String identification;
+	*/
 	
 	/**
 	 * URI
 	 */
+	/*
 	private URI uri;
+	*/
 	
 	/**
 	 * Type of the removed object 
 	 */
+	/*
 	private EClass eType;
+	*/
+	
+	/*
+	 * Registry information captured BEFORE the object is removed.
+	 */
+	private EObject registryObject;
+	private EObject registryObjectByID;
+	private EObject registryObjectByURI;
+
+	private String identification;
+	private URI uri;
+	private EClass eType;
+
 	
 	/**
 	 * @param model
@@ -148,6 +166,7 @@ public class RemoveObjectMutator extends Mutator {
 	}
 
 	
+	/*
 	public Object mutate() throws ReferenceNonExistingException {
 		// All the references of each object
 		List<EObject> tmpDeletedObj = new ArrayList<EObject>();
@@ -272,7 +291,449 @@ public class RemoveObjectMutator extends Mutator {
 		}
 		return null;
 	}
+	*/
 
+
+	/**
+	 * Removes the selected object(s) from the model.
+	 */
+	@Override
+	public Object mutate()
+	        throws ReferenceNonExistingException {
+
+	    /*
+	     * Reset state in case the mutator instance is reused.
+	     */
+	    result = null;
+	    saved = null;
+
+	    registryObject = null;
+	    registryObjectByID = null;
+	    registryObjectByURI = null;
+
+	    identification = null;
+	    uri = null;
+	    eType = null;
+
+
+	    /*
+	     * =========================================================
+	     * 1. Determine the object(s) to delete.
+	     * =========================================================
+	     */
+	    List<EObject> tmpDeletedObj =
+	        new ArrayList<EObject>();
+
+	    if (obj == null || obj.isEmpty()) {
+
+	        if (objSelection == null) {
+	            return null;
+	        }
+
+	        EObject selectedObject =
+	            objSelection.getObject();
+
+	        List<EObject> selectedObjects =
+	            objSelection.getObjects();
+
+	        if (selectedObject == null
+	                && (selectedObjects == null
+	                    || selectedObjects.isEmpty())) {
+
+	            return null;
+	        }
+
+	        if (selectedObject != null) {
+	            tmpDeletedObj.add(
+	                selectedObject);
+	        }
+
+	        if (selectedObjects != null) {
+	            tmpDeletedObj.addAll(
+	                selectedObjects);
+	        }
+	    }
+	    else {
+	        tmpDeletedObj.addAll(
+	            obj);
+	    }
+
+
+	    /*
+	     * Remove null entries.
+	     */
+	    List<EObject> deletedObj =
+	        new ArrayList<EObject>();
+
+	    for (EObject candidate :
+	            tmpDeletedObj) {
+
+	        if (candidate != null) {
+	            deletedObj.add(
+	                candidate);
+	        }
+	    }
+
+	    if (deletedObj.isEmpty()) {
+	        return null;
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 2. Resolve optional container/reference selections.
+	     * =========================================================
+	     */
+	    EObject container = null;
+
+	    if (containerSelection != null) {
+	        container =
+	            containerSelection.getObject();
+	    }
+
+
+	    EReference reference = null;
+
+	    if (referenceSelection != null) {
+
+	        EObject selectedReference =
+	            referenceSelection.getObject();
+
+	        if (selectedReference
+	                instanceof EReference) {
+
+	            reference =
+	                (EReference) selectedReference;
+	        }
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 3. CAPTURE REGISTRY IDENTITY BEFORE DELETION.
+	     * =========================================================
+	     *
+	     * This is the critical part.
+	     *
+	     * The generated Wodel registry later calls:
+	     *
+	     *     mut.getObject()
+	     *     mut.getObjectByID()
+	     *     mut.getObjectByURI()
+	     *
+	     * These values must therefore be captured while the object
+	     * still belongs to the model.
+	     *
+	     * The registry API is singular, so all three identities refer
+	     * consistently to the FIRST removed object.
+	     */
+	    EObject primaryObject =
+	        deletedObj.get(0);
+
+	    registryObject =
+	        primaryObject;
+
+	    eType =
+	        primaryObject.eClass();
+
+
+	    /*
+	     * Identification-based handle.
+	     */
+	    identification =
+	        EcoreUtil.getIdentification(
+	            primaryObject);
+
+	    if (identification != null
+	            && !identification.isBlank()) {
+
+	        registryObjectByID =
+	            ModelManager.getObjectByID(
+	                this.getModel(),
+	                identification);
+	    }
+
+
+	    /*
+	     * URI-based handle.
+	     */
+	    uri =
+	        EcoreUtil.getURI(
+	            primaryObject);
+
+	    if (uri != null) {
+
+	        registryObjectByURI =
+	            ModelManager.getObjectByURI(
+	                this.getModel(),
+	                uri);
+	    }
+
+
+	    /*
+	     * Defensive fallbacks.
+	     *
+	     * At this point primaryObject is still attached to the model,
+	     * so it is a much better registry handle than null.
+	     */
+	    if (registryObjectByID == null) {
+	        registryObjectByID =
+	            primaryObject;
+	    }
+
+	    if (registryObjectByURI == null) {
+	        registryObjectByURI =
+	            primaryObject;
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 4. Save detached copies as the mutation RESULT.
+	     * =========================================================
+	     *
+	     * These copies are kept separate from the registry handles.
+	     */
+	    saved =
+	        new ArrayList<EObject>();
+
+	    for (EObject deletedOb :
+	            deletedObj) {
+
+	        saved.add(
+	            EcoreUtil.copy(
+	                deletedOb));
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 5. Perform the deletion.
+	     * =========================================================
+	     */
+	    if (container == null
+	            && reference == null) {
+
+	        for (EObject deletedOb :
+	                deletedObj) {
+
+	            /*
+	             * Remove from its containment.
+	             */
+	            EcoreUtil.remove(
+	                deletedOb);
+
+
+	            /*
+	             * Remove remaining references to the deleted object.
+	             */
+	            for (EObject modelObject :
+	                    ModelManager.getAllObjects(
+	                        this.getModel())) {
+
+	                for (EReference modelReference :
+	                        ModelManager.getReferences(
+	                            modelObject)) {
+
+	                    /*
+	                     * Multivalued reference.
+	                     */
+	                    if (modelReference.isMany()) {
+
+	                        @SuppressWarnings("unchecked")
+	                        List<EObject> referencedObjects =
+	                            (List<EObject>) modelObject.eGet(
+	                                modelReference,
+	                                true);
+
+	                        if (referencedObjects == null
+	                                || referencedObjects.isEmpty()) {
+
+	                            continue;
+	                        }
+
+	                        /*
+	                         * Iterate backwards so removal is safe.
+	                         */
+	                        for (int i =
+	                                referencedObjects.size() - 1;
+	                                i >= 0;
+	                                i--) {
+
+	                            EObject referenced =
+	                                referencedObjects.get(i);
+
+	                            if (referenced != null
+	                                    && EcoreUtil.equals(
+	                                        referenced,
+	                                        deletedOb)) {
+
+	                                referencedObjects.remove(i);
+	                            }
+	                        }
+	                    }
+
+	                    /*
+	                     * Single-valued reference.
+	                     */
+	                    else {
+
+	                        Object value =
+	                            modelObject.eGet(
+	                                modelReference,
+	                                true);
+
+	                        if (!(value instanceof EObject)) {
+	                            continue;
+	                        }
+
+	                        EObject referenced =
+	                            (EObject) value;
+
+	                        if (EcoreUtil.equals(
+	                                referenced,
+	                                deletedOb)) {
+
+	                            modelObject.eSet(
+	                                modelReference,
+	                                null);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 6. Removal through an explicitly selected containment
+	     *    reference.
+	     * =========================================================
+	     */
+	    else if (container != null
+	            && reference != null) {
+
+	        Object referenceValue =
+	            container.eGet(
+	                reference);
+
+	        if (referenceValue
+	                instanceof List<?>) {
+
+	            @SuppressWarnings("unchecked")
+	            List<EObject> objects =
+	                (List<EObject>) referenceValue;
+
+	            /*
+	             * Do not modify the list from inside an enhanced
+	             * for-loop.
+	             */
+	            for (int i =
+	                    objects.size() - 1;
+	                    i >= 0;
+	                    i--) {
+
+	                EObject contained =
+	                    objects.get(i);
+
+	                for (EObject deletedOb :
+	                        deletedObj) {
+
+	                    if (contained != null
+	                            && EcoreUtil.equals(
+	                                contained,
+	                                deletedOb)) {
+
+	                        objects.remove(i);
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        else if (referenceValue
+	                instanceof EObject) {
+
+	            EObject contained =
+	                (EObject) referenceValue;
+
+	            for (EObject deletedOb :
+	                    deletedObj) {
+
+	                if (EcoreUtil.equals(
+	                        contained,
+	                        deletedOb)) {
+
+	                    ModelManager.unsetReference(
+	                        reference.getName(),
+	                        container);
+
+	                    break;
+	                }
+	            }
+	        }
+	    }
+
+
+	    /*
+	     * =========================================================
+	     * 7. Return snapshots of the deleted objects.
+	     * =========================================================
+	     */
+	    result =
+	        new ArrayList<EObject>(
+	            saved);
+
+	    return result.isEmpty()
+	        ? null
+	        : result;
+	}
+
+
+	/*
+	 * =============================================================
+	 * Registry getters
+	 * =============================================================
+	 */
+
+	/**
+	 * Returns the original object handle captured before deletion.
+	 *
+	 * This is intentionally NOT the detached copy returned as the
+	 * mutation result.
+	 */
+	@Override
+	public EObject getObject() {
+	    return registryObject;
+	}
+
+
+	/**
+	 * Returns the ID-based object handle captured before deletion.
+	 */
+	@Override
+	public EObject getObjectByID() {
+	    return registryObjectByID;
+	}
+
+
+	/**
+	 * Returns the URI-based object handle captured before deletion.
+	 */
+	@Override
+	public EObject getObjectByURI() {
+	    return registryObjectByURI;
+	}
+
+	/**
+	 * Returns the type of the removed object.
+	 */
+	@Override
+	public EClass getEType() {
+	    return eType;
+	}
+
+	/*
 	// GETTERS AND SETTERS
 	public EObject getObject() {
 		if (result != null && result.size() > 0) {
@@ -285,12 +746,12 @@ public class RemoveObjectMutator extends Mutator {
 	public EObject getObjectByID() {
 		return ModelManager.getObjectByID(this.getModel(), identification);
 	}
-
 	public EObject getObjectByURI() {
 		return ModelManager.getObjectByURI(this.getModel(), uri);
 	}
-	
 	public EClass getEType() {
 		return eType;
 	}
+	*/
+	
 }

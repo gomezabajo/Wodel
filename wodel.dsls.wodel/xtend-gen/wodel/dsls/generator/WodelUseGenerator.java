@@ -13,6 +13,7 @@ import mutatorenvironment.Constraint;
 import mutatorenvironment.Definition;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
+import mutatorenvironment.Program;
 import mutatorenvironment.miniOCL.InvariantCS;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
@@ -31,8 +32,10 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import wodel.dsls.WodelUtils;
+import wodel.dsls.runner.WodelUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodel.utils.manager.UseGeneratorUtils;
@@ -182,7 +185,11 @@ public class WodelUseGenerator extends AbstractGenerator {
     this.project = ProjectUtils.getProject();
     this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
     MutatorEnvironment mutatorEnvironment = null;
-    Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
+    final Function1<MutatorEnvironment, Boolean> _function = (MutatorEnvironment it) -> {
+      Definition _definition = it.getDefinition();
+      return Boolean.valueOf((_definition instanceof Program));
+    };
+    Iterable<MutatorEnvironment> _filter = IterableExtensions.<MutatorEnvironment>filter(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class), _function);
     for (final MutatorEnvironment e : _filter) {
       {
         this.maxInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum integer value", "100", null));

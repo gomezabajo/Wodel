@@ -25,6 +25,7 @@ import wodel.utils.manager.HTMLUtils;
 import wodel.utils.manager.ModelManager;
 import wodeledu.dsls.generator.EduTestSuperGenerator;
 import wodeledu.dsls.generator.TestOption;
+import wodeledu.utils.manager.WodelEduManager;
 
 @SuppressWarnings("all")
 public class EduTestMoodleGeneratorMatchPairs {
@@ -116,7 +117,7 @@ public class EduTestMoodleGeneratorMatchPairs {
               _builder.newLineIfNotEmpty();
               int counter = 0;
               _builder.newLineIfNotEmpty();
-              int rndIndex = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
+              int rndIndex = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test));
               _builder.newLineIfNotEmpty();
               {
                 int _size = this.generator.getOptions().get(this.exercise).get(test).size();
@@ -205,7 +206,7 @@ public class EduTestMoodleGeneratorMatchPairs {
               Map<TestOption, String> mapOptions = new LinkedHashMap<TestOption, String>();
               _builder.append("-->");
               _builder.newLineIfNotEmpty();
-              int rndIndex_1 = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test_1));
+              int rndIndex_1 = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test_1));
               _builder.newLineIfNotEmpty();
               {
                 int _size_1 = this.generator.getOptions().get(this.exercise).get(test_1).size();
@@ -400,7 +401,7 @@ public class EduTestMoodleGeneratorMatchPairs {
           TestOption opt_2 = null;
           _builder.append("-->");
           _builder.newLineIfNotEmpty();
-          int rndIndex_2 = ModelManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test_2));
+          int rndIndex_2 = WodelEduManager.getRandomIndex(this.generator.getOptions().get(this.exercise).get(test_2));
           _builder.newLineIfNotEmpty();
           {
             int _size_3 = this.generator.getOptions().get(this.exercise).get(test_2).size();

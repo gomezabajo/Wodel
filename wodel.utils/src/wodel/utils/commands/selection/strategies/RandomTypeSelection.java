@@ -339,6 +339,10 @@ public class RandomTypeSelection extends RandomSelection{
 					}
 				}
 			}
+			if (ret == null || ret.isEmpty()) {
+				return null;
+			}
+			ModelManager.sortEObjectsDeterministically(ret);
 			int index = ModelManager.getRandomIndex(ret);
 			if (index < ret.size()) {
 				return ret.get(index);
@@ -410,6 +414,10 @@ public class RandomTypeSelection extends RandomSelection{
 					}
 				}
 			}
+			if (ret == null || ret.isEmpty()) {
+				return null;
+			}
+			ModelManager.sortEObjectsDeterministically(ret);
 			int index = ModelManager.getRandomIndex(ret);
 			if (index < ret.size()) {
 				return ret.get(index);
@@ -482,6 +490,7 @@ public class RandomTypeSelection extends RandomSelection{
 					}
 				}
 			}
+			ModelManager.sortEObjectsDeterministically(ret);
 			return ret;
 		}
 		else {
@@ -547,6 +556,10 @@ public class RandomTypeSelection extends RandomSelection{
 					}
 				}
 			}
+			if (ret == null || ret.isEmpty()) {
+				return null;
+			}
+			ModelManager.sortEObjectsDeterministically(ret);
 			return ret;
 		}
 	}

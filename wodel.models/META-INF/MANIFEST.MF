@@ -24,6 +24,5 @@ Export-Package: mutatorenvironment,
  asple.impl,
  asple.util
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
- wodel.models;visibility:=reexport,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy

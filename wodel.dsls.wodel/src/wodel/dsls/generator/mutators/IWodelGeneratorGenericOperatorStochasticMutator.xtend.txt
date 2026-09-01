@@ -1,0 +1,10 @@
+package wodel.dsls.generator.mutators
+
+import mutatorenvironment.Mutator
+import java.util.List
+import mutatorenvironment.Program
+import org.eclipse.core.resources.IProject
+
+interface IWodelGeneratorGenericOperatorStochasticMutator {
+	def CharSequence apply(Mutator mut, String methodName, List<Integer> nMutation, List<Integer> nRegistryMutation, Program program, IProject project, String className, boolean standalone)
+}

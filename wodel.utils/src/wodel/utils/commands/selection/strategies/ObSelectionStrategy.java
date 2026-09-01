@@ -9,6 +9,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import wodel.utils.commands.ObjectEmitter;
 import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
 
 
 /**
@@ -37,6 +39,8 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 	 */
 	
 	private List<Resource> models;
+	
+	protected EObject obj;
 	
 	/**
 	 * @param metaModel
@@ -69,12 +73,36 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 		this.metaModel = metaModel;
 	}
 	public Resource getModel() {
-		if (this.model == null) {
-			if (this.models != null && this.models.size() > 0) {
-				return this.models.get(0);
-			}
-		}
-		return this.model;
+
+	    if (this.model != null
+	            || this.models == null
+	            || this.models.isEmpty()) {
+	        return this.model;
+	    }
+	    // NEW: search for the correct model
+	    if (this.obj != null) {
+
+	        Resource direct =
+	            this.obj.eResource();
+
+	        if (direct != null
+	                && this.models.contains(direct)) {
+	            return direct;
+	        }
+
+	        // Optional fallback only.
+	        Resource found =
+	            ModelManager.findModel(
+	                this.models,
+	                this.obj);
+
+	        if (found != null) {
+	            return found;
+	        }
+	    }
+
+	    return MutatorUtils.currentModel(
+	        this.models);
 	}
 	
 	public void setModel(Resource model) {

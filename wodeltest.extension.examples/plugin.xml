@@ -47,6 +47,14 @@
             name="Chatbots"
             project="true">
       </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4PyWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4Py"
+            name="Python"
+            project="true">
+      </wizard>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
       <category

@@ -5,10 +5,16 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.regex.Pattern;
@@ -55,14 +61,15 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ocl.OCL;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.Query;
-import org.eclipse.ocl.common.OCLConstants;
-import org.eclipse.ocl.expressions.OCLExpression;
-import org.eclipse.ocl.helper.OCLHelper;
+import org.eclipse.ocl.pivot.ExpressionInOCL;
+import org.eclipse.ocl.pivot.utilities.OCL;
+import org.eclipse.ocl.pivot.utilities.ParserException;
+import org.eclipse.ocl.pivot.utilities.PivotConstants;
+import org.eclipse.ocl.xtext.essentialocl.EssentialOCLStandaloneSetup;
 import org.osgi.framework.Bundle;
 import wodel.registry.run.IRegistryPostprocessor;
 import wodel.utils.commands.selection.strategies.RandomTypeSelection;
@@ -101,6 +108,11 @@ import appliedMutations.TargetReferenceChanged;
 
 public class MutatorUtils {
 	
+	private static final Object EPACKAGE_REGISTRY_LOCK = new Object();
+	
+	private static final Object CLASSES_LOCK = new Object();
+	
+
 	public static String[] mutatorTypeNames = {
 			"CreateObjectMutator",
 			"RemoveObjectMutator",
@@ -219,13 +231,36 @@ public class MutatorUtils {
 	}
 	
 	public static class MutationResults {
-		public int numMutatorsApplied;
-		public int numMutantsGenerated;
+		private int numMutatorsApplied;
+		private int numMutantsGenerated;
 		
-		public List<String> mutatorsApplied;
+		private List<String> mutatorsApplied;
 		
 		public MutationResults() {
 			
+		}
+		
+		public int getNumMutatorsApplied() {
+			return numMutatorsApplied;
+		}
+		
+		public int getNumMutantsGenerated() {
+			return numMutantsGenerated;
+		}
+		
+		public List<String> getMutatorsApplied() {
+			return mutatorsApplied;
+		}
+		public void setNumMutatorsApplied(int value) {
+			numMutatorsApplied = value;
+		}
+		
+		public void setNumMutantsGenerated(int value) {
+			numMutantsGenerated = value;
+		}
+		
+		public void setMutatorsApplied(List<String> value) {
+			mutatorsApplied = value;
 		}
 	}
 	
@@ -237,6 +272,79 @@ public class MutatorUtils {
 		
 		public MutatorConfiguration() {
 			
+		}
+	}
+	
+	public static void disposeResource(
+	        Resource resource) {
+
+	    if (resource == null) {
+	        return;
+	    }
+
+	    ResourceSet resourceSet =
+	        resource.getResourceSet();
+
+	    try {
+	        if (resource.isLoaded()) {
+	            resource.unload();
+	        }
+	    }
+	    finally {
+	        if (resourceSet != null) {
+	            resourceSet
+	                .getResources()
+	                .remove(resource);
+	        }
+	    }
+	}
+	
+	public static final class OwnedResourceScope implements AutoCloseable {
+
+		private final Set<Resource> resources = Collections.newSetFromMap(new IdentityHashMap<>());
+
+		public OwnedResourceScope() {
+		}
+
+		public <T extends Resource> T own(T resource) {
+
+			if (resource != null) {
+
+				resources.add(resource);
+			}
+
+			return resource;
+		}
+
+		public void release(Resource resource) {
+
+			if (resource == null) {
+				return;
+			}
+
+			if (resources.remove(resource)) {
+
+				disposeTemporaryResource(resource);
+			}
+		}
+
+		@Override
+		public void close() {
+
+			/*
+			 * Dispose in reverse ownership order. This is generally friendlier to
+			 * dependency chains.
+			 */
+			List<Resource> snapshot = new ArrayList<>(resources);
+
+			Collections.reverse(snapshot);
+
+			for (Resource resource : snapshot) {
+
+				disposeTemporaryResource(resource);
+			}
+
+			resources.clear();
 		}
 	}
 	
@@ -345,6 +453,796 @@ public class MutatorUtils {
 		return value;
 	}
 	
+	public static EObject recoverLocalObject(
+	        Resource targetResource,
+	        EObject sourceObject) {
+
+	    if (targetResource == null
+	            || sourceObject == null) {
+
+	        return null;
+	    }
+
+	    EObject recovered =
+	        MutatorUtils.recoverObject(
+	            targetResource,
+	            sourceObject);
+
+	    if (recovered == null) {
+
+	        recovered =
+	            ModelManager.getObject(
+	                targetResource,
+	                sourceObject);
+	    }
+
+	    /*
+	     * Crucial:
+	     *
+	     * For a clone-local recovery we must NEVER silently fall
+	     * back to an EObject belonging to an older Resource.
+	     */
+	    if (recovered == null) {
+
+	        return null;
+	    }
+
+	    if (recovered.eResource()
+	            != targetResource) {
+
+	        return null;
+	    }
+
+	    return recovered;
+	}
+	
+	public static EObject recoverLocalObject(
+	        List<Resource> targetResources,
+	        EObject sourceObject) {
+
+	    if (targetResources == null
+	            || sourceObject == null) {
+	        return null;
+	    }
+
+	    for (Resource targetResource :
+	            targetResources) {
+
+	        EObject recovered =
+	            recoverLocalObject(
+	                targetResource,
+	                sourceObject);
+
+	        if (recovered != null) {
+	            return recovered;
+	        }
+	    }
+
+	    return null;
+	}
+
+	public static EObject recoverObject(
+	        Resource currentModel,
+	        EObject storedObject) {
+
+	    if (storedObject == null) {
+	        return null;
+	    }
+
+	    EObject recovered =
+	        ModelManager.getObject(
+	            currentModel,
+	            storedObject);
+
+	    return recovered != null
+	        ? recovered
+	        : storedObject;
+	}
+	
+	public static EObject recoverObject(
+	        List<Resource> currentModels,
+	        EObject storedObject) {
+
+	    if (storedObject == null) {
+	        return null;
+	    }
+	    
+	    for (Resource currentModel : currentModels) {
+
+	    EObject recovered =
+	        ModelManager.getObject(
+	            currentModel,
+	            storedObject);
+	    if (recovered != null) {
+	    	return recovered;
+	    }
+	    }
+	    return null;
+	}
+	
+	public static String debugEObject(
+	        EObject object) {
+
+	    if (object == null) {
+	        return "null";
+	    }
+
+	    StringBuilder result =
+	        new StringBuilder();
+
+	    result.append(
+	        object.eClass().getName());
+
+	    Resource resource =
+	        object.eResource();
+
+	    if (resource != null) {
+
+	        result.append("#");
+
+	        try {
+	            result.append(
+	                resource.getURIFragment(
+	                    object));
+	        }
+	        catch (Exception e) {
+	            result.append(
+	                "<no-fragment>");
+	        }
+	    }
+
+
+	    EStructuralFeature nameFeature =
+	        object.eClass()
+	            .getEStructuralFeature(
+	                "name");
+
+	    if (nameFeature != null) {
+
+	        Object name =
+	            object.eGet(
+	                nameFeature);
+
+	        result.append(
+	            "[name=")
+	            .append(name)
+	            .append("]");
+	    }
+
+	    return result.toString();
+	}
+	
+	public static Resource currentModel(
+	        List<Resource> models) {
+
+	    if (models == null || models.isEmpty()) {
+	        return null;
+	    }
+
+	    for (int i = models.size() - 1;
+	            i >= 0;
+	            i--) {
+
+	        Resource model = models.get(i);
+
+	        if (model != null) {
+	            return model;
+	        }
+	    }
+
+	    return null;
+	}
+	
+	/**
+	 * Returns true when the selection/mutation represented by {@code object}
+	 * depends, directly or indirectly, on an additional read-only resource
+	 * declared with:
+	 *
+	 *     from <resource> resources
+	 *
+	 * The dependency may arise either:
+	 *
+	 * 1. through the selection/container chain:
+	 *
+	 *     cl  = select one EClass from output resources
+	 *     att = select one EAttribute in cl->eAllAttributes
+	 *
+	 * or:
+	 *
+	 * 2. through a predicate/expression that refers to a variable previously
+	 *    selected from an additional resource:
+	 *
+	 *     iiv = select one IntentIntentValue
+	 *           from annotation resources
+	 *
+	 *     i2 = select one Intent
+	 *          where {self = iiv->intent2}
+	 *
+	 * In the second example, i2 itself is selected from the mutable model, but
+	 * its predicate depends on iiv and therefore on the "annotation" resource.
+	 *
+	 * @param object mutator, selection, expression or container from which the
+	 *               dependency chain is to be inspected
+	 * @return true if the complete semantic dependency chain reaches an
+	 *         additional resource
+	 */
+	public static boolean closureHasAdditionalResources(
+	        EObject object) {
+
+	    Set<EObject> visited =
+	        Collections.newSetFromMap(
+	            new IdentityHashMap<EObject, Boolean>());
+
+	    return closureHasAdditionalResources(
+	        object,
+	        visited);
+	}
+
+
+	/**
+	 * Recursive implementation of closureHasAdditionalResources.
+	 */
+	private static boolean closureHasAdditionalResources(
+	        EObject object,
+	        Set<EObject> visited) {
+
+	    if (object == null) {
+	        return false;
+	    }
+
+	    /*
+	     * Avoid loops caused by cross-references between
+	     * expressions, mutators and selection strategies.
+	     */
+	    if (!visited.add(object)) {
+	        return false;
+	    }
+
+	    String className =
+	        object.eClass().getName();
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 1. Direct origin from an additional resource
+	     * ---------------------------------------------------------
+	     *
+	     * Example:
+	     *
+	     *   cl = select one EClass from output resources
+	     *
+	     * A RandomTypeSelection with a non-null "resource"
+	     * directly introduces an additional read-only resource.
+	     */
+	    if ("RandomTypeSelection".equals(className)) {
+
+	        EStructuralFeature resourceFeature =
+	            object.eClass()
+	                  .getEStructuralFeature("resource");
+
+	        if (resourceFeature != null) {
+
+	            Object resource =
+	                object.eGet(resourceFeature);
+
+	            if (resource instanceof String) {
+	                if (!((String) resource).isBlank()) {
+	                    return true;
+	                }
+	            }
+	            else if (resource instanceof List<?>) {
+	                if (!((List<?>) resource).isEmpty()) {
+	                    return true;
+	                }
+	            }
+	            else if (resource != null) {
+	                return true;
+	            }
+	        }
+	    }
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 2. Explicit Wodel selection dependencies
+	     * ---------------------------------------------------------
+	     */
+
+	    /*
+	     * A specific selection normally refers to the object
+	     * produced by another selection/mutator.
+	     *
+	     * Example:
+	     *
+	     *   cl  = select one EClass from output resources
+	     *   att = select one EAttribute in cl->eAllAttributes
+	     */
+	    if ("SpecificObjectSelection".equals(className)
+	            || "SpecificClosureSelection".equals(className)) {
+
+	        EObject objSel =
+	            getEObjectFeature(
+	                object,
+	                "objSel");
+
+	        if (closureHasAdditionalResources(
+	                objSel,
+	                visited)) {
+
+	            return true;
+	        }
+	    }
+
+	    /*
+	     * A SelectObjectMutator may depend on its object selection
+	     * and/or on its container selection.
+	     *
+	     * IMPORTANT:
+	     *
+	     * We do not return immediately after checking these fields
+	     * because the mutator may additionally depend on an
+	     * additional resource through its where-expression.
+	     */
+	    if ("SelectObjectMutator".equals(className)) {
+
+	        EObject selection =
+	            getEObjectFeature(
+	                object,
+	                "object");
+
+	        if (closureHasAdditionalResources(
+	                selection,
+	                visited)) {
+
+	            return true;
+	        }
+
+	        EObject container =
+	            getEObjectFeature(
+	                object,
+	                "container");
+
+	        if (closureHasAdditionalResources(
+	                container,
+	                visited)) {
+
+	            return true;
+	        }
+	    }
+
+	    /*
+	     * A sample selection may itself depend on a resource-based
+	     * selection.
+	     */
+	    if ("SelectSampleMutator".equals(className)) {
+
+	        EObject selection =
+	            getEObjectFeature(
+	                object,
+	                "object");
+
+	        if (closureHasAdditionalResources(
+	                selection,
+	                visited)) {
+
+	            return true;
+	        }
+	    }
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 3. Walk the contained semantic/expression tree
+	     * ---------------------------------------------------------
+	     *
+	     * This is what enables cases such as:
+	     *
+	     *   self = iiv->intent2
+	     *
+	     * The expression is contained somewhere below the current
+	     * selection/mutator, even though it is not its container.
+	     *
+	     * eContents() is deliberately used instead of eContainer():
+	     * we descend only through this operation's semantic subtree
+	     * and never walk upwards to Program, which would make every
+	     * resource declaration visible and create false positives.
+	     */
+	    for (EObject child : object.eContents()) {
+
+	        if (closureHasAdditionalResources(
+	                child,
+	                visited)) {
+
+	            return true;
+	        }
+	    }
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 4. Follow semantic cross-references
+	     * ---------------------------------------------------------
+	     *
+	     * Expression nodes such as the one representing:
+	     *
+	     *     iiv->intent2
+	     *
+	     * normally contain a cross-reference to the declaration /
+	     * mutator that produced iiv.
+	     *
+	     * eContents() cannot follow that reference because it is
+	     * non-containment, so inspect non-containment references too.
+	     *
+	     * We intentionally do NOT follow arbitrary Ecore references
+	     * such as the structuralFeature corresponding to "intent2".
+	     * What matters is the Wodel semantic dependency on iiv.
+	     */
+	    for (EReference reference :
+	            object.eClass().getEAllReferences()) {
+
+	        if (reference.isContainment()
+	                || reference.isContainer()) {
+
+	            continue;
+	        }
+
+	        Object value;
+
+	        try {
+	            /*
+	             * false avoids unnecessarily resolving unrelated
+	             * external proxies while walking the Wodel AST.
+	             */
+	            value = object.eGet(reference, false);
+	        }
+	        catch (RuntimeException exception) {
+	            continue;
+	        }
+
+	        if (value instanceof EObject) {
+
+	            EObject target =
+	                (EObject) value;
+
+	            if (isWodelSemanticDependency(
+	                    object,
+	                    target)
+	                    && closureHasAdditionalResources(
+	                        target,
+	                        visited)) {
+
+	                return true;
+	            }
+	        }
+	        else if (value instanceof List<?>) {
+
+	            for (Object element :
+	                    (List<?>) value) {
+
+	                if (!(element instanceof EObject)) {
+	                    continue;
+	                }
+
+	                EObject target =
+	                    (EObject) element;
+
+	                if (isWodelSemanticDependency(
+	                        object,
+	                        target)
+	                        && closureHasAdditionalResources(
+	                            target,
+	                            visited)) {
+
+	                    return true;
+	                }
+	            }
+	        }
+	    }
+
+	    return false;
+	}
+
+
+	/**
+	 * Returns true when {@code target} is a semantic element of the Wodel
+	 * specification that should be followed while computing dependency
+	 * provenance.
+	 *
+	 * References into Ecore (EClass, EReference, EAttribute, ...), such as
+	 * the structural feature "intent2", are deliberately ignored. What we
+	 * want to follow is the reference from the expression to the Wodel
+	 * variable/mutator that produced "iiv".
+	 */
+	private static boolean isWodelSemanticDependency(
+	        EObject source,
+	        EObject target) {
+
+	    if (target == null
+	            || target.eClass() == null) {
+
+	        return false;
+	    }
+
+	    EPackage targetPackage =
+	        target.eClass().getEPackage();
+
+	    /*
+	     * Ignore references into Ecore itself.
+	     *
+	     * For:
+	     *
+	     *     iiv->intent2
+	     *
+	     * "intent2" may resolve to an EReference from the
+	     * Annotation metamodel. That is not the dependency we are
+	     * looking for.
+	     */
+	    if (targetPackage != null
+	            && "http://www.eclipse.org/emf/2002/Ecore"
+	                .equals(targetPackage.getNsURI())) {
+
+	        return false;
+	    }
+
+	    /*
+	     * Normally references between variables, selections,
+	     * expressions and mutators belong to the same Wodel
+	     * specification Resource.
+	     */
+	    if (source != null
+	            && source.eResource() != null
+	            && target.eResource() != null
+	            && source.eResource()
+	                     != target.eResource()) {
+
+	        return false;
+	    }
+
+	    return true;
+	}
+
+
+	/**
+	 * Safely obtains an EObject-valued structural feature.
+	 */
+	private static EObject getEObjectFeature(
+	        EObject object,
+	        String featureName) {
+
+	    if (object == null
+	            || featureName == null) {
+
+	        return null;
+	    }
+
+	    EStructuralFeature feature =
+	        object.eClass()
+	              .getEStructuralFeature(
+	                  featureName);
+
+	    if (feature == null) {
+	        return null;
+	    }
+
+	    Object value =
+	        object.eGet(feature);
+
+	    return value instanceof EObject
+	        ? (EObject) value
+	        : null;
+	}
+	
+	/**
+	 * Returns true when the selection chain represented by {@code object}
+	 * ultimately depends on a RandomTypeSelection that selects objects from
+	 * an additional read-only resource declared with:
+	 *
+	 *     from <resource> resources
+	 *
+	 * Typical example:
+	 *
+	 *     cl  = select one EClass from output resources
+	 *     att = select one EAttribute in cl->eAllAttributes
+	 *
+	 * Calling this method with the container selection of {@code att}
+	 * returns true because {@code cl} originates from the additional
+	 * resource "output".
+	 *
+	 * @param object selection object / container from which the dependency
+	 *               chain is to be inspected
+	 * @return true if the chain originates from an additional resource
+	 */
+	
+	/*public static boolean closureHasAdditionalResources(
+	public static boolean selectionOriginatesFromAdditionalResources(
+	        EObject object) {
+
+	    Set<EObject> visited =
+	        Collections.newSetFromMap(
+	            new IdentityHashMap<EObject, Boolean>());
+
+	    return closureHasAdditionalResources(
+	        object,
+	        visited);
+	}
+	*/
+
+	/**
+	 * Recursive implementation of closureHasAdditionalResources.
+	 */
+	//private static boolean closureHasAdditionalResources(
+	private static boolean selectionOriginatesFromAdditionalResources(
+	        EObject object,
+	        Set<EObject> visited) {
+
+	    if (object == null) {
+	        return false;
+	    }
+
+	    /*
+	     * Avoid loops caused by cross references between
+	     * mutators and selection strategies.
+	     */
+	    if (!visited.add(object)) {
+	        return false;
+	    }
+
+	    String className =
+	        object.eClass().getName();
+	    /*
+	     * This is the construct that directly introduces
+	     * an additional read-only resource:
+	     *
+	     *   select one EClass from output resources
+	     */
+	    if ("RandomTypeSelection".equals(className)) {
+
+	        EStructuralFeature resourceFeature =
+	            object.eClass()
+	                  .getEStructuralFeature("resource");
+
+	        if (resourceFeature != null) {
+
+	            Object resource =
+	                object.eGet(resourceFeature);
+
+	            if (resource != null) {
+	                return true;
+	            }
+	        }
+
+	        return false;
+	    }
+
+	    /*
+	     * A specific selection refers to an object emitted
+	     * by a previous mutator:
+	     *
+	     *   cl->eAllAttributes
+	     *
+	     * Follow cl back to the mutator that selected it.
+	     */
+	    if ("SpecificObjectSelection".equals(className)
+	            || "SpecificClosureSelection".equals(className)) {
+
+	        EObject objSel =
+	            getEObjectFeature(
+	                object,
+	                "objSel");
+
+	        return closureHasAdditionalResources(
+	            objSel,
+	            visited);
+	    }
+
+	    /*
+	     * A SelectObjectMutator can obtain its selected
+	     * EObject either directly from its object selection
+	     * or indirectly through its container.
+	     *
+	     * Example:
+	     *
+	     *   cl =
+	     *      select one EClass
+	     *      from output resources
+	     *
+	     * object -> RandomTypeSelection(resource=output)
+	     */
+	    if ("SelectObjectMutator".equals(className)) {
+
+	        EObject selection =
+	            getEObjectFeature(
+	                object,
+	                "object");
+
+	        if (closureHasAdditionalResources(
+	                selection,
+	                visited)) {
+
+	            return true;
+	        }
+
+	        EObject container =
+	            getEObjectFeature(
+	                object,
+	                "container");
+
+	        return closureHasAdditionalResources(
+	            container,
+	            visited);
+	    }
+
+	    /*
+	     * A sample selection may itself depend on a
+	     * resource-based selection.
+	     */
+	    if ("SelectSampleMutator".equals(className)) {
+
+	        EObject selection =
+	            getEObjectFeature(
+	                object,
+	                "object");
+
+	        return closureHasAdditionalResources(
+	            selection,
+	            visited);
+	    }
+
+	    return false;
+	}
+
+
+	/**
+	 * Safely obtains an EObject-valued structural feature.
+	 */
+/*	private static EObject getEObjectFeature(
+	        EObject object,
+	        String featureName) {
+
+	    if (object == null
+	            || featureName == null) {
+
+	        return null;
+	    }
+
+	    EStructuralFeature feature =
+	        object.eClass()
+	              .getEStructuralFeature(
+	                  featureName);
+
+	    if (feature == null) {
+	        return null;
+	    }
+
+	    Object value =
+	        object.eGet(feature);
+
+	    return value instanceof EObject
+	        ? (EObject) value
+	        : null;
+	}
+*/
+	
+	/**
+	 * TRUE only when the EObject selected by this mutator
+	 * actually originates from an additional resource.
+	 *
+	 * Examples:
+	 *
+	 * cl  = select one EClass from output resources    -> true
+	 * att = select one EAttribute in cl->...           -> true
+	 *
+	 * i2  = select one Intent
+	 *       where self = iiv->intent2                  -> false
+	 */
+	public static boolean
+	selectionOriginatesFromAdditionalResources(
+	        EObject object) {
+
+	    Set<EObject> visited =
+	        Collections.newSetFromMap(
+	            new IdentityHashMap<>());
+
+	    return selectionOriginatesFromAdditionalResources(
+	        object,
+	        visited);
+	}
 	/**
 	 * evaluateFirstAttribute evaluates the attribute expression
 	 * @param attev
@@ -358,6 +1256,9 @@ public class MutatorUtils {
 					if (att.getName().equals(attev.name)) {
 						if (candidate.eGet(att) != null) {
 							for (Object value : attev.values) {
+								if (value == null) {
+									continue;
+								}
 								if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
 									if (!selected.contains(candidate)) {
 										selected.add(candidate);
@@ -369,19 +1270,53 @@ public class MutatorUtils {
 				}
 			}
 			if (attev.operator.equals("different")) {
-				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
-					if (att.getName().equals(attev.name)) {
-						if (candidate.eGet(att) != null) {
-							for (Object value : attev.values) {
-								if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-						}
-					}
-				}
+				for (EAttribute att :
+		            candidate.eClass()
+		                     .getEAllAttributes()) {
+
+		        if (!att.getName()
+		                .equals(attev.name)) {
+		            continue;
+		        }
+
+		        Object actual =
+		            candidate.eGet(att);
+
+		        if (actual == null) {
+		            continue;
+		        }
+
+		        boolean differentFromAll =
+		            true;
+
+		        for (Object value :
+		                attev.values) {
+
+		            if (value == null) {
+		                continue;
+		            }
+
+		            if (actual.equals(value)
+		                    ||
+		                actual.toString()
+		                      .equals(
+		                          value.toString())) {
+
+		                differentFromAll =
+		                    false;
+
+		                break;
+		            }
+		        }
+
+		        if (differentFromAll
+		                &&
+		            !selected.contains(
+		                candidate)) {
+
+		            selected.add(candidate);
+		        }
+		    }
 			}
 			if (attev.operator.equals("in")) {
 				for (int i = 0; i < attev.values.size(); i++) {
@@ -6050,52 +6985,145 @@ public class MutatorUtils {
 		return ret;
 	}
 	
-	private static int check(EObject eObject) {
-		TreeIterator<Object> tree = EcoreUtil.getAllContents(eObject, true);
-		while (tree.hasNext()) {
-			try {
-				EObject obj = (EObject) tree.next();
-				for (EAttribute att : obj.eClass().getEAllAttributes()) {
-					if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
-						return 1;
-					}
-				}
-				for (EReference ref : obj.eClass().getEAllReferences()) {
-					if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
-						return 1;
-					}
-				}
-			} catch (Exception ex) {
-				return 1;
-			}
-		}
-		return 0;
+	private static int check(EObject root) {
+
+	    if (root == null) {
+	        return 1;
+	    }
+
+	    /*
+	     * Check the root itself first.
+	     */
+	    if (!checkObject(root)) {
+	        return 1;
+	    }
+
+	    /*
+	     * Then check every contained EObject.
+	     */
+	    TreeIterator<EObject> iterator =
+	        root.eAllContents();
+
+	    while (iterator.hasNext()) {
+
+	        EObject object =
+	            iterator.next();
+
+	        if (!checkObject(object)) {
+	            return 1;
+	        }
+	    }
+
+	    return 0;
 	}
 	
-	private static int check(List<EObject> objects) {
-		for (EObject eObject : objects) {
-			TreeIterator<Object> tree = EcoreUtil.getAllContents(eObject, true);
-			while (tree.hasNext()) {
-				try {
-					EObject obj = (EObject) tree.next();
-					for (EAttribute att : obj.eClass().getEAllAttributes()) {
-						if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
-							return 1;
-						}
-					}
-					for (EReference ref : obj.eClass().getEAllReferences()) {
-						if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
-							return 1;
-						}
-					}
-				} catch (Exception ex) {
-					return 1;
-				}
-			}
-		}
-		return 0;
+	private static int check(
+	        List<EObject> objects) {
+
+	    if (objects == null) {
+	        return 1;
+	    }
+
+	    for (EObject object : objects) {
+
+	        if (check(object) != 0) {
+	            return 1;
+	        }
+	    }
+
+	    return 0;
 	}
 
+	private static boolean checkObject(
+	        EObject object) {
+
+	    try {
+
+	        for (EAttribute attribute :
+	                object.eClass()
+	                      .getEAllAttributes()) {
+
+	            if (!checkFeature(
+	                    object,
+	                    attribute)) {
+
+	                return false;
+	            }
+	        }
+
+	        for (EReference reference :
+	                object.eClass()
+	                      .getEAllReferences()) {
+
+	            if (!checkFeature(
+	                    object,
+	                    reference)) {
+
+	                return false;
+	            }
+	        }
+
+	        return true;
+	    }
+	    catch (RuntimeException e) {
+
+	        System.err.println(
+	            "Structural validation failed for "
+	            + object.eClass().getName()
+	            + ": "
+	            + e.getClass().getName()
+	            + ": "
+	            + e.getMessage());
+
+	        return false;
+	    }
+	}
+	
+	private static boolean checkFeature(
+	        EObject object,
+	        EStructuralFeature feature) {
+
+	    int lowerBound =
+	        feature.getLowerBound();
+
+	    /*
+	     * Optional feature.
+	     */
+	    if (lowerBound <= 0) {
+	        return true;
+	    }
+
+	    /*
+	     * Do not force proxy resolution.
+	     */
+	    Object value =
+	        object.eGet(
+	            feature,
+	            false);
+
+	    if (feature.isMany()) {
+
+	        if (!(value instanceof Collection<?>)) {
+	            return false;
+	        }
+
+	        Collection<?> values =
+	            (Collection<?>) value;
+
+	        return values.size()
+	            >= lowerBound;
+	    }
+
+	    /*
+	     * For required single-valued features,
+	     * eIsSet is generally a better structural test.
+	     */
+	    if (!object.eIsSet(feature)) {
+	        return false;
+	    }
+
+	    return value != null;
+	}
 	/**
 	 * Checks whether the model is a valid program
 	 * It uses the model validation extension
@@ -6106,7 +7134,7 @@ public class MutatorUtils {
 	 */
 	protected boolean validate(String metamodel, String seed, String model, Class<?> cls, IProject project) throws ModelNotFoundException {
 		boolean isValid = true;
-		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants valid programs extension", "", null);
+		String extensionName = getPreference("Mutants valid programs extension", "");
 		if (extensionName.equals("")) {
 			return true;
 		}
@@ -6168,6 +7196,175 @@ public class MutatorUtils {
 		}
 		return isValid;
 	}
+	
+	private static String getPreference(
+	        String key,
+	        String defaultValue) {
+
+	    try {
+	        if (Platform.getPreferencesService() != null) {
+	            return Platform.getPreferencesService()
+	                    .getString(
+	                        "wodel.dsls.Wodel",
+	                        key,
+	                        defaultValue,
+	                        null);
+	        }
+	    }
+	    catch (Throwable ignored) {
+	        // Plain java -jar / non-OSGi execution.
+	    }
+
+	    return defaultValue;
+	}
+	
+	private static boolean getBooleanPreference(
+	        String key,
+	        boolean defaultValue) {
+
+	    try {
+	        if (Platform.getPreferencesService() != null) {
+	            return Platform.getPreferencesService()
+	                    .getBoolean(
+	                        "wodel.dsls.Wodel",
+	                        key,
+	                        defaultValue,
+	                        null);
+	        }
+	    }
+	    catch (Throwable ignored) {
+	        // Plain java -jar / non-OSGi execution.
+	    }
+
+	    return defaultValue;
+	}
+	
+	private static boolean hasEclipseExtensionRegistry() {
+	    try {
+	        return Platform.getExtensionRegistry() != null;
+	    }
+	    catch (Throwable ignored) {
+	        return false;
+	    }
+	}
+	
+	private boolean validationHeadless(String projectName,
+	        String metamodel,
+	        String uri,
+	        Class<?> cls)
+	        throws ModelNotFoundException {
+
+	    try {
+
+	        List<EPackage> packages =
+	            ModelManager.loadMetaModelNoException(projectName, metamodel);
+	        
+	        if (packages == null ||
+	            packages.isEmpty()) {
+
+	            System.err.println(
+	                "Cannot validate model: "
+	                + "metamodel contains no EPackages: "
+	                + metamodel);
+
+	            return false;
+	        }
+
+	        Resource model =
+	            ModelManager.loadModelNoException(
+	                packages,
+	                uri);
+
+	        if (model == null) {
+
+	            System.err.println(
+	                "Cannot validate model: "
+	                + uri);
+
+	            return false;
+	        }
+
+	        if (!model.getErrors().isEmpty()) {
+
+	            for (Resource.Diagnostic error :
+	                    model.getErrors()) {
+
+	                System.err.println(
+	                    "EMF model error: "
+	                    + error.getMessage());
+	            }
+
+	            return false;
+	        }
+
+	        /*
+	         * Reuse the structural validation already
+	         * present in MutatorUtils.
+	         *
+	         * check(...) verifies mandatory EAttributes
+	         * and EReferences.
+	         */
+	        for (EObject root :
+	                model.getContents()) {
+
+	            if (check(root) != 0) {
+	                return false;
+	            }
+	        }
+
+	        return true;
+	    }
+	    catch (Throwable e) {
+
+	        System.err.println(
+	            "Headless EMF validation failed for "
+	            + "mm: " + metamodel + " and m: " + uri);
+
+	        System.err.println(
+	            "  Exception: "
+	            + e.getClass().getName());
+
+	        System.err.println(
+	            "  Message: "
+	            + e.getMessage());
+
+	        e.printStackTrace(
+	            System.err);
+
+	        return false;
+	    }
+	}
+	
+	protected boolean validationStandalone(
+	        Resource resource) {
+
+	    if (resource == null) {
+	        return false;
+	    }
+
+	    if (resource.getContents().isEmpty()) {
+	        return false;
+	    }
+
+	    /*
+	     * Loading/parsing errors already indicate
+	     * that this cannot be a valid candidate.
+	     */
+	    if (!resource.getErrors().isEmpty()) {
+
+	        for (Resource.Diagnostic error :
+	                resource.getErrors()) {
+
+	            System.err.println(
+	                "[Wodel standalone validation] "
+	                + error.getMessage());
+	        }
+
+	        return false;
+	    }
+
+	    return true;
+	}
 
 	/**
 	 * Checks whether the model is valid
@@ -6177,52 +7374,118 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean validation(String metamodel, String uri, Class<?> cls) throws ModelNotFoundException {
-		boolean isValid = false;
-		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "EMF model validation", null);
-		if (extensionName.equals("")) {
-			return true;
-		}
-		if (Platform.getExtensionRegistry() != null) {
-			IConfigurationElement[] extensions = Platform
-					.getExtensionRegistry().getConfigurationElementsFor(
-							"wodel.syntactic.validation.MutSyntacticValidation");
+	protected boolean validation(String projectName,
+	        String metamodel,
+	        String uri,
+	        Class<?> cls)
+	        throws ModelNotFoundException {
 
-			try {
-				for (IConfigurationElement extension : extensions) {
-					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
-					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, Class.class});
-					isValid = (boolean) validate.invoke(validation, metamodel, uri, cls);
-					break;
-				}
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidRegistryObjectException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return isValid;
+	    String extensionName =
+		        Platform
+		            .getPreferencesService()
+		            .getString(
+		                "wodel.dsls.Wodel",
+		                "Mutants validation extension",
+		                "EMF model validation",
+		                null);
+
+		    /*
+		     * Explicitly disabled validation.
+		     */
+		    if (extensionName == null
+		            || extensionName.isBlank()) {
+
+		        return true;
+		    }
+
+		    /*
+		     * HEADLESS MODE
+		     *
+		     * No Eclipse extension registry exists in a
+		     * plain JVM/JUnit execution.
+		     *
+		     * Absence of the optional validation extension
+		     * must NOT mean that every model is invalid.
+		     *
+		     * For M1, accept the model here.
+		     *
+		     * We can replace this later with a pure-EMF
+		     * Diagnostician-based validator.
+		     */
+		    if (Platform.getExtensionRegistry() == null) {
+
+		        System.out.println(
+		            "[Wodel] Headless validation: "
+		            + "no Eclipse extension registry; "
+		            + "accepting model "
+		            + uri);
+
+		        return true;
+		    }
+
+		    boolean isValid =
+		        false;
+
+		    IConfigurationElement[] extensions =
+		        Platform
+		            .getExtensionRegistry()
+		            .getConfigurationElementsFor(
+		                "wodel.syntactic.validation."
+		                + "MutSyntacticValidation");
+
+		    try {
+
+		        for (IConfigurationElement extension :
+		                extensions) {
+
+		            Class<?> extensionClass =
+		                Platform
+		                    .getBundle(
+		                        extension
+		                            .getDeclaringExtension()
+		                            .getContributor()
+		                            .getName())
+		                    .loadClass(
+		                        extension.getAttribute(
+		                            "class"));
+
+		            Object validation =
+		                extensionClass
+		                    .getDeclaredConstructor()
+		                    .newInstance();
+
+		                Method validate =
+		                    extensionClass.getDeclaredMethod(
+		                        "isValid",
+		                        new Class<?>[] {
+		                            String.class,
+		                            String.class,
+		                            Class.class
+		                        });
+
+		                isValid = (boolean)
+		                    validate.invoke(
+		                        validation,
+		                        metamodel,
+		                        uri,
+		                        cls);
+
+		            break;
+		        }
+		    }
+		    catch (InstantiationException
+		            | IllegalAccessException
+		            | ClassNotFoundException
+		            | InvalidRegistryObjectException
+		            | SecurityException
+		            | IllegalArgumentException
+		            | NoSuchMethodException
+		            | InvocationTargetException e) {
+
+		        e.printStackTrace();
+		    }
+
+		    return isValid;
 	}
 
 	/**
@@ -6237,9 +7500,9 @@ public class MutatorUtils {
 	protected boolean different(String metamodel, String model,
 			Set<String> hashset_mutants, IProject project, Class<?> cls) throws ModelNotFoundException {
 		boolean isRepeated = false;
-		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard syntactic duplicate mutants", true, null);
+		boolean discardDuplicate = getBooleanPreference("Discard syntactic duplicate mutants", true);
 		if (discardDuplicate == true) {
-			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "EMF model comparison", null);
+			String extensionName = getPreference("Duplicate mutants detection extension", "EMF model comparison");
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(
@@ -6272,9 +7535,10 @@ public class MutatorUtils {
 						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(comparison).equals(extensionName)) {
-							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class, Class.class});
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", String.class, String.class, String.class, IProject.class, Class.class);
 							for (String mutFilename : hashset_mutants) {
-								isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, mutFilename, project, cls);
+								String model2 = mutFilename.replace("\\", "/");
+								isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, model2, project, cls);
 								if (isRepeated == true) {
 									break;
 								}
@@ -6399,6 +7663,189 @@ public class MutatorUtils {
 		}
 		return isRepeated;
 	}
+	
+	private static volatile boolean oclInitialized = false;
+
+	private static final Object OCL_INITIALIZATION_LOCK =
+	        new Object();
+
+	public static void initializeOCL() {
+
+	    if (oclInitialized) {
+	        return;
+	    }
+
+	    synchronized (OCL_INITIALIZATION_LOCK) {
+
+	        if (oclInitialized) {
+	            return;
+	        }
+
+	        EssentialOCLStandaloneSetup.doSetup();
+
+	        oclInitialized = true;
+	    }
+	}
+	
+	
+	private static void debugEssentialOCL(Resource model) {
+
+		ResourceSet rs = model.getResourceSet();
+
+		org.osgi.framework.Bundle bundle = Platform.getBundle("org.eclipse.ocl.xtext.essentialocl");
+
+		System.err.println(">>> EssentialOCL bundle = " + bundle);
+
+		if (bundle != null) {
+			System.err.println(">>> EssentialOCL bundle state = " + bundle.getState());
+		}
+
+		URI probe = URI.createURI("probe.essentialocl");
+
+		Resource.Factory.Registry local = rs.getResourceFactoryRegistry();
+
+		Resource.Factory.Registry global = Resource.Factory.Registry.INSTANCE;
+
+		System.err.println(">>> local essentialocl entry = " + local.getExtensionToFactoryMap().get("essentialocl"));
+
+		System.err.println(">>> global essentialocl entry = " + global.getExtensionToFactoryMap().get("essentialocl"));
+
+		Resource.Factory factory = null;
+
+		try {
+			factory = local.getFactory(probe);
+		} catch (Throwable t) {
+			System.err.println(">>> ERROR resolving essentialocl factory");
+			t.printStackTrace();
+		}
+
+		System.err.println(">>> resolved essentialocl factory = " + factory);
+
+		if (factory != null) {
+			System.err.println(">>> factory class = " + factory.getClass().getName());
+
+			System.err.println(">>> factory loader = " + factory.getClass().getClassLoader());
+
+			try {
+				Resource test = factory.createResource(probe);
+
+				System.err.println(">>> created resource = " + test);
+
+				if (test != null) {
+					System.err.println(">>> resource class = " + test.getClass().getName());
+
+					System.err.println(">>> resource loader = " + test.getClass().getClassLoader());
+				}
+			} catch (Throwable t) {
+				System.err.println(">>> ERROR creating essentialocl resource");
+				t.printStackTrace();
+			}
+		}
+
+		System.err.println(">>> Pivot OCL loader = " + OCL.class.getClassLoader());
+	}
+	
+	private static void ensureEssentialOCLResourceFactory(ResourceSet resourceSet) {
+
+		Map<String, Object> localMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+
+		Map<String, Object> globalMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+
+		Object essentialOCLDescriptor = globalMap.get("essentialocl");
+
+		if (essentialOCLDescriptor != null) {
+			localMap.put("essentialocl", essentialOCLDescriptor);
+		}
+	}
+	
+	/**
+	 * Checks whether the model matches the OCL rules
+	 * @param model
+	 * @param rules
+	 * @return
+	 */
+	protected boolean matchesOCL(Resource model, Map<String, List<String>> rules) {
+	    boolean matches = true;
+	    /*
+	     * Important:
+	     *
+	     * Use the Pivot evaluator because the metamodel annotations
+	     * inspected below use:
+	     *
+	     * http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot
+	     *
+	     * Also bind OCL to the model ResourceSet so that metamodel
+	     * and model resolution use the same EMF environment.
+	     */
+	    //debugEssentialOCL(model);
+	    ResourceSet resourceSet = model.getResourceSet();
+	    ensureEssentialOCLResourceFactory(resourceSet);
+	    OCL ocl = OCL.newInstance(resourceSet);
+
+	    try {
+
+	        // for each object in the model
+	    	for (EObject eObject : ModelManager.getAllObjects(model)) {
+
+	    	    Set<EClass> metaclasses = new LinkedHashSet<EClass>();
+
+	    	    EClass concreteClass = eObject.eClass();
+
+	    	    metaclasses.add(concreteClass);
+	    	    metaclasses.addAll(concreteClass.getEAllSuperTypes()
+	    	    );
+
+	    	    for (EClass cl : metaclasses) {
+	    	        for (EAnnotation annotation : cl.getEAnnotations()) {
+
+	    	            if (!PivotConstants.OCL_DELEGATE_URI_PIVOT.equals(annotation.getSource())) {
+	    	                continue;
+	    	            }
+
+	    	            for (Map.Entry<String, String> detail : annotation.getDetails()) {
+
+	    	                String key = detail.getKey();
+
+	    	                if (key.endsWith("$message")) {
+	    	                    continue;
+	    	                }
+
+	    	                String invariant = detail.getValue();
+
+	    	                try {
+	    	                    System.err.println(">>> Parsing " + cl.getName() + "::" + key);
+
+	    	                    ExpressionInOCL expression = ocl.createInvariant(cl, invariant);
+
+	    	                    boolean valid = ocl.check(eObject, expression);
+
+	    	                    if (!valid) {
+	    	                        return false;
+	    	                    }
+	    	                }
+	    	                catch (ParserException e) {
+	    	                    System.err.println(">>> ERROR parsing " + cl.getName() + "::" + key);
+	    	                    System.err.println(">>> " + invariant);
+	    	                    System.err.println(">>> Parser message: " + e.getMessage());
+	    	                    e.printStackTrace();
+	    	                    return false;
+	    	                }
+	    	            }
+	    	        }
+	    	    }
+	    	}
+	    }
+	    finally {
+	        /*
+	         * Do not share this OCL instance between block
+	         * workers. It belongs only to this matchesOCL()
+	         * invocation.
+	         */
+	        ocl.dispose();
+	    }
+
+	    return matches;
+	}
 
 	/**
 	 * Checks whether the model matches the OCL rules
@@ -6406,6 +7853,7 @@ public class MutatorUtils {
 	 * @param rules
 	 * @return
 	 */
+/*
 	protected boolean matchesOCL(Resource model,
 			Map<String, List<String>> rules) {
 		boolean matches = true;
@@ -6424,11 +7872,36 @@ public class MutatorUtils {
 				for (EAnnotation an : cl.getEAnnotations()) {
 					if (an.getSource().equals(
 							OCLConstants.OCL_DELEGATE_URI + "/Pivot")) {
-						for (String key : an.getDetails().keySet()) {
+						if (an.getDetails().keySet() != null) {
+							for (String key : an.getDetails().keySet()) {
 
+								// ...evaluate invariant in the object
+								Object context = eObject;
+								String invariant = an.getDetails().get(key);
+								OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
+								OCLHelper helper = ocl.createOCLHelper();
+								helper.setInstanceContext(context);
+								try {
+									OCLExpression exp = helper.createQuery(invariant);
+									Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
+									Object eval = query.evaluate(context);
+
+									// check if the constraint failed
+									if (eval instanceof Boolean && ((Boolean) eval).booleanValue() == false) {
+										System.out.println(">>> ERROR: constraint "	+ key + " does not hold");
+										matches = false;
+									}
+								} catch (ParserException e) {
+									e.printStackTrace();
+								}
+								ocl.dispose();
+							}
+						}
+					}
+					if (rules.get(cl.getName()) != null) {
+						for (String invariant : rules.get(cl.getName())) {
 							// ...evaluate invariant in the object
 							Object context = eObject;
-							String invariant = an.getDetails().get(key);
 							OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
 							OCLHelper helper = ocl.createOCLHelper();
 							helper.setInstanceContext(context);
@@ -6438,8 +7911,8 @@ public class MutatorUtils {
 								Object eval = query.evaluate(context);
 
 								// check if the constraint failed
-								if (eval instanceof Boolean && ((Boolean) eval).booleanValue() == false) {
-									System.out.println(">>> ERROR: constraint "	+ key + " does not hold");
+								if (eval instanceof Boolean	&& ((Boolean) eval).booleanValue() == false) {
+									System.out.println(">>> ERROR: constraint "	+ invariant + " does not hold");
 									matches = false;
 								}
 							} catch (ParserException e) {
@@ -6449,33 +7922,11 @@ public class MutatorUtils {
 						}
 					}
 				}
-				if (rules.get(cl.getName()) != null) {
-					for (String invariant : rules.get(cl.getName())) {
-						// ...evaluate invariant in the object
-						Object context = eObject;
-						OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
-						OCLHelper helper = ocl.createOCLHelper();
-						helper.setInstanceContext(context);
-						try {
-							OCLExpression exp = helper.createQuery(invariant);
-							Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
-							Object eval = query.evaluate(context);
-
-							// check if the constraint failed
-							if (eval instanceof Boolean	&& ((Boolean) eval).booleanValue() == false) {
-								System.out.println(">>> ERROR: constraint "	+ invariant + " does not hold");
-								matches = false;
-							}
-						} catch (ParserException e) {
-							e.printStackTrace();
-						}
-						ocl.dispose();
-					}
-				}
 			}
 		}
 		return matches;
 	}
+*/
 	
 	/**
 	 * Gets Wodel variable names and its corresponding mutation
@@ -7030,6 +8481,7 @@ public class MutatorUtils {
 	 * @param versionPath
 	 * @param mut
 	 */
+	/*
 	public void createMutantVersionRegistry(List<EPackage> packages, List<Resource> seeds, Resource model, String versionPath, AppMutation mut) {
 		File outputFolder = new File(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
 		if (outputFolder.exists() != true) {
@@ -7106,6 +8558,213 @@ public class MutatorUtils {
 		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 		muts.getMuts().add(EcoreUtil.copy(mut));
 		ModelManager.createModel(muts, registryFilename);
+	}
+	*/
+	
+	private static void rebindFirstObject(
+	        List<EObject> objects,
+	        Resource resource) {
+
+	    if (objects == null
+	            || objects.isEmpty()
+	            || resource == null) {
+
+	        return;
+	    }
+
+	    EObject original =
+	        objects.get(0);
+
+	    EObject rebound =
+	        ModelManager.getObject(
+	            resource,
+	            original);
+
+	    if (rebound != null) {
+
+	        objects.set(
+	            0,
+	            rebound);
+	    }
+	}
+
+
+	private static void rebindFirstObject(
+	        List<EObject> objects,
+	        List<Resource> previousVersions,
+	        Resource activeVersion) {
+
+	    if (objects == null
+	            || objects.isEmpty()) {
+
+	        return;
+	    }
+
+	    EObject original =
+	        objects.get(0);
+
+
+	    if (previousVersions != null) {
+
+	        for (Resource previous :
+	                previousVersions) {
+
+	            if (previous == null) {
+	                continue;
+	            }
+
+	            EObject rebound =
+	                ModelManager.getObject(
+	                    previous,
+	                    original);
+
+	            if (rebound != null) {
+
+	                objects.set(
+	                    0,
+	                    rebound);
+
+	                return;
+	            }
+	        }
+	    }
+
+
+	    rebindFirstObject(
+	        objects,
+	        activeVersion);
+	}
+	public void createMutantVersionRegistry(
+	        List<EPackage> packages,
+	        List<Resource> previousVersions,
+	        Resource activeVersion,
+	        String versionPath,
+	        AppMutation mutation) {
+
+	    Objects.requireNonNull(
+	        activeVersion,
+	        "activeVersion");
+
+	    Objects.requireNonNull(
+	        mutation,
+	        "mutation");
+
+
+	    File outputFolder =
+	        new File(
+	            versionPath.substring(
+	                0,
+	                versionPath.lastIndexOf('/'))
+	            + "/registry");
+
+	    if (!outputFolder.exists()
+	            && !outputFolder.mkdirs()
+	            && !outputFolder.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create registry directory "
+	            + outputFolder);
+	    }
+
+
+	    if (mutation instanceof ObjectCreated created) {
+
+	        rebindFirstObject(
+	            created.getObject(),
+	            activeVersion);
+	    }
+
+
+	    if (mutation instanceof ObjectCloned cloned) {
+
+	        rebindFirstObject(
+	            cloned.getObject(),
+	            activeVersion);
+	    }
+
+
+	    if (mutation instanceof ObjectRemoved removed) {
+
+	        rebindFirstObject(
+	            removed.getObject(),
+	            previousVersions,
+	            activeVersion);
+	    }
+
+
+	    if (mutation instanceof ObjectRetyped retyped) {
+
+	        rebindFirstObject(
+	            retyped.getRemovedObject(),
+	            previousVersions,
+	            activeVersion);
+	    }
+
+
+	    if (mutation instanceof InformationChanged changed) {
+
+	        EObject original =
+	            changed.getObject();
+
+	        if (original != null) {
+
+	            EObject rebound =
+	                ModelManager.getObject(
+	                    activeVersion,
+	                    original);
+
+	            if (rebound == null
+	                    && previousVersions != null) {
+
+	                for (Resource previous :
+	                        previousVersions) {
+
+	                    rebound =
+	                        ModelManager.getObject(
+	                            previous,
+	                            original);
+
+	                    if (rebound != null) {
+	                        break;
+	                    }
+	                }
+	            }
+
+	            if (rebound != null) {
+
+	                changed.setObject(
+	                    rebound);
+	            }
+	        }
+	    }
+
+
+	    String registryFilename =
+	        versionPath.substring(
+	            0,
+	            versionPath.lastIndexOf('/'))
+	        + "/registry/"
+	        + versionPath.substring(
+	            versionPath.lastIndexOf('/') + 1)
+	            .replace(
+	                ".model",
+	                "Registry.model");
+
+
+	    Mutations singleMutationRegistry =
+	        AppliedMutationsFactory
+	            .eINSTANCE
+	            .createMutations();
+
+	    singleMutationRegistry
+	        .getMuts()
+	        .add(
+	            EcoreUtil.copy(
+	                mutation));
+
+	    ModelManager.createModel(
+	        singleMutationRegistry,
+	        registryFilename);
 	}
 	
 	
@@ -9712,7 +11371,1146 @@ public class MutatorUtils {
 //			throw new RuntimeException(e);
 //		}
 //	}
+	
+	
+	private static void unregisterMetamodels(Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages) {
 
+	    /*
+	     * Reverse registration order.
+	     */
+	    if (localRegisteredPackages != null) {
+	        List<EPackage> packages = new ArrayList<EPackage>(localRegisteredPackages.values());
+	        ModelManager.unregisterMetaModel(packages);
+	    }
+
+	    if (registeredPackages != null) {
+	        List<EPackage> packages = new ArrayList<EPackage>(registeredPackages.values());
+	        ModelManager.unregisterMetaModel(packages);
+	    }
+	}
+	
+	private static void registerMetamodels(Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages) {
+
+	    if (registeredPackages != null) {
+	        ModelManager.registerMetaModel(registeredPackages);
+	    }
+
+	    if (localRegisteredPackages != null) {
+	        ModelManager.registerMetaModel(localRegisteredPackages);
+	    }
+	}
+	
+	private static void disposeTemporaryResource(
+	        Resource resource) {
+
+	    if (resource == null) {
+	        return;
+	    }
+
+	    ResourceSet resourceSet =
+	        resource.getResourceSet();
+
+	    try {
+
+	        if (resource.isLoaded()) {
+	            resource.unload();
+	        }
+	    }
+	    catch (RuntimeException e) {
+
+	        System.err.println(
+	            "[Wodel] Cannot unload temporary resource "
+	            + resource.getURI()
+	            + ": "
+	            + e.getMessage());
+	    }
+	    finally {
+
+	        if (resourceSet != null) {
+
+	            resourceSet
+	                .getResources()
+	                .remove(
+	                    resource);
+	        }
+	    }
+	}
+
+
+	private static void disposeTemporaryResources(
+	        Iterable<Resource> resources) {
+
+	    if (resources == null) {
+	        return;
+	    }
+
+	    Set<Resource> disposed =
+	        Collections.newSetFromMap(
+	            new IdentityHashMap<>());
+
+	    for (Resource resource : resources) {
+
+	        if (resource != null
+	                && disposed.add(resource)) {
+
+	            disposeTemporaryResource(
+	                resource);
+	        }
+	    }
+	}
+	
+	private static Resource getOrLoadVersion(
+	        String path,
+	        List<EPackage> packages,
+	        Map<String, Resource> cache) {
+
+	    if (path == null
+	            || path.isBlank()) {
+
+	        return null;
+	    }
+
+	    Resource cached =
+	        cache.get(path);
+
+	    if (cached != null) {
+	        return cached;
+	    }
+
+	    Resource loaded = null;
+		try {
+			loaded = getOrLoadRegistryLookupResource(
+			    packages,
+			    path);
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    if (loaded != null) {
+
+	        cache.put(
+	            path,
+	            loaded);
+	    }
+
+	    return loaded;
+	}
+	
+	private static EObject recoverRegistryObject(
+	        Resource resource,
+	        EObject object) {
+
+	    if (resource == null
+	            || object == null) {
+	        return null;
+	    }
+
+	    EObject found =
+	        ModelManager.getObject(
+	            resource,
+	            object);
+
+	    if (found != null) {
+	        return found;
+	    }
+
+	    found =
+	        ModelManager.getObjectByName(
+	            resource,
+	            object);
+
+	    if (found != null) {
+	        return found;
+	    }
+
+	    try {
+
+	        URI uri =
+	            EcoreUtil.getURI(
+	                object);
+
+	        if (uri != null) {
+
+	            found =
+	                ModelManager.getObjectByURIEnding(
+	                    resource,
+	                    uri);
+
+	            if (found != null) {
+	                return found;
+	            }
+	        }
+	    }
+	    catch (Exception ignored) {
+	        // continue with identification
+	    }
+
+	    try {
+
+	        String id =
+	            EcoreUtil.getIdentification(
+	                object);
+
+	        if (id != null
+	                && !id.isBlank()) {
+
+	            found =
+	                ModelManager.getObjectByPartialID(
+	                    resource,
+	                    id);
+
+	            if (found != null) {
+	                return found;
+	            }
+	        }
+	    }
+	    catch (Exception ignored) {
+	        // no usable logical identification
+	    }
+
+	    return null;
+	}
+	
+	private static String bindVersionedObject(
+	        List<EObject> mutationObjects,
+	        Resource proxyContext,
+	        Resource first,
+	        Resource second,
+	        String currentMutantPath,
+	        List<String> previousPaths,
+	        List<EPackage> packages,
+	        Map<String, Resource> versionCache) {
+
+	    if (mutationObjects == null
+	            || mutationObjects.isEmpty()) {
+
+	        return null;
+	    }
+
+	    EObject mutationObject =
+	        mutationObjects.get(0);
+
+	    if (mutationObject == null) {
+	        return null;
+	    }
+
+	    EObject target =
+	        mutationObject;
+
+	    if (target.eIsProxy()
+	            && proxyContext != null) {
+
+	        target =
+	            EcoreUtil.resolve(
+	                target,
+	                proxyContext);
+	    }
+
+
+	    /*
+	     * Current seed/final-mutant resources are already
+	     * owned outside the version cache.
+	     */
+/*
+	    if (first != null) {
+
+	        EObject object =
+	            ModelManager.getObjectByName(
+	                first,
+	                target);
+
+	        if (object != null) {
+
+	            mutationObjects.set(
+	                0,
+	                object);
+
+	            return currentMutantPath;
+	        }
+	    }
+
+
+	    if (second != null) {
+
+	        EObject object =
+	            ModelManager.getObjectByName(
+	                second,
+	                target);
+
+	        if (object != null) {
+
+	            mutationObjects.set(
+	                0,
+	                object);
+
+	            return currentMutantPath;
+	        }
+	    }
+*/
+	    /*
+	    if (first != null) {
+
+	        EObject object =
+	            findRegistryObjectInResource(
+	                first,
+	                target,
+	                mutationObject);
+
+	        if (object != null) {
+
+	            mutationObjects.set(
+	                0,
+	                object);
+
+	            return currentMutantPath;
+	        }
+	    }
+	    */
+	    if (first != null) {
+	    	EObject object =
+	    		    recoverRegistryObject(
+	    		        first,
+	    		        target);
+
+	    		if (object != null) {
+
+	    		    mutationObjects.set(
+	    		        0,
+	    		        object);
+
+	    		    return currentMutantPath;
+	    		}
+	    }
+	    
+	    if (second != null) {
+	    	EObject object =
+	    		    recoverRegistryObject(
+	    		        second,
+	    		        target);
+
+	    		if (object != null) {
+
+	    		    mutationObjects.set(
+	    		        0,
+	    		        object);
+
+	    		    return currentMutantPath;
+	    		}
+	    }
+
+	    /*
+	    if (second != null) {
+
+	        EObject object =
+	            findRegistryObjectInResource(
+	                second,
+	                target,
+	                mutationObject);
+
+	        if (object != null) {
+
+	            mutationObjects.set(
+	                0,
+	                object);
+
+	            return currentMutantPath;
+	        }
+	    }
+	    */
+
+	    /*
+	     * Search previous mutation versions.
+	     *
+	     * Unlike the original implementation, every loaded
+	     * resource is kept in versionCache until registry
+	     * serialization has finished. Thus no EObject ever
+	     * points into a prematurely unloaded Resource.
+	     */
+	    if (previousPaths != null
+	            && packages != null) {
+
+	        for (String previousPath :
+	                previousPaths) {
+
+	            Resource previous =
+	                getOrLoadVersion(
+	                    previousPath,
+	                    packages,
+	                    versionCache);
+
+	            if (previous == null) {
+	                continue;
+	            }
+	            
+	            EObject object =
+	            	    recoverRegistryObject(
+	            	        previous,
+	            	        target);
+
+	            	if (object != null) {
+
+	            	    mutationObjects.set(
+	            	        0,
+	            	        object);
+
+	            	    return previousPath;
+	            	}
+	            	/*
+	            EObject object =
+	                ModelManager.getObject(
+	                    previous,
+	                    target);
+	                   
+
+	            if (object != null) {
+
+	                mutationObjects.set(
+	                    0,
+	                    object);
+
+	                return previousPath;
+	            }
+	            */
+	        }
+	    }
+
+	    return null;
+	}
+	
+	private static String prepareVersionedMutation(
+	        AppMutation mutation,
+	        Resource seed,
+	        Resource model,
+	        Resource mutant,
+	        String mutFilename,
+	        List<String> mutPaths,
+	        List<EPackage> packages,
+	        Map<String, Resource> versionCache) {
+
+	    if (mutation instanceof ObjectCreated created) {
+
+	        return bindVersionedObject(
+	            created.getObject(),
+	            model,
+	            mutant,
+	            seed,
+	            mutFilename,
+	            mutPaths,
+	            packages,
+	            versionCache);
+	    }
+
+
+	    if (mutation instanceof ObjectCloned cloned) {
+
+	        return bindVersionedObject(
+	            cloned.getObject(),
+	            model,
+	            seed,
+	            mutant,
+	            mutFilename,
+	            mutPaths,
+	            packages,
+	            versionCache);
+	    }
+
+
+	    if (mutation instanceof ObjectRemoved removed) {
+
+	        return bindVersionedObject(
+	            removed.getObject(),
+	            seed,
+	            seed,
+	            mutant,
+	            mutFilename,
+	            mutPaths,
+	            packages,
+	            versionCache);
+	    }
+
+
+	    if (mutation instanceof ObjectRetyped retyped) {
+
+	        return bindVersionedObject(
+	            retyped.getObject(),
+	            seed,
+	            seed,
+	            mutant,
+	            mutFilename,
+	            mutPaths,
+	            packages,
+	            versionCache);
+	    }
+
+
+	    return null;
+	}
+	
+	private static void rebindObjectList(
+	        List<EObject> objects,
+	        Resource resource) {
+
+	    if (objects == null
+	            || resource == null
+	            || objects.isEmpty()) {
+
+	        return;
+	    }
+
+	    List<EObject> rebound =
+	        new ArrayList<>(
+	            objects.size());
+
+	    for (EObject object :
+	            objects) {
+
+	        EObject replacement =
+	            ModelManager.getObjectByName(
+	                resource,
+	                object);
+
+	        rebound.add(
+	            replacement != null
+	                ? replacement
+	                : object);
+	    }
+
+	    objects.clear();
+	    objects.addAll(
+	        rebound);
+	}
+	
+	private static void rebindReferenceChange(
+	        ReferenceChanged reference,
+	        Resource seed,
+	        Resource mutant) {
+
+	    if (reference == null) {
+	        return;
+	    }
+
+
+	    EObject from =
+	        reference.getFrom();
+
+	    if (from != null) {
+
+	        EObject rebound =
+	            ModelManager.getObjectByName(
+	                mutant,
+	                from);
+
+	        if (rebound == null) {
+
+	            rebound =
+	                ModelManager.getObjectByName(
+	                    seed,
+	                    from);
+	        }
+
+	        if (rebound != null) {
+
+	            reference.setFrom(
+	                rebound);
+	        }
+	    }
+
+
+	    EObject mutantFrom =
+	        reference.getMutantFrom();
+
+	    if (mutantFrom != null) {
+
+	        EObject rebound =
+	            ModelManager.getObjectByName(
+	                mutant,
+	                mutantFrom);
+
+	        if (rebound == null) {
+
+	            rebound =
+	                ModelManager.getObjectByName(
+	                    seed,
+	                    mutantFrom);
+	        }
+
+	        if (rebound != null) {
+
+	            reference.setMutantFrom(
+	                rebound);
+	        }
+	    }
+
+
+	    EObject to =
+	        reference.getTo();
+
+	    if (to != null) {
+
+	        EObject rebound =
+	            ModelManager.getObjectByPartialID(
+	                seed,
+	                EcoreUtil.getIdentification(
+	                    to));
+
+	        if (rebound != null) {
+
+	            reference.setTo(
+	                rebound);
+	        }
+	    }
+
+
+	    EObject mutantTo =
+	        reference.getMutantTo();
+
+	    if (mutantTo != null) {
+
+	        EObject rebound =
+	            ModelManager.getObjectByName(
+	                mutant,
+	                mutantTo);
+
+	        if (rebound != null) {
+
+	            reference.setMutantTo(
+	                rebound);
+	        }
+	    }
+
+
+	    if (reference instanceof ReferenceSwap swap) {
+
+	        EObject otherFrom =
+	            swap.getOtherFrom();
+
+	        if (otherFrom != null) {
+
+	            EObject rebound =
+	                ModelManager.getObjectByPartialID(
+	                    seed,
+	                    EcoreUtil.getIdentification(
+	                        otherFrom));
+
+	            if (rebound != null) {
+
+	                swap.setOtherFrom(
+	                    rebound);
+	            }
+	        }
+
+
+	        EObject otherTo =
+	            swap.getOtherTo();
+
+	        if (otherTo != null) {
+
+	            EObject rebound =
+	                ModelManager.getObjectByPartialID(
+	                    seed,
+	                    EcoreUtil.getIdentification(
+	                        otherTo));
+
+	            if (rebound != null) {
+
+	                swap.setOtherTo(
+	                    rebound);
+	            }
+	        }
+	    }
+
+
+	    rebindObjectList(
+	        reference.getObject(),
+	        seed);
+
+	    rebindObjectList(
+	        reference.getMutantObject(),
+	        mutant);
+	}
+	
+	private static void prepareInformationChanged(
+	        InformationChanged changed,
+	        Resource seed,
+	        Resource mutant) {
+
+	    if (changed == null) {
+	        return;
+	    }
+
+
+	    EObject affected =
+	        changed.getObject();
+
+	    if (affected != null) {
+
+	        EObject rebound =
+	            ModelManager.getObjectByName(
+	                seed,
+	                affected);
+
+	        if (rebound == null) {
+
+	            rebound =
+	                ModelManager.getObjectByName(
+	                    mutant,
+	                    affected);
+	        }
+
+	        if (rebound != null) {
+
+	            changed.setObject(
+	                rebound);
+	        }
+	    }
+
+
+	    for (ReferenceChanged reference :
+	            changed.getRefChanges()) {
+
+	        rebindReferenceChange(
+	            reference,
+	            seed,
+	            mutant);
+	    }
+	}
+	
+	private void writeRegistryWithManagedVersions(
+	        List<EPackage> packages,
+	        Resource seed,
+	        Resource model,
+	        Mutations mutations,
+	        String mutFilename,
+	        List<String> mutPaths,
+	        String registryFilename) {
+
+	    Map<String, Resource> versionCache =
+	        new LinkedHashMap<>();
+
+	    List<Resource> pastVersions =
+	        new ArrayList<>();
+
+	    pastVersions.add(
+	        seed);
+
+	    Resource mutant =
+	        null;
+
+	    try {
+
+	        mutant =
+	            getOrLoadVersion(
+	                mutFilename,
+	                packages,
+	                versionCache);
+
+	        if (mutant == null) {
+
+	            throw new IllegalStateException(
+	                "Cannot load generated mutant "
+	                + mutFilename);
+	        }
+
+
+	        for (AppMutation mutation :
+	                mutations.getMuts()) {
+
+	            String mutationVersion =
+	                prepareVersionedMutation(
+	                    mutation,
+	                    seed,
+	                    model,
+	                    mutant,
+	                    mutFilename,
+	                    mutPaths,
+	                    packages,
+	                    versionCache);
+
+
+	            if (mutation
+	                    instanceof InformationChanged changed) {
+
+	                prepareInformationChanged(
+	                    changed,
+	                    seed,
+	                    mutant);
+	            }
+
+
+	            if (mutationVersion == null
+	                    || mutationVersion.isBlank()) {
+
+	                continue;
+	            }
+
+
+	            Resource activeVersion =
+	                getOrLoadVersion(
+	                    mutationVersion,
+	                    packages,
+	                    versionCache);
+
+	            if (activeVersion == null) {
+
+	                throw new IllegalStateException(
+	                    "Cannot load mutation version "
+	                    + mutationVersion);
+	            }
+
+
+	            /*
+	             * All resources in pastVersions are still loaded here.
+	             */
+	            createMutantVersionRegistry(
+	                packages,
+	                pastVersions,
+	                activeVersion,
+	                mutationVersion,
+	                mutation);
+
+
+	            if (!pastVersions.contains(
+	                    activeVersion)) {
+
+	                pastVersions.add(
+	                    activeVersion);
+	            }
+	        }
+
+
+	        /*
+	         * CRITICAL LIFETIME BOUNDARY
+	         * ==========================
+	         *
+	         * Do this BEFORE unloading mutant/activeVersion.
+	         *
+	         * The mutation registry contains cross references to
+	         * objects belonging to those resources, therefore EMF
+	         * must be allowed to compute their URI fragments while
+	         * those resources are alive.
+	         */
+	        ModelManager.createModel(
+	            mutations,
+	            registryFilename);
+	    }
+	    finally {
+
+	        /*
+	         * seed and model are deliberately NOT in this cache.
+	         */
+	        pastVersions.clear();
+
+	        disposeTemporaryResources(
+	            versionCache.values());
+
+	        versionCache.clear();
+	    }
+	}
+	
+	private static void rememberMutationVersions(
+	        Map<String, List<String>> versionsByMutant,
+	        String mutantFilename,
+	        List<String> mutationPaths) {
+
+	    if (versionsByMutant == null
+	            || mutantFilename == null) {
+
+	        return;
+	    }
+
+	    List<String> versions =
+	        versionsByMutant.computeIfAbsent(
+	            mutantFilename,
+	            ignored -> new ArrayList<>());
+
+	    if (mutationPaths == null) {
+	        return;
+	    }
+
+	    for (String path :
+	            mutationPaths) {
+
+	        if (path != null
+	                && !versions.contains(path)) {
+
+	            versions.add(path);
+	        }
+	    }
+	}
+
+	private static String buildRegistryFilename(
+	        Map<String, String> modelFilenames,
+	        Map<String, String> modelFolders,
+	        String modelFilename,
+	        String block,
+	        List<String> fromBlocks,
+	        String mutantFilename) {
+
+	    String base =
+	        modelFilenames.get(
+	            modelFilename);
+
+	    /*
+	     * A blank block represents the ordinary,
+	     * non-block Wodel mutation process.
+	     */
+	    if (block != null
+	            && !block.isBlank()) {
+
+	        base += "/" + block;
+	    }
+
+	    if (fromBlocks != null
+	            && !fromBlocks.isEmpty()) {
+
+	        if (modelFolders == null) {
+
+	            throw new IllegalArgumentException(
+	                "modelFolders is required when "
+	                + "fromBlocks is not empty");
+	        }
+
+	        base += "/"
+	            + modelFolders.get(
+	                modelFilename);
+	    }
+
+	    File registryFolder =
+	        new File(
+	            base,
+	            "registry");
+
+	    if (!registryFolder.exists()
+	            && !registryFolder.mkdirs()
+	            && !registryFolder.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create registry directory: "
+	            + registryFolder);
+	    }
+
+	    String normalized =
+	        mutantFilename.replace(
+	            '\\',
+	            '/');
+
+	    String filename =
+	        normalized.substring(
+	            normalized.lastIndexOf('/') + 1);
+
+	    int outputStart =
+	        filename.lastIndexOf("Output");
+
+	    int extension =
+	        filename.lastIndexOf(".model");
+
+	    if (outputStart < 0
+	            || extension <= outputStart) {
+
+	        throw new IllegalArgumentException(
+	            "Unexpected mutant filename: "
+	            + mutantFilename);
+	    }
+
+	    int mutantIndex =
+	        Integer.parseInt(
+	            filename.substring(
+	                outputStart
+	                    + "Output".length(),
+	                extension));
+
+	    return new File(
+	        registryFolder,
+	        "Output"
+	            + mutantIndex
+	            + "Registry.model")
+	        .getPath()
+	        .replace(
+	            '\\',
+	            '/');
+	}
+	
+	private static void applyReverseMutation(
+	        List<EPackage> packages,
+	        Resource mutant,
+	        EObject mutation) {
+
+	    if (mutation instanceof InformationChanged changed) {
+
+	        EObject changedObject =
+	            changed.getObject();
+
+	        if (changedObject != null) {
+
+	            EObject target =
+	                ModelManager.getObjectByURIEnding(
+	                    mutant,
+	                    EcoreUtil.getURI(
+	                        changedObject));
+
+	            if (target != null) {
+
+	                for (AttributeChanged attribute :
+	                        changed.getAttChanges()) {
+
+	                    EMFUtils.setAttribute(
+	                        packages.get(0),
+	                        target,
+	                        attribute.getAttName(),
+	                        attribute.getOldVal());
+	                }
+	            }
+	        }
+	    }
+
+
+	    if (mutation
+	            instanceof TargetReferenceChanged changed) {
+
+	        if (!changed.getObject().isEmpty()) {
+
+	            EObject owner =
+	                changed.getObject().get(0);
+
+	            EObject target =
+	                ModelManager.getObjectByURIEnding(
+	                    mutant,
+	                    EcoreUtil.getURI(
+	                        owner));
+
+	            if (target != null) {
+
+	                EObject oldTarget =
+	                    changed.getOldTo() != null
+	                    ? ModelManager.getObject(
+	                        mutant,
+	                        changed.getOldTo())
+	                    : null;
+
+	                EMFUtils.setReference(
+	                    packages.get(0),
+	                    target,
+	                    changed.getRefName(),
+	                    oldTarget);
+	            }
+	        }
+	    }
+	}
+	
+	private static String resolveMetamodelPath(
+	        String metamodel,
+	        Resource seed) {
+
+	    if (metamodel == null
+	            || metamodel.isBlank()) {
+
+	        throw new IllegalArgumentException(
+	            "Metamodel path must not be null or blank");
+	    }
+
+	    String normalized =
+	        metamodel.replace(
+	            '\\',
+	            '/');
+
+
+	    /*
+	     * Important on Windows: also test the native-path
+	     * representation.
+	     */
+	    File direct =
+	        new File(
+	            normalized);
+
+	    File nativeFile =
+	        new File(
+	            normalized.replace(
+	                '/',
+	                File.separatorChar));
+
+
+	    if (direct.isAbsolute()
+	            || nativeFile.isAbsolute()) {
+
+	        return normalized;
+	    }
+
+
+	    String metamodelName =
+	        normalized.substring(
+	            normalized.lastIndexOf('/') + 1);
+
+
+	    if (seed == null
+	            || seed.getURI() == null
+	            || seed.getURI().toFileString() == null) {
+
+	        return metamodelName;
+	    }
+
+
+	    String seedPath =
+	        seed.getURI()
+	            .toFileString()
+	            .replace(
+	                '\\',
+	                '/');
+
+	    int separator =
+	        seedPath.lastIndexOf('/');
+
+	    if (separator < 0) {
+	        return metamodelName;
+	    }
+
+
+	    return seedPath.substring(
+	        0,
+	        separator + 1)
+	        + metamodelName;
+	}
+	
+	private static String getFileBaseName(
+	        String path) {
+
+	    if (path == null
+	            || path.isBlank()) {
+
+	        return "";
+	    }
+
+	    String normalized =
+	        path.replace('\\', '/');
+
+	    int slash =
+	        normalized.lastIndexOf('/');
+
+	    String filename =
+	        slash >= 0
+	            ? normalized.substring(slash + 1)
+	            : normalized;
+
+	    int dot =
+	        filename.lastIndexOf('.');
+
+	    return dot > 0
+	        ? filename.substring(0, dot)
+	        : filename;
+	}
+	
+	public static void validateRegistryMutation(
+	        AppMutation mutation) {
+
+	    if (mutation instanceof ObjectRemoved removed
+	            && removed.getObject().isEmpty()) {
+
+	        throw new IllegalStateException(
+	            "Cannot serialize ObjectRemoved: "
+	            + "removed EObject was not preserved");
+	    }
+	}
+	
 	/**
 	 * Mutant registry generation
 	 * (Wodel program with no blocks)
@@ -9745,110 +12543,141 @@ public class MutatorUtils {
 			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
-		boolean isValid = false;
-		boolean isSaved = false;
-		if (registeredPackages != null) {
-			ModelManager.registerMetaModel(registeredPackages);
-		}
-		if (localRegisteredPackages != null) {
-			ModelManager.registerMetaModel(localRegisteredPackages);
-		}
-		boolean valid = validation(metamodel, seed.getURI().toFileString(), cls);
-		if (localRegisteredPackages != null) {
-			List<EPackage> localRegistered = new ArrayList<EPackage>();
-			localRegistered.addAll(localRegisteredPackages.values());
-			ModelManager.unregisterMetaModel(localRegistered);
-		}
-		if (registeredPackages != null) {
-			List<EPackage> registered = new ArrayList<EPackage>();
-			registered.addAll(registeredPackages.values());
-			ModelManager.unregisterMetaModel(registered);
+
+		/*
+		 * Important: true is intentional.
+		 *
+		 * Some validation paths are conditional. Initialising this
+		 * to false would reject mutants when those optional checks
+		 * are disabled.
+		 */
+		boolean isValid = true;
+
+		boolean valid = false;
+		
+		final String resolvedMetamodel =
+			    resolveMetamodelPath(
+			        metamodel,
+			        seed);
+		
+		synchronized (EPACKAGE_REGISTRY_LOCK) {
+			registerMetamodels(registeredPackages, localRegisteredPackages);
+			try {
+				valid = validation(project.getName(), resolvedMetamodel, seed.getURI().toFileString().replace("\\", "/"), cls);
+			}
+			finally {
+				unregisterMetamodels(registeredPackages, localRegisteredPackages);
+			}
 		}
 		if (valid == false) {
 			return true;
 		}
 		if (serialize == false) {
-			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
-			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
-			if (registeredPackages != null) {
-				ModelManager.registerMetaModel(registeredPackages);
+			String className =
+				    getFileBaseName(
+				        modelFilename);
+
+				String mutantName =
+				    getFileBaseName(
+				        mutFilename);
+				boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = test.modelToProject(className, model, "", mutantName, project, null);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
 			}
-			if (localRegisteredPackages != null) {
-				ModelManager.registerMetaModel(localRegisteredPackages);
-			}
-			boolean value = test.modelToProject(className, model, "", mutantName, project, null);
 			if (value == false) {
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				return true;
 			}
-			if (value && classes.size() > 0) {
-				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
-				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
-			}
-			if (localRegisteredPackages != null) {
-				List<EPackage> localRegistered = new ArrayList<EPackage>();
-				localRegistered.addAll(localRegisteredPackages.values());
-				ModelManager.unregisterMetaModel(localRegistered);
-			}
-			if (registeredPackages != null) {
-				List<EPackage> registered = new ArrayList<EPackage>();
-				registered.addAll(registeredPackages.values());
-				ModelManager.unregisterMetaModel(registered);
+			if (value) {
+				synchronized (CLASSES_LOCK) {
+					if (classes != null && classes.size() > 0) {
+						String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
+						WodelUtils.addPathToClasses(project.getName(), classes, projectPath);
+					}
+				}
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == false) {
+
+	        /*
+	         * matchesOCL
+	         * save mutant
+	         * validation
+	         * repeated check
+	         * equivalence check
+	         * registry generation
+	         */
+
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = matchesOCL(model, rules);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
+			}
+			if (value == false) {
 				isRepeated = true;
 				return isRepeated;
 			}
 			else {
-				File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
-				if (outputFolder.exists() != true) {
-					outputFolder.mkdir();
-				}
+				File outputFolder =
+					    new File(
+					        hashmapModelFilenames.get(
+					            modelFilename));
+
+					if (!outputFolder.exists()
+					        && !outputFolder.mkdirs()
+					        && !outputFolder.isDirectory()) {
+
+					    throw new IllegalStateException(
+					        "Cannot create mutant output directory: "
+					        + outputFolder);
+					}
 				if (save == true) {
-					ModelManager.saveOutModel(model, mutFilename);
-					if (new File(mutFilename).exists() == true) {
-						isSaved = true;
-						//Frees memory
-						try {
-							model.unload();
-						} catch (Exception e) {}
-					}
-					else {
-						isRepeated = true;
-						try {
-							model.unload();
-						} catch (Exception e) {}
-						return isRepeated;
-					}
+					ModelManager.saveOutModel(
+						    model,
+						    mutFilename);
+
+						if (!new File(mutFilename).isFile()) {
+
+						    return true;
+						}
 				}
 				// VERIFY IF MUTANT IS VALID
-				if (registeredPackages != null) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
-				if (localRegisteredPackages != null) {
-					ModelManager.registerMetaModel(localRegisteredPackages);
-				}
 				boolean isActive = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard invalid mutants", false, null);
 				if (isActive == true) {
-					isValid = validation(metamodel, mutFilename, cls);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							isValid = validation(project.getName(), resolvedMetamodel, seed.getURI().toFileString().replace("\\", "/"), cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isValid == false) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
 					}
 				}
 				if (isValid == true) {
-					isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							isValid = validate(resolvedMetamodel, seed.getURI().toFileString().replace("\\", "/"), mutFilename.replace("\\", "/"), cls, project);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isValid == false) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
@@ -9856,356 +12685,100 @@ public class MutatorUtils {
 				}
 				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
-					isRepeated = different(metamodel, mutFilename, hashsetMutants, project, cls);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							isRepeated = different(resolvedMetamodel, mutFilename, hashsetMutants, project, cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
 						return isRepeated;
 					}
 				}
 				if (isValid == true && isRepeated == false) {
 					// VERIFY IF MUTANT IS EQUIVALENT
 					List<String> metamodels = new ArrayList<String>();
-					metamodels.add(metamodel);
-					isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
+					metamodels.add(resolvedMetamodel);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
 						return isRepeated;
 					}
-				}
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
 				}
 				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
 				if (isValid == true && isRepeated == false && isEquivalent == false) {
 					hashsetMutants.add(mutFilename);
-					if (registry == true) {
-						List<String> mutVersions = null;
-						if (hashmapMutVersions.containsKey(mutFilename) == true) {
-							mutVersions = hashmapMutVersions.get(mutFilename);
-						}
-						else {
-							mutVersions = new ArrayList<String>();
-						}
-						mutVersions.addAll(mutPaths);
-						hashmapMutVersions.put(mutFilename, mutVersions);
-						List<Resource> pastVersions = new ArrayList<Resource>();
-						pastVersions.add(seed);
-						Resource lastVersion = seed;
-						Resource mutant = ModelManager.loadModel(packages, mutFilename);
-						for (AppMutation mut : muts.getMuts()) {
-							String mutVersion = "";
-							if (mut instanceof ObjectCreated) {
-								List<EObject> emuts = ((ObjectCreated) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), model);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(mutant, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObjectByName(seed, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {}
-												}
-												if (object != null) {
-													emuts.set(0, object);
-												}
-											}
-										}
-									}
-								}
-							}
-							if (mut instanceof ObjectCloned) {
-								List<EObject> emuts = ((ObjectCloned) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), model);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObjectByName(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-												}
-												if (object != null) {
-													emuts.set(0, object);
-												}
-											}
-										}
-									}
-								}
-							}
-							if (mut instanceof ObjectRemoved) {
-								List<EObject> emuts = ((ObjectRemoved) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), seed);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObjectByName(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-												}
-											}
-											if (object != null) {
-												emuts.set(0, object);
-											}
-										}
-									}
-								}
-							}
-							if (mut instanceof InformationChanged) {
-								EObject emutated = ((InformationChanged) mut).getObject();
-								EObject object = ModelManager.getObjectByName(seed, emutated);
-								if (object != null) {
-									((InformationChanged) mut).setObject(object);
-								}
-								for (ReferenceChanged mutRef : ((InformationChanged) mut).getRefChanges()) {
-									if (mutRef instanceof ReferenceChanged) {
-										EObject emutatedFrom = mutRef.getFrom();
-										if (emutatedFrom != null) {
-											EObject objectFrom =  ModelManager.getObjectByName(mutant, emutatedFrom);
-											if (objectFrom != null) {
-												mutRef.setFrom(objectFrom);
-											}
-											else {
-												objectFrom =  ModelManager.getObjectByName(seed, emutatedFrom);
-												if (objectFrom != null) {
-													mutRef.setFrom(objectFrom);
-												}
-											}
-										}
-										EObject emutatedMutantFrom = mutRef.getMutantFrom();
-										if (emutatedMutantFrom != null) {
-											EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
-											if (objectMutantFrom != null) {
-												mutRef.setMutantFrom(objectMutantFrom);
-											}
-											else {
-												objectMutantFrom =  ModelManager.getObjectByName(seed, emutatedMutantFrom);
-												if (objectMutantFrom != null) {
-													mutRef.setMutantFrom(objectMutantFrom);
-												}
-											}
-										}
-										EObject emutatedTo = mutRef.getTo();
-										if (emutatedTo != null) {
-											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
-											if (objectTo != null) {
-												mutRef.setTo(objectTo);
-											}
-										}
-										EObject emutatedMutantTo = mutRef.getMutantTo();
-										if (emutatedMutantTo != null) {
-											EObject objectMutantTo =  ModelManager.getObjectByPartialID(mutant, EcoreUtil.getIdentification(emutatedMutantTo));
-											if (objectMutantTo != null) {
-												mutRef.setMutantTo(objectMutantTo);
-											}
-										}
-										if (mutRef instanceof ReferenceSwap) {
-											EObject emutatedOtherFrom = ((ReferenceSwap) mutRef).getOtherFrom();
-											if (emutatedOtherFrom != null) {
-												EObject objectOtherFrom = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherFrom));
-												if (objectOtherFrom != null) {
-													((ReferenceSwap) mutRef).setOtherFrom(objectOtherFrom);
-												}
-											}
-											EObject emutatedOtherTo = ((ReferenceSwap) mutRef).getOtherTo();
-											if (emutatedOtherTo != null) {
-												EObject objectOtherTo = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherTo));
-												if (objectOtherTo != null) {
-													((ReferenceSwap) mutRef).setOtherTo(objectOtherTo);
-												}
-											}
-										}
-										List<EObject> emutatedObjects = new ArrayList<EObject>();
-										for (EObject emutatedOb : mutRef.getObject()) {
-											EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
-											if (ob != null) {
-												emutatedObjects.add(ob);
-											}
-											else {
-												emutatedObjects.add(emutatedOb);
-											}
-										}
-										mutRef.getObject().clear();
-										mutRef.getObject().addAll(emutatedObjects);
-										List<EObject> emutatedMutantObjects = new ArrayList<EObject>();
-										for (EObject emutatedMutantOb : mutRef.getMutantObject()) {
-											EObject ob = ModelManager.getObjectByName(mutant, emutatedMutantOb);
-											if (ob != null) {
-												emutatedMutantObjects.add(ob);
-											}
-											else {
-												emutatedMutantObjects.add(emutatedMutantOb);
-											}
-										}
-										mutRef.getMutantObject().clear();
-										mutRef.getMutantObject().addAll(emutatedMutantObjects);
-									}
-								}
-							}
-							if (mut instanceof ObjectRetyped) {
-								List<EObject> emuts = ((ObjectRetyped) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), seed);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObject(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {}
-												}
-												if (object != null) {
-													emuts.set(0, object);
-												}
-											}
-										}
-									}
-								}
-							}
-							if (mutVersion.length() > 0) {
-								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
-								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
-								pastVersions.add(activeVersion);
-								lastVersion = activeVersion;
-							}
-						}
-						try {
-							lastVersion.unload();
-						} catch (Exception e) {}
-						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
-						if (registryFolder.exists() != true) {
-							registryFolder.mkdir();
-						}
-						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
-						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
-						ModelManager.createModel(muts, registryFilename);
-						try {
-							mutant.unload();
-						} catch (Exception e) {}
+					if (registry && muts != null) {
+
+					    /*
+					     * Remember the physical mutation versions associated
+					     * with this final mutant.
+					     *
+					     * The helper is null-safe for mutPaths.
+					     */
+					    rememberMutationVersions(
+					        hashmapMutVersions,
+					        mutFilename,
+					        mutPaths);
+
+
+					    String registryFilename =
+					        buildRegistryFilename(
+					            hashmapModelFilenames,
+					            null,
+					            modelFilename,
+					            "",
+					            null,
+					            mutFilename);
+
+
+					    if (muts.getMuts().isEmpty()) {
+
+					        /*
+					         * Preserve the old behaviour: an empty registry can
+					         * still be serialized if registry generation was
+					         * explicitly requested.
+					         */
+					        ModelManager.createModel(
+					            muts,
+					            registryFilename);
+					    }
+					    else {
+
+					        /*
+					         * The helper owns all model-version Resources that it
+					         * loads internally and keeps them alive until the final
+					         * registry has been serialized.
+					         */
+					        writeRegistryWithManagedVersions(
+					            packages,
+					            seed,
+					            model,
+					            muts,
+					            mutFilename,
+					            mutPaths,
+					            registryFilename);
+					    }
 					}
 				}
-				else {
+				//else {
 					// CODE TO DELETE STORED MUTANT VERSIONS
-				}
+				//}
 			}
-		}
+	    }
 		return isRepeated;
 	}
 
@@ -10231,6 +12804,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
+/*
 	public boolean registryMutantStandalone(String metamodel, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, 
 			Resource seed, Resource model, Map<String, List<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
@@ -10240,64 +12814,77 @@ public class MutatorUtils {
 			List<String>> hashmapMutVersions, String projectName, boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
-		boolean isValid = false;
+		boolean isValid = true;
 		boolean isSaved = false;
-		if (registeredPackages != null) {
-			ModelManager.registerMetaModel(registeredPackages);
+		
+		boolean valid = false;
+		
+		synchronized (EPACKAGE_REGISTRY_LOCK) {
+			registerMetamodels(registeredPackages, localRegisteredPackages);
+			try {
+				metamodel = metamodel.replace("\\", "/");
+
+				String resolvedMetamodel;
+
+				if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+				    // Absolute Windows path: NEVER prefix it
+				    resolvedMetamodel = metamodel;
+				}
+				else {
+					metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+				    String path = seed.getURI().toFileString().replace("\\", "/");
+
+				    path = path.substring(0, path.lastIndexOf("/"));
+
+				    resolvedMetamodel = path + "/" + metamodel;
+				}
+				valid = validationStandalone(seed);
+			}
+			finally {
+				unregisterMetamodels(registeredPackages, localRegisteredPackages);
+			}
 		}
-		if (localRegisteredPackages != null) {
-			ModelManager.registerMetaModel(localRegisteredPackages);
-		}
-		if (localRegisteredPackages != null) {
-			List<EPackage> localRegistered = new ArrayList<EPackage>();
-			localRegistered.addAll(localRegisteredPackages.values());
-			ModelManager.unregisterMetaModel(localRegistered);
-		}
-		if (registeredPackages != null) {
-			List<EPackage> registered = new ArrayList<EPackage>();
-			registered.addAll(registeredPackages.values());
-			ModelManager.unregisterMetaModel(registered);
+		if (valid == false) {
+			return true;
 		}
 		if (serialize == false) {
 			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
 			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
-			if (registeredPackages != null) {
-				ModelManager.registerMetaModel(registeredPackages);
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = test.modelToProject(className, model, "", mutantName, projectName, null);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
 			}
-			if (localRegisteredPackages != null) {
-				ModelManager.registerMetaModel(localRegisteredPackages);
-			}
-			boolean value = test.modelToProject(className, model, "", mutantName, projectName, null);
 			if (value == false) {
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				return true;
 			}
-			if (value && classes.size() > 0) {
-				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + mutantName + "/src/";
-				WodelTestUtils.addPathToClasses(projectName, classes, projectPath);
-			}
-			if (localRegisteredPackages != null) {
-				List<EPackage> localRegistered = new ArrayList<EPackage>();
-				localRegistered.addAll(localRegisteredPackages.values());
-				ModelManager.unregisterMetaModel(localRegistered);
-			}
-			if (registeredPackages != null) {
-				List<EPackage> registered = new ArrayList<EPackage>();
-				registered.addAll(registeredPackages.values());
-				ModelManager.unregisterMetaModel(registered);
+			if (value) {
+				synchronized (CLASSES_LOCK) {
+					if (classes != null && classes.size() > 0) {
+						String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + mutantName + "/src/";
+						WodelUtils.addPathToClasses(projectName, classes, projectPath);
+					}
+				}
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == false) {
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = matchesOCL(model, rules);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
+			}
+			if (value == false) {
 				isRepeated = true;
 				return isRepeated;
 			}
@@ -10307,41 +12894,19 @@ public class MutatorUtils {
 					outputFolder.mkdir();
 				}
 				if (save == true) {
-					ModelManager.saveOutModel(model, mutFilename);
-					if (new File(mutFilename).exists() == true) {
-						isSaved = true;
-						try {
-							model.unload();
-						} catch (Exception e) {}
-					}
-					else {
-						isRepeated = true;
-						try {
-							model.unload();
-						} catch (Exception e) {}
-						return isRepeated;
-					}
+					ModelManager.saveOutModel(
+						    model,
+						    mutFilename);
+
+						if (!new File(mutFilename).isFile()) {
+
+						    return true;
+						}
 				}
 				// VERIFY IF MUTANT IS VALID
-				if (registeredPackages != null) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
-				if (localRegisteredPackages != null) {
-					ModelManager.registerMetaModel(localRegisteredPackages);
-				}
 				isValid = true;
 				isRepeated = false;
 				isEquivalent = false;
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
 				if (isValid == true && isRepeated == false && isEquivalent == false) {
 					hashsetMutants.add(mutFilename);
@@ -10650,6 +13215,373 @@ public class MutatorUtils {
 		}
 		return isRepeated;
 	}
+*/
+	/**
+	 * Mutant registry generation
+	 * (standalone Wodel program with no blocks)
+	 *
+	 * @param metamodel
+	 *            Metamodel path. Retained for API compatibility with the
+	 *            non-standalone registry methods.
+	 * @param packages
+	 *            Domain metamodel packages.
+	 * @param registeredPackages
+	 *            Globally registered EPackages.
+	 * @param localRegisteredPackages
+	 *            Locally registered EPackages.
+	 * @param seed
+	 *            Original seed model. This method does NOT own this Resource.
+	 * @param model
+	 *            Generated mutant model. This method does NOT own this Resource.
+	 * @param rules
+	 *            OCL constraints to check.
+	 * @param muts
+	 *            Applied-mutation registry.
+	 * @param modelFilename
+	 *            Seed model filename.
+	 * @param mutFilename
+	 *            Generated mutant filename.
+	 * @param registry
+	 *            Whether mutation registry generation is enabled.
+	 * @param hashsetMutants
+	 *            Set of accepted mutant filenames.
+	 * @param hashmapModelFilenames
+	 *            Mapping from seed model names to output directories.
+	 * @param n
+	 *            Mutant index holder. Retained for API compatibility.
+	 * @param mutPaths
+	 *            Intermediate mutation-version paths.
+	 * @param hashmapMutVersions
+	 *            Mapping from final mutant to intermediate versions.
+	 * @param projectName
+	 *            Standalone project name.
+	 * @param serialize
+	 *            Whether models are serialized to disk.
+	 * @param test
+	 *            Wodel-Test integration.
+	 * @param classes
+	 *            Generated classes by project.
+	 * @param cls
+	 *            Generated standalone mutator class.
+	 * @param save
+	 *            Whether the final mutant has to be written to disk.
+	 *
+	 * @return true if the mutant must be discarded; false otherwise.
+	 *
+	 * @throws MetaModelNotFoundException
+	 * @throws ModelNotFoundException
+	 */
+	public boolean registryMutantStandalone(
+	        String metamodel,
+	        List<EPackage> packages,
+	        Map<String, EPackage> registeredPackages,
+	        Map<String, EPackage> localRegisteredPackages,
+	        Resource seed,
+	        Resource model,
+	        Map<String, List<String>> rules,
+	        Mutations muts,
+	        String modelFilename,
+	        String mutFilename,
+	        boolean registry,
+	        Set<String> hashsetMutants,
+	        Map<String, String> hashmapModelFilenames,
+	        int[] n,
+	        List<String> mutPaths,
+	        Map<String, List<String>> hashmapMutVersions,
+	        String projectName,
+	        boolean serialize,
+	        IWodelTest test,
+	        Map<String, List<String>> classes,
+	        Class<?> cls,
+	        boolean save)
+	        throws MetaModelNotFoundException,
+	               ModelNotFoundException {
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 1. Validate the seed model.
+	     *
+	     * Standalone validation works directly on the already-loaded seed
+	     * Resource, so resolving the textual metamodel path is unnecessary
+	     * here.
+	     * ------------------------------------------------------------------
+	     */
+
+	    boolean valid;
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            valid =
+	                validationStandalone(
+	                    seed);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!valid) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 2. Non-serialized Wodel-Test path.
+	     * ------------------------------------------------------------------
+	     */
+
+	    if (!serialize) {
+
+	        String className =
+	            getFileBaseName(
+	                modelFilename);
+
+	        String mutantName =
+	            getFileBaseName(
+	                mutFilename);
+
+	        boolean generated;
+
+	        synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	            registerMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+
+	            try {
+
+	                generated =
+	                    test.modelToProject(
+	                        className,
+	                        model,
+	                        "",
+	                        mutantName,
+	                        projectName,
+	                        null);
+	            }
+	            finally {
+
+	                unregisterMetamodels(
+	                    registeredPackages,
+	                    localRegisteredPackages);
+	            }
+	        }
+
+	        if (!generated) {
+	            return true;
+	        }
+
+
+	        if (classes != null
+	                && !classes.isEmpty()) {
+
+	            String projectPath =
+	                Platform.getLocation()
+	                    .toFile()
+	                    .getPath()
+	                    .replace('\\', '/')
+	                + "/"
+	                + projectName
+	                + "/"
+	                + className
+	                + "/"
+	                + mutantName
+	                + "/src/";
+
+	            synchronized (CLASSES_LOCK) {
+
+	                WodelUtils.addPathToClasses(
+	                    projectName,
+	                    classes,
+	                    projectPath);
+	            }
+	        }
+
+	        return false;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 3. Check Wodel/OCL constraints.
+	     * ------------------------------------------------------------------
+	     */
+
+	    boolean matches;
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            matches =
+	                matchesOCL(
+	                    model,
+	                    rules);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!matches) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 4. Ensure the output folder exists.
+	     * ------------------------------------------------------------------
+	     */
+
+	    String outputPath =
+	        hashmapModelFilenames.get(
+	            modelFilename);
+
+	    if (outputPath == null
+	            || outputPath.isBlank()) {
+
+	        throw new IllegalStateException(
+	            "No output folder is registered for model: "
+	            + modelFilename);
+	    }
+
+	    File outputFolder =
+	        new File(
+	            outputPath);
+
+	    if (!outputFolder.exists()
+	            && !outputFolder.mkdirs()
+	            && !outputFolder.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create mutant output directory: "
+	            + outputFolder);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 5. Serialize the mutant if requested.
+	     *
+	     * IMPORTANT:
+	     * Neither model nor seed is unloaded here. They are caller-owned.
+	     * ------------------------------------------------------------------
+	     */
+
+	    if (save) {
+
+	        ModelManager.saveOutModel(
+	            model,
+	            mutFilename);
+
+	        if (!new File(mutFilename).isFile()) {
+	            return true;
+	        }
+	    }
+	    else {
+
+	        /*
+	         * All subsequent registry processing is file-based.
+	         * Therefore save == false is meaningful only if the mutant has
+	         * already been serialized by the caller.
+	         */
+	        if (registry
+	                && !new File(mutFilename).isFile()) {
+
+	            throw new IllegalStateException(
+	                "Registry generation requires an existing mutant "
+	                + "file when save == false: "
+	                + mutFilename);
+	        }
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 6. Accept the mutant.
+	     *
+	     * Unlike registryMutant(...), the standalone implementation has no
+	     * project-based validity/difference/equivalence pipeline here.
+	     * ------------------------------------------------------------------
+	     */
+
+	    hashsetMutants.add(
+	        mutFilename);
+
+
+	    /*
+	     * ------------------------------------------------------------------
+	     * 7. Generate the applied-mutation registry.
+	     *
+	     * writeRegistryWithManagedVersions(...) owns ONLY Resources that it
+	     * loads internally. It keeps them alive until createModel(...) has
+	     * serialized all EObject references, and disposes them afterwards.
+	     * ------------------------------------------------------------------
+	     */
+
+	    if (registry
+	            && muts != null) {
+
+	        rememberMutationVersions(
+	            hashmapMutVersions,
+	            mutFilename,
+	            mutPaths);
+
+
+	        String registryFilename =
+	            buildRegistryFilename(
+	                hashmapModelFilenames,
+	                null,
+	                modelFilename,
+	                "",
+	                null,
+	                mutFilename);
+
+
+	        if (muts.getMuts().isEmpty()) {
+
+	            /*
+	             * Preserve the previous behaviour for an explicitly
+	             * requested but empty applied-mutation registry.
+	             */
+	            ModelManager.createModel(
+	                muts,
+	                registryFilename);
+	        }
+	        else {
+
+	            writeRegistryWithManagedVersions(
+	                packages,
+	                seed,
+	                model,
+	                muts,
+	                mutFilename,
+	                mutPaths,
+	                registryFilename);
+	        }
+	    }
+
+
+	    return false;
+	}
 
 	/**
 	 * Mutant registry generation
@@ -10677,6 +13609,7 @@ public class MutatorUtils {
 	 * @throws ReferenceNonExistingException 
 	 * @throws IOException 
 	 */
+/*
 	public boolean registryMutantWithBlocks(String metamodel, List<EPackage> packages,
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, 
 			Resource seed, Resource model, Map<String, List<String>> rules,
@@ -10689,24 +13622,36 @@ public class MutatorUtils {
 			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
-		boolean isValid = false;
+		boolean isValid = true;
 		boolean isSaved = false;
-		if (registeredPackages != null) {
-			ModelManager.registerMetaModel(registeredPackages);
-		}
-		if (localRegisteredPackages != null) {
-			ModelManager.registerMetaModel(localRegisteredPackages);
-		}
-		boolean valid = validation(metamodel, seed.getURI().toFileString(), cls);
-		if (localRegisteredPackages != null) {
-			List<EPackage> localRegistered = new ArrayList<EPackage>();
-			localRegistered.addAll(localRegisteredPackages.values());
-			ModelManager.unregisterMetaModel(localRegistered);
-		}
-		if (registeredPackages != null) {
-			List<EPackage> registered = new ArrayList<EPackage>();
-			registered.addAll(registeredPackages.values());
-			ModelManager.unregisterMetaModel(registered);
+		
+		boolean valid = false;
+		
+		synchronized (EPACKAGE_REGISTRY_LOCK) {
+			registerMetamodels(registeredPackages, localRegisteredPackages);
+			try {
+				metamodel = metamodel.replace("\\", "/");
+
+				String resolvedMetamodel;
+
+				if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+				    // Absolute Windows path: NEVER prefix it
+				    resolvedMetamodel = metamodel;
+				}
+				else {
+					metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+				    String path = seed.getURI().toFileString().replace("\\", "/");
+
+				    path = path.substring(0, path.lastIndexOf("/"));
+
+				    resolvedMetamodel = path + "/" + metamodel;
+				}
+				valid = validation(project.getName(), resolvedMetamodel, seed.getURI().toFileString().replace("\\", "/"), cls);
+			}
+			finally {
+				unregisterMetamodels(registeredPackages, localRegisteredPackages);
+			}
 		}
 		if (valid == false) {
 			return true;
@@ -10714,134 +13659,159 @@ public class MutatorUtils {
 		if (serialize == false) {
 			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
 			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
-			if (registeredPackages != null) {
-				ModelManager.registerMetaModel(registeredPackages);
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = test.modelToProject(className, model, block, mutantName, project, null);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
 			}
-			if (localRegisteredPackages != null) {
-				ModelManager.registerMetaModel(localRegisteredPackages);
-			}
-			boolean value = test.modelToProject(className, model, block, mutantName, project, null);
 			if (value == false) {
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				return true;
 			}
-			if (value && classes.size() > 0) {
-				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
-				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
-			}
-			if (localRegisteredPackages != null) {
-				List<EPackage> localRegistered = new ArrayList<EPackage>();
-				localRegistered.addAll(localRegisteredPackages.values());
-				ModelManager.unregisterMetaModel(localRegistered);
-			}
-			if (registeredPackages != null) {
-				List<EPackage> registered = new ArrayList<EPackage>();
-				registered.addAll(registeredPackages.values());
-				ModelManager.unregisterMetaModel(registered);
+			if (value) {
+				synchronized (CLASSES_LOCK) {
+					if (classes != null && classes.size() > 0) {
+						String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
+						WodelUtils.addPathToClasses(project.getName(), classes, projectPath);
+					}
+				}
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == false) {
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = matchesOCL(model, rules);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
+			}
+			if (value == false) {
 				isRepeated = true;
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				return isRepeated;
 			}
 			else {
-				File outputFolder = new File(
-					hashmapModelFilenames.get(modelFilename));
+				File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
-				}
-				outputFolder = new File(
-						hashmapModelFilenames.get(modelFilename) + '/' + block);
-				if (outputFolder.exists() != true) {
-					outputFolder.mkdir();
-				}
-				if (fromBlocks.size() > 0) {
-					outputFolder = new File(hashmapModelFilenames.get(modelFilename) + '/' + block + '/' + hashmapModelFolders.get(modelFilename));
-					if (outputFolder.exists() != true) {
-						outputFolder.mkdir();
-					}
 				}
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
 					if (new File(mutFilename).exists() == true) {
+						isSaved = true;
+						//Frees memory
 						try {
 							model.unload();
 						} catch (Exception e) {}
-						isSaved = true;
 					}
 					else {
 						isRepeated = true;
 						try {
 							model.unload();
 						} catch (Exception e) {}
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
 						return isRepeated;
 					}
 				}
 				// VERIFY IF MUTANT IS VALID
-				if (registeredPackages != null) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
-				if (localRegisteredPackages != null) {
-					ModelManager.registerMetaModel(localRegisteredPackages);
-				}
 				boolean isActive = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard invalid mutants", false, null);
 				if (isActive == true) {
-					isValid = validation(metamodel, mutFilename, cls);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							metamodel = metamodel.replace("\\", "/");
+
+							String resolvedMetamodel;
+
+							if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+							    // Absolute Windows path: NEVER prefix it
+							    resolvedMetamodel = metamodel;
+							}
+							else {
+								metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+							    String path = seed.getURI().toFileString().replace("\\", "/");
+
+							    path = path.substring(0, path.lastIndexOf("/"));
+
+							    resolvedMetamodel = path + "/" + metamodel;
+							}
+							isValid = validation(project.getName(), resolvedMetamodel, seed.getURI().toFileString().replace("\\", "/"), cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isValid == false) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
 					}
 				}
 				if (isValid == true) {
-					isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							metamodel = metamodel.replace("\\", "/");
+
+							String resolvedMetamodel;
+
+							if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+							    // Absolute Windows path: NEVER prefix it
+							    resolvedMetamodel = metamodel;
+							}
+							else {
+								metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+							    String path = seed.getURI().toFileString().replace("\\", "/");
+
+							    path = path.substring(0, path.lastIndexOf("/"));
+
+							    resolvedMetamodel = path + "/" + metamodel;
+							}
+							isValid = validate(resolvedMetamodel, seed.getURI().toFileString(), mutFilename, cls, project);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isValid == false) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
 					}
 				}
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
+				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
-					// VERIFY IF MUTANT IS DIFFERENT
-					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							metamodel = metamodel.replace("\\", "/");
+
+							String resolvedMetamodel;
+
+							if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+							    // Absolute Windows path: NEVER prefix it
+							    resolvedMetamodel = metamodel;
+							}
+							else {
+								metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+							    String path = seed.getURI().toFileString().replace("\\", "/");
+
+							    path = path.substring(0, path.lastIndexOf("/"));
+
+							    resolvedMetamodel = path + "/" + metamodel;
+							}
+							isRepeated = different(resolvedMetamodel, mutFilename, hashsetMutantsBlock, project, cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
+					}
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
 						return isRepeated;
@@ -10849,24 +13819,31 @@ public class MutatorUtils {
 				}
 				if (isValid == true && isRepeated == false) {
 					// VERIFY IF MUTANT IS EQUIVALENT
-					if (registeredPackages != null) {
-						ModelManager.registerMetaModel(registeredPackages);
-					}
-					if (localRegisteredPackages != null) {
-						ModelManager.registerMetaModel(localRegisteredPackages);
-					}
 					List<String> metamodels = new ArrayList<String>();
-					metamodels.add(metamodel);
-					isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
-					if (localRegisteredPackages != null) {
-						List<EPackage> localRegistered = new ArrayList<EPackage>();
-						localRegistered.addAll(localRegisteredPackages.values());
-						ModelManager.unregisterMetaModel(localRegistered);
+					String resolvedMetamodel;
+
+					if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+					    // Absolute Windows path: NEVER prefix it
+					    resolvedMetamodel = metamodel;
 					}
-					if (registeredPackages != null) {
-						List<EPackage> registered = new ArrayList<EPackage>();
-						registered.addAll(registeredPackages.values());
-						ModelManager.unregisterMetaModel(registered);
+					else {
+						metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+					    String path = seed.getURI().toFileString().replace("\\", "/");
+
+					    path = path.substring(0, path.lastIndexOf("/"));
+
+					    resolvedMetamodel = path + "/" + metamodel;
+					}
+					metamodels.add(resolvedMetamodel);
+					synchronized (EPACKAGE_REGISTRY_LOCK) {
+						registerMetamodels(registeredPackages, localRegisteredPackages);
+						try {
+							isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
+						}
+						finally {
+							unregisterMetamodels(registeredPackages, localRegisteredPackages);
+						}
 					}
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
@@ -11357,7 +14334,1570 @@ public class MutatorUtils {
 		}
 		return isRepeated;
 	}
+*/
 	
+	private static record ReverseTraversalState(
+	        EObject block,
+	        String modelFilename,
+	        String blockName) {
+	}
+	
+	private static void applyReverseMutations(
+	        List<EPackage> packages,
+	        Resource mutant,
+	        Iterable<? extends EObject> mutations) {
+
+	    if (packages == null
+	            || packages.isEmpty()
+	            || mutant == null
+	            || mutations == null) {
+
+	        return;
+	    }
+
+
+	    for (EObject mutation :
+	            mutations) {
+
+	        if (mutation == null) {
+	            continue;
+	        }
+
+
+	        /*
+	         * --------------------------------------------------------
+	         * Reverse attribute changes.
+	         *
+	         * This deliberately preserves the behaviour of the
+	         * original implementation.
+	         * --------------------------------------------------------
+	         */
+
+	        if (mutation
+	                instanceof InformationChanged changed) {
+
+	            EObject registryObject =
+	                changed.getObject();
+
+	            if (registryObject != null) {
+
+	                EObject modifiedObject =
+	                    ModelManager.getObjectByURIEnding(
+	                        mutant,
+	                        EcoreUtil.getURI(
+	                            registryObject));
+
+	                if (modifiedObject != null) {
+
+	                    for (AttributeChanged attributeChange :
+	                            changed.getAttChanges()) {
+
+	                        EMFUtils.setAttribute(
+	                            packages.get(0),
+	                            modifiedObject,
+	                            attributeChange.getAttName(),
+	                            attributeChange.getOldVal());
+	                    }
+	                }
+	            }
+	        }
+
+
+	        /*
+	         * --------------------------------------------------------
+	         * Reverse target-reference changes.
+	         * --------------------------------------------------------
+	         */
+
+	        if (mutation
+	                instanceof TargetReferenceChanged changed) {
+
+	            if (changed.getObject() == null
+	                    || changed.getObject().isEmpty()) {
+
+	                continue;
+	            }
+
+
+	            EObject registryObject =
+	                changed.getObject().get(0);
+
+	            if (registryObject == null) {
+	                continue;
+	            }
+
+
+	            EObject modifiedObject =
+	                ModelManager.getObjectByURIEnding(
+	                    mutant,
+	                    EcoreUtil.getURI(
+	                        registryObject));
+
+	            if (modifiedObject == null) {
+	                continue;
+	            }
+
+
+	            EObject oldTarget =
+	                null;
+
+	            if (changed.getOldTo() != null) {
+
+	                oldTarget =
+	                    ModelManager.getObject(
+	                        mutant,
+	                        changed.getOldTo());
+	            }
+
+
+	            EMFUtils.setReference(
+	                packages.get(0),
+	                modifiedObject,
+	                changed.getRefName(),
+	                oldTarget);
+	        }
+	    }
+	}
+	
+	private static String normalizePath(
+	        String path) {
+
+	    return path == null
+	        ? ""
+	        : path.replace(
+	            '\\',
+	            '/');
+	}
+	
+	private static String buildReverseFilename(
+	        String mutantFilename,
+	        String blockName) {
+
+	    if (mutantFilename == null
+	            || mutantFilename.isBlank()) {
+
+	        throw new IllegalArgumentException(
+	            "Mutant filename must not be null or blank");
+	    }
+
+	    if (blockName == null
+	            || blockName.isBlank()) {
+
+	        throw new IllegalArgumentException(
+	            "Block name must not be null or blank");
+	    }
+
+
+	    String normalized =
+	        normalizePath(
+	            mutantFilename);
+
+
+	    int extension =
+	        normalized.lastIndexOf(
+	            ".model");
+
+	    String base =
+	        extension >= 0
+	            ? normalized.substring(
+	                0,
+	                extension)
+	            : normalized;
+
+
+	    return base
+	        + "/"
+	        + blockName
+	        + "/Reverse.model";
+	}
+	
+	private static String buildRegistryFilenameForModel(
+	        String modelFilename) {
+
+	    if (modelFilename == null
+	            || modelFilename.isBlank()) {
+
+	        throw new IllegalArgumentException(
+	            "Model filename must not be null or blank");
+	    }
+
+
+	    String normalized =
+	        normalizePath(
+	            modelFilename);
+
+
+	    int slash =
+	        normalized.lastIndexOf('/');
+
+	    if (slash < 0) {
+
+	        throw new IllegalArgumentException(
+	            "Model filename has no parent directory: "
+	            + modelFilename);
+	    }
+
+
+	    String directory =
+	        normalized.substring(
+	            0,
+	            slash);
+
+	    String filename =
+	        normalized.substring(
+	            slash + 1);
+
+
+	    if (filename.endsWith(
+	            ".model")) {
+
+	        filename =
+	            filename.substring(
+	                0,
+	                filename.length()
+	                    - ".model".length())
+	            + "Registry.model";
+	    }
+	    else {
+
+	        filename +=
+	            "Registry.model";
+	    }
+
+
+	    return directory
+	        + "/registry/"
+	        + filename;
+	}
+	
+	private static String derivePreviousModelFilename(
+	        String modelFilename,
+	        String currentBlock) {
+
+	    if (modelFilename == null
+	            || modelFilename.isBlank()
+	            || currentBlock == null
+	            || currentBlock.isBlank()) {
+
+	        return null;
+	    }
+
+
+	    String normalized =
+	        normalizePath(
+	            modelFilename);
+
+
+	    int slash =
+	        normalized.lastIndexOf('/');
+
+	    if (slash < 0) {
+	        return null;
+	    }
+
+
+	    /*
+	     * Remove the current model filename.
+	     */
+	    String previous =
+	        normalized.substring(
+	            0,
+	            slash);
+
+
+	    /*
+	     * Preserve the directory convention of the old code while
+	     * also handling the case where the current block is the last
+	     * path segment.
+	     */
+	    String embeddedBlock =
+	        "/"
+	        + currentBlock
+	        + "/";
+
+	    previous =
+	        previous.replace(
+	            embeddedBlock,
+	            "/");
+
+
+	    String trailingBlock =
+	        "/"
+	        + currentBlock;
+
+	    if (previous.endsWith(
+	            trailingBlock)) {
+
+	        previous =
+	            previous.substring(
+	                0,
+	                previous.length()
+	                    - trailingBlock.length());
+	    }
+
+
+	    return previous
+	        + ".model";
+	}
+	
+	private static boolean containsBlockPath(
+	        String path,
+	        String blockName) {
+
+	    if (path == null
+	            || blockName == null
+	            || blockName.isBlank()) {
+
+	        return false;
+	    }
+
+
+	    String normalized =
+	        normalizePath(
+	            path);
+
+	    String block =
+	        blockName.replace(
+	            '\\',
+	            '/');
+
+
+	    return normalized.contains(
+	        "/"
+	        + block
+	        + "/")
+	        || normalized.endsWith(
+	            "/"
+	            + block
+	            + ".model");
+	}
+	
+	private static void ensureParentDirectory(
+	        String filename) {
+
+	    File file =
+	        new File(
+	            filename);
+
+	    File parent =
+	        file.getParentFile();
+
+	    if (parent == null) {
+	        return;
+	    }
+
+
+	    if (!parent.exists()
+	            && !parent.mkdirs()
+	            && !parent.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create reverse-model directory: "
+	            + parent);
+	    }
+	}
+	
+	private static void generateReverseModelFromRegistry(
+	        List<EPackage> packages,
+	        List<EPackage> registryPackages,
+	        String registryFilename,
+	        String mutantFilename,
+	        String reverseFilename)
+	        throws ModelNotFoundException {
+
+	    if (registryFilename == null
+	            || registryFilename.isBlank()) {
+
+	        return;
+	    }
+
+
+	    File registryFile =
+	        new File(
+	            registryFilename);
+
+	    if (!registryFile.isFile()) {
+
+	        /*
+	         * A missing predecessor registry means that there is
+	         * nothing reliable to reverse for this dependency.
+	         *
+	         * Prefer an explicit diagnostic over a mysterious
+	         * ModelNotFoundException several calls deeper.
+	         */
+	        System.err.println(
+	            "[Wodel] Reverse registry not found: "
+	            + registryFilename);
+
+	        return;
+	    }
+
+
+	    Resource registry =
+	        null;
+
+	    Resource mutant =
+	        null;
+
+	    try {
+
+	        registry =
+	            ModelManager.loadModel(
+	                registryPackages,
+	                registryFilename);
+
+
+	        List<EObject> mutations =
+	            MutatorUtils.getMutations(
+	                ModelManager.getObjects(
+	                    registry));
+
+
+	        if (mutations == null
+	                || mutations.isEmpty()) {
+
+	            return;
+	        }
+
+
+	        mutant =
+	            ModelManager.loadModel(
+	                packages,
+	                mutantFilename);
+
+
+	        applyReverseMutations(
+	            packages,
+	            mutant,
+	            mutations);
+
+
+	        ensureParentDirectory(
+	            reverseFilename);
+
+
+	        /*
+	         * Again: exactly ONE serialization.
+	         */
+	        ModelManager.saveOutModel(
+	            mutant,
+	            reverseFilename);
+	    }
+	    finally {
+
+	        /*
+	         * Both Resources were loaded locally by this helper.
+	         */
+	        disposeTemporaryResource(
+	            mutant);
+
+	        disposeTemporaryResource(
+	            registry);
+	    }
+	}
+	
+	private static void generateReverseModel(
+	        List<EPackage> packages,
+	        String mutantFilename,
+	        String reverseFilename,
+	        Iterable<? extends EObject> mutations)
+	        throws ModelNotFoundException {
+
+	    Resource mutant =
+	        null;
+
+	    try {
+
+	        /*
+	         * Always start from a fresh copy of the FINAL mutant.
+	         *
+	         * Thus reverse files for different blocks are independent
+	         * of one another.
+	         */
+	        mutant =
+	            ModelManager.loadModel(
+	                packages,
+	                mutantFilename);
+
+
+	        applyReverseMutations(
+	            packages,
+	            mutant,
+	            mutations);
+
+
+	        ensureParentDirectory(
+	            reverseFilename);
+
+
+	        /*
+	         * Save ONCE, after every reverse mutation has been applied.
+	         */
+	        ModelManager.saveOutModel(
+	            mutant,
+	            reverseFilename);
+	    }
+	    finally {
+
+	        disposeTemporaryResource(
+	            mutant);
+	    }
+	}
+	
+	private void generateReverseModels(
+	        List<EPackage> packages,
+	        Mutations muts,
+	        String registryFilename,
+	        String modelFilename,
+	        String mutFilename,
+	        String block,
+	        List<String> fromBlocks,
+	        Class<?> cls)
+	        throws MetaModelNotFoundException,
+	               ModelNotFoundException,
+	               ReferenceNonExistingException,
+	               IOException {
+
+	    if (packages == null
+	            || packages.isEmpty()
+	            || muts == null
+	            || muts.getMuts().isEmpty()) {
+
+	        return;
+	    }
+
+	    if (mutFilename == null
+	            || mutFilename.isBlank()) {
+
+	        return;
+	    }
+
+	    File mutantFile =
+	        new File(
+	            mutFilename);
+
+	    if (!mutantFile.isFile()) {
+
+	        throw new IllegalStateException(
+	            "Cannot generate reverse models because "
+	            + "the final mutant does not exist: "
+	            + mutFilename);
+	    }
+
+
+	    /*
+	     * The registry should already have been serialized before
+	     * reverse generation starts.
+	     */
+	    if (registryFilename == null
+	            || registryFilename.isBlank()
+	            || !new File(registryFilename).isFile()) {
+
+	        throw new IllegalStateException(
+	            "Cannot generate reverse models because "
+	            + "the mutation registry does not exist: "
+	            + registryFilename);
+	    }
+
+
+	    /*
+	     * All applied-mutation registries use the same
+	     * AppliedMutations EPackage.
+	     */
+	    EPackage registryPackage =
+	        muts.getMuts()
+	            .get(0)
+	            .eClass()
+	            .getEPackage();
+
+	    List<EPackage> registryPackages =
+	        new ArrayList<>();
+
+	    registryPackages.add(
+	        registryPackage);
+
+
+	    /*
+	     * Keep track of reverse files already generated.
+	     *
+	     * This prevents duplicate work when the same ancestor block
+	     * can be reached through several dependency paths.
+	     */
+	    Set<String> generatedReverseFiles =
+	        new LinkedHashSet<>();
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 1. Reverse the CURRENT block.
+	     *
+	     * We already have its Mutations model in memory, therefore
+	     * there is no reason to reload registryFilename.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (block != null
+	            && !block.isBlank()) {
+
+	        String reverseFilename =
+	            buildReverseFilename(
+	                mutFilename,
+	                block);
+
+	        generateReverseModel(
+	            packages,
+	            mutFilename,
+	            reverseFilename,
+	            muts.getMuts());
+
+	        generatedReverseFiles.add(
+	            normalizePath(
+	                reverseFilename));
+	    }
+
+
+	    /*
+	     * Nothing else to traverse.
+	     */
+	    if (fromBlocks == null
+	            || fromBlocks.isEmpty()) {
+
+	        return;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 2. Reverse each DIRECT predecessor block.
+	     *
+	     * Preserve the semantics of the original implementation:
+	     * every predecessor reverse starts from a fresh load of the
+	     * final mutant.
+	     * ------------------------------------------------------------
+	     */
+
+	    String directPreviousRegistry =
+	        buildRegistryFilenameForModel(
+	            modelFilename);
+
+	    for (String fromBlock :
+	            fromBlocks) {
+
+	        if (fromBlock == null
+	                || fromBlock.isBlank()) {
+
+	            continue;
+	        }
+
+	        String reverseFilename =
+	            buildReverseFilename(
+	                mutFilename,
+	                fromBlock);
+
+	        String normalizedReverse =
+	            normalizePath(
+	                reverseFilename);
+
+	        if (generatedReverseFiles.add(
+	                normalizedReverse)) {
+
+	            generateReverseModelFromRegistry(
+	                packages,
+	                registryPackages,
+	                directPreviousRegistry,
+	                mutFilename,
+	                reverseFilename);
+	        }
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 3. Load the Wodel program once to discover transitive
+	     *    predecessor blocks.
+	     * ------------------------------------------------------------
+	     */
+
+	    Resource program =
+	        null;
+
+	    try {
+
+	        Bundle bundle =
+	            Platform.getBundle(
+	                "wodel.models");
+
+	        if (bundle == null) {
+
+	            throw new IllegalStateException(
+	                "Cannot resolve bundle wodel.models");
+	        }
+
+
+	        URL fileURL =
+	            bundle.getEntry(
+	                "/model/MutatorEnvironment.ecore");
+
+	        if (fileURL == null) {
+
+	            throw new IllegalStateException(
+	                "Cannot locate "
+	                + "/model/MutatorEnvironment.ecore");
+	        }
+
+
+	        String ecore =
+	            FileLocator.resolve(
+	                fileURL)
+	                .getFile();
+
+
+	        List<EPackage> mutatorPackages =
+	            ModelManager.loadMetaModel(
+	                ecore);
+
+
+	        String mutatorName =
+	            ModelManager.getMutatorName(
+	                cls);
+
+	        if (mutatorName == null
+	                || mutatorName.isBlank()) {
+
+	            throw new IllegalStateException(
+	                "Cannot determine Wodel mutator name for "
+	                + cls);
+	        }
+
+
+	        String mutatorModelName =
+	            mutatorName.endsWith(
+	                ".mutator")
+	                ? mutatorName.substring(
+	                    0,
+	                    mutatorName.length()
+	                        - ".mutator".length())
+	                    + ".model"
+	                : mutatorName + ".model";
+
+
+	        String xmiFileName =
+	            ModelManager.getOutputPath(
+	                cls)
+	            + "/"
+	            + mutatorModelName;
+
+
+	        program =
+	            ModelManager.loadModel(
+	                mutatorPackages,
+	                URI.createFileURI(
+	                    new File(
+	                        xmiFileName)
+	                        .getAbsolutePath())
+	                    .toFileString().replace("\\", "/"));
+
+
+	        List<EObject> blocks =
+	            ModelManager.getObjectsOfType(
+	                "Block",
+	                program);
+
+
+	        /*
+	         * Name -> Block gives deterministic O(1) lookup and avoids
+	         * repeatedly scanning the complete block collection.
+	         */
+	        Map<String, EObject> blocksByName =
+	            new LinkedHashMap<>();
+
+	        for (EObject candidate :
+	                blocks) {
+
+	            String name =
+	                ModelManager.getStringAttribute(
+	                    "name",
+	                    candidate);
+
+	            if (name != null
+	                    && !name.isBlank()) {
+
+	                blocksByName.put(
+	                    name,
+	                    candidate);
+	            }
+	        }
+
+
+	        /*
+	         * --------------------------------------------------------
+	         * 4. Traverse transitive block dependencies.
+	         *
+	         * The old code used:
+	         *
+	         *     while (previousBlock != null)
+	         *
+	         * and could retain the same previousBlock forever if no
+	         * path matched. The queue + visited set guarantees progress.
+	         * --------------------------------------------------------
+	         */
+
+	        Deque<ReverseTraversalState> pending =
+	            new ArrayDeque<>();
+
+	        for (String fromBlock :
+	                fromBlocks) {
+
+	            if (fromBlock == null
+	                    || fromBlock.isBlank()) {
+
+	                continue;
+	            }
+
+	            EObject previousBlock =
+	                blocksByName.get(
+	                    fromBlock);
+
+	            if (previousBlock != null) {
+
+	                pending.addLast(
+	                    new ReverseTraversalState(
+	                        previousBlock,
+	                        modelFilename,
+	                        fromBlock));
+	            }
+	        }
+
+
+	        Set<String> visited =
+	            new LinkedHashSet<>();
+
+
+	        while (!pending.isEmpty()) {
+
+	            ReverseTraversalState state =
+	                pending.removeFirst();
+
+
+	            String visitKey =
+	                state.blockName()
+	                + "|"
+	                + normalizePath(
+	                    state.modelFilename());
+
+	            if (!visited.add(
+	                    visitKey)) {
+
+	                continue;
+	            }
+
+
+	            List<EObject> predecessors =
+	                ModelManager.getReferences(
+	                    "from",
+	                    state.block());
+
+	            if (predecessors == null
+	                    || predecessors.isEmpty()) {
+
+	                continue;
+	            }
+
+
+	            for (EObject predecessor :
+	                    predecessors) {
+
+	                String predecessorName =
+	                    ModelManager.getStringAttribute(
+	                        "name",
+	                        predecessor);
+
+	                if (predecessorName == null
+	                        || predecessorName.isBlank()) {
+
+	                    continue;
+	                }
+
+
+	                String previousModelFilename =
+	                    derivePreviousModelFilename(
+	                        state.modelFilename(),
+	                        state.blockName());
+
+
+	                /*
+	                 * Preserve the path consistency test used by the
+	                 * original implementation.
+	                 */
+	                if (previousModelFilename == null
+	                        || !containsBlockPath(
+	                            previousModelFilename,
+	                            predecessorName)) {
+
+	                    continue;
+	                }
+
+
+	                String previousRegistryFilename =
+	                    buildRegistryFilenameForModel(
+	                        previousModelFilename);
+
+
+	                String reverseFilename =
+	                    buildReverseFilename(
+	                        mutFilename,
+	                        predecessorName);
+
+
+	                String normalizedReverse =
+	                    normalizePath(
+	                        reverseFilename);
+
+
+	                if (generatedReverseFiles.add(
+	                        normalizedReverse)) {
+
+	                    generateReverseModelFromRegistry(
+	                        packages,
+	                        registryPackages,
+	                        previousRegistryFilename,
+	                        mutFilename,
+	                        reverseFilename);
+	                }
+
+
+	                /*
+	                 * Continue walking upwards from this predecessor.
+	                 */
+	                EObject predecessorBlock =
+	                    blocksByName.get(
+	                        predecessorName);
+
+	                if (predecessorBlock != null) {
+
+	                    pending.addLast(
+	                        new ReverseTraversalState(
+	                            predecessorBlock,
+	                            previousModelFilename,
+	                            predecessorName));
+	                }
+	            }
+	        }
+	    }
+	    finally {
+
+	        /*
+	         * program was loaded by this method and is therefore
+	         * owned by this method.
+	         */
+	        disposeTemporaryResource(
+	            program);
+	    }
+	}
+	/**
+	 * Mutant registry generation
+	 * (Wodel program with blocks)
+	 *
+	 * @param metamodel
+	 *            Metamodel path.
+	 * @param packages
+	 *            Domain metamodel packages.
+	 * @param registeredPackages
+	 *            Globally registered EPackages.
+	 * @param localRegisteredPackages
+	 *            Locally registered EPackages.
+	 * @param seed
+	 *            Original seed model. This method does NOT own this Resource.
+	 * @param model
+	 *            Generated mutant model. This method does NOT own this Resource.
+	 * @param rules
+	 *            OCL constraints.
+	 * @param muts
+	 *            Applied-mutation registry.
+	 * @param modelFilename
+	 *            Source model filename.
+	 * @param mutFilename
+	 *            Generated mutant filename.
+	 * @param registry
+	 *            Whether mutation registry generation is enabled.
+	 * @param hashsetMutantsBlock
+	 *            Mutants already generated for this block.
+	 * @param hashmapModelFilenames
+	 *            Output folders by model.
+	 * @param hashmapModelFolders
+	 *            Block-dependent model folders.
+	 * @param block
+	 *            Current mutation block.
+	 * @param fromBlocks
+	 *            Blocks on which the current block depends.
+	 * @param n
+	 *            Mutant index holder. Retained for API compatibility.
+	 * @param mutPaths
+	 *            Intermediate mutation-version paths.
+	 * @param hashmapMutVersions
+	 *            Mutation versions associated with each final mutant.
+	 * @param project
+	 *            Eclipse project.
+	 * @param serialize
+	 *            Whether generated models are serialized.
+	 * @param test
+	 *            Wodel-Test integration.
+	 * @param classes
+	 *            Generated classes.
+	 * @param cls
+	 *            Generated mutator class.
+	 * @param save
+	 *            Whether the final mutant must be saved.
+	 * @param reverse
+	 *            Whether reverse models must be generated.
+	 *
+	 * @return true if the mutant must be discarded; false otherwise.
+	 *
+	 * @throws MetaModelNotFoundException
+	 * @throws ModelNotFoundException
+	 * @throws ReferenceNonExistingException
+	 * @throws IOException
+	 */
+	public boolean registryMutantWithBlocks(
+	        String metamodel,
+	        List<EPackage> packages,
+	        Map<String, EPackage> registeredPackages,
+	        Map<String, EPackage> localRegisteredPackages,
+	        Resource seed,
+	        Resource model,
+	        Map<String, List<String>> rules,
+	        Mutations muts,
+	        String modelFilename,
+	        String mutFilename,
+	        boolean registry,
+	        Set<String> hashsetMutantsBlock,
+	        Map<String, String> hashmapModelFilenames,
+	        Map<String, String> hashmapModelFolders,
+	        String block,
+	        List<String> fromBlocks,
+	        int[] n,
+	        List<String> mutPaths,
+	        Map<String, List<String>> hashmapMutVersions,
+	        IProject project,
+	        boolean serialize,
+	        IWodelTest test,
+	        Map<String, List<String>> classes,
+	        Class<?> cls,
+	        boolean save,
+	        boolean reverse)
+	        throws MetaModelNotFoundException,
+	               ModelNotFoundException,
+	               ReferenceNonExistingException,
+	               IOException {
+
+	    boolean isRepeated = false;
+	    boolean isEquivalent = false;
+
+	    /*
+	     * Important:
+	     *
+	     * This is intentionally true because the optional
+	     * "Discard invalid mutants" validation may be disabled.
+	     */
+	    boolean isValid = true;
+
+	    boolean valid = false;
+
+
+	    /*
+	     * Resolve this exactly once.
+	     *
+	     * The old implementation repeatedly modified the metamodel
+	     * parameter itself in several validation stages.
+	     */
+	    final String resolvedMetamodel =
+	        resolveMetamodelPath(
+	            metamodel,
+	            seed);
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 1. Validate the seed/environment.
+	     * ------------------------------------------------------------
+	     */
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            valid =
+	                validation(
+	                    project.getName(),
+	                    resolvedMetamodel,
+	                    seed.getURI()
+	                        .toFileString()
+	                        .replace('\\', '/'),
+	                    cls);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!valid) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 2. Non-serialized Wodel-Test generation.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (!serialize) {
+
+	        String className =
+	            getFileBaseName(
+	                modelFilename);
+
+	        String mutantName =
+	            getFileBaseName(
+	                mutFilename);
+
+	        boolean generated;
+
+	        synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	            registerMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+
+	            try {
+
+	                generated =
+	                    test.modelToProject(
+	                        className,
+	                        model,
+	                        block,
+	                        mutantName,
+	                        project,
+	                        null);
+	            }
+	            finally {
+
+	                unregisterMetamodels(
+	                    registeredPackages,
+	                    localRegisteredPackages);
+	            }
+	        }
+
+	        if (!generated) {
+	            return true;
+	        }
+
+
+	        if (classes != null
+	                && !classes.isEmpty()) {
+
+	            String projectPath =
+	                Platform.getLocation()
+	                    .toFile()
+	                    .getPath()
+	                    .replace('\\', '/')
+	                + "/"
+	                + project.getName()
+	                + "/"
+	                + className
+	                + "/"
+	                + block
+	                + "/"
+	                + mutantName
+	                + "/src/";
+
+	            synchronized (CLASSES_LOCK) {
+
+	                WodelUtils.addPathToClasses(
+	                    project.getName(),
+	                    classes,
+	                    projectPath);
+	            }
+	        }
+
+	        return false;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 3. Verify Wodel/OCL constraints.
+	     * ------------------------------------------------------------
+	     */
+
+	    boolean matches;
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            matches =
+	                matchesOCL(
+	                    model,
+	                    rules);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!matches) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 4. Ensure the output folder exists.
+	     * ------------------------------------------------------------
+	     */
+
+	    String outputPath =
+	        hashmapModelFilenames.get(
+	            modelFilename);
+
+	    if (outputPath == null
+	            || outputPath.isBlank()) {
+
+	        throw new IllegalStateException(
+	            "No output folder is registered for model: "
+	            + modelFilename);
+	    }
+
+
+	    File outputFolder =
+	        new File(
+	            outputPath);
+
+	    if (!outputFolder.exists()
+	            && !outputFolder.mkdirs()
+	            && !outputFolder.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create mutant output directory: "
+	            + outputFolder);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 5. Save the mutant.
+	     *
+	     * IMPORTANT:
+	     *
+	     * model is caller-owned. Do NOT unload it here.
+	     *
+	     * Registry generation and reverse-model generation may still
+	     * need its EObject graph.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (save) {
+
+	        ModelManager.saveOutModel(
+	            model,
+	            mutFilename);
+
+	        if (!new File(mutFilename).isFile()) {
+	            return true;
+	        }
+	    }
+	    else if (!new File(mutFilename).isFile()) {
+
+	        /*
+	         * The remaining validation/difference/equivalence stages
+	         * operate on mutFilename, therefore the file must already
+	         * exist if this method was asked not to save it itself.
+	         */
+	        throw new IllegalStateException(
+	            "Block mutant processing requires an existing "
+	            + "mutant file when save == false: "
+	            + mutFilename);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 6. Optional validity check.
+	     * ------------------------------------------------------------
+	     */
+
+	    boolean discardInvalid =
+	        Platform.getPreferencesService()
+	            .getBoolean(
+	                "wodel.dsls.Wodel",
+	                "Discard invalid mutants",
+	                false,
+	                null);
+
+	    if (discardInvalid) {
+
+	        synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	            registerMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+
+	            try {
+
+	                isValid =
+	                    validation(
+	                        project.getName(),
+	                        resolvedMetamodel,
+	                        mutFilename,
+	                        cls);
+	            }
+	            finally {
+
+	                unregisterMetamodels(
+	                    registeredPackages,
+	                    localRegisteredPackages);
+	            }
+	        }
+
+	        if (!isValid) {
+
+	            IOUtils.deleteFile(
+	                mutFilename);
+
+	            return true;
+	        }
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 7. Validate the generated mutant itself.
+	     * ------------------------------------------------------------
+	     */
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            isValid =
+	                validate(
+	                    resolvedMetamodel,
+	                    seed.getURI()
+	                        .toFileString().replace("\\", "/"),
+	                    mutFilename.replace("\\", "/"),
+	                    cls,
+	                    project);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!isValid) {
+
+	        IOUtils.deleteFile(
+	            mutFilename);
+
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 8. Reject repeated mutants within the block.
+	     * ------------------------------------------------------------
+	     */
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            isRepeated =
+	                different(
+	                    resolvedMetamodel,
+	                    mutFilename,
+	                    hashsetMutantsBlock,
+	                    project,
+	                    cls);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (isRepeated) {
+
+	        IOUtils.deleteFile(
+	            mutFilename);
+
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 9. Reject equivalent mutants.
+	     * ------------------------------------------------------------
+	     */
+
+	    List<String> metamodels =
+	        new ArrayList<>();
+
+	    metamodels.add(
+	        resolvedMetamodel);
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            isEquivalent =
+	                equivalent(
+	                    metamodels,
+	                    modelFilename,
+	                    mutFilename,
+	                    project,
+	                    cls);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (isEquivalent) {
+
+	        IOUtils.deleteFile(
+	            mutFilename);
+
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 10. Accept the mutant.
+	     * ------------------------------------------------------------
+	     */
+
+	    hashsetMutantsBlock.add(
+	        mutFilename);
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 11. Generate the mutation registry.
+	     *
+	     * The managed helper keeps every internally loaded mutation
+	     * version alive until the final registry has been serialized.
+	     *
+	     * seed and model remain caller-owned.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (registry
+	            && muts != null) {
+
+	        rememberMutationVersions(
+	            hashmapMutVersions,
+	            mutFilename,
+	            mutPaths);
+
+
+	        String registryFilename =
+	            buildRegistryFilename(
+	                hashmapModelFilenames,
+	                hashmapModelFolders,
+	                modelFilename,
+	                block,
+	                fromBlocks,
+	                mutFilename);
+
+
+	        if (muts.getMuts().isEmpty()) {
+
+	            ModelManager.createModel(
+	                muts,
+	                registryFilename);
+	        }
+	        else {
+
+	            writeRegistryWithManagedVersions(
+	                packages,
+	                seed,
+	                model,
+	                muts,
+	                mutFilename,
+	                mutPaths,
+	                registryFilename);
+	        }
+
+
+	        /*
+	         * --------------------------------------------------------
+	         * 12. Generate reverse models.
+	         *
+	         * Reverse generation deliberately happens AFTER the
+	         * registry has been serialized. Its implementation must
+	         * own and dispose every Resource it loads.
+	         * --------------------------------------------------------
+	         */
+
+	        if (reverse
+	                && save
+	                && !muts.getMuts().isEmpty()) {
+
+	            generateReverseModels(
+	                packages,
+	                muts,
+	                registryFilename,
+	                modelFilename,
+	                mutFilename,
+	                block,
+	                fromBlocks != null
+	                    ? fromBlocks
+	                    : Collections.emptyList(),
+	                cls);
+	        }
+	    }
+
+
+	    return false;
+	}
 	/**
 	 * Mutant registry generation
 	 * (Wodel program with blocks)
@@ -11384,6 +15924,7 @@ public class MutatorUtils {
 	 * @throws ReferenceNonExistingException 
 	 * @throws IOException 
 	 */
+/*
 	public boolean registryMutantWithBlocksStandalone(String metamodel, List<EPackage> packages,
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, 
 			Resource seed, Resource model, Map<String, List<String>> rules,
@@ -11396,285 +15937,188 @@ public class MutatorUtils {
 			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
-		boolean isValid = false;
+		boolean isValid = true;
 		boolean isSaved = false;
-		if (registeredPackages != null) {
-			ModelManager.registerMetaModel(registeredPackages);
+		
+		boolean valid = false;
+		synchronized (EPACKAGE_REGISTRY_LOCK) {
+			registerMetamodels(registeredPackages, localRegisteredPackages);
+			try {
+				metamodel = metamodel.replace("\\", "/");
+
+				String resolvedMetamodel;
+
+				if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+				    // Absolute Windows path: NEVER prefix it
+				    resolvedMetamodel = metamodel;
+				}
+				else {
+					metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
+
+				    String path = seed.getURI().toFileString().replace("\\", "/");
+
+				    path = path.substring(0, path.lastIndexOf("/"));
+
+				    resolvedMetamodel = path + "/" + metamodel;
+				}
+				valid = validationStandalone(seed);
+			}
+			finally {
+				unregisterMetamodels(registeredPackages, localRegisteredPackages);
+			}
 		}
-		if (localRegisteredPackages != null) {
-			ModelManager.registerMetaModel(localRegisteredPackages);
-		}
-		if (localRegisteredPackages != null) {
-			List<EPackage> localRegistered = new ArrayList<EPackage>();
-			localRegistered.addAll(localRegisteredPackages.values());
-			ModelManager.unregisterMetaModel(localRegistered);
-		}
-		if (registeredPackages != null) {
-			List<EPackage> registered = new ArrayList<EPackage>();
-			registered.addAll(registeredPackages.values());
-			ModelManager.unregisterMetaModel(registered);
+		if (valid == false) {
+			return true;
 		}
 		if (serialize == false) {
 			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
 			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
-			if (registeredPackages != null) {
-				ModelManager.registerMetaModel(registeredPackages);
+			boolean value = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					value = test.modelToProject(className, model, block, mutantName, projectName, null);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
 			}
-			if (localRegisteredPackages != null) {
-				ModelManager.registerMetaModel(localRegisteredPackages);
-			}
-			boolean value = test.modelToProject(className, model, block, mutantName, projectName, null);
 			if (value == false) {
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
 				return true;
 			}
-			if (value && classes.size() > 0) {
-				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + block + "/" + mutantName + "/src/";
-				WodelTestUtils.addPathToClasses(projectName, classes, projectPath);
-			}
-			if (localRegisteredPackages != null) {
-				List<EPackage> localRegistered = new ArrayList<EPackage>();
-				localRegistered.addAll(localRegisteredPackages.values());
-				ModelManager.unregisterMetaModel(localRegistered);
-			}
-			if (registeredPackages != null) {
-				List<EPackage> registered = new ArrayList<EPackage>();
-				registered.addAll(registeredPackages.values());
-				ModelManager.unregisterMetaModel(registered);
+			if (value) {
+				synchronized (CLASSES_LOCK) {
+					if (classes != null && classes.size() > 0) {
+						String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + block + "/" + mutantName + "/src/";
+						WodelUtils.addPathToClasses(projectName, classes, projectPath);
+					}
+				}
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == false) {
-				isRepeated = true;
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
-				return isRepeated;
-			}
-			else {
 			File outputFolder = new File(
 					hashmapModelFilenames.get(modelFilename));
+			if (outputFolder.exists() != true) {
+				outputFolder.mkdir();
+			}
+			outputFolder = new File(
+					hashmapModelFilenames.get(modelFilename) + '/' + block);
+			if (outputFolder.exists() != true) {
+				outputFolder.mkdir();
+			}
+			if (fromBlocks.size() > 0) {
+				outputFolder = new File(hashmapModelFilenames.get(modelFilename) + '/' + block + '/' + hashmapModelFolders.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
 				}
-				outputFolder = new File(
-						hashmapModelFilenames.get(modelFilename) + '/' + block);
-				if (outputFolder.exists() != true) {
-					outputFolder.mkdir();
-				}
-				if (fromBlocks.size() > 0) {
-					outputFolder = new File(hashmapModelFilenames.get(modelFilename) + '/' + block + '/' + hashmapModelFolders.get(modelFilename));
-					if (outputFolder.exists() != true) {
-						outputFolder.mkdir();
+			}
+			if (save == true) {
+				ModelManager.saveOutModel(model, mutFilename);
+				if (new File(mutFilename).exists() == true) {
+					try {
+						model.unload();
+					} catch (Exception e) {
 					}
+					isSaved = true;
 				}
-				if (save == true) {
-					ModelManager.saveOutModel(model, mutFilename);
-					if (new File(mutFilename).exists() == true) {
-						try {
-							model.unload();
-						} catch (Exception e) {
-						}
-						isSaved = true;
+				else {
+					isRepeated = true;
+					try {
+						model.unload();
+					} catch (Exception e) {
+					}
+					return isRepeated;
+				}
+			}
+			// VERIFY IF MUTANT IS VALID
+			isValid = true;
+			isRepeated = false;
+			isEquivalent = false;
+			synchronized (EPACKAGE_REGISTRY_LOCK) {
+				registerMetamodels(registeredPackages, localRegisteredPackages);
+				try {
+					metamodel = metamodel.replace("\\", "/");
+
+					String resolvedMetamodel;
+
+					if (new File(metamodel).isAbsolute() || new File(metamodel.replace("/", "\\")).isAbsolute()) {
+					    // Absolute Windows path: NEVER prefix it
+					    resolvedMetamodel = metamodel;
 					}
 					else {
-						isRepeated = true;
-						try {
-							model.unload();
-						} catch (Exception e) {
-						}
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
-						return isRepeated;
-					}
-				}
-				// VERIFY IF MUTANT IS VALID
-				if (registeredPackages != null) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
-				if (localRegisteredPackages != null) {
-					ModelManager.registerMetaModel(localRegisteredPackages);
-				}
-				isValid = true;
-				isRepeated = false;
-				isEquivalent = false;
-				if (localRegisteredPackages != null) {
-					List<EPackage> localRegistered = new ArrayList<EPackage>();
-					localRegistered.addAll(localRegisteredPackages.values());
-					ModelManager.unregisterMetaModel(localRegistered);
-				}
-				if (registeredPackages != null) {
-					List<EPackage> registered = new ArrayList<EPackage>();
-					registered.addAll(registeredPackages.values());
-					ModelManager.unregisterMetaModel(registered);
-				}
+						metamodel = metamodel.substring(metamodel.lastIndexOf("/") + 1);
 
-				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
-				if (isValid == true && isRepeated == false && isEquivalent == false) {
-					hashsetMutantsBlock.add(mutFilename);
-					if (registry == true) {
-						List<String> mutVersions = null;
-						if (hashmapMutVersions.containsKey(mutFilename) == true) {
-							mutVersions = hashmapMutVersions.get(mutFilename);
-						}
-						else {
-							mutVersions = new ArrayList<String>();
-						}
-						mutVersions.addAll(mutPaths);
-						hashmapMutVersions.put(mutFilename, mutVersions);
-						List<Resource> pastVersions = new ArrayList<Resource>();
-						pastVersions.add(seed);
-						Resource lastVersion = seed;
-						Resource mutant = ModelManager.loadModelNoException(packages, mutFilename);
-						for (AppMutation mut : muts.getMuts()) {
-							String mutVersion = "";
-							if (mut instanceof ObjectCreated) {
-								List<EObject> emuts = ((ObjectCreated) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), model);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(mutant, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObjectByName(seed, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {
-													}
-												}
-												if (object != null) {
-													emuts.set(0, object);
-												}
-											}
-										}
-									}
+					    String path = seed.getURI().toFileString().replace("\\", "/");
+
+					    path = path.substring(0, path.lastIndexOf("/"));
+
+					    resolvedMetamodel = path + "/" + metamodel;
+					}
+					valid = validationStandalone(seed);
+				}
+				finally {
+					unregisterMetamodels(registeredPackages, localRegisteredPackages);
+				}
+			}
+			if (isValid == false) {
+				IOUtils.deleteFile(mutFilename);
+				isRepeated = true;
+				return isRepeated;
+			}
+
+			// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
+			if (isValid == true && isRepeated == false && isEquivalent == false) {
+				hashsetMutantsBlock.add(mutFilename);
+				if (registry == true) {
+					List<String> mutVersions = null;
+					if (hashmapMutVersions.containsKey(mutFilename) == true) {
+						mutVersions = hashmapMutVersions.get(mutFilename);
+					}
+					else {
+						mutVersions = new ArrayList<String>();
+					}
+					mutVersions.addAll(mutPaths);
+					hashmapMutVersions.put(mutFilename, mutVersions);
+					List<Resource> pastVersions = new ArrayList<Resource>();
+					pastVersions.add(seed);
+					Resource lastVersion = seed;
+					Resource mutant = ModelManager.loadModelNoException(packages, mutFilename);
+					for (AppMutation mut : muts.getMuts()) {
+						String mutVersion = "";
+						if (mut instanceof ObjectCreated) {
+							List<EObject> emuts = ((ObjectCreated) mut).getObject();
+							if (emuts.size() > 0) {
+								EObject emutated = null;
+								if (emuts.get(0).eIsProxy()) {
+									emutated = EcoreUtil.resolve(emuts.get(0), model);
 								}
-							}
-							if (mut instanceof ObjectCloned) {
-								List<EObject> emuts = ((ObjectCloned) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), model);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
-									if (object != null) {
-										emuts.set(0, object);
-										mutVersion = mutFilename;
-									}
-									else {
-										object = ModelManager.getObjectByName(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {
-													}
-												}
-												if (object != null) {
-													emuts.set(0, object);
-												}
-											}
-										}
-									}
+								else {
+									emutated = emuts.get(0);
 								}
-							}
-							if (mut instanceof ObjectRemoved) {
-								List<EObject> emuts = ((ObjectRemoved) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), seed);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
+								EObject object = ModelManager.getObjectByName(mutant, emutated);
+								if (object != null) {
+									emuts.set(0, object);
+									mutVersion = mutFilename;
+								}
+								else {
+									object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
 										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
-										object = ModelManager.getObjectByName(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {
-													}
+										if ((mutPaths != null) && (packages != null)) {
+											object = null;
+											for (String mutatorPath : mutPaths) {
+												Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
+												object = ModelManager.getObject(mutantvs, emutated);
+												if (object != null) {
+													mutVersion = mutatorPath;
+													break;
+												}
+												try {
+													mutantvs.unload();
+												} catch (Exception e) {
 												}
 											}
 											if (object != null) {
@@ -11684,181 +16128,307 @@ public class MutatorUtils {
 									}
 								}
 							}
-							if (mut instanceof InformationChanged) {
-								EObject emutated = ((InformationChanged) mut).getObject();
+						}
+						if (mut instanceof ObjectCloned) {
+							List<EObject> emuts = ((ObjectCloned) mut).getObject();
+							if (emuts.size() > 0) {
+								EObject emutated = null;
+								if (emuts.get(0).eIsProxy()) {
+									emutated = EcoreUtil.resolve(emuts.get(0), model);
+								}
+								else {
+									emutated = emuts.get(0);
+								}
 								EObject object = ModelManager.getObjectByName(seed, emutated);
 								if (object != null) {
-									((InformationChanged) mut).setObject(object);
+									emuts.set(0, object);
+									mutVersion = mutFilename;
 								}
-								for (ReferenceChanged mutRef : ((InformationChanged) mut).getRefChanges()) {
-									if (mutRef instanceof ReferenceChanged) {
-										EObject emutatedFrom = mutRef.getFrom();
-										if (emutatedFrom != null) {
-											EObject objectFrom =  ModelManager.getObjectByName(mutant, emutatedFrom);
-											if (objectFrom != null) {
-												mutRef.setFrom(objectFrom);
-											}
-											else {
-												objectFrom =  ModelManager.getObjectByName(seed, emutatedFrom);
-												if (objectFrom != null) {
-													mutRef.setFrom(objectFrom);
-												}
-											}
-										}
-										EObject emutatedMutantFrom = mutRef.getMutantFrom();
-										if (emutatedMutantFrom != null) {
-											EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
-											if (objectMutantFrom != null) {
-												mutRef.setMutantFrom(objectMutantFrom);
-											}
-											else {
-												objectMutantFrom =  ModelManager.getObjectByName(seed, emutatedMutantFrom);
-												if (objectMutantFrom != null) {
-													mutRef.setMutantFrom(objectMutantFrom);
-												}
-											}
-										}
-										EObject emutatedTo = mutRef.getTo();
-										if (emutatedTo != null) {
-											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
-											if (objectTo != null) {
-												mutRef.setTo(objectTo);
-											}
-										}
-										EObject emutatedMutantTo = mutRef.getMutantTo();
-										if (emutatedMutantTo != null) {
-											EObject objectMutantTo =  ModelManager.getObjectByName(mutant, emutatedMutantTo);
-											if (objectMutantTo != null) {
-												mutRef.setMutantTo(objectMutantTo);
-											}
-										}
-										if (mutRef instanceof ReferenceSwap) {
-											EObject emutatedOtherFrom = ((ReferenceSwap) mutRef).getOtherFrom();
-											if (emutatedOtherFrom != null) {
-												EObject objectOtherFrom = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherFrom));
-												if (objectOtherFrom != null) {
-													((ReferenceSwap) mutRef).setOtherFrom(objectOtherFrom);
-												}
-											}
-											EObject emutatedOtherTo = ((ReferenceSwap) mutRef).getOtherTo();
-											if (emutatedOtherTo != null) {
-												EObject objectOtherTo = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherTo));
-												if (objectOtherTo != null) {
-													((ReferenceSwap) mutRef).setOtherTo(objectOtherTo);
-												}
-											}
-										}
-										List<EObject> emutatedObjects = new ArrayList<EObject>();
-										for (EObject emutatedOb : mutRef.getObject()) {
-											EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
-											if (ob != null) {
-												emutatedObjects.add(ob);
-											}
-											else {
-												emutatedObjects.add(emutatedOb);
-											}
-										}
-										mutRef.getObject().clear();
-										mutRef.getObject().addAll(emutatedObjects);
-										List<EObject> emutatedMutantObjects = new ArrayList<EObject>();
-										for (EObject emutatedMutantOb : mutRef.getMutantObject()) {
-											EObject ob = ModelManager.getObjectByName(mutant, emutatedMutantOb);
-											if (ob != null) {
-												emutatedMutantObjects.add(ob);
-											}
-											else {
-												emutatedMutantObjects.add(emutatedMutantOb);
-											}
-										}
-										mutRef.getMutantObject().clear();
-										mutRef.getMutantObject().addAll(emutatedMutantObjects);
-									}
-								}
-							}
-							if (mut instanceof ObjectRetyped) {
-								List<EObject> emuts = ((ObjectRetyped) mut).getObject();
-								if (emuts.size() > 0) {
-									EObject emutated = null;
-									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), seed);
-									}
-									else {
-										emutated = emuts.get(0);
-									}
-									EObject object = ModelManager.getObjectByName(seed, emutated);
+								else {
+									object = ModelManager.getObjectByName(mutant, emutated);
 									if (object != null) {
 										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
-										object = ModelManager.getObject(mutant, emutated);
-										if (object != null) {
-											emuts.set(0, object);
-											mutVersion = mutFilename;
-										}
-										else {
-											if ((mutPaths != null) && (packages != null)) {
-												object = null;
-												for (String mutatorPath : mutPaths) {
-													Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
-													object = ModelManager.getObject(mutantvs, emutated);
-													if (object != null) {
-														mutVersion = mutatorPath;
-														break;
-													}
-													try {
-														mutantvs.unload();
-													} catch (Exception e) {
-													}
-												}
+										if ((mutPaths != null) && (packages != null)) {
+											object = null;
+											for (String mutatorPath : mutPaths) {
+												Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
+												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
-													emuts.set(0, object);
+													mutVersion = mutatorPath;
+													break;
 												}
+												try {
+													mutantvs.unload();
+												} catch (Exception e) {
+												}
+											}
+											if (object != null) {
+												emuts.set(0, object);
 											}
 										}
 									}
 								}
 							}
-							if (mutVersion.length() > 0) {
-								Resource activeVersion = ModelManager.loadModelNoException(packages, mutVersion);
-								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
-								pastVersions.add(activeVersion);
-								lastVersion = activeVersion;
+						}
+						if (mut instanceof ObjectRemoved) {
+							List<EObject> emuts = ((ObjectRemoved) mut).getObject();
+							if (emuts.size() > 0) {
+								EObject emutated = null;
+								if (emuts.get(0).eIsProxy()) {
+									emutated = EcoreUtil.resolve(emuts.get(0), seed);
+								}
+								else {
+									emutated = emuts.get(0);
+								}
+								EObject object = ModelManager.getObjectByName(seed, emutated);
+								if (object != null) {
+									emuts.set(0, object);
+									mutVersion = mutFilename;
+								}
+								else {
+									object = ModelManager.getObjectByName(mutant, emutated);
+									if (object != null) {
+										emuts.set(0, object);
+										mutVersion = mutFilename;
+									}
+									else {
+										if ((mutPaths != null) && (packages != null)) {
+											object = null;
+											for (String mutatorPath : mutPaths) {
+												Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
+												object = ModelManager.getObject(mutantvs, emutated);
+												if (object != null) {
+													mutVersion = mutatorPath;
+													break;
+												}
+												try {
+													mutantvs.unload();
+												} catch (Exception e) {
+												}
+											}
+										}
+										if (object != null) {
+											emuts.set(0, object);
+										}
+									}
+								}
 							}
-							try {
-								lastVersion.unload();
-							} catch (Exception e) {
+						}
+						if (mut instanceof InformationChanged) {
+							EObject emutated = ((InformationChanged) mut).getObject();
+							EObject object = ModelManager.getObjectByName(seed, emutated);
+							if (object != null) {
+								((InformationChanged) mut).setObject(object);
 							}
+							for (ReferenceChanged mutRef : ((InformationChanged) mut).getRefChanges()) {
+								if (mutRef instanceof ReferenceChanged) {
+									EObject emutatedFrom = mutRef.getFrom();
+									if (emutatedFrom != null) {
+										EObject objectFrom =  ModelManager.getObjectByName(mutant, emutatedFrom);
+										if (objectFrom != null) {
+											mutRef.setFrom(objectFrom);
+										}
+										else {
+											objectFrom =  ModelManager.getObjectByName(seed, emutatedFrom);
+											if (objectFrom != null) {
+												mutRef.setFrom(objectFrom);
+											}
+										}
+									}
+									EObject emutatedMutantFrom = mutRef.getMutantFrom();
+									if (emutatedMutantFrom != null) {
+										EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
+										if (objectMutantFrom != null) {
+											mutRef.setMutantFrom(objectMutantFrom);
+										}
+										else {
+											objectMutantFrom =  ModelManager.getObjectByName(seed, emutatedMutantFrom);
+											if (objectMutantFrom != null) {
+												mutRef.setMutantFrom(objectMutantFrom);
+											}
+										}
+									}
+									EObject emutatedTo = mutRef.getTo();
+									if (emutatedTo != null) {
+										EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
+										if (objectTo != null) {
+											mutRef.setTo(objectTo);
+										}
+									}
+									EObject emutatedMutantTo = mutRef.getMutantTo();
+									if (emutatedMutantTo != null) {
+										EObject objectMutantTo =  ModelManager.getObjectByName(mutant, emutatedMutantTo);
+										if (objectMutantTo != null) {
+											mutRef.setMutantTo(objectMutantTo);
+										}
+									}
+									if (mutRef instanceof ReferenceSwap) {
+										EObject emutatedOtherFrom = ((ReferenceSwap) mutRef).getOtherFrom();
+										if (emutatedOtherFrom != null) {
+											EObject objectOtherFrom = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherFrom));
+											if (objectOtherFrom != null) {
+												((ReferenceSwap) mutRef).setOtherFrom(objectOtherFrom);
+											}
+										}
+										EObject emutatedOtherTo = ((ReferenceSwap) mutRef).getOtherTo();
+										if (emutatedOtherTo != null) {
+											EObject objectOtherTo = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherTo));
+											if (objectOtherTo != null) {
+												((ReferenceSwap) mutRef).setOtherTo(objectOtherTo);
+											}
+										}
+									}
+									List<EObject> emutatedObjects = new ArrayList<EObject>();
+									for (EObject emutatedOb : mutRef.getObject()) {
+										EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
+										if (ob != null) {
+											emutatedObjects.add(ob);
+										}
+										else {
+											emutatedObjects.add(emutatedOb);
+										}
+									}
+									mutRef.getObject().clear();
+									mutRef.getObject().addAll(emutatedObjects);
+									List<EObject> emutatedMutantObjects = new ArrayList<EObject>();
+									for (EObject emutatedMutantOb : mutRef.getMutantObject()) {
+										EObject ob = ModelManager.getObjectByName(mutant, emutatedMutantOb);
+										if (ob != null) {
+											emutatedMutantObjects.add(ob);
+										}
+										else {
+											emutatedMutantObjects.add(emutatedMutantOb);
+										}
+									}
+									mutRef.getMutantObject().clear();
+									mutRef.getMutantObject().addAll(emutatedMutantObjects);
+								}
+							}
+						}
+						if (mut instanceof ObjectRetyped) {
+							List<EObject> emuts = ((ObjectRetyped) mut).getObject();
+							if (emuts.size() > 0) {
+								EObject emutated = null;
+								if (emuts.get(0).eIsProxy()) {
+									emutated = EcoreUtil.resolve(emuts.get(0), seed);
+								}
+								else {
+									emutated = emuts.get(0);
+								}
+								EObject object = ModelManager.getObjectByName(seed, emutated);
+								if (object != null) {
+									emuts.set(0, object);
+									mutVersion = mutFilename;
+								}
+								else {
+									object = ModelManager.getObject(mutant, emutated);
+									if (object != null) {
+										emuts.set(0, object);
+										mutVersion = mutFilename;
+									}
+									else {
+										if ((mutPaths != null) && (packages != null)) {
+											object = null;
+											for (String mutatorPath : mutPaths) {
+												Resource mutantvs = ModelManager.loadModelNoException(packages, mutatorPath);
+												object = ModelManager.getObject(mutantvs, emutated);
+												if (object != null) {
+													mutVersion = mutatorPath;
+													break;
+												}
+												try {
+													mutantvs.unload();
+												} catch (Exception e) {
+												}
+											}
+											if (object != null) {
+												emuts.set(0, object);
+											}
+										}
+									}
+								}
+							}
+						}
+						if (mutVersion.length() > 0) {
+							Resource activeVersion = ModelManager.loadModelNoException(packages, mutVersion);
+							createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
+							pastVersions.add(activeVersion);
+							lastVersion = activeVersion;
 						}
 						try {
-							mutant.unload();
+							lastVersion.unload();
 						} catch (Exception e) {
 						}
-						File registryFolder = null;
-						if (fromBlocks.size() == 0) {
-							registryFolder = new File(
-									hashmapModelFilenames.get(modelFilename) + "/" + block + "/registry");
-						} else {
-							registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/" + block + '/' + hashmapModelFolders.get(modelFilename) + "/registry");
-						}
-						if (registryFolder.exists() != true) {
-							registryFolder.mkdir();
-						}
-						String registryFilename = null;
-						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
-						if (fromBlocks.size() == 0) {
-							registryFilename = hashmapModelFilenames.get(modelFilename)	+ "/" + block + "/registry/" + "Output" + mutIndex + "Registry.model";
-						} else {
-							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
-						}
-						ModelManager.createModel(muts, registryFilename);
+					}
+					try {
+						mutant.unload();
+					} catch (Exception e) {
+					}
+					File registryFolder = null;
+					if (fromBlocks.size() == 0) {
+						registryFolder = new File(
+								hashmapModelFilenames.get(modelFilename) + "/" + block + "/registry");
+					} else {
+						registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/" + block + '/' + hashmapModelFolders.get(modelFilename) + "/registry");
+					}
+					if (registryFolder.exists() != true) {
+						registryFolder.mkdir();
+					}
+					String registryFilename = null;
+					int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
+					if (fromBlocks.size() == 0) {
+						registryFilename = hashmapModelFilenames.get(modelFilename)	+ "/" + block + "/registry/" + "Output" + mutIndex + "Registry.model";
+					} else {
+						registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
+					}
+					ModelManager.createModel(muts, registryFilename);
 
-						if (reverse == true && save == true) {
-							List<EPackage> registryPackages = new ArrayList<EPackage>();
-							if (muts.getMuts().size() > 0) {
-								registryPackages.add(muts.getMuts().get(0).eClass().getEPackage());
-								Resource currentRegistry = ModelManager.loadModelNoException(registryPackages, registryFilename);
-								List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(currentRegistry));
+					if (reverse == true && save == true) {
+						List<EPackage> registryPackages = new ArrayList<EPackage>();
+						if (muts.getMuts().size() > 0) {
+							registryPackages.add(muts.getMuts().get(0).eClass().getEPackage());
+							Resource currentRegistry = ModelManager.loadModelNoException(registryPackages, registryFilename);
+							List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(currentRegistry));
+							for (EObject mutation : mutations) {
+								String text = "";
+								List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+								boolean flag = false;
+								for (EClass cl : superTypes) {
+									if (cl.getName().equals("AppMutation")) {
+										flag = true;
+										break;
+									}
+								}
+								if (flag == true) {
+									if (mutation instanceof InformationChanged) {
+										InformationChanged modify = (InformationChanged) mutation;
+										EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+										List<AttributeChanged> attChanges = modify.getAttChanges();
+										for (AttributeChanged attChange : attChanges) {
+											EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
+										}
+									}
+									if (mutation instanceof TargetReferenceChanged) {
+										TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
+										EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+										//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
+										EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+									}
+								}
+								String reverseFilename = mutFilename.replace(".model", "/" + block + "/Reverse.model");
+								ModelManager.saveOutModel(mutant, reverseFilename);
+							}
+
+							for (String fromBlock : fromBlocks) {
+								String previousRegistryFilename = modelFilename.replaceAll("\\\\", "/");
+								previousRegistryFilename = previousRegistryFilename.substring(0, previousRegistryFilename.lastIndexOf("/")) + "/registry/" + previousRegistryFilename.substring(previousRegistryFilename.lastIndexOf("/") + "/".length(), previousRegistryFilename.length());
+								previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
+								Resource previousRegistry = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
+								mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
+								mutant = ModelManager.loadModelNoException(packages, mutFilename);
 								for (EObject mutation : mutations) {
 									String text = "";
 									List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
@@ -11885,148 +16455,112 @@ public class MutatorUtils {
 											EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
 										}
 									}
-									String reverseFilename = mutFilename.replace(".model", "/" + block + "/Reverse.model");
+									String reverseFilename = mutFilename.replace(".model", "/" + fromBlock + "/Reverse.model");
 									ModelManager.saveOutModel(mutant, reverseFilename);
 								}
-								
-								for (String fromBlock : fromBlocks) {
-									String previousRegistryFilename = modelFilename.replaceAll("\\\\", "/");
-									previousRegistryFilename = previousRegistryFilename.substring(0, previousRegistryFilename.lastIndexOf("/")) + "/registry/" + previousRegistryFilename.substring(previousRegistryFilename.lastIndexOf("/") + "/".length(), previousRegistryFilename.length());
-									previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-									Resource previousRegistry = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
-									mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
-									mutant = ModelManager.loadModelNoException(packages, mutFilename);
-									for (EObject mutation : mutations) {
-										String text = "";
-										List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
-										boolean flag = false;
-										for (EClass cl : superTypes) {
-											if (cl.getName().equals("AppMutation")) {
-												flag = true;
-												break;
-											}
+								Bundle bundle = Platform.getBundle("wodel.models");
+								URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
+								String ecore = FileLocator.resolve(fileURL).getFile();
+								List<EPackage> ecorePackages = ModelManager.loadMetaModel(ecore);
+								String xmiFileName = "file:/" + ModelManager.getOutputPath(cls) + "/" + ModelManager.getMutatorName(cls).replace(".mutator", ".model");
+								Resource program = ModelManager.loadModelNoException(ecorePackages, URI.createURI(xmiFileName).toFileString());
+								List<EObject> blocks = ModelManager.getObjectsOfType("Block", program);
+								for (String prevBlock : fromBlocks) {
+									EObject previousBlock = null;
+									for (EObject b : blocks) {
+										if (ModelManager.getStringAttribute("name", b).equals(prevBlock)) {
+											previousBlock = b;
+											break;
 										}
-										if (flag == true) {
-											if (mutation instanceof InformationChanged) {
-												InformationChanged modify = (InformationChanged) mutation;
-												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
-												List<AttributeChanged> attChanges = modify.getAttChanges();
-												for (AttributeChanged attChange : attChanges) {
-													EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
-												}
-											}
-											if (mutation instanceof TargetReferenceChanged) {
-												TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
-												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
-												//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
-												EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
-											}
-										}
-										String reverseFilename = mutFilename.replace(".model", "/" + fromBlock + "/Reverse.model");
-										ModelManager.saveOutModel(mutant, reverseFilename);
 									}
-									Bundle bundle = Platform.getBundle("wodel.models");
-									URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
-									String ecore = FileLocator.resolve(fileURL).getFile();
-									List<EPackage> ecorePackages = ModelManager.loadMetaModel(ecore);
-									String xmiFileName = "file:/" + ModelManager.getOutputPath(cls) + "/" + ModelManager.getMutatorName(cls).replace(".mutator", ".model");
-									Resource program = ModelManager.loadModelNoException(ecorePackages, URI.createURI(xmiFileName).toFileString());
-									List<EObject> blocks = ModelManager.getObjectsOfType("Block", program);
-									for (String prevBlock : fromBlocks) {
-										EObject previousBlock = null;
-										for (EObject b : blocks) {
-											if (ModelManager.getStringAttribute("name", b).equals(prevBlock)) {
-												previousBlock = b;
-												break;
-											}
+									String iterateModelFilename = modelFilename;
+									String iterateFromBlock = fromBlock;
+									while (previousBlock != null) {
+										List<EObject> from = ModelManager.getReferences("from", previousBlock);
+										if (from.size() == 0) {
+											break;
 										}
-										String iterateModelFilename = modelFilename;
-										String iterateFromBlock = fromBlock;
-										while (previousBlock != null) {
-											List<EObject> from = ModelManager.getReferences("from", previousBlock);
-											if (from.size() == 0) {
-												break;
-											}
-											for (EObject f : from) {
-												String fName = ModelManager.getStringAttribute("name", f);
-												String previousModelFilename = iterateModelFilename.replaceAll("\\\\", "/");
-												previousModelFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/"));
-												previousModelFilename = previousModelFilename.replace("/" + iterateFromBlock + "/", "/");
-												previousModelFilename = previousModelFilename + ".model";
-												if (previousModelFilename.contains("/" + fName + "/")) {
-													previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
-													previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-													Resource previousRegistryF = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
-													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistryF));
-													Resource mutantF = ModelManager.loadModelNoException(packages, mutFilename);
-													for (EObject mutation : mutations) {
-														String text = "";
-														List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
-														boolean flag = false;
-														for (EClass cl : superTypes) {
-															if (cl.getName().equals("AppMutation")) {
-																flag = true;
-																break;
-															}
-														}
-														if (flag == true) {
-															if (mutation instanceof InformationChanged) {
-																InformationChanged modify = (InformationChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modify.getObject())); 
-																List<AttributeChanged> attChanges = modify.getAttChanges();
-																for (AttributeChanged attChange : attChanges) {
-																	EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
-																}
-															}
-															if (mutation instanceof TargetReferenceChanged) {
-																TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modifyRef.getObject().get(0)));
-																//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
-																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutantF, modifyRef.getOldTo()));
-															}
-														}
-														String reverseFilename = mutFilename.replace(".model", "/" + fName + "/Reverse.model");
-														ModelManager.saveOutModel(mutantF, reverseFilename);
-													}
-													for (EObject b : blocks) {
-														if (ModelManager.getStringAttribute("name", b).equals(fName)) {
-															previousBlock = b;
+										for (EObject f : from) {
+											String fName = ModelManager.getStringAttribute("name", f);
+											String previousModelFilename = iterateModelFilename.replaceAll("\\\\", "/");
+											previousModelFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/"));
+											previousModelFilename = previousModelFilename.replace("/" + iterateFromBlock + "/", "/");
+											previousModelFilename = previousModelFilename + ".model";
+											if (previousModelFilename.contains("/" + fName + "/")) {
+												previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
+												previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
+												Resource previousRegistryF = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
+												mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistryF));
+												Resource mutantF = ModelManager.loadModelNoException(packages, mutFilename);
+												for (EObject mutation : mutations) {
+													String text = "";
+													List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+													boolean flag = false;
+													for (EClass cl : superTypes) {
+														if (cl.getName().equals("AppMutation")) {
+															flag = true;
 															break;
 														}
 													}
-													iterateModelFilename = previousModelFilename;
-													iterateFromBlock = fName;
-													try {
-														previousRegistryF.unload();
-														mutantF.unload();
-													} catch (Exception e) {
+													if (flag == true) {
+														if (mutation instanceof InformationChanged) {
+															InformationChanged modify = (InformationChanged) mutation;
+															EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modify.getObject())); 
+															List<AttributeChanged> attChanges = modify.getAttChanges();
+															for (AttributeChanged attChange : attChanges) {
+																EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
+															}
+														}
+														if (mutation instanceof TargetReferenceChanged) {
+															TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
+															EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+															//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
+															EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutantF, modifyRef.getOldTo()));
+														}
 													}
+													String reverseFilename = mutFilename.replace(".model", "/" + fName + "/Reverse.model");
+													ModelManager.saveOutModel(mutantF, reverseFilename);
+												}
+												for (EObject b : blocks) {
+													if (ModelManager.getStringAttribute("name", b).equals(fName)) {
+														previousBlock = b;
+														break;
+													}
+												}
+												iterateModelFilename = previousModelFilename;
+												iterateFromBlock = fName;
+												try {
+													previousRegistryF.unload();
+													mutantF.unload();
+												} catch (Exception e) {
 												}
 											}
 										}
 									}
-									try {
-										program.unload();
-										previousRegistry.unload();
-										mutant.unload();
-									} catch (Exception e) {
-									}
 								}
 								try {
-									currentRegistry.unload();
+									program.unload();
+									previousRegistry.unload();
+									mutant.unload();
 								} catch (Exception e) {
 								}
+							}
+							try {
+								currentRegistry.unload();
+							} catch (Exception e) {
 							}
 						}
 					}
 				}
-				else {
-					// CODE TO DELETE STORED MUTANT VERSIONS
-				}
+			}
+			else {
+				// CODE TO DELETE STORED MUTANT VERSIONS
 			}
 		}
 		return isRepeated;
+
 	}
+*/
 
 	
 	/**
@@ -12039,6 +16573,7 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
+	/*
 	public static EObject findEObjectForRegistry(Resource seed, Resource mutant, EObject object, EObject objectByID, EObject objectByURI, List<String> mutPaths, List<EPackage> packages) {
 		if (object != null && ModelManager.getObject(seed, object) != null) {
 			return ModelManager.getObject(seed, object);
@@ -12170,6 +16705,679 @@ public class MutatorUtils {
 		}
 		return null;
 	}
+	*/
+	
+	/**
+	 * Mutant registry generation
+	 * (standalone Wodel program with blocks)
+	 *
+	 * @param metamodel
+	 *            Metamodel path. Retained for API compatibility.
+	 * @param packages
+	 *            Domain metamodel packages.
+	 * @param registeredPackages
+	 *            Globally registered EPackages.
+	 * @param localRegisteredPackages
+	 *            Locally registered EPackages.
+	 * @param seed
+	 *            Original seed model. Caller-owned Resource.
+	 * @param model
+	 *            Generated mutant model. Caller-owned Resource.
+	 * @param rules
+	 *            OCL constraints.
+	 * @param muts
+	 *            Applied mutations.
+	 * @param modelFilename
+	 *            Source model filename.
+	 * @param mutFilename
+	 *            Generated mutant filename.
+	 * @param registry
+	 *            Whether registry generation is enabled.
+	 * @param hashsetMutantsBlock
+	 *            Mutants generated for this block.
+	 * @param hashmapModelFilenames
+	 *            Output directories by source model.
+	 * @param hashmapModelFolders
+	 *            Block-dependent model folders.
+	 * @param block
+	 *            Current mutation block.
+	 * @param fromBlocks
+	 *            Blocks on which the current block depends.
+	 * @param n
+	 *            Mutant index holder. Retained for API compatibility.
+	 * @param mutPaths
+	 *            Intermediate mutation-version paths.
+	 * @param hashmapMutVersions
+	 *            Mutation versions associated with final mutants.
+	 * @param projectName
+	 *            Standalone project name.
+	 * @param serialize
+	 *            Whether generated models are serialized.
+	 * @param test
+	 *            Wodel-Test integration.
+	 * @param classes
+	 *            Generated classes.
+	 * @param cls
+	 *            Generated standalone mutator class.
+	 * @param save
+	 *            Whether the final mutant must be written to disk.
+	 * @param reverse
+	 *            Whether reverse models must be generated.
+	 *
+	 * @return true if the mutant must be discarded; false otherwise.
+	 *
+	 * @throws MetaModelNotFoundException
+	 * @throws ModelNotFoundException
+	 * @throws ReferenceNonExistingException
+	 * @throws IOException
+	 */
+	public boolean registryMutantWithBlocksStandalone(
+	        String metamodel,
+	        List<EPackage> packages,
+	        Map<String, EPackage> registeredPackages,
+	        Map<String, EPackage> localRegisteredPackages,
+	        Resource seed,
+	        Resource model,
+	        Map<String, List<String>> rules,
+	        Mutations muts,
+	        String modelFilename,
+	        String mutFilename,
+	        boolean registry,
+	        Set<String> hashsetMutantsBlock,
+	        Map<String, String> hashmapModelFilenames,
+	        Map<String, String> hashmapModelFolders,
+	        String block,
+	        List<String> fromBlocks,
+	        int[] n,
+	        List<String> mutPaths,
+	        Map<String, List<String>> hashmapMutVersions,
+	        String projectName,
+	        boolean serialize,
+	        IWodelTest test,
+	        Map<String, List<String>> classes,
+	        Class<?> cls,
+	        boolean save,
+	        boolean reverse)
+	        throws MetaModelNotFoundException,
+	               ModelNotFoundException,
+	               ReferenceNonExistingException,
+	               IOException {
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 1. Validate the seed/environment.
+	     *
+	     * Standalone validation operates directly on the loaded seed.
+	     * The textual metamodel path is therefore not needed here.
+	     * ------------------------------------------------------------
+	     */
+
+	    boolean valid;
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            valid =
+	                validationStandalone(
+	                    seed);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!valid) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 2. Non-serialized Wodel-Test path.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (!serialize) {
+
+	        String className =
+	            getFileBaseName(
+	                modelFilename);
+
+	        String mutantName =
+	            getFileBaseName(
+	                mutFilename);
+
+	        boolean generated;
+
+	        synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	            registerMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+
+	            try {
+
+	                generated =
+	                    test.modelToProject(
+	                        className,
+	                        model,
+	                        block,
+	                        mutantName,
+	                        projectName,
+	                        null);
+	            }
+	            finally {
+
+	                unregisterMetamodels(
+	                    registeredPackages,
+	                    localRegisteredPackages);
+	            }
+	        }
+
+	        if (!generated) {
+	            return true;
+	        }
+
+
+	        if (classes != null
+	                && !classes.isEmpty()) {
+
+	            String projectPath =
+	                Platform.getLocation()
+	                    .toFile()
+	                    .getPath()
+	                    .replace('\\', '/')
+	                + "/"
+	                + projectName
+	                + "/"
+	                + className
+	                + "/"
+	                + block
+	                + "/"
+	                + mutantName
+	                + "/src/";
+
+	            synchronized (CLASSES_LOCK) {
+
+	                WodelUtils.addPathToClasses(
+	                    projectName,
+	                    classes,
+	                    projectPath);
+	            }
+	        }
+
+	        return false;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 3. Check Wodel/OCL constraints.
+	     *
+	     * This makes the block-aware standalone method consistent
+	     * with registryMutantStandalone(...).
+	     * ------------------------------------------------------------
+	     */
+
+	    boolean matches;
+
+	    synchronized (EPACKAGE_REGISTRY_LOCK) {
+
+	        registerMetamodels(
+	            registeredPackages,
+	            localRegisteredPackages);
+
+	        try {
+
+	            matches =
+	                matchesOCL(
+	                    model,
+	                    rules);
+	        }
+	        finally {
+
+	            unregisterMetamodels(
+	                registeredPackages,
+	                localRegisteredPackages);
+	        }
+	    }
+
+	    if (!matches) {
+	        return true;
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 4. Ensure the final mutant destination exists.
+	     *
+	     * Creating the parent of mutFilename is safer than rebuilding
+	     * the block hierarchy manually in several steps.
+	     * ------------------------------------------------------------
+	     */
+
+	    File mutantFile =
+	        new File(
+	            mutFilename);
+
+	    File mutantFolder =
+	        mutantFile.getParentFile();
+
+	    if (mutantFolder != null
+	            && !mutantFolder.exists()
+	            && !mutantFolder.mkdirs()
+	            && !mutantFolder.isDirectory()) {
+
+	        throw new IllegalStateException(
+	            "Cannot create mutant output directory: "
+	            + mutantFolder);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 5. Save the final mutant.
+	     *
+	     * IMPORTANT:
+	     *
+	     * model and seed are caller-owned. Neither Resource is
+	     * unloaded here.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (save) {
+
+	        ModelManager.saveOutModel(
+	            model,
+	            mutFilename);
+
+	        if (!mutantFile.isFile()) {
+	            return true;
+	        }
+	    }
+
+
+	    /*
+	     * If registry/reverse generation requires the disk model,
+	     * ensure that it exists when the caller requested save=false.
+	     */
+	    if (!save
+	            && (registry || reverse)
+	            && !mutantFile.isFile()) {
+
+	        throw new IllegalStateException(
+	            "Registry/reverse generation requires an existing "
+	            + "mutant file when save == false: "
+	            + mutFilename);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 6. The standalone variant performs no project-specific
+	     *    different/equivalent validation here.
+	     *
+	     * The old implementation simply forced:
+	     *
+	     *     isValid      = true;
+	     *     isRepeated   = false;
+	     *     isEquivalent = false;
+	     *
+	     * so these state variables are unnecessary.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (hashsetMutantsBlock != null) {
+
+	        hashsetMutantsBlock.add(
+	            mutFilename);
+	    }
+
+
+	    /*
+	     * ------------------------------------------------------------
+	     * 7. Registry generation.
+	     *
+	     * writeRegistryWithManagedVersions(...) owns ONLY Resources
+	     * that it loads internally.
+	     *
+	     * All such Resources remain alive until the registry has been
+	     * completely serialized.
+	     * ------------------------------------------------------------
+	     */
+
+	    if (registry
+	            && muts != null) {
+
+	        rememberMutationVersions(
+	            hashmapMutVersions,
+	            mutFilename,
+	            mutPaths);
+
+
+	        List<String> safeFromBlocks =
+	            fromBlocks != null
+	                ? fromBlocks
+	                : Collections.emptyList();
+
+
+	        String registryFilename =
+	            buildRegistryFilename(
+	                hashmapModelFilenames,
+	                hashmapModelFolders,
+	                modelFilename,
+	                block,
+	                safeFromBlocks,
+	                mutFilename);
+
+
+	        if (muts.getMuts().isEmpty()) {
+
+	            /*
+	             * Preserve support for explicitly requested empty
+	             * mutation registries.
+	             */
+	            ModelManager.createModel(
+	                muts,
+	                registryFilename);
+	        }
+	        else {
+
+	            writeRegistryWithManagedVersions(
+	                packages,
+	                seed,
+	                model,
+	                muts,
+	                mutFilename,
+	                mutPaths,
+	                registryFilename);
+	        }
+
+
+	        /*
+	         * --------------------------------------------------------
+	         * 8. Reverse generation.
+	         *
+	         * This uses the common resource-safe implementation we
+	         * extracted from registryMutantWithBlocks(...).
+	         * --------------------------------------------------------
+	         */
+
+	        if (reverse
+	                && save
+	                && !muts.getMuts().isEmpty()) {
+
+	            generateReverseModels(
+	                packages,
+	                muts,
+	                registryFilename,
+	                modelFilename,
+	                mutFilename,
+	                block,
+	                safeFromBlocks,
+	                cls);
+	        }
+	    }
+
+
+	    return false;
+	}
+	
+	private static EObject findRegistryObjectInResource(
+	        Resource resource,
+	        EObject... candidates) {
+
+	    if (resource == null
+	            || candidates == null) {
+
+	        return null;
+	    }
+
+
+	    for (EObject candidate :
+	            candidates) {
+
+	        if (candidate == null) {
+	            continue;
+	        }
+
+
+	        EObject found =
+	            ModelManager.getObject(
+	                resource,
+	                candidate);
+
+	        if (found == null) {
+	            continue;
+	        }
+
+
+	        if (found.eIsProxy()) {
+
+	            EObject resolved =
+	                EcoreUtil.resolve(
+	                    found,
+	                    resource);
+
+	            if (resolved != null
+	                    && !resolved.eIsProxy()) {
+
+	                found = resolved;
+	            }
+	        }
+
+
+	        /*
+	         * Do not accidentally return an EObject from a foreign
+	         * Resource. The caller expects a seed/mutant-local object.
+	         */
+	        if (found.eResource() == resource) {
+	            return found;
+	        }
+	    }
+
+
+	    return null;
+	}
+	
+	private static final ThreadLocal<Map<String, Resource>> REGISTRY_LOOKUP_RESOURCES = new ThreadLocal<Map<String, Resource>>();
+
+	public static void beginRegistryLookupResources() {
+		endRegistryLookupResources();
+		REGISTRY_LOOKUP_RESOURCES.set(new LinkedHashMap<String, Resource>());
+	}
+
+	private static Resource getOrLoadRegistryLookupResource(List<EPackage> packages, String path)
+			throws ModelNotFoundException {
+
+		if (path == null || path.isBlank()) {
+			return null;
+		}
+
+		Map<String, Resource> cache = REGISTRY_LOOKUP_RESOURCES.get();
+
+		if (cache == null) {
+			cache = new LinkedHashMap<String, Resource>();
+			REGISTRY_LOOKUP_RESOURCES.set(cache);
+		}
+
+		Resource resource = cache.get(path);
+
+		if (resource == null) {
+			resource = ModelManager.loadModelNoException(packages, path);
+
+			if (resource != null) {
+				cache.put(path, resource);
+			}
+		}
+
+		return resource;
+	}
+
+	public static void endRegistryLookupResources() {
+
+		Map<String, Resource> cache = REGISTRY_LOOKUP_RESOURCES.get();
+
+		try {
+			if (cache != null) {
+				disposeTemporaryResources(cache.values());
+
+				cache.clear();
+			}
+		} finally {
+			REGISTRY_LOOKUP_RESOURCES.remove();
+		}
+	}
+	
+	public static int mutationMark(
+	        Mutations muts) {
+
+	    return muts == null
+	        ? 0
+	        : muts.getMuts().size();
+	}
+
+	public static void rollbackMutations(
+	        Mutations muts,
+	        int mark) {
+
+	    if (muts == null) {
+	        return;
+	    }
+
+	    while (muts.getMuts().size() > mark) {
+	        muts.getMuts().remove(
+	            muts.getMuts().size() - 1);
+	    }
+	}
+	
+	public static Mutations copyMutationsForRegistry(
+	        Mutations source) {
+
+	    if (source == null) {
+	        return null;
+	    }
+
+	    EcoreUtil.Copier copier =
+	        new EcoreUtil.Copier(
+	            true,
+	            true);
+
+	    Mutations copy =
+	        (Mutations) copier.copy(source);
+
+	    copier.copyReferences();
+
+	    return copy;
+	}
+
+	/**
+	 * Finds an EObject corresponding to a mutated object so that it can
+	 * be stored in the applied-mutation registry.
+	 *
+	 * <p>The lookup order is deliberately:</p>
+	 *
+	 * <ol>
+	 *   <li>Direct object in the seed.</li>
+	 *   <li>Object identified by ID in the seed.</li>
+	 *   <li>Object identified by URI in the seed.</li>
+	 *   <li>Direct object in the mutant.</li>
+	 *   <li>Object identified by ID in the mutant.</li>
+	 *   <li>Object identified by URI in the mutant.</li>
+	 *   <li>Intermediate mutation models.</li>
+	 *   <li>Structural EMF comparison as a last resort.</li>
+	 * </ol>
+	 *
+	 * <p>Trying the seed first is especially important for deletion
+	 * operators because the deleted EObject no longer exists in the
+	 * resulting mutant.</p>
+	 *
+	 * @param seed
+	 *     original model resource
+	 * @param mutant
+	 *     mutated model resource
+	 * @param object
+	 *     directly referenced mutated object
+	 * @param objectByID
+	 *     alternative identification of the object by ID
+	 * @param objectByURI
+	 *     alternative identification of the object by URI
+	 * @param mutPaths
+	 *     optional intermediate mutation-model paths
+	 * @param packages
+	 *     metamodel packages used for loading intermediate models
+	 *
+	 * @return
+	 *     the recovered EObject, or {@code null} if it cannot be found
+	 */
+	public static EObject findEObjectForRegistry(
+	        Resource seed,
+	        Resource mutant,
+	        EObject object,
+	        EObject objectByID,
+	        EObject objectByURI,
+	        List<String> mutPaths,
+	        List<EPackage> packages) {
+
+	    /*
+	     * Important ownership rule:
+	     *
+	     * This helper must NOT load mutation-version Resources.
+	     *
+	     * If the EObject cannot be recovered from the already-owned
+	     * seed or mutant, return the best logical handle available.
+	     *
+	     * writeRegistryWithManagedVersions(...) will later resolve
+	     * that handle against mutPaths using its managed Resource cache.
+	     */
+
+	    EObject found =
+	        findRegistryObjectInResource(
+	            seed,
+	            object,
+	            objectByID,
+	            objectByURI);
+
+	    if (found != null) {
+	        return found;
+	    }
+
+
+	    found =
+	        findRegistryObjectInResource(
+	            mutant,
+	            object,
+	            objectByID,
+	            objectByURI);
+
+	    if (found != null) {
+	        return found;
+	    }
+
+
+	    /*
+	     * Prefer an identification/URI representation if available,
+	     * because it normally survives model cloning better than an
+	     * arbitrary detached EObject.
+	     */
+	    if (objectByURI != null) {
+	        return objectByURI;
+	    }
+
+	    if (objectByID != null) {
+	        return objectByID;
+	    }
+
+	    return object;
+	}
 
 	/**
 	 * Finds the objects for the registry
@@ -12179,6 +17387,7 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
+/*
 	public static List<EObject> findEObjectsForRegistry(Resource seed, Resource mutant, wodel.utils.commands.Mutator mut, List<String> mutPaths, List<EPackage> packages) {
 		List<EObject> objects = new ArrayList<EObject>();
 		List<EObject> direct = mut.getObjects();
@@ -12256,6 +17465,122 @@ public class MutatorUtils {
 			i++;
 		}
 		return objects;
+	}
+*/
+	/**
+	 * Finds the EObjects associated with a mutator for inclusion
+	 * in the applied-mutation registry.
+	 *
+	 * <p>The lookup order for each mutated object is:</p>
+	 *
+	 * <ol>
+	 *   <li>Direct object in the seed model.</li>
+	 *   <li>Identification object in the seed model.</li>
+	 *   <li>Direct object in the mutant model.</li>
+	 *   <li>Identification object in the mutant model.</li>
+	 *   <li>Direct/identified object in one of the mutation-path models.</li>
+	 * </ol>
+	 *
+	 * <p>This ordering is important. In particular, removed objects
+	 * should normally still be recoverable from the seed, whereas
+	 * newly created objects may only exist in the mutant.</p>
+	 *
+	 * @param seed
+	 *     original seed resource
+	 * @param mutant
+	 *     generated mutant resource
+	 * @param mut
+	 *     Wodel mutator containing the affected objects
+	 * @param mutPaths
+	 *     optional paths to intermediate mutation models
+	 * @param packages
+	 *     metamodel packages used to load intermediate models
+	 *
+	 * @return
+	 *     the objects that could be recovered for the registry
+	 */
+	public static List<EObject> findEObjectsForRegistry(
+	        Resource seed,
+	        Resource mutant,
+	        wodel.utils.commands.Mutator mut,
+	        List<String> mutPaths,
+	        List<EPackage> packages) {
+
+	    List<EObject> result =
+	        new ArrayList<>();
+
+	    if (mut == null) {
+	        return result;
+	    }
+
+
+	    List<EObject> directObjects =
+	        mut.getObjects();
+
+	    if (directObjects == null
+	            || directObjects.isEmpty()) {
+
+	        return result;
+	    }
+
+
+	    List<EObject> identifiedObjects =
+	        mut.getObjectsByIdentification();
+
+
+	    for (int i = 0;
+	            i < directObjects.size();
+	            i++) {
+
+	        EObject direct =
+	            directObjects.get(i);
+
+	        EObject identified =
+	            identifiedObjects != null
+	                    && i < identifiedObjects.size()
+	                ? identifiedObjects.get(i)
+	                : null;
+
+
+	        EObject found =
+	            findRegistryObjectInResource(
+	                seed,
+	                direct,
+	                identified);
+
+	        if (found == null) {
+
+	            found =
+	                findRegistryObjectInResource(
+	                    mutant,
+	                    direct,
+	                    identified);
+	        }
+
+
+	        /*
+	         * If it cannot yet be resolved, retain a logical handle.
+	         *
+	         * Do NOT load mutPaths here.
+	         */
+	        if (found == null) {
+
+	            found =
+	                identified != null
+	                    ? identified
+	                    : direct;
+	        }
+
+
+	        if (found != null) {
+
+	            result.add(
+	                found);
+	        }
+	    }
+
+
+	    return result;
 	}
 	
 	/**
@@ -12884,14 +18209,142 @@ public class MutatorUtils {
 		return numMutants;
 	}
 	
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
+	/**
+	 * Returns the Mutator that contains the specified selection strategy.
+	 *
+	 * First tries the normal EMF containment chain. If the selection is
+	 * detached from that chain but still belongs to a Resource, a fallback
+	 * Resource scan is performed.
+	 *
+	 * @param selection the selection strategy
+	 * @return the containing Mutator, or null
+	 */
+	public static Mutator getMutator(
+	        ObSelectionStrategy selection) {
+
+	    if (selection == null) {
+	        return null;
+	    }
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 1. Normal case: follow EMF containment upwards.
+	     * ---------------------------------------------------------
+	     */
+	    EObject current =
+	        selection;
+
+	    while (current != null) {
+
+	        if (current instanceof Mutator) {
+	            return (Mutator) current;
+	        }
+
+	        current =
+	            current.eContainer();
+	    }
+
+	    /*
+	     * ---------------------------------------------------------
+	     * 2. Defensive fallback.
+	     * ---------------------------------------------------------
+	     */
+	    Resource resource =
+	        selection.eResource();
+
+	    if (resource == null) {
+	        return null;
+	    }
+
+	    for (EObject root :
+	            resource.getContents()) {
+
+	        Mutator result =
+	            findContainingMutator(
+	                root,
+	                selection);
+
+	        if (result != null) {
+	            return result;
+	        }
+	    }
+
+	    return null;
+	}
+
+
+	/**
+	 * Searches the containment tree rooted at {@code object}.
+	 */
+	private static Mutator findContainingMutator(
+	        EObject object,
+	        ObSelectionStrategy selection) {
+
+	    if (object == null) {
+	        return null;
+	    }
+
+	    if (object instanceof Mutator) {
+
+	        if (containsEObject(
+	                object,
+	                selection)) {
+
+	            return (Mutator) object;
+	        }
+	    }
+
+	    for (EObject child :
+	            object.eContents()) {
+
+	        Mutator result =
+	            findContainingMutator(
+	                child,
+	                selection);
+
+	        if (result != null) {
+	            return result;
+	        }
+	    }
+
+	    return null;
+	}
+
+
+	/**
+	 * Returns whether target belongs to the containment subtree rooted
+	 * at object.
+	 */
+	private static boolean containsEObject(
+	        EObject object,
+	        EObject target) {
+
+	    if (object == target) {
+	        return true;
+	    }
+
+	    for (EObject child :
+	            object.eContents()) {
+
+	        if (containsEObject(
+	                child,
+	                target)) {
+
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
+	
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes, long executionSeed)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, 
 			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		return null;
 	}
 
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes, long executionSeed)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, 
 			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {

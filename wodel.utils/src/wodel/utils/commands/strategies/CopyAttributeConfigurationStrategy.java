@@ -115,6 +115,9 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 
 	public Object getValue(EObject o) {
 		// checks if the target object has already been created
+		if (eobj == null) {
+			return null;
+		}
 		if (target != null) {
 			o.eSet(target, eobj.eGet(source));
 		}

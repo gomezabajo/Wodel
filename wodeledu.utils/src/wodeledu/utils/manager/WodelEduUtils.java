@@ -50,6 +50,9 @@ public class WodelEduUtils {
 	 * Gets the given type configure option - DSL mutaText
 	 */
 	public static Option getConfigureOption(String type, Resource model) {
+		if (type == null || model == null) {
+		    return null;
+		}
 		Iterator<EObject> objects = model.getAllContents();
 
 		Option opt = null;
@@ -107,6 +110,9 @@ public class WodelEduUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static Element getElement(EObject object, Resource model) {
+		if (object == null || model == null) {
+		    return null;
+		}
 		EClass type = object.eClass();
 		List<EClass> types = new ArrayList<EClass>();
 		types.add(object.eClass());
@@ -114,36 +120,32 @@ public class WodelEduUtils {
 		
 
 		Element element = null;
-		if (object != null) {
-			Iterator<EObject> objects = model.getAllContents();
-			while (objects.hasNext() && element == null) {
-				EObject obj = objects.next();
-				if (obj instanceof Element) {
-					Element it = (Element) obj;
-					EClass t = it.getType();
-					if (type.getName().equals(t.getName())) {
-						if (it.getFeature() == null || it.getFeature().size() == 0) {
-							element = it;
-							break;
-						}
+		Iterator<EObject> objects = model.getAllContents();
+		while (objects.hasNext() && element == null) {
+			EObject obj = objects.next();
+			if (obj instanceof Element) {
+				Element it = (Element) obj;
+				EClass t = it.getType();
+				if (type.getName().equals(t.getName())) {
+					if (it.getFeature() == null || it.getFeature().size() == 0) {
+						element = it;
+						break;
 					}
 				}
 			}
 		}
 		if (element == null) {
-			if (object != null) {
-				Iterator<EObject> objects = model.getAllContents();
-				while (objects.hasNext() && element == null) {
-					EObject obj = objects.next();
-					if (obj instanceof Element) {
-						Element it = (Element) obj;
-						EClass t = it.getType();
-						for (EClass ts : types) { 
-							if (ts.getName().equals(t.getName())) {
-								if (it.getFeature() == null || it.getFeature().size() == 0) {
-									element = it;
-									break;
-								}
+			objects = model.getAllContents();
+			while (objects.hasNext() && element == null) {
+				EObject obj = objects.next();
+				if (obj instanceof Element) {
+					Element it = (Element) obj;
+					EClass t = it.getType();
+					for (EClass ts : types) { 
+						if (ts.getName().equals(t.getName())) {
+							if (it.getFeature() == null || it.getFeature().size() == 0) {
+								element = it;
+								break;
 							}
 						}
 					}
@@ -157,64 +159,115 @@ public class WodelEduUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static Element getElementValues(EObject object, Resource model, boolean order) {
+		if (object == null || model == null) {
+		    return null;
+		}
 		List<EClass> types = new ArrayList<EClass>();
 		types.add(object.eClass());
 		types.addAll(object.eClass().getEAllSuperTypes());
 
 		Iterator<EObject> objects = model.getAllContents();
 		
-		if (object != null) {
-			objects = model.getAllContents();
-			while (objects.hasNext()) {
-				EObject obj = objects.next();
-				if (obj instanceof Element) {
-					Element element = (Element) obj;
-					EClass type = element.getType();
-					for (EClass t : types) { 
-						if (type.getName().equals(t.getName())) {
-							if (element.getFeature() == null || element.getFeature().size() == 0) {
-								continue;
-							}
-							Map<ValuedFeature, EStructuralFeature> features = new HashMap<ValuedFeature, EStructuralFeature>();
-							for (ValuedFeature feature : element.getFeature()) {
-								EStructuralFeature eFeat = feature.getFeat();
-								for (EStructuralFeature eFeature : object.eClass().getEAllStructuralFeatures()) {
-									if (EcoreUtil.equals(eFeat, eFeature)) {
-										features.put(feature, eFeature);
+		objects = model.getAllContents();
+		while (objects.hasNext()) {
+			EObject obj = objects.next();
+			if (obj instanceof Element) {
+				Element element = (Element) obj;
+				EClass type = element.getType();
+				for (EClass t : types) { 
+					if (type.getName().equals(t.getName())) {
+						if (element.getFeature() == null || element.getFeature().size() == 0) {
+							continue;
+						}
+						Map<ValuedFeature, EStructuralFeature> features = new HashMap<ValuedFeature, EStructuralFeature>();
+						for (ValuedFeature feature : element.getFeature()) {
+							EStructuralFeature eFeat = feature.getFeat();
+							for (EStructuralFeature eFeature : object.eClass().getEAllStructuralFeatures()) {
+								if (EcoreUtil.equals(eFeat, eFeature)) {
+									features.put(feature, eFeature);
 									}
-								}
 							}
-							boolean found = true;
-							for (ValuedFeature feature : features.keySet()) {
-								Object value = object.eGet(features.get(feature));
-								if (value != null) {
-									if (value instanceof Boolean) {
-										Boolean booleanValue = (Boolean) value; 
-										if (order == true) {
-											if (feature.isNegation() && booleanValue == true) {
-												found = false;
-												break;
-											}
-											else if (!feature.isNegation() && booleanValue == false) {
-												found = false;
-												break;
-											}
+						}
+						boolean found = true;
+						for (ValuedFeature feature : features.keySet()) {
+							Object value = object.eGet(features.get(feature));
+							if (value != null) {
+								if (value instanceof Boolean) {
+									Boolean booleanValue = (Boolean) value; 
+									if (order == true) {
+										if (feature.isNegation() && booleanValue == true) {
+											found = false;
+											break;
 										}
-										else {
-											if (!feature.isNegation() && booleanValue == true) {
-												found = false;
-												break;
-											}
-											else if (feature.isNegation() && booleanValue == false) {
-												found = false;
-												break;
-											}
+										else if (!feature.isNegation() && booleanValue == false) {
+											found = false;
+											break;
+										}
+									}
+									else {
+										if (!feature.isNegation() && booleanValue == true) {
+											found = false;
+											break;
+										}
+										else if (feature.isNegation() && booleanValue == false) {
+											found = false;
+											break;
 										}
 									}
 								}
-								if (value instanceof EObject) {
-									EObject ob = (EObject) value;
-									if (feature.getRefFeature() != null) {
+							}
+							if (value instanceof EObject) {
+								EObject ob = (EObject) value;
+								if (feature.getRefFeature() != null) {
+									EStructuralFeature eRefFeat = feature.getRefFeature();
+									EStructuralFeature eRefFeature = null;
+									for (EStructuralFeature eFeature : ob.eClass().getEAllStructuralFeatures()) {
+										if (EcoreUtil.equals(eRefFeat, eFeature)) {
+											eRefFeature = eFeature;
+										}
+									}
+									if (eRefFeature != null) {
+										Object v = ob.eGet(eRefFeature);
+										if (v != null) {
+											if (v instanceof Boolean) {
+												Boolean booleanValue = (Boolean) v; 
+												if (order == true) {
+													if (feature.isNegation() && booleanValue == true) {
+														found = false;
+														break;
+													}
+													else if (!feature.isNegation() && booleanValue == false) {
+														found = false;
+														break;
+													}
+												}
+												else {
+													if (!feature.isNegation() && booleanValue == true) {
+														found = false;
+														break;
+													}
+													else if (feature.isNegation() && booleanValue == false) {
+														found = false;
+														break;
+													}
+												}
+											}
+										}
+										if (feature.getValue().equals("null") && v != null) {
+											found = false;
+											break;
+										}
+									}
+								}
+							}
+							if (value instanceof List<?>) {
+								List<EObject> values = (List<EObject>) value;
+								if (feature.getRefFeature() == null && feature.getValue() == null && values.size() == 0) {
+									break;
+								}
+								if (feature.getRefFeature() != null) {
+									boolean one = false;
+									for (EObject ob : values) {
 										EStructuralFeature eRefFeat = feature.getRefFeature();
 										EStructuralFeature eRefFeature = null;
 										for (EStructuralFeature eFeature : ob.eClass().getEAllStructuralFeatures()) {
@@ -228,96 +281,46 @@ public class WodelEduUtils {
 												if (v instanceof Boolean) {
 													Boolean booleanValue = (Boolean) v; 
 													if (order == true) {
-														if (feature.isNegation() && booleanValue == true) {
-															found = false;
+														if (feature.isNegation() && booleanValue == false) {
+															one = true;
 															break;
 														}
-														else if (!feature.isNegation() && booleanValue == false) {
-															found = false;
+														else if (!feature.isNegation() && booleanValue == true) {
+															one = true;
 															break;
 														}
 													}
 													else {
-														if (!feature.isNegation() && booleanValue == true) {
-															found = false;
+														if (!feature.isNegation() && booleanValue == false) {
+															one = true;
 															break;
 														}
-														else if (feature.isNegation() && booleanValue == false) {
-															found = false;
+														else if (feature.isNegation() && booleanValue == true) {
+															one = true;
 															break;
 														}
 													}
 												}
 											}
-											if (feature.getValue().equals("null") && v != null) {
-												found = false;
+											if (feature.getValue().equals("null") && v == null) {
+												one = true;
 												break;
 											}
 										}
 									}
-								}
-								if (value instanceof List<?>) {
-									List<EObject> values = (List<EObject>) value;
-									if (feature.getRefFeature() == null && feature.getValue() == null && values.size() == 0) {
+									if (one == false) {
+										found = false;
 										break;
 									}
-									if (feature.getRefFeature() != null) {
-										boolean one = false;
-										for (EObject ob : values) {
-											EStructuralFeature eRefFeat = feature.getRefFeature();
-											EStructuralFeature eRefFeature = null;
-											for (EStructuralFeature eFeature : ob.eClass().getEAllStructuralFeatures()) {
-												if (EcoreUtil.equals(eRefFeat, eFeature)) {
-													eRefFeature = eFeature;
-												}
-											}
-											if (eRefFeature != null) {
-												Object v = ob.eGet(eRefFeature);
-												if (v != null) {
-													if (v instanceof Boolean) {
-														Boolean booleanValue = (Boolean) v; 
-														if (order == true) {
-															if (feature.isNegation() && booleanValue == false) {
-																one = true;
-																break;
-															}
-															else if (!feature.isNegation() && booleanValue == true) {
-																one = true;
-																break;
-															}
-														}
-														else {
-															if (!feature.isNegation() && booleanValue == false) {
-																one = true;
-																break;
-															}
-															else if (feature.isNegation() && booleanValue == true) {
-																one = true;
-																break;
-															}
-														}
-													}
-												}
-												if (feature.getValue().equals("null") && v == null) {
-													one = true;
-													break;
-												}
-											}
-										}
-										if (one == false) {
-											found = false;
-											break;
-										}
-									}
-								}
-								if (feature.getValue() != null && feature.getValue().equals("null") && feature.getRefFeature() == null && value != null) {
-									found = false;
-									break;
 								}
 							}
-							if (found == true) {
-								return element;
+							if (feature.getValue() != null && feature.getValue().equals("null") && feature.getRefFeature() == null && value != null) {
+								found = false;
+								break;
 							}
+						}
+						if (found == true) {
+							return element;
 						}
 					}
 				}
@@ -330,6 +333,9 @@ public class WodelEduUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static List<Element> getAllElementValues(EObject object, Resource model) {
+		if (object == null || model == null) {
+		    return null;
+		}
 		List<EClass> types = new ArrayList<EClass>();
 		types.add(object.eClass());
 		types.addAll(object.eClass().getEAllSuperTypes());
@@ -337,23 +343,21 @@ public class WodelEduUtils {
 		Iterator<EObject> objects = model.getAllContents();
 		
 		List<Element> elements = new ArrayList<Element>();
-		if (object != null) {
-			objects = model.getAllContents();
-			while (objects.hasNext()) {
-				EObject obj = objects.next();
-				if (obj instanceof Element) {
-					Element element = (Element) obj;
-					EClass type = element.getType();
-					for (EClass t : types) { 
-						if (type.getName().equals(t.getName())) {
-							if (element.getFeature() == null || element.getFeature().size() == 0) {
-								Element emptyElement = ModeltextFactory.eINSTANCE.createElement();
-								emptyElement.setType(t);
-								elements.add(emptyElement);
-								continue;
-							}
-							elements.add(element);
+		objects = model.getAllContents();
+		while (objects.hasNext()) {
+			EObject obj = objects.next();
+			if (obj instanceof Element) {
+				Element element = (Element) obj;
+				EClass type = element.getType();
+				for (EClass t : types) { 
+					if (type.getName().equals(t.getName())) {
+						if (element.getFeature() == null || element.getFeature().size() == 0) {
+							Element emptyElement = ModeltextFactory.eINSTANCE.createElement();
+							emptyElement.setType(t);
+							elements.add(emptyElement);
+							continue;
 						}
+						elements.add(element);
 					}
 				}
 			}
@@ -366,6 +370,9 @@ public class WodelEduUtils {
 	 * DSL modelText
 	 */
 	public static Element getRefElement(EObject object, EStructuralFeature feature, Resource model) {
+		if (object == null || feature == null ||model == null) {
+		    return null;
+		}
 		EObject o = object;
 		if (object.eIsProxy()) {
 			o = EcoreUtil.resolve(object, model.getResourceSet());

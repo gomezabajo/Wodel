@@ -85,6 +85,7 @@ import mutatorenvironment.Block;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SpecificObjectSelection;
+import wodeledu.utils.manager.WodelEduManager;
 import wodeledu.utils.manager.WodelEduUtils;
 
 public abstract class EduTestSuperGenerator extends AbstractGenerator {
@@ -5671,7 +5672,7 @@ public abstract class EduTestSuperGenerator extends AbstractGenerator {
 								}
 								List<Integer> random = new ArrayList<Integer>();
 								for (int k = 0; k < size; k++) {
-									int rndIndex = ModelManager.getRandomIndex(sorted);
+									int rndIndex = WodelEduManager.getRandomIndex(sorted);
 									int rnd = sorted.get(rndIndex);
 									random.add(rnd);
 									sorted.remove(rndIndex);
@@ -5880,7 +5881,7 @@ public abstract class EduTestSuperGenerator extends AbstractGenerator {
 //				System.out.println(reg.seed.getURI());
 //				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
 //				newReg.history = new ArrayList<Resource>();
-//				int rnd = ModelManager.getRandomIndex(reg.mutants);
+//				int rnd = WodelEduManager.getRandomIndex(reg.mutants);
 //				newReg.mutants.add(reg.mutants.get(rnd));
 //				newReg.history.add(reg.history.get(rnd));
 //				System.out.println(newReg.mutants.get(0).getKey().getURI());
@@ -6020,7 +6021,7 @@ public abstract class EduTestSuperGenerator extends AbstractGenerator {
 //								else {
 //									indexes.remove(Integer.valueOf(k));
 //									if (indexes.size() > 0) {
-//										int index = ModelManager.getRandomIndex(indexes);
+//										int index = WodelEduManager.getRandomIndex(indexes);
 //										k = indexes.get(index);
 //									}
 //								}
@@ -6041,7 +6042,7 @@ public abstract class EduTestSuperGenerator extends AbstractGenerator {
 //							opts.add(opt);
 ////							for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(k))) {
 ////								if (wrongRegistry.mutants.size() > 0) {
-////									k = ModelManager.getRandomIndex(wrongRegistry.mutants);
+////									k = WodelEduManager.getRandomIndex(wrongRegistry.mutants);
 ////									opt = new TestOption();
 ////									opt.path = "diagrams" + wrongRegistry.mutants.get(k).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
 ////									opt.resource = wrongRegistry.history.get(k);
@@ -6194,7 +6195,7 @@ public abstract class EduTestSuperGenerator extends AbstractGenerator {
 								else {
 									indexes.remove(Integer.valueOf(k));
 									if (indexes.size() > 0) {
-										int index = ModelManager.getRandomIndex(indexes);
+										int index = WodelEduManager.getRandomIndex(indexes);
 										k = indexes.get(index);
 									}
 								}

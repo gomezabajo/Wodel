@@ -1,0 +1,13 @@
+package wodel.dsls.generator.mutators
+
+import mutatorenvironment.Mutator
+import mutatorenvironment.MutatorEnvironment
+import mutatorenvironment.Block
+import java.util.List
+import org.eclipse.emf.common.util.URI
+import mutatorenvironment.Program
+import org.eclipse.core.resources.IProject
+
+interface IWodelGeneratorGenericOperatorExhaustiveMutator {
+	def CharSequence apply(Mutator mut, MutatorEnvironment e, Block b, String methodName, List<Integer> nMutation, List<Integer> nMethodCall, List<Integer> nRegistryMutation, List<Integer> nRegistryMethodCall, boolean executeMutation, boolean last, String className, URI fileURI, Program program, IProject project, boolean standalone)
+}

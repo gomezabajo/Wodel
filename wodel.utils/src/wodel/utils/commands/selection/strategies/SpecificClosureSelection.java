@@ -26,7 +26,7 @@ public class SpecificClosureSelection extends SpecificSelection{
 	/**
 	 * Object to select
 	 */
-	private EObject obj;
+	//private EObject obj;
 	
 	private List<EObject> objs;
 	
@@ -172,6 +172,7 @@ public class SpecificClosureSelection extends SpecificSelection{
 				}
 			}
 		}
+		ModelManager.sortEObjectsDeterministically(ret);
 		return ret;
 	}
 
@@ -277,6 +278,7 @@ public class SpecificClosureSelection extends SpecificSelection{
 				}
 			}
 		}
+		ModelManager.sortEObjectsDeterministically(objects);
 		return objects;
 	}
 }

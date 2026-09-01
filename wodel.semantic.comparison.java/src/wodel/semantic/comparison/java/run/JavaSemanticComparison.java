@@ -32,7 +32,7 @@ import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.AcceleoUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
-import wodel.utils.manager.WodelTestUtils;
+import wodel.utils.manager.WodelUtils;
 import wodel.project.builder.WodelNature;
 
 public class JavaSemanticComparison extends SemanticComparison {
@@ -114,7 +114,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 		File srcFile = new File(path);
 		if (srcFile != null && srcFile.exists() && srcFile.isFile()) {
 			String bytecodePath = getBytecodePath(project, javaProject, srcFile, packageName);
-			boolean bytecodeGenerated = WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
+			boolean bytecodeGenerated = WodelUtils.awaitFile(bytecodePath, TIME_SLEEP);
 			if (!bytecodeGenerated) {
 				return byteArray;
 			}

@@ -1,558 +1,690 @@
 package wodeledu.dsls.generator
 
-import modeldraw.MutatorDraw
-import wodel.utils.manager.ModelManager
-import wodel.utils.manager.JavaUtils
-import org.eclipse.xtext.generator.AbstractGenerator
-import java.util.List
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
+import java.util.List
+
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import wodel.utils.manager.ProjectUtils
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
 
+import modeldraw.MutatorDraw
+import wodel.utils.manager.JavaUtils
+import wodel.utils.manager.ModelManager
+
+/**
+ * @author Pablo Gomez-Abajo - modelDraw Python code generator.
+ *
+ * Generates Java code that renders model instances as Python source and
+ * syntax-highlighted HTML. Runtime paths are resolved by the generated class;
+ * no workspace-specific locations are embedded at generation time.
+ */
 class ModelDrawPyCodeGenerator extends AbstractGenerator {
-	private String fileName
-	private String className
-	private List<EPackage> metamodel
-	private List<EClass> roots
-	
-	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		var i = 0;
-		fileName = resource.URI.lastSegment
-		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
-		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
-			if (i == 0) {
-				fileName = fileName.replace(".draw", "") + 'Draw.java'
-			}
-			else {
-				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
-			}
-			metamodel = new ArrayList<EPackage>()
-			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
-			roots = new ArrayList<EClass>()
-			roots.addAll(ModelManager.getRootEClasses(metamodel))
-			className = fileName.replaceAll("Draw.java", "")
-     		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
-			i++
-		}
-	}
-	
-	def static IProject projectOf(Resource r) {
-		val uri = r?.URI
-		if (uri !== null && uri.platformResource) {
-			val projectName = uri.segment(1) // platform:/resource/<project>/...
-			return ResourcesPlugin.workspace.root.getProject(projectName)
-		}
-		null
-	}
-	
-	def compile(MutatorDraw draw) '''
-		//«var IProject project = projectOf(draw.eResource)»
-		«{project = project !== null ? project : ProjectUtils.getProject; ""}» 
-		//«var String folder = project.getLocation.toFile.getPath.replace("\\", "/") + "/"»
-		
-		package mutator.«className»;
-			
-			import java.io.BufferedReader;
-			import java.io.File;
-			import java.io.FileNotFoundException;
-			import java.io.FileReader;
-			import java.io.PrintWriter;
-			import java.io.IOException;
-			import java.io.UnsupportedEncodingException;
-			import java.lang.InterruptedException;
-			import java.util.Arrays;
-			import java.util.ArrayList;
-			import java.util.HashMap;
-			import java.util.Map;
-			import java.util.LinkedHashMap;
-			import java.util.List;
-			
-			import org.eclipse.emf.ecore.EAttribute;
-			import org.eclipse.emf.ecore.EClass;
-			import org.eclipse.emf.ecore.EEnum;
-			import org.eclipse.emf.ecore.EEnumLiteral;
-			import org.eclipse.emf.ecore.EObject;
-			import org.eclipse.emf.ecore.EPackage;
-			import org.eclipse.emf.ecore.EReference;
-			import org.eclipse.emf.ecore.EStructuralFeature;
-			import org.eclipse.emf.ecore.resource.Resource;
-			import org.eclipse.emf.ecore.util.EcoreUtil;
-			
-			import wodel.utils.exceptions.MetaModelNotFoundException;
-			import wodel.utils.exceptions.ModelNotFoundException;
-			import wodel.utils.manager.ProjectUtils;
-			import wodel.utils.manager.ModelManager;
-			import wodel.utils.manager.Py2Code;
-			import wodel.utils.manager.DrawUtils.LabelStyle;
-			
-			import org.eclipse.core.runtime.IProgressMonitor;
-				
-			import java.lang.reflect.InvocationTargetException;
-				
-			import org.eclipse.core.commands.AbstractHandler;
-			
-			import org.eclipse.core.commands.ExecutionEvent;
-			import org.eclipse.core.commands.ExecutionException;
-				
-			import org.eclipse.core.resources.IProject;
-				
-			import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-			import org.eclipse.jface.operation.IRunnableWithProgress;
-				
-			import org.eclipse.swt.widgets.Display;
-			import org.eclipse.swt.widgets.Shell;
-			
-			import org.jsoup.Jsoup;
-			import org.jsoup.nodes.Document;
-				
-			public class «className»Draw extends AbstractHandler implements wodeledu.extension.run.commands.IMutatorDraw {
-					
-				private class RunMutatorPyCodeWithProgress implements IRunnableWithProgress {
-				
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					try {
-						generate(monitor);
-					}
-					catch (MetaModelNotFoundException e) {
-						e.printStackTrace();
-					}
-					catch (ModelNotFoundException e) {
-						e.printStackTrace();
-					}
-					catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-					
-			public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
-									
-				String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-									
-				List<String> models = ModelManager.getModels(«className»Draw.class);
-				List<String> mutants = ModelManager.getMutants(«className»Draw.class);
-													
-				int totalTasks = models.size() + mutants.size();
-		
-				monitor.beginTask("Rendering models", totalTasks);
-				
-				// GENERATES Py code programs FROM SOURCE MODELS
-				File folder = new File("«folder»data/model");
-				for (File file : folder.listFiles()) {
-					if (file.isFile()) {
-						String pathfile = file.getPath();
-						if (pathfile.endsWith(".model") == true) {
-							String printPathfile = pathfile.replace("\\", "/");
-							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
-							monitor.subTask("Generating python code for mutant" + printPathfile);
-							Resource model = ModelManager.loadModel(packages, pathfile);
-							String path = file.getName().replace(".model", "") + "/";
-							String pycodefile = "«folder»src-gen/html/code/" + 
-								path + 
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".py");
-							String htmlfile = "«folder»src-gen/html/code/" + 
-								path + 
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".html");
-							String batfile = "«folder»src-gen/html/code/" + 
-								path + 
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
-							File pyfolder = new File("«folder»src-gen/html/code/" + 
-								path);
-							if (pyfolder.exists() != true) {
-								pyfolder.mkdirs();
-							}
-							PrintWriter pywriter = null;
-							try {
-								pywriter = new PrintWriter(pycodefile, "UTF-8");
-								String program = Py2Code.toPython(ModelManager.getRoot(model));
-								pywriter.println(program);
-								pywriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {
-								}
-								continue;
-							}
-							PrintWriter batwriter = null;
-							try {
-								batwriter = new PrintWriter(batfile, "UTF-8");
-								batwriter.println("cd \\");
-								batwriter.println("cd «folder»src-gen/html/code/" + file.getName().replace(".model", "") + "/");
-								batwriter.println("pygmentize -O full,style=emacs,linenos=1 -o «roots.get(0).name»_" + file.getName().replace(".model", ".html") + " «roots.get(0).name»_" + file.getName().replace(".model", ".py"));
-								batwriter.println("exit");
-								batwriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {}
-								continue;
-							}
-							String[] command = {"cmd", "/c", batfile};
-							try {
-								Process proc = Runtime.getRuntime().exec(command);
-								proc.waitFor(); 
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							BufferedReader br = new BufferedReader(new FileReader(htmlfile));
-							Document doc = null; 
-							try {
-							    StringBuilder sb = new StringBuilder();
-							    String line = br.readLine();
-							
-							    while (line != null) {
-							        sb.append(line);
-							        sb.append(System.lineSeparator());
-							        line = br.readLine();
-							    }
-							    String html = sb.toString();
-							    doc = Jsoup.parse(html);
-							} catch (Exception e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {
-								}
-								continue;
-							} finally {
-								try {
-									br.close();
-							    } catch (IOException e) {
-							    	// TODO Auto-generated catch block
-							    	e.printStackTrace();
-							    }
-							}
-							PrintWriter htmlwriter = null;
-							//try {
-								//htmlwriter = new PrintWriter(htmlfile, "UTF-8");
-								//htmlwriter.println(doc.toString());
-								//htmlwriter.close();
-							//} catch (UnsupportedEncodingException e) {
-								//Reload input
-								//try {
-									//model.unload();
-									//model.load(null);
-								//} catch (Exception ex) {
-								//}
-								//continue;
-							//}
-							
-							//Reload input
-							try {
-								model.unload();
-								model.load(null);
-							} catch (Exception e) {
-							}
-							monitor.worked(1);
-						}
-					}
-				}
-							
-							
-		// GENERATES Python Code FROM MUTANTS
-		folder = new File("«folder»data/out");
-		for (File exercise : folder.listFiles()) {
-			if (exercise.isDirectory()) {
-				for (File file : exercise.listFiles()) {
-					if (file.isFile()) {
-						String pathfile = file.getPath();
-						if (pathfile.endsWith(".model") == true) {
-							String printPathfile = pathfile.replace("\\", "/");
-							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
-							monitor.subTask("Generating python code for mutant " + printPathfile);
-							Resource model = ModelManager.loadModel(packages, pathfile);
-							String path = exercise.getName() + "/";
-							String pycodefile = "«folder»src-gen/html/code/" + path +
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".py");
-							String htmlfile = "«folder»src-gen/html/code/" + path +
-								"«roots.get(0).name»_" + file.getName().replace(".model", ".html");
-							String batfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
-							File pyfolder = new File("«folder»src-gen/html/code/" + path);
-							if (pyfolder.exists() != true) {
-								pyfolder.mkdirs();
-							}
-							PrintWriter pywriter = null;
-							try {
-								pywriter = new PrintWriter(pycodefile, "UTF-8");
-								String program = Py2Code.toPython(ModelManager.getRoot(model));
-								pywriter.println(program);
-								pywriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {
-								}
-								continue;
-							}
-							PrintWriter batwriter = null;
-							try {
-								batwriter = new PrintWriter(batfile, "UTF-8");
-								batwriter.println("cd \\");
-								batwriter.println("cd «folder»src-gen/html/code/" + exercise.getName() + "/");
-								batwriter.println("pygmentize -O full,style=emacs,linenos=1 -o «roots.get(0).name»_" + file.getName().replace(".model", ".html") + " «roots.get(0).name»_" + file.getName().replace(".model", ".py"));
-								batwriter.println("exit");
-								batwriter.close();
-							} catch (UnsupportedEncodingException e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {}
-								continue;
-							}
-							String[] command = {"cmd", "/c", batfile};
-							try {
-								Process proc = Runtime.getRuntime().exec(command);
-								proc.waitFor(); 
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							
-							BufferedReader br = new BufferedReader(new FileReader(htmlfile));
-							Document doc = null; 
-							try {
-							    StringBuilder sb = new StringBuilder();
-							    String line = br.readLine();
-							
-							    while (line != null) {
-							        sb.append(line);
-							        sb.append(System.lineSeparator());
-							        line = br.readLine();
-							    }
-							    String html = sb.toString();
-							    doc = Jsoup.parse(html);
-							} catch (Exception e) {
-								//Reload input
-								try {
-									model.unload();
-									model.load(null);
-								} catch (Exception ex) {
-								}
-								continue;
-							} finally {
-							    try {
-									br.close();
-							    } catch (IOException e) {
-							    	// TODO Auto-generated catch block
-							    	e.printStackTrace();
-							    }
-							}
-							PrintWriter htmlwriter = null;
-							//try {
-								//htmlwriter = new PrintWriter(htmlfile, "UTF-8");
-								//htmlwriter.println(doc.toString());
-								//htmlwriter.close();
-							//} catch (UnsupportedEncodingException e) {
-								//Reload input
-								//try {
-									//model.unload();
-									//model.load(null);
-								//} catch (Exception ex) {
-								//}
-								//continue;
-							//}
-							//Reload input
-							try {
-								model.unload();
-								model.load(null);
-							} catch (Exception e) {
-							}
-							monitor.worked(1);
-						}
-						else {
-							if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-								File[] filesBlock = file.listFiles();
-								for (File fileBlock : filesBlock) {
-									generatePyCode(fileBlock, packages, exercise, monitor);
-								}
-							}
-						}
-					}
-					else {
-						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-							File[] filesBlock = file.listFiles();
-							for (File fileBlock : filesBlock) {
-								generatePyCode(fileBlock, packages, exercise, monitor);
-							}
-						}
-					}
-				}
-			}
-		}
-		}
-	}
-		public void generatePyCode(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
-			if (file.isFile()) {
-				String pathfile = file.getPath();
-				if (pathfile.endsWith(".model") == true) {
-					String printPathfile = pathfile.replace("\\", "/");
-					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
-					monitor.subTask("Generating python code for mutant " + printPathfile);
-					Resource model = ModelManager.loadModel(packages, pathfile);
-					String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
-					String pycodefile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".py");
-					String htmlfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".html");
-					String batfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
-					File exercisefolder = new File("«folder»src-gen/html/code/" + path);
-					if (exercisefolder.exists() != true) {
-						exercisefolder.mkdirs();
-					}
-					PrintWriter pywriter = null;
-					try {
-						pywriter = new PrintWriter(pycodefile, "UTF-8");
-						String program = Py2Code.toPython(ModelManager.getRoot(model));
-						pywriter.println(program);
-						pywriter.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					PrintWriter batwriter = null;
-					try {
-						batwriter = new PrintWriter(batfile, "UTF-8");
-						batwriter.println("cd \\");
-						batwriter.println("cd «folder»src-gen/html/code/" + path);
-						batwriter.println("pygmentize -O full,style=emacs,linenos=1 -o «roots.get(0).name»_" + file.getName().replace(".model", ".html") + " «roots.get(0).name»_" + file.getName().replace(".model", ".py"));
-						batwriter.println("exit");
-						batwriter.close();
-					} catch (UnsupportedEncodingException e) {
-						//Reload input
-						try {
-							model.unload();
-							model.load(null);
-						} catch (Exception ex) {}
-					}
-					String[] command = {"cmd", "/c", batfile};
-					try {
-						Process proc = Runtime.getRuntime().exec(command);
-						proc.waitFor(); 
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					BufferedReader br = new BufferedReader(new FileReader(htmlfile));
-					Document doc = null; 
-					try {
-						StringBuilder sb = new StringBuilder();
-						String line = br.readLine();
-						while (line != null) {
-							sb.append(line);
-							sb.append(System.lineSeparator());
-							line = br.readLine();
-						}
-						String html = sb.toString();
-						doc = Jsoup.parse(html);
-					} catch (Exception e) {
-						//Reload input
-						try {
-							model.unload();
-							model.load(null);
-						} catch (Exception ex) {
-						}
-					} finally {
-						try {
-							br.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					PrintWriter htmlwriter = null;
-					//try {
-						//htmlwriter = new PrintWriter(htmlfile, "UTF-8");
-						//htmlwriter.println(doc.toString());
-						//htmlwriter.close();
-					//} catch (UnsupportedEncodingException e) {
-						//Reload input
-						//try {
-							//model.unload();
-							//model.load(null);
-						//} catch (Exception ex) {
-						//}
-					//}
-					try {
-						model.unload();
-						model.load(null);
-					} catch (Exception e) {
-					}
-					monitor.worked(1);
-				}
-			}
-			else {
-				generatePyCodeRecursive(file, packages, exercise, monitor);
-			}
-		}
-		
-		private void generatePyCodeRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException {
-			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-				File[] filesInBlock = file.listFiles();
-				if (filesInBlock != null && filesInBlock.length > 0) {
-					for (File fileInBlock : filesInBlock) {
-						if (fileInBlock.isFile()) {
-							generatePyCode(fileInBlock, packages, exercise, monitor);
-						}
-						else {
-							generatePyCodeRecursive(fileInBlock, packages, exercise, monitor);
-						}
-					}
-				}
-			}
-		}
-		
-		@Override
-		public Object execute(ExecutionEvent event) throws ExecutionException {
-			try {
-				RunMutatorPyCodeWithProgress runMutatorPyCodeWithProgress = new RunMutatorPyCodeWithProgress();
-				ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
-				monitor.run(true, true, runMutatorPyCodeWithProgress);
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-		@Override
-		public void run() {
-			try {
-				execute(null);
-			}
-			catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	'''
+    private String fileName
+    private String className
+    private List<EPackage> metamodel
+    private List<EClass> roots
+    private String rootName
+    private String metamodelFileName
+
+    private def String lastSegment(String value) {
+        if (value === null || value.empty) {
+            return ""
+        }
+        val normalized = value.replace("\\", "/")
+        val slash = normalized.lastIndexOf("/")
+        if (slash >= 0) normalized.substring(slash + 1) else normalized
+    }
+
+    private def String baseName(String value) {
+        if (value === null || value.empty) {
+            return "Model"
+        }
+        var name = value
+        if (name.endsWith(".draw")) {
+            name = name.substring(0, name.length - ".draw".length)
+        }
+        name.replace(".", "_")
+    }
+
+    private def String javaString(String value) {
+        if (value === null) {
+            return ""
+        }
+        value.replace("\\", "\\\\").replace("\"", "\\\"")
+    }
+
+    override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+        val sourceBaseName = baseName(resource?.URI?.lastSegment)
+        var index = 0
+
+        for (draw : resource.allContents.toIterable.filter(MutatorDraw)) {
+            val generatedBaseName = if (index == 0) sourceBaseName else sourceBaseName + index
+
+            className = generatedBaseName
+            fileName = generatedBaseName + "Draw.java"
+
+            metamodel = new ArrayList<EPackage>()
+            metamodel.addAll(ModelManager.loadMetaModel(draw.metamodel))
+
+            roots = new ArrayList<EClass>()
+            roots.addAll(ModelManager.getRootEClasses(metamodel))
+            rootName = if (roots.empty) "Model" else roots.get(0).name
+            metamodelFileName = lastSegment(draw.metamodel)
+
+            fsa.generateFile(
+                "mutator/" + className + "/" + fileName,
+                JavaUtils.format(draw.compile, false)
+            )
+
+            index++
+        }
+    }
+
+    def compile(MutatorDraw draw) '''
+        package mutator.«className»;
+
+        import java.io.BufferedReader;
+        import java.io.File;
+        import java.io.IOException;
+        import java.lang.reflect.InvocationTargetException;
+        import java.net.URISyntaxException;
+        import java.nio.charset.StandardCharsets;
+        import java.nio.file.Files;
+        import java.nio.file.Path;
+        import java.util.Collections;
+        import java.util.List;
+        import java.util.concurrent.TimeUnit;
+
+        import org.eclipse.core.commands.AbstractHandler;
+        import org.eclipse.core.commands.ExecutionEvent;
+        import org.eclipse.core.commands.ExecutionException;
+        import org.eclipse.core.resources.IProject;
+        import org.eclipse.core.runtime.IProgressMonitor;
+        import org.eclipse.core.runtime.NullProgressMonitor;
+        import org.eclipse.core.runtime.Platform;
+        import org.eclipse.emf.ecore.EObject;
+        import org.eclipse.emf.ecore.EPackage;
+        import org.eclipse.emf.ecore.resource.Resource;
+        import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+        import org.eclipse.jface.operation.IRunnableWithProgress;
+        import org.eclipse.swt.widgets.Shell;
+        import org.eclipse.ui.handlers.HandlerUtil;
+
+        import wodel.utils.exceptions.MetaModelNotFoundException;
+        import wodel.utils.exceptions.ModelNotFoundException;
+        import wodel.utils.manager.ModelManager;
+        import wodel.utils.manager.ProjectUtils;
+        import wodel.utils.manager.Py2Code;
+
+        public class «className»Draw extends AbstractHandler
+                implements wodeledu.extension.run.commands.IMutatorDraw {
+
+            private static final String MODEL_EXTENSION = ".model";
+            private static final String ECORE_EXTENSION = ".ecore";
+            private static final String ROOT_NAME = "«javaString(rootName)»";
+            private static final String METAMODEL_FILE_NAME = "«javaString(metamodelFileName)»";
+
+            /*
+             * Reuse the generic Model-Draw renderer preference when it happens
+             * to identify a pygmentize executable or a directory containing it.
+             * Otherwise pygmentize is resolved from PATH.
+             */
+            private static final String RENDERER_PLUGIN_ID = "wodeledu.dsls.EduTest";
+            private static final String RENDERER_PREFERENCE = "Model-Draw renderer path";
+
+            private static final class ProjectFolders {
+                final File modelDirectory;
+                final File mutantDirectory;
+
+                ProjectFolders(File modelDirectory, File mutantDirectory) {
+                    this.modelDirectory = modelDirectory;
+                    this.mutantDirectory = mutantDirectory;
+                }
+            }
+
+            private final class RunMutatorPyCodeWithProgress
+                    implements IRunnableWithProgress {
+
+                @Override
+                public void run(IProgressMonitor monitor)
+                        throws InvocationTargetException, InterruptedException {
+                    try {
+                        generate(monitor);
+                    }
+                    catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw e;
+                    }
+                    catch (Exception e) {
+                        throw new InvocationTargetException(e);
+                    }
+                }
+            }
+
+            private File resolveProjectDirectory() throws IOException {
+                try {
+                    File location = new File(
+                            «className»Draw.class
+                                .getProtectionDomain()
+                                .getCodeSource()
+                                .getLocation()
+                                .toURI()
+                    );
+
+                    if (location.isFile()) {
+                        location = location.getParentFile();
+                    }
+                    if (location != null && "bin".equals(location.getName())) {
+                        location = location.getParentFile();
+                    }
+                    else if (location != null
+                            && "classes".equals(location.getName())
+                            && location.getParentFile() != null
+                            && "target".equals(location.getParentFile().getName())) {
+                        location = location.getParentFile().getParentFile();
+                    }
+
+                    if (location != null && location.isDirectory()) {
+                        return location.getCanonicalFile();
+                    }
+                }
+                catch (URISyntaxException e) {
+                    // Fall through to the Eclipse workspace lookup below.
+                }
+
+                IProject project = ProjectUtils.getProject();
+                if (project != null && project.getLocation() != null) {
+                    return project.getLocation().toFile().getCanonicalFile();
+                }
+
+                throw new IOException(
+                        "Cannot determine the Wodel-EDU project directory for "
+                        + «className»Draw.class.getName()
+                );
+            }
+
+            private ProjectFolders readProjectFolders(File projectDirectory)
+                    throws IOException {
+
+                File configFile = new File(
+                        projectDirectory,
+                        "data/config/config.txt"
+                );
+
+                if (!configFile.isFile()) {
+                    throw new IOException(
+                            "Cannot find Wodel configuration file: " + configFile
+                    );
+                }
+
+                try (BufferedReader reader = Files.newBufferedReader(
+                        configFile.toPath(),
+                        StandardCharsets.UTF_8
+                )) {
+                    String modelFolder = reader.readLine();
+                    String mutantFolder = reader.readLine();
+
+                    if (modelFolder == null || modelFolder.isBlank()
+                            || mutantFolder == null || mutantFolder.isBlank()) {
+                        throw new IOException(
+                                "Invalid Wodel configuration file: " + configFile
+                        );
+                    }
+
+                    return new ProjectFolders(
+                            new File(projectDirectory, modelFolder).getCanonicalFile(),
+                            new File(projectDirectory, mutantFolder).getCanonicalFile()
+                    );
+                }
+            }
+
+            private File resolveMetamodelFile(File modelDirectory)
+                    throws IOException {
+
+                if (METAMODEL_FILE_NAME != null
+                        && !METAMODEL_FILE_NAME.isBlank()) {
+                    File expected = new File(
+                            modelDirectory,
+                            METAMODEL_FILE_NAME
+                    );
+                    if (expected.isFile()) {
+                        return expected;
+                    }
+                }
+
+                File[] files = modelDirectory.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        if (file.isFile()
+                                && file.getName().endsWith(ECORE_EXTENSION)) {
+                            return file;
+                        }
+                    }
+                }
+
+                throw new IOException(
+                        "Cannot find an Ecore metamodel in " + modelDirectory
+                );
+            }
+
+            private String resolvePygmentizeExecutable() {
+                String rendererPath = Platform.getPreferencesService().getString(
+                        RENDERER_PLUGIN_ID,
+                        RENDERER_PREFERENCE,
+                        "",
+                        null
+                );
+
+                if (rendererPath != null && !rendererPath.isBlank()) {
+                    File configured = new File(rendererPath).getAbsoluteFile();
+
+                    if (configured.isFile()) {
+                        String name = configured.getName().toLowerCase();
+                        if (name.startsWith("pygmentize")) {
+                            return configured.getAbsolutePath();
+                        }
+                    }
+
+                    if (configured.isDirectory()) {
+                        String executableName = isWindows()
+                                ? "pygmentize.exe"
+                                : "pygmentize";
+                        File executable = new File(
+                                configured,
+                                executableName
+                        );
+                        if (executable.isFile()) {
+                            return executable.getAbsolutePath();
+                        }
+                    }
+                }
+
+                String systemProperty = System.getProperty("wodel.pygmentize");
+                if (systemProperty != null && !systemProperty.isBlank()) {
+                    return systemProperty;
+                }
+
+                String environment = System.getenv("WODEL_PYGMENTIZE");
+                if (environment != null && !environment.isBlank()) {
+                    return environment;
+                }
+
+                return isWindows() ? "pygmentize.exe" : "pygmentize";
+            }
+
+            private boolean isWindows() {
+                return System.getProperty("os.name", "")
+                        .toLowerCase()
+                        .contains("win");
+            }
+
+            private void renderHighlightedHtml(
+                    File pythonFile,
+                    File htmlFile,
+                    File workingDirectory,
+                    IProgressMonitor monitor)
+                    throws IOException, InterruptedException {
+
+                checkCanceled(monitor);
+
+                ProcessBuilder processBuilder = new ProcessBuilder(
+                        resolvePygmentizeExecutable(),
+                        "-O",
+                        "full,style=emacs,linenos=1",
+                        "-o",
+                        htmlFile.getAbsolutePath(),
+                        pythonFile.getAbsolutePath()
+                );
+
+                processBuilder.directory(workingDirectory);
+                processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+                processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+
+                Process process;
+                try {
+                    process = processBuilder.start();
+                }
+                catch (IOException e) {
+                    throw new IOException(
+                            "Cannot start Pygments 'pygmentize'. "
+                            + "Install Pygments or configure the Model-Draw renderer path. "
+                            + "Resolved command: "
+                            + resolvePygmentizeExecutable(),
+                            e
+                    );
+                }
+
+                try {
+                    while (!process.waitFor(200, TimeUnit.MILLISECONDS)) {
+                        checkCanceled(monitor);
+                    }
+
+                    int exitCode = process.exitValue();
+                    if (exitCode != 0) {
+                        throw new IOException(
+                                "Pygments failed with exit code " + exitCode
+                                + " while rendering " + pythonFile
+                        );
+                    }
+                }
+                catch (InterruptedException e) {
+                    if (process.isAlive()) {
+                        process.destroyForcibly();
+                    }
+                    Thread.currentThread().interrupt();
+                    throw e;
+                }
+
+                if (!htmlFile.isFile()) {
+                    throw new IOException(
+                            "Pygments completed without creating HTML output: "
+                            + htmlFile
+                    );
+                }
+            }
+
+            private void renderModel(
+                    File modelFile,
+                    List<EPackage> packages,
+                    File outputDirectory,
+                    File projectDirectory,
+                    IProgressMonitor monitor,
+                    boolean mutant)
+                    throws MetaModelNotFoundException,
+                           ModelNotFoundException,
+                           IOException,
+                           InterruptedException {
+
+                if (modelFile == null
+                        || !modelFile.isFile()
+                        || !modelFile.getName().endsWith(MODEL_EXTENSION)) {
+                    return;
+                }
+
+                checkCanceled(monitor);
+                ensureDirectory(outputDirectory);
+
+                String displayPath = safeRelativize(
+                        projectDirectory.toPath().toAbsolutePath().normalize(),
+                        modelFile.toPath().toAbsolutePath().normalize()
+                );
+
+                monitor.subTask(
+                        "Generating Python code for "
+                        + (mutant ? "mutant " : "model ")
+                        + displayPath
+                );
+
+                Resource model = null;
+                try {
+                    model = ModelManager.loadModel(
+                            packages,
+                            modelFile.getAbsolutePath()
+                    );
+
+                    EObject root = ModelManager.getRoot(model);
+                    if (root == null) {
+                        throw new IOException(
+                                "Cannot determine model root for " + modelFile
+                        );
+                    }
+
+                    String program = Py2Code.toPython(root);
+                    if (program == null) {
+                        throw new IOException(
+                                "Python code generation returned null for " + modelFile
+                        );
+                    }
+
+                    String outputBaseName = ROOT_NAME
+                            + "_"
+                            + stripExtension(modelFile.getName());
+
+                    File pythonFile = new File(
+                            outputDirectory,
+                            outputBaseName + ".py"
+                    );
+                    File htmlFile = new File(
+                            outputDirectory,
+                            outputBaseName + ".html"
+                    );
+
+                    Files.writeString(
+                            pythonFile.toPath(),
+                            program,
+                            StandardCharsets.UTF_8
+                    );
+
+                    renderHighlightedHtml(
+                            pythonFile,
+                            htmlFile,
+                            outputDirectory,
+                            monitor
+                    );
+
+                    monitor.worked(1);
+                }
+                finally {
+                    if (model != null && model.isLoaded()) {
+                        model.unload();
+                    }
+                }
+            }
+
+            public void generate(IProgressMonitor progressMonitor)
+                    throws MetaModelNotFoundException,
+                           ModelNotFoundException,
+                           IOException,
+                           InterruptedException {
+
+                IProgressMonitor monitor = progressMonitor != null
+                        ? progressMonitor
+                        : new NullProgressMonitor();
+
+                File projectDirectory = resolveProjectDirectory();
+                ProjectFolders folders = readProjectFolders(projectDirectory);
+                File metamodelFile = resolveMetamodelFile(folders.modelDirectory);
+
+                File codeDirectory = new File(
+                        projectDirectory,
+                        "src-gen/html/code"
+                );
+                ensureDirectory(codeDirectory);
+
+                List<EPackage> packages =
+                        ModelManager.loadMetaModel(metamodelFile.getAbsolutePath());
+
+                List<String> models = ModelManager.getModels(«className»Draw.class);
+                List<String> mutants = ModelManager.getMutants(«className»Draw.class);
+
+                if (models == null) {
+                    models = Collections.emptyList();
+                }
+                if (mutants == null) {
+                    mutants = Collections.emptyList();
+                }
+
+                monitor.beginTask(
+                        "Generating Python code",
+                        models.size() + mutants.size()
+                );
+
+                try {
+                    for (String modelPath : models) {
+                        checkCanceled(monitor);
+
+                        File modelFile = new File(modelPath);
+                        File outputDirectory = new File(
+                                codeDirectory,
+                                stripExtension(modelFile.getName())
+                        );
+
+                        renderModel(
+                                modelFile,
+                                packages,
+                                outputDirectory,
+                                projectDirectory,
+                                monitor,
+                                false
+                        );
+                    }
+
+                    Path mutantRoot = folders.mutantDirectory
+                            .toPath()
+                            .toAbsolutePath()
+                            .normalize();
+
+                    for (String mutantPath : mutants) {
+                        checkCanceled(monitor);
+
+                        File mutantFile = new File(mutantPath);
+                        File parentFile = mutantFile.getParentFile();
+                        Path parent = parentFile != null
+                                ? parentFile.toPath().toAbsolutePath().normalize()
+                                : mutantRoot;
+
+                        String relative = safeRelativize(
+                                mutantRoot,
+                                parent
+                        );
+
+                        File outputDirectory = relative.isEmpty()
+                                ? codeDirectory
+                                : new File(codeDirectory, relative);
+
+                        renderModel(
+                                mutantFile,
+                                packages,
+                                outputDirectory,
+                                projectDirectory,
+                                monitor,
+                                true
+                        );
+                    }
+                }
+                finally {
+                    monitor.done();
+                }
+            }
+
+            private String safeRelativize(Path root, Path child) {
+                if (root == null || child == null) {
+                    return "";
+                }
+
+                try {
+                    if (!child.startsWith(root)) {
+                        return "";
+                    }
+
+                    String relative = root.relativize(child).toString();
+                    return relative.replace('\\', '/');
+                }
+                catch (IllegalArgumentException e) {
+                    return "";
+                }
+            }
+
+            private String stripExtension(String name) {
+                if (name == null) {
+                    return "";
+                }
+
+                int dot = name.lastIndexOf('.');
+                return dot > 0 ? name.substring(0, dot) : name;
+            }
+
+            private void ensureDirectory(File directory) throws IOException {
+                if (directory.isDirectory()) {
+                    return;
+                }
+
+                if (!directory.mkdirs() && !directory.isDirectory()) {
+                    throw new IOException(
+                            "Cannot create directory: " + directory
+                    );
+                }
+            }
+
+            private void checkCanceled(IProgressMonitor monitor)
+                    throws InterruptedException {
+
+                if (monitor != null && monitor.isCanceled()) {
+                    throw new InterruptedException(
+                            "Python-code generation was canceled"
+                    );
+                }
+            }
+
+            @Override
+            public Object execute(ExecutionEvent event) throws ExecutionException {
+                Shell shell = event != null
+                        ? HandlerUtil.getActiveShell(event)
+                        : null;
+
+                if (shell == null || shell.isDisposed()) {
+                    try {
+                        generate(new NullProgressMonitor());
+                    }
+                    catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    catch (Exception e) {
+                        throw new ExecutionException(
+                                "Error generating Wodel-EDU Python code",
+                                e
+                        );
+                    }
+                    return null;
+                }
+
+                ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+                try {
+                    dialog.run(true, true, new RunMutatorPyCodeWithProgress());
+                }
+                catch (InvocationTargetException e) {
+                    Throwable cause = e.getCause() != null
+                            ? e.getCause()
+                            : e;
+                    throw new ExecutionException(
+                            "Error generating Wodel-EDU Python code",
+                            cause
+                    );
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+                return null;
+            }
+
+            @Override
+            public void run() {
+                /*
+                 * Non-UI extension entry point used reflectively by Wodel.
+                 * Wodel may already be running inside a background progress
+                 * operation, so never create a nested UI dialog here.
+                 */
+                try {
+                    generate(new NullProgressMonitor());
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException(
+                            "Python-code generation was interrupted",
+                            e
+                    );
+                }
+                catch (Exception e) {
+                    throw new IllegalStateException(
+                            "Error generating Wodel-EDU Python code",
+                            e
+                    );
+                }
+            }
+        }
+    '''
 }

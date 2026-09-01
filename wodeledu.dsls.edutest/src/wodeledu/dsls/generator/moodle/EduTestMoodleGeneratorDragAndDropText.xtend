@@ -19,6 +19,7 @@ import java.util.Map
 import edutest.Test
 import java.util.LinkedHashMap
 import java.util.TreeMap
+import wodeledu.utils.manager.WodelEduManager
 
 class EduTestMoodleGeneratorDragAndDropText {
 	var DragAndDropText exercise
@@ -91,7 +92,7 @@ class EduTestMoodleGeneratorDragAndDropText {
 <!-- «var Map<String, Map<String, Map<String, Integer>>> group = new TreeMap<String, Map<String, Map<String, Integer>>>()» -->
 <!-- «var TestOption op = null»-->
 «IF generator.options.get(exercise).get(test).size() > 0»
-«var int rndIndex = ModelManager.getRandomIndex(generator.options.get(exercise).get(test))»
+«var int rndIndex = WodelEduManager.getRandomIndex(generator.options.get(exercise).get(test))»
 «FOR TestOption opt : generator.options.get(exercise).get(test).get(rndIndex)»
 «IF opt.path.contains(exercise.markedBlocks.get(0).block.name)»
 <!--«op = opt»-->

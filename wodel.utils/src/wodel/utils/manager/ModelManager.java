@@ -1075,6 +1075,26 @@ public class ModelManager {
 		}
 		return ret;
 	}
+	
+	public static boolean isWindows() {
+	    return System.getProperty("os.name")
+	            .toLowerCase()
+	            .contains("win");
+	}
+
+	public static boolean isLinux() {
+	    return System.getProperty("os.name")
+	            .toLowerCase()
+	            .contains("linux");
+	}
+
+	public static boolean isMac() {
+	    String os = System.getProperty("os.name")
+	            .toLowerCase();
+
+	    return os.contains("mac")
+	            || os.contains("darwin");
+	}
 
 	public static String getWorkspaceAbsolutePath(Class<?> cls) {
 		if (cls == null) {
@@ -1113,7 +1133,7 @@ public class ModelManager {
 		if (ret.indexOf("\\") != -1) {
 			ret = ret.substring(0, ret.lastIndexOf("\\"));
 		}
-		if (ret.startsWith("/")) {
+		if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
 			ret = ret.substring(1, ret.length());
 		}
 		return ret;

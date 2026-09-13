@@ -130,6 +130,10 @@ public final class StandaloneWodelMutationEngine
 	    }
 	}
 	
+	public StandaloneWodelMutationEngine() {
+	    PivotOclStandaloneSupport.initialize();
+	}
+	
     /*
      * M1 is deliberately sequential.
      *
@@ -308,19 +312,89 @@ public final class StandaloneWodelMutationEngine
             return null;
         }
 
+        
+        try (Stream<Path> generated =
+                Files.walk(output)) {
+
+            generated
+                .filter(Files::isRegularFile)
+                .filter(
+                    file ->
+                        file.getFileName()
+                            .toString()
+                            .endsWith(".model"))
+                .filter(
+                    file ->
+                        !file.getFileName()
+                            .toString()
+                            .endsWith("Registry.model"))
+                .sorted()
+                .forEach(
+                    file ->
+                        System.out.println(
+                            "WODEL CANDIDATE MUTANT: "
+                            + file));
+            
+            List<Path> candidates;
+
+            try (Stream<Path> files =
+                    Files.walk(output)) {
+
+                candidates =
+                    files
+                        .filter(
+                            Files::isRegularFile)
+                        .filter(
+                            file ->
+                                looksLikeMutant(
+                                    executor,
+                                    file))
+                        .sorted()
+                        .toList();
+            }
+
+
+            for (Path candidate :
+                    candidates) {
+
+                Resource candidateResource =
+                    loadMutant(
+                        candidate,
+                        packages,
+                        source);
+
+                boolean equivalent =
+                    EcoreUtil.equals(
+                        source.getContents(),
+                        candidateResource.getContents());
+
+                System.out.println(
+                    "WODEL CANDIDATE MUTANT:"
+                    + " file="
+                    + candidate
+                    + " equivalentToSource="
+                    + equivalent);
+
+                candidateResource.unload();
+            }
+        }
+        
         Path mutantFile =
-            findFirstMutant(
+            findFirstNonEquivalentMutant(
                 executor,
-                output);
+                output,
+                packages,
+                source);
 
         if (mutantFile == null) {
 
-            throw new IllegalStateException(
-                "Wodel reports "
+            System.out.println(
+                "Wodel generated "
                 + results.getNumMutantsGenerated()
-                + " generated mutant(s), "
-                + "but no mutant model exists under "
-                + output);
+                + " candidate mutant(s), "
+                + "but none differs from the source model.");
+
+            return null;
         }
 
         System.out.println(
@@ -360,6 +434,33 @@ public final class StandaloneWodelMutationEngine
                         registryFile);
             }
         }
+        
+        Path registryFile =
+        	    findRegistryFor(
+        	        mutantFile,
+        	        output);
+
+        	System.out.println(
+        	    "WoMoT selected registry = "
+        	    + registryFile
+        	    + (registryFile != null
+        	        ? " size="
+        	            + Files.size(
+        	                registryFile)
+        	        : ""));
+
+        	if (registryFile != null) {
+
+        	    mutations =
+        	        loadRegistry(
+        	            registryFile);
+
+        	    System.out.println(
+        	        "WoMoT selected registry mutations = "
+        	        + mutations
+        	            .getMuts()
+        	            .size());
+        	}
 
         return new InMemoryMutationResult(
             mutant,
@@ -746,6 +847,93 @@ public final class StandaloneWodelMutationEngine
                 .findFirst()
                 .orElse(null);
         }
+    }
+    
+    private static Path findFirstNonEquivalentMutant(
+            MutatorExecutorHandle executor,
+            Path output,
+            List<EPackage> packages,
+            Resource source)
+            throws IOException {
+
+        List<Path> candidates;
+
+        try (Stream<Path> files =
+                Files.walk(output)) {
+
+            candidates =
+                files
+                    .filter(
+                        Files::isRegularFile)
+                    .filter(
+                        file ->
+                            looksLikeMutant(
+                                executor,
+                                file))
+                    .sorted()
+                    .toList();
+        }
+
+
+        for (Path candidate :
+                candidates) {
+
+            Resource mutant =
+                null;
+
+            try {
+
+                mutant =
+                    loadMutant(
+                        candidate,
+                        packages,
+                        source);
+
+                boolean equivalent =
+                    EcoreUtil.equals(
+                        source.getContents(),
+                        mutant.getContents());
+
+                System.out.println(
+                    "Wodel candidate mutant = "
+                    + candidate
+                    + " equivalentToSource="
+                    + equivalent);
+
+                if (!equivalent) {
+
+                    return candidate;
+                }
+            }
+            finally {
+
+                /*
+                 * Candidate resources are only loaded here to determine
+                 * whether they constitute an actual mutation.
+                 *
+                 * The selected mutant is loaded again afterwards by the
+                 * normal execution path.
+                 */
+                if (mutant != null) {
+
+                    ResourceSet resourceSet =
+                        mutant.getResourceSet();
+
+                    mutant.unload();
+
+                    if (resourceSet != null) {
+
+                        resourceSet
+                            .getResources()
+                            .remove(
+                                mutant);
+                    }
+                }
+            }
+        }
+
+
+        return null;
     }
 
 

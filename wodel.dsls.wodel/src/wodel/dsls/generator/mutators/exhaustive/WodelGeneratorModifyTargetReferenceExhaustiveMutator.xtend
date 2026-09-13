@@ -66,7 +66,7 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 							    							                    ModelManager.cloneModel(
 							    							                        model,
 							    							                        tempModel));
-					models.add(resource);
+					
 			Resource sourceModel = null;
 					try {
 				ObSelectionStrategy srcSelection = new SpecificObjectSelection(packages, resource, sourceObject);
@@ -103,20 +103,50 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 				listTargets.add(newTargetSelection.getObject());
 			«ENDIF»
 				for (EObject targetObject : listTargets) {
-					sourceModel = owned.own(
-											                    ModelManager.cloneModel(
-											                        model,
-											                        tempModel));
-					models.add(sourceModel);
-					EObject source = ModelManager.getObject(models, sourceObject);
+					sourceModel =
+					    owned.own(
+					        ModelManager.cloneModel(
+					            model,
+					            WodelTempModelContext.nextModelPath(
+					                model,
+					                "«methodName»")));
+					
+					String sourceFragment =
+					    EcoreUtil.getURI(
+					        sourceObject)
+					        .fragment();
+					
+					EObject source =
+					    sourceModel.getEObject(
+					        sourceFragment);
+					
 					if (source == null) {
-						continue;
+					    continue;
 					}
-					ObSelectionStrategy srcSelection2 = new SpecificObjectSelection(packages, sourceModel, source);
-					EObject target = ModelManager.getObject(resource, targetObject);
+					
+					
+					String targetFragment =
+					    EcoreUtil.getURI(
+					        targetObject)
+					        .fragment();
+					
+					EObject target =
+					    sourceModel.getEObject(
+					        targetFragment);
+					
 					if (target == null) {
-						continue;
+					    continue;
 					}
+if (source.eResource() != sourceModel) {
+    throw new IllegalStateException(
+        "mst source does not belong to sourceModel");
+}
+
+if (target.eResource() != sourceModel) {
+    throw new IllegalStateException(
+        "mst target does not belong to sourceModel");
+}
+ObSelectionStrategy srcSelection2 = new SpecificObjectSelection(packages, sourceModel, source);
 					// We avoid cycles
 					EObject previous = source.eContainer();
 					while (previous != null && !EcoreUtil.equals(previous, target)) {
@@ -136,6 +166,8 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 	   		int mutsMark = mutationMark(muts);
 			«IF executeMutation == true»
 			if (mut != null) {
+				
+				
 					/*
 				     * IMPORTANT:
 				     * Capture the removed EObject from the PRE-MUTATION
@@ -152,9 +184,35 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 				            null,
 				            mutPaths,
 				            packages);
+				            
+				            EReference sourceReference =
+				            						    		    (EReference) source
+				            						    		        .eClass()
+				            						    		        .getEStructuralFeature(
+				            						    		            "«mut.refType.name»");
+				            
+				            						    		EObject oldActualTarget =
+				            						    		    sourceReference == null
+				            						    		        ? null
+				            						    		        : (EObject) source.eGet(
+				            						    		            sourceReference);
 					Object mutated = mut.mutate();
+				            						        EObject newActualTarget =
+				            						        	    sourceReference == null
+				            						        	        ? null
+				            						        	        : (EObject) source.eGet(
+				            						        	            sourceReference);
+				            
+				            						        	boolean actualChanged =
+				            						        	    oldActualTarget
+				            						        	        != newActualTarget;
+if (mutated == null
+        || !actualChanged) {
+
+    continue;
+}
 					if (mutated != null) {
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, srcSelection.getModel(), clue, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, srcSelection2.getModel(), clue, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -188,8 +246,7 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 			
 			}
 			} finally {
-												models.remove(sourceModel);
-												models.remove(resource);
+
 												}
 			«ENDIF»
 			«IF last == true»
@@ -260,8 +317,7 @@ class WodelGeneratorModifyTargetReferenceExhaustiveMutator extends WodelGenerato
 									
 				}
 				} finally {
-													models.remove(sourceModel);
-													models.remove(resource);
+													
 													}
 			}
 		«ENDIF»

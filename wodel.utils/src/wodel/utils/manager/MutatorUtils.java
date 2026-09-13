@@ -12745,33 +12745,60 @@ public class MutatorUtils {
 					            mutFilename);
 
 
-					    if (muts.getMuts().isEmpty()) {
+//					    if (muts.getMuts().isEmpty()) {
+//
+//					        /*
+//					         * Preserve the old behaviour: an empty registry can
+//					         * still be serialized if registry generation was
+//					         * explicitly requested.
+//					         */
+//					        ModelManager.createModel(
+//					            muts,
+//					            registryFilename);
+//					    }
+//					    else {
+//
+//					        /*
+//					         * The helper owns all model-version Resources that it
+//					         * loads internally and keeps them alive until the final
+//					         * registry has been serialized.
+//					         */
+//					        writeRegistryWithManagedVersions(
+//					            packages,
+//					            seed,
+//					            model,
+//					            muts,
+//					            mutFilename,
+//					            mutPaths,
+//					            registryFilename);
+//					    }
+					    Mutations registrySnapshot =
+					    	    copyMutationsForRegistry(
+					    	        muts);
 
-					        /*
-					         * Preserve the old behaviour: an empty registry can
-					         * still be serialized if registry generation was
-					         * explicitly requested.
-					         */
-					        ModelManager.createModel(
-					            muts,
-					            registryFilename);
-					    }
-					    else {
+					    	if (registrySnapshot == null) {
+					    	    throw new IllegalStateException(
+					    	        "Cannot create registry snapshot");
+					    	}
 
-					        /*
-					         * The helper owns all model-version Resources that it
-					         * loads internally and keeps them alive until the final
-					         * registry has been serialized.
-					         */
-					        writeRegistryWithManagedVersions(
-					            packages,
-					            seed,
-					            model,
-					            muts,
-					            mutFilename,
-					            mutPaths,
-					            registryFilename);
-					    }
+					    	if (registrySnapshot.getMuts()
+					    	        .isEmpty()) {
+
+					    	    ModelManager.createModel(
+					    	        registrySnapshot,
+					    	        registryFilename);
+					    	}
+					    	else {
+
+					    	    writeRegistryWithManagedVersions(
+					    	        packages,
+					    	        seed,
+					    	        model,
+					    	        registrySnapshot,
+					    	        mutFilename,
+					    	        mutPaths,
+					    	        registryFilename);
+					    	}
 					}
 				}
 				//else {
@@ -13556,27 +13583,55 @@ public class MutatorUtils {
 	                mutFilename);
 
 
-	        if (muts.getMuts().isEmpty()) {
+//	        if (muts.getMuts().isEmpty()) {
+//
+//	            /*
+//	             * Preserve the previous behaviour for an explicitly
+//	             * requested but empty applied-mutation registry.
+//	             */
+//	            ModelManager.createModel(
+//	                muts,
+//	                registryFilename);
+//	        }
+//	        else {
+//
+//	            writeRegistryWithManagedVersions(
+//	                packages,
+//	                seed,
+//	                model,
+//	                muts,
+//	                mutFilename,
+//	                mutPaths,
+//	                registryFilename);
+//	        }
+	        
+	        Mutations registrySnapshot =
+	        	    copyMutationsForRegistry(
+	        	        muts);
 
-	            /*
-	             * Preserve the previous behaviour for an explicitly
-	             * requested but empty applied-mutation registry.
-	             */
-	            ModelManager.createModel(
-	                muts,
-	                registryFilename);
-	        }
-	        else {
+	        	if (registrySnapshot == null) {
+	        	    throw new IllegalStateException(
+	        	        "Cannot create registry snapshot");
+	        	}
 
-	            writeRegistryWithManagedVersions(
-	                packages,
-	                seed,
-	                model,
-	                muts,
-	                mutFilename,
-	                mutPaths,
-	                registryFilename);
-	        }
+	        	if (registrySnapshot.getMuts()
+	        	        .isEmpty()) {
+
+	        	    ModelManager.createModel(
+	        	        registrySnapshot,
+	        	        registryFilename);
+	        	}
+	        	else {
+
+	        	    writeRegistryWithManagedVersions(
+	        	        packages,
+	        	        seed,
+	        	        model,
+	        	        registrySnapshot,
+	        	        mutFilename,
+	        	        mutPaths,
+	        	        registryFilename);
+	        	}
 	    }
 
 
@@ -15848,23 +15903,51 @@ public class MutatorUtils {
 	                mutFilename);
 
 
-	        if (muts.getMuts().isEmpty()) {
+//	        if (muts.getMuts().isEmpty()) {
+//
+//	            ModelManager.createModel(
+//	                muts,
+//	                registryFilename);
+//	        }
+//	        else {
+//
+//	            writeRegistryWithManagedVersions(
+//	                packages,
+//	                seed,
+//	                model,
+//	                muts,
+//	                mutFilename,
+//	                mutPaths,
+//	                registryFilename);
+//	        }
+	        
+	        Mutations registrySnapshot =
+	        	    copyMutationsForRegistry(
+	        	        muts);
 
-	            ModelManager.createModel(
-	                muts,
-	                registryFilename);
-	        }
-	        else {
+	        	if (registrySnapshot == null) {
+	        	    throw new IllegalStateException(
+	        	        "Cannot create registry snapshot");
+	        	}
 
-	            writeRegistryWithManagedVersions(
-	                packages,
-	                seed,
-	                model,
-	                muts,
-	                mutFilename,
-	                mutPaths,
-	                registryFilename);
-	        }
+	        	if (registrySnapshot.getMuts()
+	        	        .isEmpty()) {
+
+	        	    ModelManager.createModel(
+	        	        registrySnapshot,
+	        	        registryFilename);
+	        	}
+	        	else {
+
+	        	    writeRegistryWithManagedVersions(
+	        	        packages,
+	        	        seed,
+	        	        model,
+	        	        registrySnapshot,
+	        	        mutFilename,
+	        	        mutPaths,
+	        	        registryFilename);
+	        	}
 
 
 	        /*
@@ -17079,27 +17162,55 @@ public class MutatorUtils {
 	                mutFilename);
 
 
-	        if (muts.getMuts().isEmpty()) {
+//	        if (muts.getMuts().isEmpty()) {
+//
+//	            /*
+//	             * Preserve support for explicitly requested empty
+//	             * mutation registries.
+//	             */
+//	            ModelManager.createModel(
+//	                muts,
+//	                registryFilename);
+//	        }
+//	        else {
+//
+//	            writeRegistryWithManagedVersions(
+//	                packages,
+//	                seed,
+//	                model,
+//	                muts,
+//	                mutFilename,
+//	                mutPaths,
+//	                registryFilename);
+//	        }
+	        
+	        Mutations registrySnapshot =
+	        	    copyMutationsForRegistry(
+	        	        muts);
 
-	            /*
-	             * Preserve support for explicitly requested empty
-	             * mutation registries.
-	             */
-	            ModelManager.createModel(
-	                muts,
-	                registryFilename);
-	        }
-	        else {
+	        	if (registrySnapshot == null) {
+	        	    throw new IllegalStateException(
+	        	        "Cannot create registry snapshot");
+	        	}
 
-	            writeRegistryWithManagedVersions(
-	                packages,
-	                seed,
-	                model,
-	                muts,
-	                mutFilename,
-	                mutPaths,
-	                registryFilename);
-	        }
+	        	if (registrySnapshot.getMuts()
+	        	        .isEmpty()) {
+
+	        	    ModelManager.createModel(
+	        	        registrySnapshot,
+	        	        registryFilename);
+	        	}
+	        	else {
+
+	        	    writeRegistryWithManagedVersions(
+	        	        packages,
+	        	        seed,
+	        	        model,
+	        	        registrySnapshot,
+	        	        mutFilename,
+	        	        mutPaths,
+	        	        registryFilename);
+	        	}
 
 
 	        /*

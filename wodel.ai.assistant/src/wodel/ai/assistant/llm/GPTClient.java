@@ -1,13 +1,11 @@
 package wodel.ai.assistant.llm;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.*;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -70,7 +68,63 @@ public class GPTClient {
 		return this.sendPrompt(prompt);
 	}
 
+	/**
+	 * Sends a proper two-role chat request without requiring callers to pre-escape
+	 * JSON. New Wodel-native AI tasks use this method; legacy tasks keep the
+	 * original sendPrompt contract for compatibility.
+	 */
+	public LLMResponse sendChat(String systemPrompt, String userPrompt) throws Exception {
+		if (this.apiKey == null || this.apiKey.isBlank()) {
+			throw new IllegalStateException(
+				"No OpenAI API key is configured. Set 'gen-AI API Key' in the Wodel preferences or OPENAI_API_KEY in the environment.");
+		}
+
+		JSONObject body = new JSONObject();
+		body.put("model", this.model);
+		JSONArray messages = new JSONArray();
+		if (systemPrompt != null && !systemPrompt.isBlank()) {
+			messages.put(new JSONObject().put("role", "system").put("content", systemPrompt));
+		}
+		messages.put(new JSONObject().put("role", "user").put("content", userPrompt == null ? "" : userPrompt));
+		body.put("messages", messages);
+		if (this.supportsTemperature()) body.put("temperature", this.temperature);
+
+		String promptForTrace = (systemPrompt == null ? "" : systemPrompt + "\n\n")
+			+ (userPrompt == null ? "" : userPrompt);
+		return sendJsonBody(body.toString(), promptForTrace);
+	}
+
+	private LLMResponse sendJsonBody(String jsonBody, String promptForTrace) throws Exception {
+		if (this.verbose) System.out.println("JSON:\n" + jsonBody);
+
+		URL url = new URL(API_URL);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Authorization", "Bearer " + this.apiKey);
+		connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		connection.setDoOutput(true);
+
+		try (OutputStream os = connection.getOutputStream()) {
+			byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+			os.write(input, 0, input.length);
+		}
+
+		int responseCode = connection.getResponseCode();
+		InputStream is = responseCode < HttpURLConnection.HTTP_BAD_REQUEST
+			? connection.getInputStream() : connection.getErrorStream();
+		String response = extractResponse(is);
+		connection.disconnect();
+		if (responseCode != HttpURLConnection.HTTP_OK) {
+			throw new Exception("Error from OpenAI API: " + response);
+		}
+		return new LLMResponse(promptForTrace, this.extractContent(response));
+	}
+
 	public LLMResponse sendPrompt(String prompt) throws Exception {
+		if (this.apiKey == null || this.apiKey.isBlank()) {
+			throw new IllegalStateException(
+				"No OpenAI API key is configured. Set 'gen-AI API Key' in the Wodel preferences or OPENAI_API_KEY in the environment.");
+		}
 		String jsonBody = this.buildPromptJSONMessage(prompt);
 
 		if (this.verbose) 
@@ -153,30 +207,35 @@ public class GPTClient {
 	**/
 
 	private String readOpenAIKey() {
-		String openAPIKeyPreference = WodelGeneralPreferencePage.PREF_GPT_API_KEY;
-		
-		String apiKey = Platform.getPreferencesService().getString("gotten.dsls.Gotten", openAPIKeyPreference, "", null);
-		if (apiKey != null && apiKey.length() > 0) {
-			return apiKey;
+		String preference = WodelGeneralPreferencePage.PREF_GPT_API_KEY;
+
+		String apiKey = Platform.getPreferencesService()
+			.getString("wodel.dsls.Wodel", preference, "", null);
+		if (apiKey != null && !apiKey.isBlank()) {
+			return apiKey.trim();
 		}
-		
-    	Properties properties = new Properties();
+
+		String environmentKey = System.getenv("OPENAI_API_KEY");
+		if (environmentKey != null && !environmentKey.isBlank()) {
+			return environmentKey.trim();
+		}
+
 		Bundle bundle = Platform.getBundle("wodel.ai.assistant");
+		if (bundle == null) return null;
 		URL keysPropertiesURL = bundle.getEntry("/keys.properties");
+		if (keysPropertiesURL == null) return null;
+
+		Properties properties = new Properties();
 		try {
-			String keysProperties = FileLocator.resolve(keysPropertiesURL).getFile();
-			if (keysProperties.contains(":") && keysProperties.startsWith("/")) {
-				keysProperties = keysProperties.substring(1);
+			URL resolved = FileLocator.resolve(keysPropertiesURL);
+			try (InputStream fis = resolved.openStream()) {
+				properties.load(fis);
 			}
-			FileInputStream fis = new FileInputStream(Paths.get(keysProperties).toFile());
-            properties.load(fis);
-            String openAIKey = properties.getProperty("OPENAI_API_KEY");
-            return openAIKey;
+			String bundledKey = properties.getProperty("OPENAI_API_KEY");
+			return bundledKey == null || bundledKey.isBlank() ? null : bundledKey.trim();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
-        return null;
     }
 
 	public void setVerbose(boolean v) {

@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui,
  wodel.dsls.wodel,
  wodel.utils,
- wodel.extension
+ wodel.extension,
+ wodel.ai.assistant
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.project
 Bundle-ActivationPolicy: lazy

@@ -1,75 +1,66 @@
 package wodel.ai.assistant;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import wodel.ai.assistant.tasks.Parameter;
-import wodel.ai.assistant.tasks.fixers.EvaluationContext;
-import wodel.ai.assistant.tasks.fixers.LLMResponse;
-import wodel.ai.assistant.tasks.fixers.TaskQualityEvaluationResult;
 
-public class MTWorkflow extends AITask {
-	private List<MTTask> tasks = new ArrayList<>();
-	
-		
-	public MTWorkflow(Collection<? extends MTTask> tasks) {
-		this.tasks.addAll(tasks);
-	}
-	
-	public boolean withParameter(String param, Object value) {
-		boolean result = super.withParameter(param, value); // needed?
-		for (MTTask t: this.tasks) { // pass parameters to subtasks
-			boolean rslt = t.withParameter(param, value);
-			result = rslt || result;
-		}
-		return result;
-	}
-	
-	@Override
-	public String canExecute() {		
-		String res = null;
-		for (MTTask t: this.tasks) {
-			String canExec = t.canExecute();
-			if (canExec!=null) {
-				if (res==null) res = canExec;
-				else res+=", "+canExec;
-			}
-		}
-		return res;		
-	}
-	
-	@Override
-	public String getDescription() {
-		String desc = "";
-		boolean first = true;
-		for (MTTask t: this.tasks) {
-			if (!first)
-				desc += " and "+t.getDescription();
-			else 
-				desc += t.getDescription();
-			first = false;
-		}
-		return desc;
-	}
-	
-	public Collection<Parameter> requiredParameters() {
-		Set<Parameter> params = new LinkedHashSet<>();
-		for (MTTask mt: this.tasks) 
-			params.addAll(mt.requiredParameters());		
-		return params;
-	}
-	
-	public Object executeWithInput(String userInput) throws Exception {	
-		List<Object> outputs = new ArrayList<>();
-		for (MTTask task: this.tasks) {
-			System.out.println("Executing task "+task);
-			outputs.add(task.executeWithInput(userInput));		// ? does this make sense
-		}
-		return outputs; // does this make sense?
-	}
+/** A sequence of assistant tasks executed in order. */
+public class MTWorkflow extends MTTask {
+    private final List<MTTask> tasks = new ArrayList<>();
 
-	@Override
-	public LLMResponse fix(TaskQualityEvaluationResult result, EvaluationContext evalContext) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public MTWorkflow(Collection<? extends MTTask> tasks) {
+        this.tasks.addAll(tasks);
+        this.id = "Workflow";
+    }
+
+    @Override
+    public boolean withParameter(String param, Object value) {
+        boolean result = super.withParameter(param, value);
+        for (MTTask task : this.tasks) {
+            result = task.withParameter(param, value) || result;
+        }
+        return result;
+    }
+
+    @Override
+    public String canExecute() {
+        List<String> missing = new ArrayList<>();
+        for (MTTask task : this.tasks) {
+            String canExec = task.canExecute();
+            if (canExec != null && !canExec.isBlank()) {
+                missing.add(canExec);
+            }
+        }
+        return missing.isEmpty() ? null : String.join(", ", missing);
+    }
+
+    @Override
+    public String getDescription() {
+        return tasks.stream()
+            .map(MTTask::getDescription)
+            .reduce((a, b) -> a + " and then " + b)
+            .orElse("Empty workflow");
+    }
+
+    @Override
+    public Collection<Parameter> requiredParameters() {
+        Set<Parameter> params = new LinkedHashSet<>();
+        for (MTTask task : this.tasks) {
+            params.addAll(task.requiredParameters());
+        }
+        return params;
+    }
+
+    @Override
+    public Object executeWithInput(String userInput) throws Exception {
+        List<Object> outputs = new ArrayList<>();
+        for (MTTask task : this.tasks) {
+            outputs.add(task.executeWithInput(userInput));
+        }
+        return outputs;
+    }
 }

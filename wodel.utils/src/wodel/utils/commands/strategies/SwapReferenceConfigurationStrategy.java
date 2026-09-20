@@ -369,14 +369,14 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	}
 	
 	public Object getPrevious() {
-		if (obj != null) {
-			return obj.eGet(this.target);
+		if (obj == null || this.target == null) {
+			return null;
 		}
-		return null;
+		return obj.eGet(this.target);
 	}
 	
 	public Object getNext(EObject o) {
-		if (o == null) {
+		if (o == null || this.target == null) {
 			return null;
 		}
 		return o.eGet(this.target);

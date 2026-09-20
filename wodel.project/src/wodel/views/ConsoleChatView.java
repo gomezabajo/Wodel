@@ -11,6 +11,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -26,6 +31,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.ui.part.ViewPart;
+
+import wodel.ai.assistant.chat.WodelChatSession;
 
 //import wodel.ai.assistant.AITask;
 //import wodel.ai.assistant.MOpTask;
@@ -71,6 +78,7 @@ public class ConsoleChatView extends ViewPart {
 	private int historyIndex = -1;
 
 	private CommandParser parser;
+	private WodelChatSession wodelChatSession;
 
 	// Capture System.out
 	private PrintStream previousOut;
@@ -128,7 +136,8 @@ public class ConsoleChatView extends ViewPart {
 		input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		input.setMessage("Type a message ...");
 
-		parser = null; //new DefaultCommandParser();
+		wodelChatSession = new WodelChatSession();
+		parser = wodelChatSession::handle;
 
 		// Send on Enter
 		input.addTraverseListener(new TraverseListener() {
@@ -159,13 +168,16 @@ public class ConsoleChatView extends ViewPart {
 		mirroringOut = new PrintStream(new OutputStream() {
 			StringBuilder buffer = new StringBuilder();
 			@Override public void write(int b) throws IOException {
+				previousOut.write(b);
 				buffer.append((char) b);
 			}
 			@Override public void write(byte[] b, int off, int len) throws IOException {
+				previousOut.write(b, off, len);
 				buffer.append(new String(b, off, len));
 				flush();
 			}
 			@Override public void flush() throws IOException {
+				previousOut.flush();
 				if (buffer.length() == 0) return;
 				String s = buffer.toString();
 				buffer.setLength(0);
@@ -188,6 +200,7 @@ public class ConsoleChatView extends ViewPart {
 		});
 
 		// Greet
+		addMessage(Sender.BOT, "Wodel assistant ready. Type /help to see the available workflows, or describe what you want to do in natural language.");
 		input.setFocus();
 	}
 
@@ -375,18 +388,41 @@ public class ConsoleChatView extends ViewPart {
 
 		// Right-side user bubble
 		addMessage(Sender.USER, text);
-
-		try {
-			String reply = parser.parse(text);
-			if (reply != null && !reply.isEmpty()) {
-				// Left-side bot bubble
-				addMessage(Sender.BOT, reply);
-			}
-		} catch (Exception ex) {
-			addMessage(Sender.SYSTEM, "Error: " + ex.getMessage());
-		}
-
 		input.setText("");
+		input.setEnabled(false);
+
+		Display display = input.getDisplay();
+		Job job = new Job("Wodel AI assistant") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				String reply = null;
+				String error = null;
+				try {
+					reply = parser.parse(text);
+				} catch (Exception ex) {
+					error = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
+				}
+
+				final String finalReply = reply;
+				final String finalError = error;
+				if (display.isDisposed()) return Status.CANCEL_STATUS;
+				display.asyncExec(() -> {
+					if (messagesArea == null || messagesArea.isDisposed()) return;
+					if (finalError != null && !finalError.isBlank()) {
+						addMessage(Sender.SYSTEM, "Error: " + finalError);
+					} else if (finalReply != null && !finalReply.isEmpty()) {
+						addMessage(Sender.BOT, finalReply);
+					}
+					if (input != null && !input.isDisposed()) {
+						input.setEnabled(true);
+						input.setFocus();
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		};
+		job.setUser(true);
+		job.schedule();
 	}
 
 

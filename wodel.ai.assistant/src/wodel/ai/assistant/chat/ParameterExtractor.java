@@ -19,15 +19,14 @@ public class ParameterExtractor extends AssistantAgent {
 	public ParameterExtractor(MTTask task) {
 		this.systemPrompt= 
 				"""
-						You are an assistant for metamorphic testing (MT). Your task is to extract the value of the following parameters
+						You are an assistant for Wodel model mutation workflows. Your task is to extract the value of the following parameters
 						of the user utterance below:
 						{parameters}
 
 						Notes:
 						- Extract the values in a JSON dictionary, with keys the parameter name, and value, the extracted value
 						- If some value is not present, add the value None/null to the dictionary
-						- The user may use abbreviations like MR for metamorphic relation
-						- The user may refer to Gotten, a metamorphic testing environment the assistant is integrated with
+						- Preserve file names, paths, Wodel program names, mutation block names and operator names exactly when present
 
 						User utterance: 
 						{user_utterance}
@@ -37,11 +36,11 @@ public class ParameterExtractor extends AssistantAgent {
 
 	public Map<String, Object> getParameters(String userUtterance) {
 		String prompt = this.buildPrompt(userUtterance);		
-		this.llmClient
+		var client = this.llmClient()
 			.withModel("gpt-4.1-mini")
 			.withTemperature(0);
 		try {
-			LLMResponse resp = this.llmClient.sendPrompt(prompt, true);
+			LLMResponse resp = client.sendPrompt(prompt, true);
 			System.out.println("Parameter checker response: "+resp.getJson());			
 			return this.parseResult(resp);
 		} catch (Exception e) {			

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/** Legacy provider retained for compatibility; it is not registered by the Wodel chat planner. */
+@Deprecated(forRemoval = false)
 public class AITaskProvider implements ITaskProvider{
 	private static final AITaskProvider instance = new AITaskProvider();
 	private List<AITask> taskRegistry = new ArrayList<AITask>();	

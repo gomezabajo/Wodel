@@ -5,8 +5,6 @@ import java.nio.file.*;
 import java.util.*;
 import java.security.*;
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.*;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;

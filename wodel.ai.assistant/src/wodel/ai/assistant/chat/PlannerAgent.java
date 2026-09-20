@@ -1,124 +1,127 @@
 package wodel.ai.assistant.chat;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import wodel.ai.assistant.*;
+import wodel.ai.assistant.ITaskProvider;
 import wodel.ai.assistant.MTTask;
+import wodel.ai.assistant.MTWorkflow;
 import wodel.ai.assistant.tasks.fixers.LLMResponse;
+import wodel.ai.assistant.wodel.WodelTaskProvider;
 
-/**
- * Classifies the intent of the user into one of the available tasks, or none
- * @author jdelara
- *
- */
-public class PlannerAgent extends AssistantAgent{
-	public List<MTTask> registeredTasks = new ArrayList<>();
-	
-	public PlannerAgent() {
-		/*this.systemPrompt= 
-				"""
-				You are an assistant for metamorphic testing (MT). Your task is to classify the intent of the user utterance below into one of the following
-				tasks:
-				{tasks}
+/** Classifies a user request into one or more Wodel tasks. */
+public class PlannerAgent extends AssistantAgent {
+    public final List<MTTask> registeredTasks = new ArrayList<>();
 
-				return ONLY one word: the task name, or if none of the task apply, return "None".
+    public PlannerAgent() {
+        this.systemPrompt = """
+            You are an assistant for Wodel, a model-driven mutation framework. Classify the user utterance into one or more of these tasks:
+            {tasks}
 
-				Notes:
-				- The user may use abbreviations like MR for metamorphic relation
-				- The user may refer to Gotten, a metamorphic testing environment the assistant is integrated with
+            Instructions:
+            - If one task applies, return ONLY the task name.
+            - If no task applies, return "None".
+            - If several tasks are explicitly requested in sequence, return their names separated by semicolons.
+            - A Wodel mutation program may be called a mutator or .mutator file.
+            - Distinguish source understanding/diagnosis/repair/authoring from mutation execution.
+            - /generate-style parameterized mutation execution RUNS mutants; AuthorWodelSource creates source code.
+            - Distinguish normal execution, parameterized execution, seed-model synthesis, project inspection, validation, AI source workflows, wizards and cleanup.
+            - Requests to generate seed models with the LLM/AI/OpenAI API are GenerateWodelSeedModelsWithAI. Plain seed-model requests are GenerateWodelSeedModels (native USE/Kodkod). Neither is mutant generation; a numeric seed in mutation execution is a random/execution seed.
+            - Distinguish post-generation mutant analysis (explain mutant, adequacy, metrics, comparison/equivalence) from mutation execution.
+            - Wodel-Test execution/results/optimisation are separate from normal Wodel mutant generation.
+            - Configuration/reproducibility requests map to the doctor/reproducibility tasks.
+            - Seed strategy comparison and seed-adequacy improvement analyse generated seeds; they do not mean ordinary seed synthesis.
 
-				User utterance: 
-				{user_utterance}
-				""";*/	
-		this.systemPrompt= 
-				"""
-				You are an assistant for metamorphic testing (MT). Your task is to classify the intent of the user utterance below into one of the following
-				or more tasks:
-				{tasks}
+            User utterance:
+            {user_utterance}
+            """;
+        this.registeredTasks.addAll(WodelTaskProvider.getInstance().getSupportedTasks());
+    }
 
-				Instructions:
-				- If the user only wants to perform one task, return ONLY one word: the task name
-				- If none of the task apply, return "None"
-				- If the user wants to perform more than one task in sequence, return the task names separated by ";"
+    public PlannerAgent(ITaskProvider... providers) {
+        this();
+        for (ITaskProvider provider : providers) addUnique(provider.getSupportedTasks());
+    }
 
-				Notes:
-				- The user may use abbreviations like MR for metamorphic relation
-				- The user may refer to Gotten, a metamorphic testing environment the assistant is integrated with
+    private void addUnique(Collection<MTTask> tasks) {
+        for (MTTask task : tasks) {
+            boolean exists = registeredTasks.stream().anyMatch(t -> t.getId().equalsIgnoreCase(task.getId()));
+            if (!exists) registeredTasks.add(task);
+        }
+    }
 
-				User utterance: 
-				{user_utterance}
-				""";
-		this.registeredTasks.addAll(AITaskProvider.getInstance().getSupportedTasks());
-	}
-	
-	public PlannerAgent(ITaskProvider... providers) {
-		this();
-		for (ITaskProvider provider: providers)
-			this.registeredTasks.addAll(provider.getSupportedTasks());
-	}
-	
-	/**
-	 * Return the registered MTTask that the user wants to perform
-	 * @param userUtterance
-	 * @return
-	 */
-	public MTTask getIntent(String userUtterance) {
-		String prompt = this.buildPrompt(userUtterance);
-		this.llmClient
-			.withModel("gpt-4.1-mini")
-			.withTemperature(0);
-		try {
-			LLMResponse resp = this.llmClient.sendPrompt(prompt, true);
-			return this.findTask(resp);
-		} catch (Exception e) {			
-			return null;
-		}		
-	}
+    public MTTask getIntent(String userUtterance) {
+        MTTask deterministic = findDeterministically(userUtterance);
+        if (deterministic != null) return deterministic;
 
-	private MTTask findTask(LLMResponse resp) {		
-		String response = resp.getResponse();
-		System.out.println("[Intent classifier] Raw response: "+response);
-		if (response.equalsIgnoreCase("None") || response.equalsIgnoreCase("\"None\""))
-			return null;
-		
-		String[] taskNames = response.split(";");
-		Map<String, MTTask> tasks = new LinkedHashMap<>();
-		for (String t: taskNames)
-			tasks.put(t, null);
-		
-		// 1st attempt exact match
-		for (String taskName: taskNames)
-			for (MTTask t : this.registeredTasks) 
-				if (t.getId().equalsIgnoreCase(taskName.trim())) {
-					tasks.put(taskName, t);
-					break;
-				}
-			
-		if (!tasks.values().contains(null)) {
-			if (tasks.size()==1) return new ArrayList<>(tasks.values()).get(0);
-			else return new MTWorkflow(tasks.values());
-		}			
-		
-		response = response.toLowerCase();
-		// 2nd round: fuzzy matching
-		for (String taskName: taskNames) {
-			if (tasks.get(taskName)!=null) continue;
-			for (MTTask t : this.registeredTasks) 			
-				if (taskName.contains(t.getId().toLowerCase())) { 
-					tasks.put(taskName, t);
-					break;
-				}
-		}
-		
-		return null;
-	}
+        String prompt = buildPrompt(userUtterance);
+        var client = this.llmClient().withModel("gpt-4.1-mini").withTemperature(0);
+        try {
+            return findTask(client.sendPrompt(prompt, true));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	private String buildPrompt(String utterance) {
-		String tasks = "";
-		for (MTTask task: this.registeredTasks)
-			tasks += "\n - "+task;
-		String prompt = systemPrompt.replace("{tasks}", tasks);
-		prompt = prompt.replace("{user_utterance}", utterance);
-		return prompt;
-	}
+    private MTTask findDeterministically(String utterance) {
+        record Match(MTTask task, IntentAwareTask intent, int index) {}
+        List<Match> matches = new ArrayList<>();
+        for (MTTask task : registeredTasks) {
+            if (!(task instanceof IntentAwareTask aware)) continue;
+            int index = aware.matchIndex(utterance);
+            if (index >= 0) matches.add(new Match(task, aware, index));
+        }
+        if (matches.isEmpty()) return null;
+
+        Map<String, Match> grouped = new LinkedHashMap<>();
+        List<Match> ungrouped = new ArrayList<>();
+        for (Match match : matches) {
+            String group = match.intent().getIntentGroup();
+            if (group == null || group.isBlank()) {
+                ungrouped.add(match);
+                continue;
+            }
+            Match previous = grouped.get(group);
+            if (previous == null
+                    || match.intent().getIntentPriority() > previous.intent().getIntentPriority()
+                    || (match.intent().getIntentPriority() == previous.intent().getIntentPriority() && match.index() < previous.index())) {
+                grouped.put(group, match);
+            }
+        }
+
+        List<Match> selected = new ArrayList<>(ungrouped);
+        selected.addAll(grouped.values());
+        selected.sort(Comparator.comparingInt(Match::index));
+        if (selected.size() == 1) return selected.get(0).task();
+        return new MTWorkflow(selected.stream().map(Match::task).toList());
+    }
+
+    private MTTask findTask(LLMResponse resp) {
+        String response = resp.getResponse().trim();
+        if (response.equalsIgnoreCase("None") || response.equalsIgnoreCase("\"None\"")) return null;
+        String[] names = response.split(";");
+        List<MTTask> tasks = new ArrayList<>();
+        for (String raw : names) {
+            String name = raw.trim();
+            MTTask exact = registeredTasks.stream().filter(t -> t.getId().equalsIgnoreCase(name)).findFirst().orElse(null);
+            if (exact == null) {
+                String lower = name.toLowerCase(Locale.ROOT);
+                exact = registeredTasks.stream().filter(t -> lower.contains(t.getId().toLowerCase(Locale.ROOT))).findFirst().orElse(null);
+            }
+            if (exact == null) return null;
+            tasks.add(exact);
+        }
+        return tasks.size() == 1 ? tasks.get(0) : new MTWorkflow(tasks);
+    }
+
+    private String buildPrompt(String utterance) {
+        StringBuilder tasks = new StringBuilder();
+        for (MTTask task : registeredTasks) tasks.append("\n - ").append(task);
+        return systemPrompt.replace("{tasks}", tasks).replace("{user_utterance}", utterance == null ? "" : utterance);
+    }
 }

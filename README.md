@@ -9,7 +9,8 @@
 <p align="center"><i>A domain-specific language for model mutation</i></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.3-blue" alt="Version 2.3">
+  <img src="https://img.shields.io/badge/Wodel-3.0.0-blue" alt="Wodel 3.0.0">
+  <img src="https://img.shields.io/badge/Wodel_AI_Assistant-1.0.0-blueviolet" alt="Wodel AI Assistant 1.0.0">
   <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel" alt="Contributors"></a>
   <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel" alt="Forks"></a>
   <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel" alt="Stars"></a>
@@ -27,12 +28,13 @@
 ## Table of contents
 
 - [Overview](#overview)
-- [What's new in 2.3](#whats-new-in-23)
+- [What's new in 3.0.0](#whats-new-in-300)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [A quick example](#a-quick-example)
 - [Wodel](#wodel)
+- [Wodel AI Assistant](#wodel-ai-assistant)
 - [Wodel-Edu](#wodel-edu)
 - [Wodel-Test](#wodel-test)
 - [Roadmap](#roadmap)
@@ -58,25 +60,58 @@ model: it conforms to the domain meta-model and satisfies its integrity constrai
 development environment is extensible, allowing post-processors to be plugged in for different
 applications.
 
-The repository hosts three related tools built around this core:
+The repository hosts four closely related tools built around this core:
 
 | Tool | Purpose |
 |------|---------|
 | **[Wodel](#wodel)** | The model-mutation DSL and engine. |
+| **[Wodel AI Assistant](#wodel-ai-assistant)** | Conversational and AI-assisted support for authoring, running, analysing, diagnosing, and improving Wodel mutation workflows. |
 | **[Wodel-Edu](#wodel-edu)** | Automated generation of educational exercises from mutated models. |
 | **[Wodel-Test](#wodel-test)** | Synthesis of full mutation-testing environments for arbitrary languages. |
 
 See also **[Wodel4diac](https://github.com/gomezabajo/Wodel4diac)**, a Wodel variant compatible
 with [Eclipse 4diac](https://eclipse.dev/4diac/) / IEC 61499, maintained in its own repository.
 
-## What's new in 2.3
+## What's new in 3.0.0
 
-- **Migration to Eclipse 4.40** (and Xtext 2.43), keeping the toolset current with the latest
-  Eclipse Modeling platform.
-- The **Wodel-Edu & Wodel-Test** suites were advanced to **2.2**, and the **Wodel** core to **2.3**.
-- A new **console view** for following mutation runs from within the IDE.
-- **Ubuntu/Linux compatibility fix** (thanks to [@jameseb7](https://github.com/jameseb7)).
-- Groundwork laid for a forthcoming **GenAI-based assistant** — see [Roadmap](#roadmap).
+**Wodel 3.0.0** marks the first AI-assisted release of the Wodel toolset and introduces the first
+public baseline of the **Wodel AI Assistant 1.0.0**. The assistant is integrated with Wodel's Eclipse
+environment and combines deterministic project commands with generative-AI support for model
+mutation engineering.
+
+Major additions in this release include:
+
+- **Wodel AI Assistant 1.0.0** — a conversational assistant for interacting with Wodel projects
+  directly from the IDE, while reusing Wodel's existing commands and execution infrastructure.
+- **Intent-aware command routing** — common requests are resolved deterministically before invoking
+  an LLM. Supported workflows include running mutation jobs, inspecting projects, listing mutants
+  and mutation operators, and cleaning generated output or registry information.
+- **Parameterized mutation execution** — mutation runs can be configured from the assistant with
+  parameters such as the source program, mutant count, number of attempts, mutation blocks, random
+  seed, and registry usage.
+- **AI-assisted Wodel authoring and maintenance** — the assistant can explain Wodel programs,
+  diagnose problems, propose repairs, optionally apply explicit repairs, suggest mutation strategies,
+  and help author mutation programs using Wodel-aware context.
+- **Native seed-model synthesis** — seed generation can invoke Wodel's existing synthesizer/model-
+  finder infrastructure when available.
+- **AI-assisted seed-model generation** — new commands generate EMF/XMI seed models from the
+  domain meta-model and Wodel program. Generation is meta-model-aware and uses Ecore information,
+  Wodel context, previously accepted models, and, when available, an existing valid XMI model as a
+  serialization example.
+- **Iterative validation and repair loop for generated seeds** — candidate XMI is extracted, parsed,
+  loaded as EMF, structurally validated, checked with Wodel's validation facilities, and retried with
+  concrete diagnostics when invalid. Duplicate candidates are rejected and diversity is encouraged
+  across successive seeds.
+- **Mutation-analysis workflows** — the assistant includes facilities for mutant explanation,
+  adequacy analysis, diagnosis of missing mutants, metrics, comparisons, equivalent-mutant support,
+  Wodel-Test result analysis, reproducibility checks, project diagnostics, seed comparison, and
+  seed-improvement guidance.
+- **Validated across heterogeneous meta-models** — the AI seed-generation workflow has been exercised
+  with finite automata, ATL/OCL, and the Eclipse MoDisco Java meta-model, including non-trivial
+  containment structures and cross-references.
+- The release continues to build on the **Eclipse 4.40 / Xtext 2.43** platform introduced in the
+  previous generation of the toolset and retains the **Ubuntu/Linux compatibility fix** contributed
+  with the help of [@jameseb7](https://github.com/jameseb7).
 
 ## Requirements
 
@@ -85,6 +120,9 @@ with [Eclipse 4diac](https://eclipse.dev/4diac/) / IEC 61499, maintained in its 
 - **Xtext 2.43** and **EMF** — installed automatically as plugin dependencies via the update site
 - Optional, depending on the features used: **Sirius**, **Epsilon**, and a model-finder /
   constraint backend for semantic validation
+- For generative-AI features in **Wodel AI Assistant 1.0.0**, an LLM API key must be configured in
+  the assistant preferences or through the supported environment-based fallback. Non-AI assistant
+  commands remain available without invoking the LLM.
 
 ## Installation
 
@@ -118,6 +156,10 @@ Clone this repository and import the plug-in projects into an Eclipse workspace 
 ## Getting Started
 
 Once installed, create your first Wodel project via **File → New → Other… → Wodel → New Wodel Project**, and follow the [Get Started tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started). A complete example project (finite automata) is available [here](https://gomezabajo.github.io/Wodel/zip/automata/DFAWodel.zip).
+
+Wodel 3.0.0 also includes the **Wodel AI Assistant 1.0.0**. From an active Wodel project, the assistant
+can execute common project actions, analyse mutation artefacts, help author or repair Wodel programs,
+and generate or assess seed models. See [Wodel AI Assistant](#wodel-ai-assistant) below.
 
 ## A quick example
 
@@ -208,6 +250,118 @@ Wodel is the core DSL described in [Overview](#overview). Learn more:
 
 </details>
 
+## Wodel AI Assistant
+
+**Wodel AI Assistant 1.0.0** is the first released baseline of Wodel's conversational and
+AI-assisted environment. It is designed as an additional interaction layer over Wodel rather than
+as a replacement for the existing DSL, editors, commands, mutation engine, validators, synthesizer,
+or Wodel-Test infrastructure.
+
+The assistant combines **deterministic command handling** for well-defined IDE operations with
+**LLM-backed tasks** for activities where explanation, synthesis, diagnosis, or guided improvement
+are useful. LLM startup is lazy, so ordinary Wodel commands do not require an AI request.
+
+### Project and mutation commands
+
+The assistant can reuse Wodel's native Eclipse commands and project context for common operations.
+The supported conversational/slash-command workflows include, among others:
+
+- `/run` and `/all` — execute the corresponding Wodel mutation workflows.
+- `/mutants` — inspect generated mutants.
+- `/operators` — inspect the mutation operators/commands defined for the project.
+- `/project` — summarise the active Wodel project and its relevant resources.
+- `/clean-output` and `/clean-registry` — clean generated mutation artefacts or registry data.
+- `/help` — display the available assistant commands.
+
+Mutation execution can also be parameterised. For example:
+
+```text
+/generate program=testFA1 mutants=20 attempts=5 blocks=BlockA,BlockB seed=1234 registry=true
+```
+
+The request is translated into Wodel's mutation-execution infrastructure, preserving options such as
+the selected source program/model, number of mutants, attempts, block selection, random seed, and
+registry use.
+
+### AI-assisted Wodel engineering
+
+Wodel-aware AI tasks use the current project, active `.mutator` source, language reference, and
+meta-model information as context. Current workflows include:
+
+- `/explain` — explain a Wodel mutation program or selected fragment.
+- `/diagnose` — analyse likely problems and validation failures.
+- `/repair` — propose a corrected Wodel program.
+- `/repair ... apply=true` — explicitly apply an accepted repair to the source.
+- `/suggest` — suggest mutation operations or strategies appropriate to the current context.
+- `/author` — help author Wodel mutation programs from a natural-language objective.
+
+Generated or repaired Wodel source is checked through Wodel/Xtext validation and can be iteratively
+refined using validation feedback. Repairs are not silently applied: source modification requires an
+explicit apply request.
+
+### Seed-model generation
+
+Wodel AI Assistant provides two complementary ways to create seed models.
+
+**Native synthesis.** The `/seed` and `/seeds` workflows can invoke Wodel's existing model-synthesis
+infrastructure (including the `wodel.synthesizer` facilities when available). This remains separate
+from the random seed used to reproduce mutation execution.
+
+**AI-assisted synthesis.** `/seeds-ai` (also available through the AI-seed aliases supported by the
+assistant) asks the LLM to generate EMF/XMI models conforming to the project's domain meta-model.
+Unlike unconstrained text generation, the workflow is grounded in the actual Wodel project:
+
+1. the active Wodel source and meta-model are resolved;
+2. the relevant `EPackage`s and Ecore classifiers/features are inspected;
+3. the Wodel program and optional requested model features are added to the generation context;
+4. when a valid seed already exists, one valid XMI model is supplied as a **serialization example**
+   so the LLM can learn the concrete containment, `xsi:type`, namespace, and cross-reference idioms
+   used by that meta-model;
+5. the LLM is required to return one XMI document rather than prose;
+6. the candidate is parsed and loaded through EMF, checked for resource/load errors, structurally
+   validated, and passed through Wodel's model-validation facilities;
+7. validation errors are fed back to the LLM and generation is retried when necessary;
+8. accepted models are fingerprinted to reject duplicates and are used as context to encourage
+   subsequent seeds to be structurally different; and
+9. validated models are stored using the `<program>_aiN.model` naming scheme.
+
+This validation loop is especially important for large meta-models, where XML can be well formed yet
+still violate EMF typing, containment, abstract-class, or reference constraints. The serialization-
+example mechanism also helps with meta-model-specific representations such as intermediate
+`TypeAccess` objects and URI-fragment references in the Eclipse MoDisco Java meta-model.
+
+The workflow has been exercised with several substantially different domains, including **deterministic
+finite automata**, **ATL/OCL abstract-syntax models**, and **Eclipse MoDisco Java models**. These tests
+cover simple graph-shaped models as well as deep containment hierarchies, typed OCL/Java expressions,
+and non-trivial EMF cross-references.
+
+### Analysis and feedback workflows
+
+The assistant also provides post-generation and post-mutation analysis. The implemented workflows
+cover:
+
+- explanation of individual mutants and mutation effects;
+- mutation adequacy and applicability analysis;
+- diagnosis of situations in which no mutants are produced;
+- mutation metrics and comparisons between generated artefacts;
+- support for analysing potentially equivalent mutants;
+- Wodel-Test result and optimiser information;
+- project/installation diagnostics ("doctor" workflows);
+- reproducibility information for mutation runs;
+- comparison of seed models; and
+- guidance for improving seeds when the current models do not exercise enough mutation commands.
+
+Together, these facilities enable an iterative workflow in which a user can **author or inspect a
+Wodel program → generate or select seeds → run mutation → analyse adequacy/results → improve the
+program or seeds** without leaving the Wodel environment.
+
+<details>
+<summary><b>Wodel AI Assistant plugin</b></summary>
+
+- [wodel.ai.assistant](https://github.com/gomezabajo/Wodel/tree/master/wodel.ai.assistant)
+
+</details>
+
 ## Wodel-Edu
 
 Wodel-Edu is an extension to Wodel for the **automated generation of exercises**. It produces
@@ -273,9 +427,21 @@ Learn more:
 
 ## Roadmap
 
-- **GenAI-based assistant (in progress).** Work is underway to integrate a generative-AI
-  assistant into the Wodel toolset, to help users author and refine mutation programs.
-  This feature is experimental and not yet generally available.
+With **Wodel AI Assistant 1.0.0** now available as part of Wodel 3.0.0, future work is focused on
+improving the quality and automation of AI-assisted mutation engineering rather than introducing the
+assistant itself. Current directions include:
+
+- **Mutation-aware seed optimisation** — close the loop between seed generation and mutation adequacy
+  so new seeds can deliberately target commands that are not yet applicable.
+- **Structural diversity metrics** — derive meta-model-independent signatures from generated EMF
+  models (EClass populations, references, containment depth, graph structure, attribute diversity,
+  and related measures) to detect near-isomorphic seeds and drive stronger diversity.
+- **Deeper semantic validation** — complement generic EMF conformance with language-specific checks
+  where suitable, for example ATL semantic/compiler validation or additional Java consistency checks.
+- **Richer reproducibility and comparison support** — continue improving traceability between seed
+  models, mutation configurations, generated mutants, metrics, and Wodel-Test results.
+- **Broader validation on heterogeneous modelling languages** — continue evaluating the assistant on
+  increasingly large and structurally different Ecore meta-models and mutation scenarios.
 
 ## Acknowledgements and third-party components
 
@@ -364,10 +530,10 @@ original license. Please consult the license headers of each plug-in for details
 
 ## Credits
 
-**Wodel, Wodel-Edu & Wodel-Test** — by Juan de Lara, Esther Guerra, Pablo Gómez-Abajo *et al.*, of the [miso research group](http://www.miso.es/), Universidad Autónoma de Madrid.
+**Wodel, Wodel AI Assistant, Wodel-Edu & Wodel-Test** — by Juan de Lara, Esther Guerra, Pablo Gómez-Abajo *et al.*, of the [miso research group](http://www.miso.es/), Universidad Autónoma de Madrid.
 
 The Wodel project was started by the miso group in September 2013; its initial IDE was
-implemented by Víctor López Rivero. Since March 2015 it has been developed by Pablo Gómez-Abajo under the supervision of Esther Guerra and Juan de Lara (and, during his PhD studies, Mercedes G. Merayo). Wodel builds on [Xtext](https://eclipse.dev/Xtext/),
+implemented by Víctor López Rivero. Since March 2015 it has been developed by Pablo Gómez-Abajo under the supervision of Esther Guerra and Juan de Lara (and, during his PhD studies, Mercedes G. Merayo). **Wodel AI Assistant 1.0.0** was introduced with Wodel 3.0.0 as the first released conversational and generative-AI layer for Wodel. Wodel builds on [Xtext](https://eclipse.dev/Xtext/),
 [Sirius](https://eclipse.dev/sirius/), and [Epsilon](https://eclipse.dev/epsilon/), among other frameworks.
 
 Thanks to [@jameseb7](https://github.com/jameseb7) for his priceless help regarding the Ubuntu/Linux compatibility fix.

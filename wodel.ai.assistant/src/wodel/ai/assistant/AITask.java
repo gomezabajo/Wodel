@@ -33,6 +33,8 @@ import wodel.ai.assistant.utils.MetamodelToText;
 import wodel.dsls.WodelStandaloneSetup;
 import mutatorenvironment.MutatorenvironmentPackage;
 
+/** Legacy Gotten-oriented AI task base retained for source compatibility. New Wodel chat AI tasks use wodel.ai.assistant.wodel.ai.WodelAiTask. */
+@Deprecated(forRemoval = false)
 public abstract class AITask extends MTTask implements IFixerTask {
 	public static final String GOTTEN_MODEL = "Gotten Model", MM_PATH = "Meta-model Path", MR_NAME = "MR name";
 	private static final String SYSTEM_PROMPT_HEADER = 

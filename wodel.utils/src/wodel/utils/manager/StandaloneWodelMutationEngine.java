@@ -60,7 +60,8 @@ public final class StandaloneWodelMutationEngine
 	private static final Map<Path, ProjectFirstClassLoader>
     CLASS_LOADERS =
         new ConcurrentHashMap<>();
-	
+
+	/*
 	private InMemoryMutationResult executeMutatorWithRandom(
 			MutatorExecutorHandle executor,
 			List<EPackage> packages,
@@ -106,6 +107,70 @@ public final class StandaloneWodelMutationEngine
 	    }
 	    return result;
 	}
+	*/
+	private InMemoryMutationResult executeMutatorWithRandom(
+            MutatorExecutorHandle executor,
+            List<EPackage> packages,
+            Resource source,
+            Path input,
+            Path output,
+            String[] blockNames,
+            Random random,
+            boolean registry,
+            long executionSeed) {
+
+        synchronized (WODEL_EXECUTION_LOCK) {
+
+            Random previous =
+                ModelManager.rn;
+
+            try {
+
+                ModelManager.rn =
+                    random;
+
+                return executeMutator(
+                    executor,
+                    packages,
+                    source,
+                    input,
+                    output,
+                    blockNames,
+                    random,
+                    registry,
+                    executionSeed);
+            }
+            catch (RuntimeException e) {
+
+                throw e;
+            }
+            catch (Exception e) {
+
+                String operators =
+                    blockNames == null
+                        ? "<all>"
+                        : String.join(
+                            ", ",
+                            blockNames);
+
+                throw new IllegalStateException(
+                    "Wodel standalone execution failed"
+                    + " [project="
+                    + executor.projectRoot()
+                    + ", mutator="
+                    + executor.mutatorName()
+                    + ", operators="
+                    + operators
+                    + "]",
+                    e);
+            }
+            finally {
+
+                ModelManager.rn =
+                    previous;
+            }
+        }
+    }
 	
 	private static String sha256(
 	        Path file)

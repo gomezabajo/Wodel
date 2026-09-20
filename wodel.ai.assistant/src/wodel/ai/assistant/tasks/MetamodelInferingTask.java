@@ -11,6 +11,8 @@ import java.util.List;
 import wodel.ai.assistant.AITask;
 import wodel.ai.assistant.tasks.fixers.LLMResponse;
 
+/** Legacy Gotten metamodel-inference experiment; not part of Wodel chat planning. */
+@Deprecated(forRemoval = false)
 public class MetamodelInferingTask extends AITask {
 	private String gottenModel;
 	private boolean bEcoreMode;

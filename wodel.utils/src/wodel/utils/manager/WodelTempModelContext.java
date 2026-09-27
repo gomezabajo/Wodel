@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -160,6 +161,40 @@ public final class WodelTempModelContext {
             .normalize();
     }
     
+    public static void deleteFolder(
+            Path folder) {
+
+        if (folder == null
+                || !Files.exists(
+                    folder)) {
+
+            return;
+        }
+
+
+        try (Stream<Path> paths =
+                Files.walk(
+                    folder)) {
+
+            paths
+                .sorted(
+                    Comparator.reverseOrder())
+                .forEach(
+                    path -> {
+
+                        try {
+
+                            Files.deleteIfExists(
+                                path);
+                        }
+                        catch (IOException ignored) {
+                        }
+                    });
+        }
+        catch (IOException ignored) {
+        }
+    }
+    
     private static void deleteRecursively(
             Path folder) {
 
@@ -205,6 +240,240 @@ public final class WodelTempModelContext {
     }
 
 
+    private static Path inferProjectRootFromCodeSource(
+            Class<?> standaloneClass)
+            throws IOException {
+
+        Objects.requireNonNull(
+            standaloneClass,
+            "standaloneClass");
+
+
+        try {
+
+            java.security.ProtectionDomain protectionDomain =
+                standaloneClass.getProtectionDomain();
+
+
+            if (protectionDomain == null) {
+
+                throw new IOException(
+                    "Cannot inspect protection domain for "
+                    + standaloneClass.getName());
+            }
+
+
+            java.security.CodeSource codeSource =
+                protectionDomain.getCodeSource();
+
+
+            if (codeSource == null
+                    || codeSource.getLocation() == null) {
+
+                throw new IOException(
+                    "Cannot determine code-source location for "
+                    + standaloneClass.getName());
+            }
+
+
+            java.net.URL location =
+                codeSource.getLocation();
+
+
+            if (!"file".equalsIgnoreCase(
+                    location.getProtocol())) {
+
+                throw new IOException(
+                    "Unsupported Wodel standalone code-source protocol "
+                    + location.getProtocol()
+                    + " for "
+                    + standaloneClass.getName()
+                    + ": "
+                    + location);
+            }
+
+
+            Path current =
+                Paths.get(
+                        location.toURI())
+                    .toAbsolutePath()
+                    .normalize();
+
+
+            /*
+             * A CodeSource normally points to a classes directory.
+             * Be defensive if it happens to point to a file.
+             */
+            if (!Files.isDirectory(
+                    current)) {
+
+                current =
+                    current.getParent();
+            }
+
+
+            while (current != null) {
+
+                if (Files.isRegularFile(
+                        current.resolve(
+                            ".project"))) {
+
+                    return current
+                        .toAbsolutePath()
+                        .normalize();
+                }
+
+
+                current =
+                    current.getParent();
+            }
+
+
+            throw new IOException(
+                "Cannot determine the Wodel project root for "
+                + standaloneClass.getName()
+                + " from code-source location "
+                + location
+                + ": no parent .project file was found");
+        }
+        catch (java.net.URISyntaxException e) {
+
+            throw new IOException(
+                "Cannot convert the code-source location of "
+                + standaloneClass.getName()
+                + " to a filesystem path",
+                e);
+        }
+    }
+    
+    private static Path resolveModelsFolder(
+            Class<?> standaloneClass)
+            throws IOException {
+
+        /*
+         * =========================================================
+         * 1. Normal Wodel resolution
+         * =========================================================
+         */
+
+        String rawModelsFolder =
+            null;
+
+
+        try {
+
+            rawModelsFolder =
+                ModelManager.getModelsFolder(
+                    standaloneClass);
+        }
+        catch (RuntimeException ignored) {
+
+            /*
+             * Fall through to the code-source strategy.
+             */
+        }
+
+
+        if (rawModelsFolder != null
+                && !rawModelsFolder.isBlank()) {
+
+            try {
+
+                Path resolved =
+                    toNativePath(
+                        rawModelsFolder);
+
+
+                if (Files.isDirectory(
+                        resolved)) {
+
+                    return resolved;
+                }
+            }
+            catch (RuntimeException ignored) {
+
+                /*
+                 * A stale or malformed path should not prevent the
+                 * archived-project fallback below.
+                 */
+            }
+        }
+
+
+        /*
+         * =========================================================
+         * 2. Headless / archived replay fallback
+         * =========================================================
+         *
+         * The generated standalone class is loaded from:
+         *
+         *     <wodel-project>/bin/
+         *
+         * or:
+         *
+         *     <wodel-project>/target/classes/
+         *
+         * or:
+         *
+         *     <wodel-project>/build/classes/java/main/
+         *
+         * Therefore walk upwards from its code-source location until
+         * the Wodel project's .project file is found.
+         */
+
+        Path projectRoot =
+            inferProjectRootFromCodeSource(
+                standaloneClass);
+
+
+        Path fallback =
+            projectRoot
+                .resolve(
+                    "data")
+                .resolve(
+                    "model")
+                .toAbsolutePath()
+                .normalize();
+
+
+        if (!Files.isDirectory(
+                fallback)) {
+
+            throw new IOException(
+                "Cannot determine the Wodel models folder for "
+                + standaloneClass.getName()
+                + ". ModelManager returned "
+                + String.valueOf(
+                    rawModelsFolder)
+                + " and the inferred project models directory "
+                + "does not exist: "
+                + fallback);
+        }
+
+
+        System.out.println(
+            "[WODEL TEMP] ModelManager models folder unavailable; "
+            + "using code-source fallback "
+            + fallback);
+
+
+        return fallback;
+    }
+    
+    public static Path detach() {
+
+        TempContext context =
+            CURRENT.get();
+
+
+        CURRENT.remove();
+
+
+        return context != null
+            ? context.folder()
+            : null;
+    }
+    
     /**
      * Opens a fresh temporary workspace for one execution
      * of one Wodel mutation block.
@@ -234,14 +503,18 @@ public final class WodelTempModelContext {
         end();
 
 
-        String rawModelsFolder =
-            ModelManager.getModelsFolder(
-                standaloneClass);
-
-
+//        String rawModelsFolder =
+//            ModelManager.getModelsFolder(
+//                standaloneClass);
+//
+//
+//        Path modelsFolder =
+//            toNativePath(
+//                rawModelsFolder);
+        
         Path modelsFolder =
-            toNativePath(
-                rawModelsFolder);
+        	    resolveModelsFolder(
+        	        standaloneClass);
 
 
         /*
@@ -509,33 +782,53 @@ public final class WodelTempModelContext {
 //        }
 //    }
 
+//    public static void end() {
+//
+//        TempContext context =
+//            CURRENT.get();
+//
+//        CURRENT.remove();
+//
+//        if (context == null) {
+//            return;
+//        }
+//
+//        try {
+//
+//            deleteRecursively(
+//                context.folder());
+//        }
+//        catch (RuntimeException e) {
+//
+//            /*
+//             * Cleanup must not hide the mutation exception.
+//             */
+//            System.err.println(
+//                "[WODEL TEMP] Cannot clean "
+//                + context.folder()
+//                + ": "
+//                + e.getMessage());
+//        }
+//    }
+    
     public static void end() {
 
-        TempContext context =
-            CURRENT.get();
+        /*
+         * IMPORTANT:
+         *
+         * Do not delete the execution folder here.
+         *
+         * The generated Wodel worker returns mutant paths pointing
+         * into this directory. Those paths are consumed afterwards
+         * by the parent execution while merging/publishing the
+         * block result.
+         *
+         * Deleting the directory here makes MutationResults report
+         * generated mutants although no physical mutant survives
+         * long enough to be copied to data/out.
+         */
 
         CURRENT.remove();
-
-        if (context == null) {
-            return;
-        }
-
-        try {
-
-            deleteRecursively(
-                context.folder());
-        }
-        catch (RuntimeException e) {
-
-            /*
-             * Cleanup must not hide the mutation exception.
-             */
-            System.err.println(
-                "[WODEL TEMP] Cannot clean "
-                + context.folder()
-                + ": "
-                + e.getMessage());
-        }
     }
 
     /**

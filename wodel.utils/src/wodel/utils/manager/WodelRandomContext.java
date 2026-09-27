@@ -8,16 +8,20 @@ public final class WodelRandomContext {
     private static final ThreadLocal<RandomGenerator> CURRENT =
         new ThreadLocal<>();
 
+
     private WodelRandomContext() {
     }
+
 
     public static void set(
             RandomGenerator random) {
 
         CURRENT.set(
             Objects.requireNonNull(
-                random));
+                random,
+                "random"));
     }
+
 
     public static RandomGenerator current() {
 
@@ -28,11 +32,36 @@ public final class WodelRandomContext {
 
             throw new IllegalStateException(
                 "No Wodel random generator is bound "
-                + "to the current execution");
+                + "to the current execution thread");
         }
 
         return random;
     }
+
+
+    /**
+     * Compatibility helper for Wodel code that can also execute outside
+     * an explicit deterministic execution context.
+     */
+    public static RandomGenerator currentOrDefault() {
+
+        RandomGenerator random =
+            CURRENT.get();
+
+        if (random != null) {
+
+            return random;
+        }
+
+        return ModelManager.rn;
+    }
+
+
+    public static boolean isBound() {
+
+        return CURRENT.get() != null;
+    }
+
 
     public static void clear() {
 

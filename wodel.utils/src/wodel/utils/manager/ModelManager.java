@@ -6,8 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.random.RandomGenerator;
@@ -96,6 +100,32 @@ public class ModelManager {
 
 	public static final String NATURE_ID = "wodel.project.wodelNature";
 	
+	public static <T> void shuffle(
+	        List<T> values) {
+
+	    Objects.requireNonNull(
+	        values,
+	        "values");
+
+	    RandomGenerator random =
+	        WodelRandomContext
+	            .currentOrDefault();
+
+	    for (int i = values.size() - 1;
+	         i > 0;
+	         i--) {
+
+	        int j =
+	            random.nextInt(
+	                i + 1);
+
+	        Collections.swap(
+	            values,
+	            i,
+	            j);
+	    }
+	}
+	
 	public static boolean isRegistered(List<EPackage> packages) {
 		if (packages == null) {
 			return false;
@@ -152,6 +182,67 @@ public class ModelManager {
 			projectName = test.getProjectName();
 		}
 		return projectName;
+	}
+	
+	public static java.nio.file.Path getProjectRoot(
+	        Class<?> runtimeClass) {
+
+	    Objects.requireNonNull(
+	        runtimeClass,
+	        "runtimeClass");
+
+	    try {
+
+	        java.net.URL location =
+	            runtimeClass
+	                .getProtectionDomain()
+	                .getCodeSource()
+	                .getLocation();
+
+
+	        java.nio.file.Path current =
+	            Paths.get(
+	                    location.toURI())
+	                .toAbsolutePath()
+	                .normalize();
+
+
+	        if (!Files.isDirectory(
+	                current)) {
+
+	            current =
+	                current.getParent();
+	        }
+
+
+	        while (current != null) {
+
+	            if (Files.isRegularFile(
+	                    current.resolve(
+	                        ".project"))
+	                    || Files.isDirectory(
+	                        current.resolve(
+	                            "data"))) {
+
+	                return current;
+	            }
+
+	            current =
+	                current.getParent();
+	        }
+
+
+	        throw new IllegalStateException(
+	            "Cannot determine Wodel project root for "
+	            + runtimeClass.getName());
+	    }
+	    catch (Exception e) {
+
+	        throw new IllegalStateException(
+	            "Cannot determine Wodel project root for "
+	            + runtimeClass.getName(),
+	            e);
+	    }
 	}
 	
 	private static Class<?> getClassFromWodelTest() {
@@ -1843,73 +1934,117 @@ public class ModelManager {
 		return mutantpaths;
 	}
 
-	public static String getModelsFolder() {
-		try {
-			String path = "";
-			if (ProjectUtils.getProject() != null) {
-				path = ProjectUtils.getProject().getLocation().toFile().getPath();
+		public static String getModelsFolder() {
+			try {
+				String path = "";
+				if (ProjectUtils.getProject() != null) {
+					path = ProjectUtils.getProject().getLocation().toFile().getPath();
+				}
+				if (path.length() == 0) {
+					path = ModelManager.getWorkspaceAbsolutePath();
+				}
+				if (path.length() == 0) {
+					return "";
+				}
+				path = path.replaceAll("\\\\", "/");
+				
+				BufferedReader br = new BufferedReader(new FileReader(path
+						+ "/data/config/config.txt"));
+	
+				String ret = path
+					+ '/' + br.readLine();
+				br.close();
+				return ret;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (path.length() == 0) {
-				path = ModelManager.getWorkspaceAbsolutePath();
-			}
-			if (path.length() == 0) {
-				return "";
-			}
-			path = path.replaceAll("\\\\", "/");
-			
-			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/data/config/config.txt"));
-
-			String ret = path
-				+ '/' + br.readLine();
-			br.close();
-			return ret;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return "";
 		}
-		return "";
+	
+	public static String getModelsFolder(
+	        Class<?> runtimeClass) {
+
+	    java.nio.file.Path projectRoot =
+	        getProjectRoot(
+	            runtimeClass);
+
+	    java.nio.file.Path configFile =
+	        projectRoot.resolve(
+	            "data/config/config.txt");
+
+
+	    try (BufferedReader reader =
+	            Files.newBufferedReader(
+	                configFile,
+	                StandardCharsets.UTF_8)) {
+
+	        String configured =
+	            reader.readLine();
+
+	        if (configured == null
+	                || configured.isBlank()) {
+
+	            throw new IllegalStateException(
+	                "Invalid Wodel models-folder configuration: "
+	                + configFile);
+	        }
+
+
+	        return projectRoot
+	            .resolve(
+	                configured.trim())
+	            .normalize()
+	            .toString();
+	    }
+	    catch (IOException e) {
+
+	        throw new IllegalStateException(
+	            "Cannot read Wodel configuration file: "
+	            + configFile,
+	            e);
+	    }
 	}
 
-	public static String getModelsFolder(Class<?> cls) {
-		try {
-			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.replaceAll("\\\\", "/");
-			int index = path.lastIndexOf("/bin");
-			if (index == -1) {
-				index = path.lastIndexOf("/");
-			}
-			path = path.substring(0, index);
-			index = path.lastIndexOf("/src-gen");
-			if (index != -1) {
-				path = path.substring(0, index);
-			}
-			index = path.lastIndexOf("\\src-gen");
-			if (index != -1) {
-				path = path.substring(0, index);
-			}
-			index = path.lastIndexOf("/src");
-			if (index != -1) {
-				path = path.substring(0, index);
-			}
-			index = path.lastIndexOf("\\src");
-			if (index != -1) {
-				path = path.substring(0, index);
-			}
-
-			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/data/config/config.txt"));
-
-			String ret = path
-				+ '/' + br.readLine();
-			br.close();
-			return ret;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
-	}
+//	public static String getModelsFolder(Class<?> cls) {
+//		try {
+//			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+//			path = path.replaceAll("\\\\", "/");
+//			int index = path.lastIndexOf("/bin");
+//			if (index == -1) {
+//				index = path.lastIndexOf("/");
+//			}
+//			path = path.substring(0, index);
+//			index = path.lastIndexOf("/src-gen");
+//			if (index != -1) {
+//				path = path.substring(0, index);
+//			}
+//			index = path.lastIndexOf("\\src-gen");
+//			if (index != -1) {
+//				path = path.substring(0, index);
+//			}
+//			index = path.lastIndexOf("/src");
+//			if (index != -1) {
+//				path = path.substring(0, index);
+//			}
+//			index = path.lastIndexOf("\\src");
+//			if (index != -1) {
+//				path = path.substring(0, index);
+//			}
+//
+//			BufferedReader br = new BufferedReader(new FileReader(path
+//					+ "/data/config/config.txt"));
+//
+//			String ret = path
+//					+ '/' + br.readLine();
+//			br.close();
+//			return ret;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return "";
+//	}
 	
 	public static String getModelsFolder(EObject object) {
 		try {
@@ -2464,7 +2599,15 @@ public class ModelManager {
 			br.readLine();
 			String mutatorName = br.readLine();
 			br.close();
-			return path + "/" + mutatorName;
+			String ret = path + "/" + mutatorName;
+			ret = ret.replace("\\", "/");
+			if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
+				ret = ret.substring(1, ret.length());
+			}
+			if (!ret.endsWith("/")) {
+			    ret = ret + "/";
+			}
+			return ret;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2488,7 +2631,15 @@ public class ModelManager {
 			br.readLine();
 			String mutantName = br.readLine();
 			br.close();
-			return path	+ '/' + mutantName;
+			String ret = path + '/' + mutantName;
+			ret = ret.replace("\\", "/");
+			if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
+				ret = ret.substring(1, ret.length());
+			}
+			if (!ret.endsWith("/")) {
+			    ret = ret + "/";
+			}
+			return ret;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2509,13 +2660,20 @@ public class ModelManager {
 				return "";
 			}
 
-			path = path.replaceAll("\\\\", "/");
+			path = path.replace("\\", "/");
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
 			br.readLine();
 			String ret = br.readLine();
 			br.close();
+			ret = ret.replace("\\", "/");
+			if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
+				ret = ret.substring(1, ret.length());
+			}
+			if (!ret.endsWith("/")) {
+			    ret = ret + "/";
+			}
 			return ret;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -2527,7 +2685,7 @@ public class ModelManager {
 	public static String getOutputFolder(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.replaceAll("\\\\", "/");
+			path = path.replace("\\", "/");
 			int index = path.lastIndexOf("/bin");
 			if (index == -1) {
 				index = path.lastIndexOf("/");
@@ -2540,6 +2698,13 @@ public class ModelManager {
 			br.readLine();
 			String ret = br.readLine();
 			br.close();
+			ret = ret.replace("\\", "/");
+			if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
+				ret = ret.substring(1, ret.length());
+			}
+			if (!ret.endsWith("/")) {
+			    ret = ret + "/";
+			}
 			return ret;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -2559,7 +2724,7 @@ public class ModelManager {
 					return "";
 				}
 			}
-			path = path.replaceAll("\\\\", "/");
+			path = path.replaceAll("\\", "/");
 			if (path.contains("/bin")) {
 				path = path.substring(0, path.lastIndexOf("/bin"));
 			}
@@ -2584,6 +2749,13 @@ public class ModelManager {
 			br.readLine();
 			String ret = br.readLine();
 			br.close();
+			ret = ret.replace("\\", "/");
+			if (isWindows() && !isLinux() && !isMac() && ret.startsWith("/")) {
+				ret = ret.substring(1, ret.length());
+			}
+			if (!ret.endsWith("/")) {
+			    ret = ret + "/";
+			}
 			return ret;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

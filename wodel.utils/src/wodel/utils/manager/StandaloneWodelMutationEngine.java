@@ -109,16 +109,17 @@ public final class StandaloneWodelMutationEngine
 	}
 	*/
 	private InMemoryMutationResult executeMutatorWithRandom(
-            MutatorExecutorHandle executor,
-            List<EPackage> packages,
-            Resource source,
-            Path input,
-            Path output,
-            String[] blockNames,
-            Random random,
-            boolean registry,
-            long executionSeed) {
-
+	        MutatorExecutorHandle executor,
+	        List<EPackage> packages,
+	        Resource source,
+	        Resource baseline,
+	        Path input,
+	        Path output,
+	        String[] blockNames,
+	        Random random,
+	        boolean registry,
+	        long executionSeed) {
+		
         synchronized (WODEL_EXECUTION_LOCK) {
 
             Random previous =
@@ -130,15 +131,16 @@ public final class StandaloneWodelMutationEngine
                     random;
 
                 return executeMutator(
-                    executor,
-                    packages,
-                    source,
-                    input,
-                    output,
-                    blockNames,
-                    random,
-                    registry,
-                    executionSeed);
+                	    executor,
+                	    packages,
+                	    source,
+                	    baseline,
+                	    input,
+                	    output,
+                	    blockNames,
+                	    random,
+                	    registry,
+                	    executionSeed);
             }
             catch (RuntimeException e) {
 
@@ -199,6 +201,103 @@ public final class StandaloneWodelMutationEngine
 	    PivotOclStandaloneSupport.initialize();
 	}
 	
+	private static void unloadResource(
+	        Resource resource) {
+
+	    if (resource == null) {
+	        return;
+	    }
+
+
+	    ResourceSet resourceSet =
+	        resource.getResourceSet();
+
+
+	    resource.unload();
+
+
+	    if (resourceSet != null) {
+
+	        resourceSet
+	            .getResources()
+	            .remove(
+	                resource);
+	    }
+	}
+	
+	private static Resource copyResourceInMemory(
+	        Resource source) {
+
+	    ResourceSet resourceSet =
+	        new ResourceSetImpl();
+
+
+	    Resource copy =
+	        resourceSet.createResource(
+	            URI.createURI(
+	                "memory:/womot-baseline.model"));
+
+
+	    copy.getContents()
+	        .addAll(
+	            EcoreUtil.copyAll(
+	                source.getContents()));
+
+
+	    return copy;
+	}
+	
+	private static Resource loadModelForComparison(
+	        Path modelFile,
+	        List<EPackage> packages,
+	        Resource source)
+	        throws IOException {
+
+	    ResourceSet resourceSet =
+	        new ResourceSetImpl();
+
+
+	    resourceSet
+	        .getResourceFactoryRegistry()
+	        .getExtensionToFactoryMap()
+	        .put(
+	            "model",
+	            new XMIResourceFactoryImpl());
+
+
+	    resourceSet
+	        .getResourceFactoryRegistry()
+	        .getExtensionToFactoryMap()
+	        .put(
+	            Resource.Factory.Registry.DEFAULT_EXTENSION,
+	            new XMIResourceFactoryImpl());
+
+
+	    /*
+	     * Reuse exactly the dynamic packages associated with the
+	     * WoMoT source model.
+	     */
+	    registerSourcePackages(
+	        resourceSet,
+	        source);
+
+
+	    Resource resource =
+	        resourceSet.getResource(
+	            URI.createFileURI(
+	                modelFile
+	                    .toAbsolutePath()
+	                    .normalize()
+	                    .toString()),
+	            true);
+
+
+	    EcoreUtil.resolveAll(
+	        resourceSet);
+
+
+	    return resource;
+	}
     /*
      * M1 is deliberately sequential.
      *
@@ -286,6 +385,20 @@ public final class StandaloneWodelMutationEngine
                 source,
                 candidate);
             
+            /*
+             * IMPORTANT:
+             *
+             * This resource is an immutable snapshot of exactly the model
+             * submitted to Wodel.
+             *
+             * Do not use source itself for the later no-op comparison.
+             */
+            Resource baseline =
+            	    loadModelForComparison(
+            	        candidate,
+            	        packages,
+            	        source);
+            
             System.out.println(
             	    "WoMoT candidate: "
             	    + candidate
@@ -294,16 +407,25 @@ public final class StandaloneWodelMutationEngine
             	    + " sha256="
             	    + sha256(candidate));
 
-            return executeMutatorWithRandom(
-                executor,
-                packages,
-                source,
-                input,
-                output,
-                blockNames,
-                executionRandom,
-                registry,
-                executionSeed);
+            try {
+
+                return executeMutatorWithRandom(
+                    executor,
+                    packages,
+                    source,
+                    baseline,
+                    input,
+                    output,
+                    blockNames,
+                    executionRandom,
+                    registry,
+                    executionSeed);
+            }
+            finally {
+
+                unloadResource(
+                    baseline);
+            }
         }
         catch (Exception e) {
 
@@ -319,12 +441,61 @@ public final class StandaloneWodelMutationEngine
                 work);
         }
     }
+    
+    private static boolean resourcesEquivalent(
+            Resource first,
+            Resource second) {
+
+        Objects.requireNonNull(
+            first,
+            "first");
+
+        Objects.requireNonNull(
+            second,
+            "second");
+
+
+        if (first.getContents()
+                .size()
+                != second.getContents()
+                    .size()) {
+
+            return false;
+        }
+
+
+        for (int i = 0;
+                i < first.getContents()
+                    .size();
+                i++) {
+
+            EObject left =
+                first.getContents()
+                    .get(i);
+
+            EObject right =
+                second.getContents()
+                    .get(i);
+
+
+            if (!EcoreUtil.equals(
+                    left,
+                    right)) {
+
+                return false;
+            }
+        }
+
+
+        return true;
+    }
 
 
     private InMemoryMutationResult executeMutator(
             MutatorExecutorHandle executor,
             List<EPackage> packages,
             Resource source,
+            Resource baseline,
             Path input,
             Path output,
             String[] blockNames,
@@ -378,7 +549,8 @@ public final class StandaloneWodelMutationEngine
         }
 
         
-        try (Stream<Path> generated =
+        
+        	try (Stream<Path> generated =
                 Files.walk(output)) {
 
             generated
@@ -399,57 +571,15 @@ public final class StandaloneWodelMutationEngine
                         System.out.println(
                             "WODEL CANDIDATE MUTANT: "
                             + file));
-            
-            List<Path> candidates;
-
-            try (Stream<Path> files =
-                    Files.walk(output)) {
-
-                candidates =
-                    files
-                        .filter(
-                            Files::isRegularFile)
-                        .filter(
-                            file ->
-                                looksLikeMutant(
-                                    executor,
-                                    file))
-                        .sorted()
-                        .toList();
-            }
-
-
-            for (Path candidate :
-                    candidates) {
-
-                Resource candidateResource =
-                    loadMutant(
-                        candidate,
-                        packages,
-                        source);
-
-                boolean equivalent =
-                    EcoreUtil.equals(
-                        source.getContents(),
-                        candidateResource.getContents());
-
-                System.out.println(
-                    "WODEL CANDIDATE MUTANT:"
-                    + " file="
-                    + candidate
-                    + " equivalentToSource="
-                    + equivalent);
-
-                candidateResource.unload();
-            }
         }
         
-        Path mutantFile =
-            findFirstNonEquivalentMutant(
-                executor,
-                output,
-                packages,
-                source);
+        	Path mutantFile =
+        		    findFirstNonEquivalentMutant(
+        		        executor,
+        		        output,
+        		        packages,
+        		        source,
+        		        baseline);
 
         if (mutantFile == null) {
 
@@ -918,7 +1048,8 @@ public final class StandaloneWodelMutationEngine
             MutatorExecutorHandle executor,
             Path output,
             List<EPackage> packages,
-            Resource source)
+            Resource source,
+            Resource baseline)
             throws IOException {
 
         List<Path> candidates;
@@ -955,9 +1086,9 @@ public final class StandaloneWodelMutationEngine
                         source);
 
                 boolean equivalent =
-                    EcoreUtil.equals(
-                        source.getContents(),
-                        mutant.getContents());
+                	    resourcesEquivalent(
+                	        baseline,
+                	        mutant);
 
                 System.out.println(
                     "Wodel candidate mutant = "

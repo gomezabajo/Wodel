@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.random.RandomGenerator;
 import java.util.LinkedHashSet;
 import java.util.regex.Pattern;
 
@@ -48,12 +49,6 @@ import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.ReferenceChange;
-import org.eclipse.emf.compare.scope.DefaultComparisonScope;
-import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -353,34 +348,71 @@ public class MutatorUtils {
 	 * @param range
 	 * @return
 	 */
-	protected int getRandom(int range) {
-		if (range == 1)
-			return 0;
+	protected int getRandom(
+	        int range) {
 
-		int value = ModelManager.rn.nextInt() % range;
-		if (value < 0)
-			value = value * -1;
+	    if (range <= 0) {
 
-		return value;
+	        throw new IllegalArgumentException(
+	            "range must be greater than zero");
+	    }
+
+	    if (range == 1) {
+
+	        return 0;
+	    }
+
+	    return WodelRandomContext
+	        .currentOrDefault()
+	        .nextInt(
+	            range);
 	}
-	
 	/**
 	 * Gets a random string
 	 * @param min
 	 * @param max
 	 * @return
 	 */
-	public static String getRandomString(int min, int max) {
-		String value = "";
-		int size = ModelManager.rn.nextInt(max-min)+min;
-		for (int i=0; i<size; i++) {
-			int newchar = ModelManager.rn.nextInt(94)+32;
-			while (!Character.isLetter(newchar)) {
-				newchar = ModelManager.rn.nextInt(94)+32;
-			}
-			value = value + String.valueOf((char)newchar);
-		}
-		return value;
+	public static String getRandomString(
+	        int min,
+	        int max) {
+
+	    RandomGenerator random =
+	        WodelRandomContext
+	            .currentOrDefault();
+
+	    int size =
+	        random.nextInt(
+	            min,
+	            max);
+
+	    StringBuilder value =
+	        new StringBuilder(
+	            size);
+
+	    for (int i = 0;
+	         i < size;
+	         i++) {
+
+	        int newChar =
+	            random.nextInt(
+	                32,
+	                126);
+
+	        while (!Character.isLetter(
+	                newChar)) {
+
+	            newChar =
+	                random.nextInt(
+	                    32,
+	                    126);
+	        }
+
+	        value.append(
+	            (char) newChar);
+	    }
+
+	    return value.toString();
 	}
 
 	/**
@@ -389,17 +421,28 @@ public class MutatorUtils {
 	 * @param max
 	 * @return
 	 */
-	public static int getRandomInt(int min, int max) {
-		int value = 0;
-		if (min == 0 && max == 0) {
-			value = 0;
-		}
-		else {
-			value = ModelManager.rn.nextInt(max-min)+min;
-		}
-		return value;
+	public static int getRandomInt(
+	        int min,
+	        int max) {
+
+	    if (min == 0
+	            && max == 0) {
+
+	        return 0;
+	    }
+
+	    if (max <= min) {
+
+	        throw new IllegalArgumentException(
+	            "max must be greater than min");
+	    }
+
+	    return WodelRandomContext
+	        .currentOrDefault()
+	        .nextInt(
+	            min,
+	            max);
 	}
-	
 	/**
 	 * Gets a random int in the min,max interval
 	 * @param min

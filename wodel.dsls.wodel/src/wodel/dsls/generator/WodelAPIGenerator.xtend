@@ -419,6 +419,8 @@ import java.nio.file.Paths;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.ocl.xtext.essentialocl.EssentialOCLStandaloneSetup;
+
 
 «FOR String mutatorName : mutMap.keySet»
 import mutator.«mutatorName».«mutatorName»StandaloneAPI;
@@ -472,6 +474,56 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneAPILauncher {
 				        applied.addAll(
 				            source.getMutatorsApplied());
 				    }
+				}
+				
+				private static void replaceInputModels(
+				        Path requestedInput,
+				        Path internalInput)
+				        throws IOException {
+				
+				    Files.createDirectories(
+				        internalInput);
+				
+				
+				    /*
+				     * Delete previous DOMAIN INSTANCES only.
+				     *
+				     * Keep metamodels and other runtime resources such as
+				     * DFAAutomaton.ecore.
+				     */
+				    try (var paths =
+				            Files.list(
+				                internalInput)) {
+				
+				        for (Path path :
+				                paths.toList()) {
+				
+				            if (!Files.isRegularFile(path)) {
+				
+				                continue;
+				            }
+				
+				            String fileName =
+				                path.getFileName()
+				                    .toString();
+				
+				            if (fileName.endsWith(
+				                    ".model")) {
+				
+				                Files.deleteIfExists(
+				                    path);
+				            }
+				        }
+				    }
+				
+				
+				    /*
+				     * Install the candidate supplied by WoMoT.
+				     */
+				    IOUtils.copyFolder(
+				        requestedInput.toFile(),
+				        internalInput.toFile(),
+				        "model");
 				}
 				
 				public static List<String> getAllOperatorNames() {
@@ -599,28 +651,44 @@ String ecoreURI =
      * filesystem location embedded in the Wodel
      * mutation program.
      */
-    String inputWodelFolder = "«project.location.toFile.absolutePath.replace("\\", "/")»/data/model";
+    String inputWodelFolder = ModelManager.getModelsFolder(
+                    «project.name.replaceAll("[.]", "_")»StandaloneAPILauncher.class);
 
 Path requestedInput =
     Paths.get(inputFolder)
-         .toAbsolutePath()
-         .normalize();
+        .toAbsolutePath()
+        .normalize();
+
 
 Path internalInput =
     Paths.get(inputWodelFolder)
-         .toAbsolutePath()
-         .normalize();
+        .toAbsolutePath()
+        .normalize();
 
-if (!requestedInput.equals(internalInput)) {
 
-    IOUtils.deleteFolder(
-        internalInput.toString(),
-        "model");
+if (!requestedInput.equals(
+        internalInput)) {
 
-    IOUtils.copyFolder(
-        requestedInput.toFile(),
-        internalInput.toFile(),
-        "model");
+    replaceInputModels(
+        requestedInput,
+        internalInput);
+}
+
+System.out.println(
+    "[WODEL INPUT] internalInput="
+    + internalInput);
+
+try (var paths =
+        Files.list(
+            internalInput)) {
+
+    paths
+        .sorted()
+        .forEach(
+            path ->
+                System.out.println(
+                    "[WODEL INPUT] "
+                    + path.getFileName()));
 }
 
     Path inputWodelPath =
@@ -734,6 +802,8 @@ if (!requestedOutput.equals(internalOutput)) {
 	            "args[1] = outputFolder");
 	        System.exit(2);
 	    }
+	
+	EssentialOCLStandaloneSetup.doSetup();
 	
 	    MutatorUtils.MutationResults result =
 	        createMutants(args[0], args[1], null, true, System.nanoTime());

@@ -393,7 +393,6 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 		}
 		}
 		finally {
-			
 	if (isRegistered == true) {
 		if (localRegisteredPackages != null) {
 		            ModelManager.registerMetaModel(
@@ -1217,6 +1216,8 @@ package mutator.«className»;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1508,15 +1509,29 @@ public class «className» extends MutatorUtils {
 			private int numMutantsGenerated;
 			private final Map<String, Set<String>> mutantDelta;
 			private final Map<String, List<String>> mutantVersionDelta;
+			private final Path tempFolder;
 	
-			public BlockExecutionResult(String blockName,
-					int numMutantsGenerated,
-					Map<String, Set<String>> mutantDelta,
-					Map<String, List<String>> mutantVersionDelta) {
-				this.blockName = blockName;
-				this.numMutantsGenerated = numMutantsGenerated;
-				this.mutantDelta = mutantDelta;
-				this.mutantVersionDelta = mutantVersionDelta;
+			private BlockExecutionResult(
+			        String blockName,
+			        int numMutantsGenerated,
+			        Map<String, Set<String>> mutantDelta,
+			        Map<String, List<String>> mutantVersionDelta,
+			        Path tempFolder) {
+			
+			    this.blockName =
+			        blockName;
+			
+			    this.numMutantsGenerated =
+			        numMutantsGenerated;
+			
+			    this.mutantDelta =
+			        mutantDelta;
+			
+			    this.mutantVersionDelta =
+			        mutantVersionDelta;
+			
+			    this.tempFolder =
+			        tempFolder;
 			}
 			
 			public String getBlockName() {
@@ -1533,6 +1548,11 @@ public class «className» extends MutatorUtils {
 			}
 			public Map<String, List<String>> getMutantVersionDelta() {
 				return mutantVersionDelta;
+			}
+			
+			private Path getTempFolder() {
+			
+			    return tempFolder;
 			}
 			
 		}
@@ -1780,6 +1800,8 @@ public class «className» extends MutatorUtils {
 	«ENDIF»
 
 		MutationResults mutationResults = new MutationResults();
+		List<Path> tempFoldersToDelete =
+		    new ArrayList<>();
 
 		if (maxAttempts <= 0) {
 			maxAttempts = 1;
@@ -1897,14 +1919,17 @@ final List<EPackage> basePackages =
 						new NullProgressMonitor(), k, serialize, test, classes, executionSeed);
 					«ENDIF»
 					
+					Path tempFolder =
+					        WodelTempModelContext.currentFolder();
 					return new BlockExecutionResult(
 						"«b.name»",
 						generated,
 						mutantDelta(baseMutants_«b.name», localMutants),
-						mutantVersionDelta(baseMutantVersions_«b.name», localMutantVersions));
+						mutantVersionDelta(baseMutantVersions_«b.name», localMutantVersions),
+						tempFolder);
 					}
 					finally {
-						WodelTempModelContext.end();
+						WodelTempModelContext.detach();
 					
 					            WodelRandomContext.clear();
 					        }
@@ -1917,6 +1942,9 @@ final List<EPackage> basePackages =
 			if (future_«b.name» != null) {
 				BlockExecutionResult blockResult_«b.name» = getBlockResult(future_«b.name»);
 
+try {
+	tempFoldersToDelete.add(
+	        blockResult_«b.name».getTempFolder());
 				mergeMutants(hashmapMutants, blockResult_«b.name».getMutantDelta());
 				mergeMutantVersions(hashmapMutVersions, blockResult_«b.name».getMutantVersionDelta());
 
@@ -1929,11 +1957,22 @@ final List<EPackage> basePackages =
 					mutationResults.setNumMutantsGenerated(mutationResults.getNumMutantsGenerated() + blockResult_«b.name».getNumMutantsGenerated());
 				}
 				monitor.worked(1);
+}
+finally {
+				
+	
+}
 			}
 			«ENDFOR»
 			«ENDFOR»
 		}
 		finally {
+			for (Path tempFolder :
+			            tempFoldersToDelete) {
+			
+			        WodelTempModelContext.deleteFolder(
+			            tempFolder);
+			    }
 			blockExecutor.shutdownNow();
 		}
 
@@ -2018,11 +2057,39 @@ final List<EPackage> basePackages =
 		String ecoreURI = "«e.metamodel»";
 		«/*IF e.source.multiple == true*/»
 		«IF standalone»
-		String modelURI =
-		    "«projectRoot»/«e.source.path»".replace("\\", "/");
 		
-		String modelsURI =
-		    "«projectRoot»/«e.output»".replace("\\", "/");
+		Path projectPath =
+		    ModelManager.getProjectRoot(
+		        «className».class);
+		
+		
+		Path inputWodelPath =
+		    Paths.get(
+		            ModelManager.getModelsFolder(
+		                «className».class))
+		        .toAbsolutePath()
+		        .normalize();
+		
+		
+		Path outputWodelPath =
+		    Paths.get(
+		            ModelManager.getOutputPath(
+		                «className».class))
+		        .toAbsolutePath()
+		        .normalize();
+		
+		
+		String inputWodelFolder =
+		    inputWodelPath.toString();
+		
+		
+		String outputWodelFolder =
+		    outputWodelPath.toString();
+		
+		String modelURI = inputWodelFolder.replace("\\", "/");
+		
+		String modelsURI = outputWodelFolder.replace("\\", "/");
+		
 		«ELSE»
 		String modelURI =
 		    «className».class
@@ -2053,7 +2120,7 @@ final List<EPackage> basePackages =
 			if (files[i].isFile() == true) {
 				String pathfile = files[i].getPath();
 				if (pathfile.endsWith(".model") == true) {
-					hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+					hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + "/" + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
 				}
 			}
 		}
@@ -2080,9 +2147,38 @@ final List<EPackage> basePackages =
 		«IF e instanceof Program»
 		String ecoreURI = "«e.metamodel»".replace("\\", "/");
 		«IF standalone»
-		String modelURI = "«projectRoot»/«e.source.path»".replace("\\", "/");
-		
-		String modelsURI = "«projectRoot»/«e.output»".replace("\\", "/");
+				Path projectPath =
+				    ModelManager.getProjectRoot(
+				        «className».class);
+				
+				
+				Path inputWodelPath =
+				    Paths.get(
+				            ModelManager.getModelsFolder(
+				                «className».class))
+				        .toAbsolutePath()
+				        .normalize();
+				
+				
+				Path outputWodelPath =
+				    Paths.get(
+				            ModelManager.getOutputPath(
+				                «className».class))
+				        .toAbsolutePath()
+				        .normalize();
+				
+				
+				String inputWodelFolder =
+				    inputWodelPath.toString();
+				
+				
+				String outputWodelFolder =
+				    outputWodelPath.toString();
+				
+				String modelURI = inputWodelFolder.replace("\\", "/");
+				
+				String modelsURI = outputWodelFolder.replace("\\", "/");
+				
 		«ELSE»
 		String modelURI =
 		    «className».class
@@ -2117,20 +2213,20 @@ final List<EPackage> basePackages =
 					if (fromNames.size() == 0) {
 						String pathfile = files[i].getPath();
 						if (pathfile.endsWith(".model") == true) {
-							hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+							hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + "/" + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
 							seedModelFilenames.put(pathfile.replace("\\", "/"), files[i].getPath());
 						}
 					}
 					else {
 						for (String fromName : fromNames) {
-							String modelFolder = modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()) + "/" + fromName + "/";
+							String modelFolder = modelsURI + "/" + files[i].getName().substring(0, files[i].getName().length() - ".model".length()) + "/" + fromName + "/";
 							File[] mutFiles = new File(modelFolder).listFiles();
 							if (mutFiles != null) {
 								for (int j = 0; j < mutFiles.length; j++) {
 									if (mutFiles[j].isFile() == true) {
 										String pathfile = mutFiles[j].getPath();
 										if (pathfile.endsWith(".model") == true) {
-											hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+											hashmapModelFilenames.put(pathfile.replace("\\", "/"), modelsURI + "/" + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
 											hashmapModelFolders.put(pathfile.replace("\\", "/"), fromName + "/" + mutFiles[j].getName().substring(0, mutFiles[j].getName().length() - ".model".length()));
 											seedModelFilenames.put(pathfile.replace("\\", "/"), files[i].getPath());
 										}
@@ -3178,8 +3274,24 @@ final List<EPackage> basePackages =
    		«var String fileName = e.eResource.URI.lastSegment»
 		«IF standalone»
 		
+		Path outputWodelPath =
+		    Paths.get(
+		            ModelManager.getOutputPath(
+		                fa1Standalone.class))
+		        .toAbsolutePath()
+		        .normalize();
+		
+		
 		String xmiFilename =
-		    "«projectRoot»/«program.output»«fileName.replaceAll(".mutator", ".model")»".replace("\\", "/");
+		    outputWodelPath
+		        .resolve(
+		            "«fileName.replaceAll(".mutator", ".model")»")
+		        .toAbsolutePath()
+		        .normalize()
+		        .toString()
+		        .replace(
+		            "\\",
+		            "/");
 		
 		«ELSE»
 		
@@ -3374,7 +3486,15 @@ if (mutatormodel == null) {
 		«IF standalone»
 		
 		String xmiFilename =
-		    "«projectRoot»/«program.output»«fileName.replaceAll(".mutator", ".model")»".replace("\\", "/");
+				    outputWodelPath
+				        .resolve(
+				            "«fileName.replaceAll(".mutator", ".model")»")
+				        .toAbsolutePath()
+				        .normalize()
+				        .toString()
+				        .replace(
+				            "\\",
+				            "/");
 		
 		«ELSE»
 		

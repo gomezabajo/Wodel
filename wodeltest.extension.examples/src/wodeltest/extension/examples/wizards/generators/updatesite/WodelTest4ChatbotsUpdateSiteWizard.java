@@ -389,6 +389,7 @@ public class WodelTest4ChatbotsUpdateSiteWizard extends Wizard implements INewWi
 		requiredBundles.add("org.eclipse.jdt.launching");
 		requiredBundles.add("wodeltest.extension");
 		requiredBundles.add("wodeltest.conga.parsers");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 /*		
 		String startingPath = EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		String[] congaLibraries = new String[] {

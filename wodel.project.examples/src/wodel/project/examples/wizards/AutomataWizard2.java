@@ -156,6 +156,7 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.ui.workbench");
 		requiredBundles.add("org.eclipse.e4.ui.model.workbench");
 		requiredBundles.add("org.eclipse.e4.core.di");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 		
 		bundleClasspath.add(".");
 		bundleClasspath.add("lib/use.jar");

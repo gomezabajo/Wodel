@@ -380,6 +380,7 @@ public class WodelTest4FAUpdateSiteWizard extends Wizard implements INewWizard {
 		requiredBundles.add("wodeltest.extension");
 		requiredBundles.add("org.eclipse.ui.ide");
 		requiredBundles.add("org.junit");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 		
 		project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,

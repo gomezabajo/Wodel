@@ -176,6 +176,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.m2m.atl.adt");
 		requiredBundles.add("wodeltest.extension");
 		requiredBundles.add("org.eclipse.ui.ide");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 		
 		bundleClasspath.add(".");
 		bundleClasspath.add("lib/use.jar");

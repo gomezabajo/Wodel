@@ -166,6 +166,7 @@ public class WodelTest4LCWizard extends Wizard implements INewWizard {
 		requiredBundles.add("wodeltest.extension");
 		requiredBundles.add("org.eclipse.ui.ide");
 		requiredBundles.add("org.junit");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 		
 		bundleClasspath.add(".");
 		bundleClasspath.add("lib/use.jar");

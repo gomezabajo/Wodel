@@ -191,6 +191,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.apiguardian.api");
 		//requiredBundles.add("org.hamcrest.core");
 		requiredBundles.add("org.opentest4j");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 /*		bundleClasspath.add("lib/junit-jupiter-api_5.9.2.jar");
 		bundleClasspath.add("lib/junit-jupiter-engine_5.9.2.jar");
 		bundleClasspath.add("lib/junit-jupiter-migrationsupport_5.9.2.jar");

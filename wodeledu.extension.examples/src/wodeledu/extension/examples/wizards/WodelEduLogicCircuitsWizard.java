@@ -165,6 +165,7 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.core.di");
 		requiredBundles.add("wodeledu.extension");
 		requiredBundles.add("wodeledu.models");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 
 		importPackages.add("org.apache.log4j");
 		importPackages.add("org.eclipse.xtext.generator");

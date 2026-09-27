@@ -406,6 +406,7 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 		requiredBundles.add("org.eclipse.m2m.atl.adt");
 		requiredBundles.add("wodeltest.extension");
 		requiredBundles.add("org.eclipse.ui.ide");
+		requiredBundles.add("org.eclipse.ocl.xtext.essentialocl");
 		
 		project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,

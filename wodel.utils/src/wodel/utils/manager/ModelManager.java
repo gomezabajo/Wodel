@@ -184,65 +184,132 @@ public class ModelManager {
 		return projectName;
 	}
 	
-	public static java.nio.file.Path getProjectRoot(
-	        Class<?> runtimeClass) {
+	public static java.nio.file.Path getProjectRoot(Class<?> runtimeClass) {
 
-	    Objects.requireNonNull(
-	        runtimeClass,
-	        "runtimeClass");
+		Objects.requireNonNull(
+				runtimeClass,
+				"runtimeClass");
 
-	    try {
+		/*
+		 * 1. Explicit project root for standalone execution.
+		 */
+		String configuredRoot =
+				System.getProperty("wodel.projectRoot");
 
-	        java.net.URL location =
-	            runtimeClass
-	                .getProtectionDomain()
-	                .getCodeSource()
-	                .getLocation();
+		if (configuredRoot != null
+				&& !configuredRoot.isBlank()) {
 
+			java.nio.file.Path root = java.nio.file.Paths.get(configuredRoot)
+					.toAbsolutePath()
+					.normalize();
 
-	        java.nio.file.Path current =
-	            Paths.get(
-	                    location.toURI())
-	                .toAbsolutePath()
-	                .normalize();
+			if (!Files.isRegularFile(
+					root.resolve("data/config/config.txt"))) {
 
+				throw new IllegalStateException(
+						"Invalid explicitly configured Wodel project root: "
+								+ root);
+			}
 
-	        if (!Files.isDirectory(
-	                current)) {
+			return root;
+		}
 
-	            current =
-	                current.getParent();
-	        }
+		/*
+		 * 2. Find the location of the compiled runtime class.
+		 */
+		final java.nio.file.Path location;
 
+		try {
+			java.security.CodeSource codeSource =
+					runtimeClass
+					.getProtectionDomain()
+					.getCodeSource();
 
-	        while (current != null) {
+			if (codeSource == null) {
+				throw new IllegalStateException(
+						"No code source for "
+								+ runtimeClass.getName());
+			}
 
-	            if (Files.isRegularFile(
-	                    current.resolve(
-	                        ".project"))
-	                    || Files.isDirectory(
-	                        current.resolve(
-	                            "data"))) {
+			location = java.nio.file.Paths.get(
+					codeSource.getLocation().toURI())
+					.toAbsolutePath()
+					.normalize();
+		}
+		catch (java.net.URISyntaxException e) {
+			throw new IllegalStateException(
+					"Cannot resolve code location for "
+							+ runtimeClass.getName(),
+							e);
+		}
 
-	                return current;
-	            }
+		java.nio.file.Path start = java.nio.file.Files.isDirectory(location)
+				? location
+						: location.getParent();
 
-	            current =
-	                current.getParent();
-	        }
+		/*
+		 * 3. Prefer Eclipse project descriptors.
+		 *
+		 * Do not return immediately when a data directory
+		 * is found: Eclipse may have copied it into bin.
+		 */
+		for (java.nio.file.Path current = start;
+				current != null;
+				current = current.getParent()) {
 
+			if (Files.isRegularFile(
+					current.resolve(".project"))
+					&& Files.isRegularFile(
+							current.resolve(
+									"data/config/config.txt"))) {
 
-	        throw new IllegalStateException(
-	            "Cannot determine Wodel project root for "
-	            + runtimeClass.getName());
-	    }
-	    catch (Exception e) {
+				return current;
+			}
+		}
 
-	        throw new IllegalStateException(
-	            "Cannot determine Wodel project root for "
-	            + runtimeClass.getName(),
-	            e);
-	    }
+		/*
+		 * 4. Fallback for standalone project layouts
+		 * without Eclipse's .project descriptor.
+		 */
+		for (java.nio.file.Path current = start;
+				current != null;
+				current = current.getParent()) {
+
+			if (isBuildOutputDirectory(current)) {
+				continue;
+			}
+
+			if (Files.isRegularFile(
+					current.resolve(
+							"data/config/config.txt"))) {
+
+				return current;
+			}
+		}
+
+		throw new IllegalStateException(
+				"Cannot determine Wodel project root for "
+						+ runtimeClass.getName()
+						+ " starting from " + start);
+	}
+
+	/**
+	 * Avoid treating common compilation-output directories
+	 * as standalone Wodel project roots.
+	 */
+	private static boolean isBuildOutputDirectory(java.nio.file.Path path) {
+
+		if (path.getFileName() == null) {
+			return false;
+		}
+
+		String name = path.getFileName()
+				.toString()
+				.toLowerCase(java.util.Locale.ROOT);
+
+		return name.equals("bin")
+				|| name.equals("classes")
+				|| name.equals("test-classes");
 	}
 	
 	private static Class<?> getClassFromWodelTest() {
@@ -3017,64 +3084,167 @@ public class ModelManager {
 	 * @return Resource Loaded Model
 	 * @throws
 	 */
-	public static Resource loadModel(List<EPackage> packages,
-			String strURI) throws ModelNotFoundException {
-		
+//	public static Resource loadModel(List<EPackage> packages,
+//			String strURI) throws ModelNotFoundException {
+//
+//		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
+//			strURI = strURI.substring(1);
+//		}
+//		String modelURI = processURI(strURI);
+//		File fm = new File(modelURI);
+//		if (!fm.exists() && fm.isAbsolute()) {
+//			return null;
+//		}
+//		if (fm.exists() == false) {
+//			modelURI = getAbsoluteModelURI(modelURI);
+//			if (modelURI == null) {
+//				return null;
+//			}
+//			fm = new File(modelURI);
+//			if (fm.exists() == false) {
+//				throw new ModelNotFoundException(strURI);
+//			}
+//		}
+//		if (fm.isDirectory()) {
+//			return null;
+//		}
+//		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+//		URI uri = ModelManager.getModelWithFolder(modelURI);
+//		for (EPackage p : packages) {
+//			// Add packages to package registry
+//			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
+//				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+//			// nested packages
+//			for (EPackage sp : p.getESubpackages()) {
+//				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+//					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+//			}
+//		}
+//		final Map<Object, Object> options = resourceSet.getLoadOptions();
+//		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+//		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+//		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new LinkedHashMap<Object, Object>());
+//		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+//		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+//		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
+//		Resource model = null;
+//		try {
+//			model = resourceSet.createResource(uri);
+//			model.load(options);
+//			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+//			// load model using the URI
+//		} catch (java.lang.NullPointerException e) {
+//		} catch (Resource.IOWrappedException e) {
+//		} catch (IOException r) {
+//			r.printStackTrace();
+//			throw new ModelNotFoundException(strURI);
+//		}
+//
+//		return model;
+//	}
+	
+	public static Resource loadModel(List<EPackage> packages, String strURI) throws ModelNotFoundException {
+
 		if (strURI.startsWith("/") && new File(strURI.substring(1)).isAbsolute()) {
 			strURI = strURI.substring(1);
 		}
+
 		String modelURI = processURI(strURI);
-		File fm = new File(modelURI);
-		if (!fm.exists() && fm.isAbsolute()) {
+		File file = new File(modelURI);
+
+		if (!file.exists() && file.isAbsolute()) {
 			return null;
 		}
-		if (fm.exists() == false) {
+
+		if (!file.exists()) {
 			modelURI = getAbsoluteModelURI(modelURI);
+
 			if (modelURI == null) {
 				return null;
 			}
-			fm = new File(modelURI);
-			if (fm.exists() == false) {
+
+			file = new File(modelURI);
+
+			if (!file.exists()) {
 				throw new ModelNotFoundException(strURI);
 			}
 		}
-		if (fm.isDirectory()) {
+
+		if (file.isDirectory()) {
 			return null;
 		}
+
 		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+
 		URI uri = ModelManager.getModelWithFolder(modelURI);
-		for (EPackage p : packages) {
-			// Add packages to package registry
-			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
-				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
-			// nested packages
-			for (EPackage sp : p.getESubpackages()) {
-				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
-					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
-			}
-		}
-		final Map<Object, Object> options = resourceSet.getLoadOptions();
-		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
-		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
-		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new LinkedHashMap<Object, Object>());
-		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
-		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
-		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
-		Resource model = null;
-		try {
-			model = resourceSet.createResource(uri);
-			model.load(options);
-			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
-			// load model using the URI
-		} catch (java.lang.NullPointerException e) {
-		} catch (Resource.IOWrappedException e) {
-		} catch (IOException r) {
-			r.printStackTrace();
-			throw new ModelNotFoundException(strURI);
+
+		boolean isXmiModel = "model".equalsIgnoreCase(uri.fileExtension());
+
+		if (isXmiModel) {
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("model",
+					new XMIResourceFactoryImpl());
 		}
 
-		return model;
+		for (EPackage p : packages) {
+			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI())) {
+
+				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+			}
+
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI())) {
+
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+				}
+			}
+			
+		}
+
+		Resource model = null;
+
+		try {
+			model = resourceSet.createResource(uri);
+
+			if (model == null) {
+				throw new IOException("Cannot create EMF resource: " + uri);
+			}
+
+			if (isXmiModel) {
+				// Diagnostic: use ordinary XMI loading.
+				model.load(java.util.Collections.emptyMap());
+			} else {
+				// Retain the configured options for other formats.
+				model.load(resourceSet.getLoadOptions());
+			}
+
+			if (!model.getErrors().isEmpty()) {
+				for (Resource.Diagnostic error : model.getErrors()) {
+
+					System.err.println("[Wodel LOAD ERROR] " + error.getMessage() + " at line " + error.getLine()
+							+ ", column " + error.getColumn());
+				}
+
+				throw new IOException("EMF model contains loading errors: " + uri);
+			}
+
+			if (model.getContents().isEmpty()) {
+				throw new IOException("Loaded EMF resource is empty: " + uri);
+			}
+
+			return model;
+
+		} catch (IOException | RuntimeException e) {
+
+			e.printStackTrace();
+
+			ModelNotFoundException failure = new ModelNotFoundException(strURI);
+
+			failure.initCause(e);
+
+			throw failure;
+		}
 	}
+
 	
 	/**
 	 * @param packages
@@ -6303,52 +6473,51 @@ public class ModelManager {
 	 *            URI of the new created Model
 	 */
 	public static Resource cloneModel(Resource model, String outputURI) {
-		java.nio.file.Path target =
-			    Paths.get(
-			        outputURI)
-			        .toAbsolutePath()
-			        .normalize();
 
-		java.nio.file.Path parent =
-			    target.getParent();
+		
+		Objects.requireNonNull(model, "model");
+		Objects.requireNonNull(outputURI, "outputURI");
+		
+		java.nio.file.Path target = Paths.get(outputURI).toAbsolutePath().normalize();
+
+		try {
+			java.nio.file.Path parent = target.getParent();
 
 			if (parent != null) {
-
-				try {
-					java.nio.file.Files.createDirectories(
-					    parent);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Files.createDirectories(parent);
 			}
 
-			/*
-			 * A clone operation semantically means:
-			 *
-			 *     create a fresh model at target
-			 *
-			 * It must never mean:
-			 *
-			 *     reopen/reuse yesterday's clone.
-			 */
-			try {
-				java.nio.file.Files.deleteIfExists(
-				    target);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put("*", new XMLResourceFactoryImpl());
-		URI uri = URI.createFileURI(outputURI);
-		Resource resource = rs.createResource(uri);
-//		EMFCopier.copy(model, resource);
+			Files.deleteIfExists(target);
+
+		} catch (IOException e) {
+			throw new IllegalStateException("Cannot prepare clone target: " + target, e);
+		}
+
+		ResourceSet resourceSet = new ResourceSetImpl();
+
+		// Preserve the source package registrations.
+		if (model.getResourceSet() != null) {
+			resourceSet.getPackageRegistry().putAll(model.getResourceSet().getPackageRegistry());
+		}
+
+		// Wodel's .model files use EMF XMI.
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("model", new XMIResourceFactoryImpl());
+
+		URI targetURI = URI.createFileURI(target.toString());
+
+		Resource clonedResource = resourceSet.createResource(targetURI);
+
+		if (clonedResource == null) {
+			throw new IllegalStateException("Could not create clone: " + targetURI);
+		}
+		
 		List<EObject> clonedModel = EMFCopier.copy(model);
-		resource.getContents().addAll(clonedModel);
-		return resource;
+
+		clonedResource.getContents().addAll(clonedModel);
+
+		return clonedResource;
 	}
+
 	
 	public static void sortEObjectsDeterministically(
 	        List<EObject> objects) {

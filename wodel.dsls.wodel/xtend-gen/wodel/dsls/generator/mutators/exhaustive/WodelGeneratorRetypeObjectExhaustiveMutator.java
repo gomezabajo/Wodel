@@ -1346,6 +1346,9 @@ public class WodelGeneratorRetypeObjectExhaustiveMutator extends WodelGeneratorG
             _builder.append("\t\t");
             _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
             _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("List<String> newrules = null; ");
+            _builder.newLine();
             {
               EList<Constraint> _constraints = e.getConstraints();
               for(final Constraint constraint : _constraints) {
@@ -1366,7 +1369,7 @@ public class WodelGeneratorRetypeObjectExhaustiveMutator extends WodelGeneratorG
                 _builder.append("}");
                 _builder.newLine();
                 _builder.append("\t\t");
-                _builder.append("List<String> newrules = rules.get(\"");
+                _builder.append("newrules = rules.get(\"");
                 String _name_61 = constraint.getType().getName();
                 _builder.append(_name_61, "\t\t");
                 _builder.append("\");");

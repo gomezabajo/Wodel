@@ -293,6 +293,24 @@ public class RemoveObjectMutator extends Mutator {
 	}
 	*/
 
+	
+
+	/** True when {@code owner.reference} points to this exact EObject. */
+	private static boolean containsReferenceValue(EObject owner, EReference reference, EObject value) {
+		Object current = owner.eGet(reference, true);
+		if (reference.isMany()) {
+			if (!(current instanceof List<?>)) {
+				return false;
+			}
+			for (Object entry : (List<?>) current) {
+				if (entry == value) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return current == value;
+	}
 
 	/**
 	 * Removes the selected object(s) from the model.
@@ -301,7 +319,9 @@ public class RemoveObjectMutator extends Mutator {
 	public Object mutate()
 	        throws ReferenceNonExistingException {
 
-	    /*
+		// Perform the selected deletion.
+
+		/*
 	     * Reset state in case the mutator instance is reused.
 	     */
 	    result = null;
@@ -365,12 +385,11 @@ public class RemoveObjectMutator extends Mutator {
 	    List<EObject> deletedObj =
 	        new ArrayList<EObject>();
 
-	    for (EObject candidate :
-	            tmpDeletedObj) {
-
-	        if (candidate != null) {
-	            deletedObj.add(
-	                candidate);
+	    java.util.Set<EObject> distinct = java.util.Collections
+	            .newSetFromMap(new java.util.IdentityHashMap<EObject, Boolean>());
+	    for (EObject candidate : tmpDeletedObj) {
+	        if (candidate != null && distinct.add(candidate)) {
+	            deletedObj.add(candidate);
 	        }
 	    }
 
@@ -505,175 +524,143 @@ public class RemoveObjectMutator extends Mutator {
 	                deletedOb));
 	    }
 
+		/*
+		 * 5. Apply the deletion or unlink operation.
+		 *
+		 * Wodel's `remove ... from owner->reference` has two meanings:
+		 *  - containment: delete the selected EObject(s) and their contents;
+		 *  - non-containment: remove only the selected reference link(s).
+		 *    The referenced EObject(s) remain in their actual containment.
+		 * A plain `remove ...` without `from` always deletes the object.
+		 */
+		if ((container == null) != (reference == null)) {
+			throw new IllegalStateException(
+					"Container and reference must either both be specified or both be null.");
+		}
 
-	    /*
-	     * =========================================================
-	     * 5. Perform the deletion.
-	     * =========================================================
-	     */
-	    if (container == null
-	            && reference == null) {
+		boolean unlinkOnly = false;
+		EReference effectiveReference = reference;
 
-	        for (EObject deletedOb :
-	                deletedObj) {
+		if (container != null) {
+			if (!container.eClass().getEAllReferences().contains(reference)) {
+				throw new IllegalStateException("Reference '" + reference.getName()
+						+ "' does not belong to the selected container type '"
+						+ container.eClass().getName() + "'.");
+			}
+			if (!reference.isChangeable() || reference.isDerived()) {
+				throw new IllegalStateException("Reference '" + reference.getName()
+						+ "' is not changeable.");
+			}
 
-	            /*
-	             * Remove from its containment.
-	             */
-	            EcoreUtil.remove(
-	                deletedOb);
+			boolean allInProvidedReference = true;
+			for (EObject deletedOb : deletedObj) {
+				if (!containsReferenceValue(container, reference, deletedOb)) {
+					allInProvidedReference = false;
+					break;
+				}
+			}
 
+			if (!allInProvidedReference) {
+				// Guarded recovery for a wrongly generated reference selection:
+				// it is safe only if EVERY selected object is actually contained
+				// by this exact owner, under the SAME containment reference.
+				EReference actualContainment = null;
+				boolean sameActualContainment = true;
+				for (EObject deletedOb : deletedObj) {
+					if (deletedOb.eContainer() != container
+							|| !(deletedOb.eContainingFeature() instanceof EReference)) {
+						sameActualContainment = false;
+						break;
+					}
+					EReference candidate = (EReference) deletedOb.eContainingFeature();
+					if (!candidate.isContainment()
+							|| (actualContainment != null && actualContainment != candidate)) {
+						sameActualContainment = false;
+						break;
+					}
+					actualContainment = candidate;
+				}
+				if (!sameActualContainment || actualContainment == null) {
+					throw new IllegalStateException("Selected object(s) are not referenced by '"
+							+ reference.getName() + "' of '" + container.eClass().getName()
+							+ "'. Verify the reference and owner passed by generated Wodel code.");
+				}
+				effectiveReference = actualContainment;
+				System.err.println("[WODEL] Correcting generated reference selection '"
+						+ reference.getName() + "' to actual containment '"
+						+ effectiveReference.getName() + "' for " + container.eClass().getName());
+			}
 
-	            /*
-	             * Remove remaining references to the deleted object.
-	             */
-	            for (EObject modelObject :
-	                    ModelManager.getAllObjects(
-	                        this.getModel())) {
+			if (effectiveReference.isContainment()) {
+				for (EObject deletedOb : deletedObj) {
+					if (deletedOb.eContainer() != container
+							|| deletedOb.eContainingFeature() != effectiveReference) {
+						throw new IllegalStateException("Selected object does not belong to '"
+								+ effectiveReference.getName() + "' containment of '"
+								+ container.eClass().getName() + "'.");
+					}
+				}
+			} else {
+				unlinkOnly = true;
+			}
+		}
 
-	                for (EReference modelReference :
-	                        ModelManager.getReferences(
-	                            modelObject)) {
+		if (unlinkOnly) {
+			// Only disconnect the links from this owner. In particular, removing
+			// an Action from BotInteraction.actions must NOT delete Bot.actions.
+			if (effectiveReference.isMany()) {
+				@SuppressWarnings("unchecked")
+				List<EObject> values = (List<EObject>) container.eGet(effectiveReference);
+				for (EObject deletedOb : deletedObj) {
+					for (int i = values.size() - 1; i >= 0; i--) {
+						if (values.get(i) == deletedOb) {
+							values.remove(i);
+						}
+					}
+				}
+			} else {
+				container.eUnset(effectiveReference);
+			}
+		} else {
+			// Remember deleted objects and their contained descendants BEFORE
+			// detaching them, so dangling non-containment links can be cleaned.
+			java.util.Set<EObject> removedObjects = java.util.Collections
+					.newSetFromMap(new java.util.IdentityHashMap<EObject, Boolean>());
+			for (EObject deletedOb : deletedObj) {
+				removedObjects.add(deletedOb);
+				org.eclipse.emf.common.util.TreeIterator<EObject> it = deletedOb.eAllContents();
+				while (it.hasNext()) {
+					removedObjects.add(it.next());
+				}
+			}
 
-	                    /*
-	                     * Multivalued reference.
-	                     */
-	                    if (modelReference.isMany()) {
+			for (EObject deletedOb : deletedObj) {
+				EcoreUtil.remove(deletedOb);
+			}
 
-	                        @SuppressWarnings("unchecked")
-	                        List<EObject> referencedObjects =
-	                            (List<EObject>) modelObject.eGet(
-	                                modelReference,
-	                                true);
-
-	                        if (referencedObjects == null
-	                                || referencedObjects.isEmpty()) {
-
-	                            continue;
-	                        }
-
-	                        /*
-	                         * Iterate backwards so removal is safe.
-	                         */
-	                        for (int i =
-	                                referencedObjects.size() - 1;
-	                                i >= 0;
-	                                i--) {
-
-	                            EObject referenced =
-	                                referencedObjects.get(i);
-
-	                            if (referenced != null
-	                                    && EcoreUtil.equals(
-	                                        referenced,
-	                                        deletedOb)) {
-
-	                                referencedObjects.remove(i);
-	                            }
-	                        }
-	                    }
-
-	                    /*
-	                     * Single-valued reference.
-	                     */
-	                    else {
-
-	                        Object value =
-	                            modelObject.eGet(
-	                                modelReference,
-	                                true);
-
-	                        if (!(value instanceof EObject)) {
-	                            continue;
-	                        }
-
-	                        EObject referenced =
-	                            (EObject) value;
-
-	                        if (EcoreUtil.equals(
-	                                referenced,
-	                                deletedOb)) {
-
-	                            modelObject.eSet(
-	                                modelReference,
-	                                null);
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	    }
-
-
-	    /*
-	     * =========================================================
-	     * 6. Removal through an explicitly selected containment
-	     *    reference.
-	     * =========================================================
-	     */
-	    else if (container != null
-	            && reference != null) {
-
-	        Object referenceValue =
-	            container.eGet(
-	                reference);
-
-	        if (referenceValue
-	                instanceof List<?>) {
-
-	            @SuppressWarnings("unchecked")
-	            List<EObject> objects =
-	                (List<EObject>) referenceValue;
-
-	            /*
-	             * Do not modify the list from inside an enhanced
-	             * for-loop.
-	             */
-	            for (int i =
-	                    objects.size() - 1;
-	                    i >= 0;
-	                    i--) {
-
-	                EObject contained =
-	                    objects.get(i);
-
-	                for (EObject deletedOb :
-	                        deletedObj) {
-
-	                    if (contained != null
-	                            && EcoreUtil.equals(
-	                                contained,
-	                                deletedOb)) {
-
-	                        objects.remove(i);
-	                        break;
-	                    }
-	                }
-	            }
-	        }
-	        else if (referenceValue
-	                instanceof EObject) {
-
-	            EObject contained =
-	                (EObject) referenceValue;
-
-	            for (EObject deletedOb :
-	                    deletedObj) {
-
-	                if (EcoreUtil.equals(
-	                        contained,
-	                        deletedOb)) {
-
-	                    ModelManager.unsetReference(
-	                        reference.getName(),
-	                        container);
-
-	                    break;
-	                }
-	            }
-	        }
-	    }
-
+			for (EObject modelObject : ModelManager.getAllObjects(this.getModel())) {
+				for (EReference modelReference : modelObject.eClass().getEAllReferences()) {
+					if (modelReference.isContainment() || modelReference.isContainer()
+							|| modelReference.isDerived() || !modelReference.isChangeable()) {
+						continue;
+					}
+					if (modelReference.isMany()) {
+						@SuppressWarnings("unchecked")
+						List<EObject> values = (List<EObject>) modelObject.eGet(modelReference);
+						for (int i = values.size() - 1; i >= 0; i--) {
+							if (removedObjects.contains(values.get(i))) {
+								values.remove(i);
+							}
+						}
+					} else {
+						Object referenced = modelObject.eGet(modelReference);
+						if (referenced instanceof EObject && removedObjects.contains(referenced)) {
+							modelObject.eUnset(modelReference);
+						}
+					}
+				}
+			}
+		}
 
 	    /*
 	     * =========================================================
@@ -684,7 +671,7 @@ public class RemoveObjectMutator extends Mutator {
 	        new ArrayList<EObject>(
 	            saved);
 
-	    return result.isEmpty()
+		return result.isEmpty()
 	        ? null
 	        : result;
 	}

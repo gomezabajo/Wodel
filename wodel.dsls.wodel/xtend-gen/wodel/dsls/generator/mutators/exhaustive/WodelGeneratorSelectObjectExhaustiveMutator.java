@@ -2363,6 +2363,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("            ");
                         _builder.append("SpecificObjectSelection objectSelection = null;");
                         _builder.newLine();
+                        _builder.append("List<SelectObjectMutator> mutators = new ArrayList<SelectObjectMutator>();");
+                        _builder.newLine();
                         _builder.append("List<");
                         _builder.newLine();
                         _builder.append("    ");
@@ -2434,7 +2436,7 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.newLine();
                         _builder.append("models.add(resource);");
                         _builder.newLine();
-                        _builder.append("try {      ");
+                        _builder.append("try {");
                         _builder.newLine();
                         _builder.append("for (EObject selected :");
                         _builder.newLine();
@@ -2580,8 +2582,6 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("    ");
                         _builder.append("}");
                         _builder.newLine();
-                        _builder.append("}");
-                        _builder.newLine();
                         _builder.append("if (entries.isEmpty()) {");
                         _builder.newLine();
                         {
@@ -2620,6 +2620,62 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("    ");
                         _builder.append("entries);");
                         _builder.newLine();
+                        _builder.append("    ");
+                        _builder.newLine();
+                        _builder.append("    ");
+                        _builder.append("EObject localObject =");
+                        _builder.newLine();
+                        _builder.append("    \t\t\t\t                ");
+                        _builder.append("ModelManager.getObject(");
+                        _builder.newLine();
+                        {
+                          String _resource_5 = mut.getObject().getResource();
+                          boolean _tripleNotEquals_28 = (_resource_5 != null);
+                          if (_tripleNotEquals_28) {
+                            _builder.append("readOnlyResource,");
+                            _builder.newLine();
+                          } else {
+                            _builder.append("    \t\t\t\t                ");
+                            _builder.append("resource,");
+                            _builder.newLine();
+                          }
+                        }
+                        _builder.append("    \t\t\t    \t\t\t\t");
+                        _builder.newLine();
+                        _builder.append("    \t\t\t\t                    ");
+                        _builder.append("recovered);");
+                        _builder.newLine();
+                        {
+                          if (closureHasAdditionalResources) {
+                            _builder.append("    \t\t\t\t\t");
+                            _builder.append("if (localObject == null) {");
+                            _builder.newLine();
+                            _builder.append("    \t\t\t\t\t");
+                            _builder.append("\t");
+                            _builder.append("localObject = ModelManager.getObject(");
+                            _builder.newLine();
+                            _builder.append("    \t\t\t\t\t");
+                            _builder.append("    \t    \t\t               \t");
+                            _builder.append("readOnlyResource,");
+                            _builder.newLine();
+                            _builder.append("    \t\t\t\t\t");
+                            _builder.append("    \t    \t\t               ");
+                            _builder.append("recovered);");
+                            _builder.newLine();
+                            _builder.append("    \t\t\t\t\t");
+                            _builder.append("}");
+                            _builder.newLine();
+                          }
+                        }
+                        _builder.append("    \t\t\t\t                    ");
+                        _builder.append("if (localObject == null) {");
+                        _builder.newLine();
+                        _builder.append("    \t\t\t\t                    \t");
+                        _builder.append("continue;");
+                        _builder.newLine();
+                        _builder.append("    \t\t\t\t                    ");
+                        _builder.append("}");
+                        _builder.newLine();
                         {
                           if (closureHasAdditionalResources) {
                             _builder.append("\t\t\t\t\t");
@@ -2631,8 +2687,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.newLine();
                         {
                           ObSelectionStrategy _container_69 = mut.getContainer();
-                          boolean _tripleNotEquals_28 = (_container_69 != null);
-                          if (_tripleNotEquals_28) {
+                          boolean _tripleNotEquals_29 = (_container_69 != null);
+                          if (_tripleNotEquals_29) {
                             _builder.append("\t\t\t\t\t");
                             _builder.append("    ");
                             _builder.append("EObject oldContainer =");
@@ -2661,9 +2717,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("MutatorUtils.recoverLocalObject(");
                             _builder.newLine();
                             {
-                              String _resource_5 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_29 = (_resource_5 != null);
-                              if (_tripleNotEquals_29) {
+                              String _resource_6 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_30 = (_resource_6 != null);
+                              if (_tripleNotEquals_30) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -2693,9 +2749,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("ModelManager.getObject(");
                             _builder.newLine();
                             {
-                              String _resource_6 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_30 = (_resource_6 != null);
-                              if (_tripleNotEquals_30) {
+                              String _resource_7 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_31 = (_resource_7 != null);
+                              if (_tripleNotEquals_31) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -2817,19 +2873,11 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
                             _builder.append("            ");
-                            _builder.append("ObSelectionStrategy");
-                            _builder.newLine();
-                            _builder.append("\t\t\t\t\t");
-                            _builder.append("                ");
-                            _builder.append("localContainerSelection = null;");
+                            _builder.append("ObSelectionStrategy localContainerSelection = null;");
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
                             _builder.append("            ");
-                            _builder.append("SpecificReferenceSelection");
-                            _builder.newLine();
-                            _builder.append("\t\t\t\t\t");
-                            _builder.append("                ");
-                            _builder.append("localReferenceSelection = null;");
+                            _builder.append("SpecificReferenceSelection localReferenceSelection = null;");
                             _builder.newLine();
                             {
                               if (closureHasAdditionalResources) {
@@ -2847,10 +2895,6 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
                             _builder.append("            ");
-                            _builder.append("ObSelectionStrategy");
-                            _builder.newLine();
-                            _builder.append("\t\t\t\t\t");
-                            _builder.append("                ");
                             _builder.append("localContainerSelection =");
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
@@ -2858,9 +2902,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_7 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_31 = (_resource_7 != null);
-                              if (_tripleNotEquals_31) {
+                              String _resource_8 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_32 = (_resource_8 != null);
+                              if (_tripleNotEquals_32) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -2885,10 +2929,6 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
                             _builder.append("            ");
-                            _builder.append("SpecificReferenceSelection");
-                            _builder.newLine();
-                            _builder.append("\t\t\t\t\t");
-                            _builder.append("                ");
                             _builder.append("localReferenceSelection =");
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t");
@@ -2896,9 +2936,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificReferenceSelection(");
                             _builder.newLine();
                             {
-                              String _resource_8 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_32 = (_resource_8 != null);
-                              if (_tripleNotEquals_32) {
+                              String _resource_9 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_33 = (_resource_9 != null);
+                              if (_tripleNotEquals_33) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -2920,8 +2960,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                               if (_container_71!=null) {
                                 _refType_4=_container_71.getRefType();
                               }
-                              boolean _tripleNotEquals_33 = (_refType_4 != null);
-                              if (_tripleNotEquals_33) {
+                              boolean _tripleNotEquals_34 = (_refType_4 != null);
+                              if (_tripleNotEquals_34) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("                        ");
                                 _builder.append("\"");
@@ -2936,8 +2976,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                   if (_container_72!=null) {
                                     _refRefType_4=_container_72.getRefRefType();
                                   }
-                                  boolean _tripleNotEquals_34 = (_refRefType_4 != null);
-                                  if (_tripleNotEquals_34) {
+                                  boolean _tripleNotEquals_35 = (_refRefType_4 != null);
+                                  if (_tripleNotEquals_35) {
                                     _builder.append("\t\t\t\t\t");
                                     _builder.append("                        ");
                                     _builder.append("\"");
@@ -2952,8 +2992,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                       if (_container_73!=null) {
                                         _refRefRefType_4=_container_73.getRefRefRefType();
                                       }
-                                      boolean _tripleNotEquals_35 = (_refRefRefType_4 != null);
-                                      if (_tripleNotEquals_35) {
+                                      boolean _tripleNotEquals_36 = (_refRefRefType_4 != null);
+                                      if (_tripleNotEquals_36) {
                                         _builder.append("\t\t\t\t\t");
                                         _builder.append("                        ");
                                         _builder.append("\"");
@@ -2988,9 +3028,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_9 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_36 = (_resource_9 != null);
-                              if (_tripleNotEquals_36) {
+                              String _resource_10 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_37 = (_resource_10 != null);
+                              if (_tripleNotEquals_37) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -3022,9 +3062,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SelectObjectMutator(");
                             _builder.newLine();
                             {
-                              String _resource_10 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_37 = (_resource_10 != null);
-                              if (_tripleNotEquals_37) {
+                              String _resource_11 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_38 = (_resource_11 != null);
+                              if (_tripleNotEquals_38) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -3101,8 +3141,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                   if (_container_74!=null) {
                                     _refType_5=_container_74.getRefType();
                                   }
-                                  boolean _tripleNotEquals_38 = (_refType_5 != null);
-                                  if (_tripleNotEquals_38) {
+                                  boolean _tripleNotEquals_39 = (_refType_5 != null);
+                                  if (_tripleNotEquals_39) {
                                     _builder.append("                        ");
                                     _builder.append("\"");
                                     String _name_84 = mut.getContainer().getRefType().getName();
@@ -3116,8 +3156,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                       if (_container_75!=null) {
                                         _refRefType_5=_container_75.getRefRefType();
                                       }
-                                      boolean _tripleNotEquals_39 = (_refRefType_5 != null);
-                                      if (_tripleNotEquals_39) {
+                                      boolean _tripleNotEquals_40 = (_refRefType_5 != null);
+                                      if (_tripleNotEquals_40) {
                                         _builder.append("                        ");
                                         _builder.append("\"");
                                         String _name_85 = mut.getContainer().getRefRefType().getName();
@@ -3131,8 +3171,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                           if (_container_76!=null) {
                                             _refRefRefType_5=_container_76.getRefRefRefType();
                                           }
-                                          boolean _tripleNotEquals_40 = (_refRefRefType_5 != null);
-                                          if (_tripleNotEquals_40) {
+                                          boolean _tripleNotEquals_41 = (_refRefRefType_5 != null);
+                                          if (_tripleNotEquals_41) {
                                             _builder.append("                        ");
                                             _builder.append("\"");
                                             String _name_86 = mut.getContainer().getRefRefRefType().getName();
@@ -3206,9 +3246,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_11 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_41 = (_resource_11 != null);
-                              if (_tripleNotEquals_41) {
+                              String _resource_12 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_42 = (_resource_12 != null);
+                              if (_tripleNotEquals_42) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -3234,9 +3274,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SelectObjectMutator(");
                             _builder.newLine();
                             {
-                              String _resource_12 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_42 = (_resource_12 != null);
-                              if (_tripleNotEquals_42) {
+                              String _resource_13 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_43 = (_resource_13 != null);
+                              if (_tripleNotEquals_43) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -3332,6 +3372,39 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.newLine();
                         _builder.append("}");
                         _builder.newLine();
+                        _builder.append("mutators.add(mut);");
+                        _builder.newLine();
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("if (entries.size() != objects.size() || mutators.size() != objects.size()) {");
+                        _builder.newLine();
+                        _builder.append("throw new IllegalStateException(\"Incomplete select-all selection\");");
+                        _builder.newLine();
+                        _builder.append("}");
+                        _builder.newLine();
+                        {
+                          String _name_87 = mut.getName();
+                          boolean _tripleNotEquals_44 = (_name_87 != null);
+                          if (_tripleNotEquals_44) {
+                            _builder.append("\t\t\t\t\t\t");
+                            _builder.append("hmObjects.remove(\"");
+                            String _name_88 = mut.getName();
+                            _builder.append(_name_88, "\t\t\t\t\t\t");
+                            _builder.append("\");");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("\t\t\t\t\t\t");
+                            _builder.append("hmList.put(\"");
+                            String _name_89 = mut.getName();
+                            _builder.append(_name_89, "\t\t\t\t\t\t");
+                            _builder.append("\", new ArrayList<>(entries));");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                        _builder.append("   \t\t");
+                        _builder.append("int mutsMark = mutationMark(muts);");
+                        _builder.newLine();
+                        _builder.append("for (SelectObjectMutator selMutator : mutators) {");
+                        _builder.newLine();
                         _builder.append("Mutator mutator = null;");
                         _builder.newLine();
                         _builder.append("if (muts == null) {");
@@ -3340,6 +3413,7 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
                         _builder.newLine();
                         _builder.append("}");
+                        _builder.newLine();
                         _builder.newLine();
                         _builder.append("\t\t");
                         _builder.append("//COUNTER: ");
@@ -3360,9 +3434,6 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         String _string = Integer.valueOf((nRegistryMethodCall[0])).toString();
                         String registryMethodName = ("registry" + _string);
                         _builder.newLineIfNotEmpty();
-                        _builder.append("   \t\t");
-                        _builder.append("int mutsMark = mutationMark(muts);");
-                        _builder.newLine();
                         {
                           if ((executeMutation == true)) {
                             _builder.append("\t\t");
@@ -3406,8 +3477,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("seed,");
                             _builder.newLine();
                             {
-                              String _resource_13 = mut.getObject().getResource();
-                              boolean _tripleEquals_12 = (_resource_13 == null);
+                              String _resource_14 = mut.getObject().getResource();
+                              boolean _tripleEquals_12 = (_resource_14 == null);
                               if (_tripleEquals_12) {
                                 _builder.append("\t\t");
                                 _builder.append("            ");
@@ -3435,9 +3506,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("mutPaths,");
                             _builder.newLine();
                             {
-                              String _resource_14 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_43 = (_resource_14 != null);
-                              if (_tripleNotEquals_43) {
+                              String _resource_15 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_45 = (_resource_15 != null);
+                              if (_tripleNotEquals_45) {
                                 _builder.append("\t\t");
                                 _builder.append("       ");
                                 _builder.append("selectionPackages);");
@@ -3450,41 +3521,21 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                               }
                             }
                             _builder.append("\t\t");
-                            _builder.append("Object mutated = mut.mutate();");
+                            _builder.append("Object mutated = selMutator.mutate();");
                             _builder.newLine();
                             _builder.append("\t\t");
                             _builder.append("\t");
                             _builder.append("if (mutated != null) {");
                             _builder.newLine();
-                            {
-                              String _name_87 = mut.getName();
-                              boolean _tripleNotEquals_44 = (_name_87 != null);
-                              if (_tripleNotEquals_44) {
-                                _builder.append("\t\t");
-                                _builder.append("\t\t");
-                                _builder.append("hmObjects.remove(\"");
-                                String _name_88 = mut.getName();
-                                _builder.append(_name_88, "\t\t\t\t");
-                                _builder.append("\");");
-                                _builder.newLineIfNotEmpty();
-                                _builder.append("\t\t");
-                                _builder.append("\t\t");
-                                _builder.append("hmList.put(\"");
-                                String _name_89 = mut.getName();
-                                _builder.append(_name_89, "\t\t\t\t");
-                                _builder.append("\", entries);");
-                                _builder.newLineIfNotEmpty();
-                              }
-                            }
                             _builder.append("\t\t");
                             _builder.append("\t\t");
                             _builder.append("AppMutation appMut = ");
                             _builder.append(registryMethodName, "\t\t\t\t");
-                            _builder.append("(mut, hmMutator, seed, model, clue, mutPaths, packages);");
+                            _builder.append("(selMutator, hmMutator, seed, model, clue, mutPaths, packages);");
                             _builder.newLineIfNotEmpty();
                             _builder.append("//\t\t\t\t\t\tAppMutation appMut = ");
                             _builder.append(registryMethodName);
-                            _builder.append("(mut, hmMutator, seed, model, clue, mutPaths, packages);");
+                            _builder.append("(selMutator, hmMutator, seed, model, clue, mutPaths, packages);");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t");
                             _builder.append("\t\t");
@@ -3500,6 +3551,10 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLine();
                             _builder.append("\t\t");
                             _builder.append("\t");
+                            _builder.append("}");
+                            _builder.newLine();
+                            _builder.append("\t\t");
+                            _builder.append("\t\t\t\t\t\t");
                             _builder.append("}");
                             _builder.newLine();
                           }
@@ -3599,6 +3654,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("\t\t\t\t");
                             _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
                             _builder.newLine();
+                            _builder.append("\t\t\t\t");
+                            _builder.append("List<String> newrules = null; ");
+                            _builder.newLine();
                             {
                               EList<Constraint> _constraints = e.getConstraints();
                               for(final Constraint constraint : _constraints) {
@@ -3619,15 +3677,15 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                 _builder.append("}");
                                 _builder.newLine();
                                 _builder.append("\t\t\t\t");
-                                _builder.append("List<String> newrules = rules.get(\"");
+                                _builder.append("newrules = rules.get(\"");
                                 String _name_92 = constraint.getType().getName();
                                 _builder.append(_name_92, "\t\t\t\t");
                                 _builder.append("\");");
                                 _builder.newLineIfNotEmpty();
                                 {
                                   EList<InvariantCS> _expressions = constraint.getExpressions();
-                                  boolean _tripleNotEquals_45 = (_expressions != null);
-                                  if (_tripleNotEquals_45) {
+                                  boolean _tripleNotEquals_46 = (_expressions != null);
+                                  if (_tripleNotEquals_46) {
                                     {
                                       EList<InvariantCS> _expressions_1 = constraint.getExpressions();
                                       for(final InvariantCS expression : _expressions_1) {
@@ -3643,8 +3701,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                 }
                                 {
                                   EList<String> _rules = constraint.getRules();
-                                  boolean _tripleNotEquals_46 = (_rules != null);
-                                  if (_tripleNotEquals_46) {
+                                  boolean _tripleNotEquals_47 = (_rules != null);
+                                  if (_tripleNotEquals_47) {
                                     {
                                       EList<String> _rules_1 = constraint.getRules();
                                       for(final String rule : _rules_1) {
@@ -3771,7 +3829,7 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("\t            ");
                             _builder.append("mutsMark);");
                             _builder.newLine();
-                            _builder.append("\t    ");
+                            _builder.append("\t\t");
                             _builder.append("}");
                             _builder.newLine();
                             _builder.append("\t\t\t\t\t\t\t\t");
@@ -3936,9 +3994,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                     _builder.append("ModelManager.getObject(");
                     _builder.newLine();
                     {
-                      String _resource_15 = mut.getObject().getResource();
-                      boolean _tripleNotEquals_47 = (_resource_15 != null);
-                      if (_tripleNotEquals_47) {
+                      String _resource_16 = mut.getObject().getResource();
+                      boolean _tripleNotEquals_48 = (_resource_16 != null);
+                      if (_tripleNotEquals_48) {
                         _builder.append("readOnlyResource,");
                         _builder.newLine();
                       } else {
@@ -4034,8 +4092,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                       if (_not_2) {
                         {
                           ObSelectionStrategy _container_79 = mut.getContainer();
-                          boolean _tripleNotEquals_48 = (_container_79 != null);
-                          if (_tripleNotEquals_48) {
+                          boolean _tripleNotEquals_49 = (_container_79 != null);
+                          if (_tripleNotEquals_49) {
                             _builder.append("\t\t\t");
                             _builder.append("    ");
                             _builder.append("EObject oldContainer =");
@@ -4061,9 +4119,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("MutatorUtils.recoverLocalObject(");
                             _builder.newLine();
                             {
-                              String _resource_16 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_49 = (_resource_16 != null);
-                              if (_tripleNotEquals_49) {
+                              String _resource_17 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_50 = (_resource_17 != null);
+                              if (_tripleNotEquals_50) {
                                 _builder.append("\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -4093,9 +4151,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("ModelManager.getObject(");
                             _builder.newLine();
                             {
-                              String _resource_17 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_50 = (_resource_17 != null);
-                              if (_tripleNotEquals_50) {
+                              String _resource_18 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_51 = (_resource_18 != null);
+                              if (_tripleNotEquals_51) {
                                 _builder.append("\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -4230,19 +4288,11 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLine();
                             _builder.append("\t\t\t");
                             _builder.append("            ");
-                            _builder.append("ObSelectionStrategy");
-                            _builder.newLine();
-                            _builder.append("\t\t\t");
-                            _builder.append("                ");
-                            _builder.append("localContainerSelection = null;");
+                            _builder.append("ObSelectionStrategy localContainerSelection = null;");
                             _builder.newLine();
                             _builder.append("\t\t\t");
                             _builder.append("            ");
-                            _builder.append("SpecificReferenceSelection");
-                            _builder.newLine();
-                            _builder.append("\t\t\t");
-                            _builder.append("                ");
-                            _builder.append("localReferenceSelection = null;");
+                            _builder.append("SpecificReferenceSelection localReferenceSelection = null;");
                             _builder.newLine();
                             {
                               if (closureHasAdditionalResources) {
@@ -4257,9 +4307,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("localContainerSelection = new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_18 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_51 = (_resource_18 != null);
-                              if (_tripleNotEquals_51) {
+                              String _resource_19 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_52 = (_resource_19 != null);
+                              if (_tripleNotEquals_52) {
                                 _builder.append("\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -4287,9 +4337,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("localReferenceSelection = new SpecificReferenceSelection(");
                             _builder.newLine();
                             {
-                              String _resource_19 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_52 = (_resource_19 != null);
-                              if (_tripleNotEquals_52) {
+                              String _resource_20 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_53 = (_resource_20 != null);
+                              if (_tripleNotEquals_53) {
                                 _builder.append("\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -4311,8 +4361,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                               if (_container_80!=null) {
                                 _refType_6=_container_80.getRefType();
                               }
-                              boolean _tripleNotEquals_53 = (_refType_6 != null);
-                              if (_tripleNotEquals_53) {
+                              boolean _tripleNotEquals_54 = (_refType_6 != null);
+                              if (_tripleNotEquals_54) {
                                 _builder.append("\t\t\t");
                                 _builder.append("                        ");
                                 _builder.append("\"");
@@ -4327,8 +4377,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                   if (_container_81!=null) {
                                     _refRefType_6=_container_81.getRefRefType();
                                   }
-                                  boolean _tripleNotEquals_54 = (_refRefType_6 != null);
-                                  if (_tripleNotEquals_54) {
+                                  boolean _tripleNotEquals_55 = (_refRefType_6 != null);
+                                  if (_tripleNotEquals_55) {
                                     _builder.append("\t\t\t");
                                     _builder.append("                        ");
                                     _builder.append("\"");
@@ -4343,8 +4393,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                       if (_container_82!=null) {
                                         _refRefRefType_6=_container_82.getRefRefRefType();
                                       }
-                                      boolean _tripleNotEquals_55 = (_refRefRefType_6 != null);
-                                      if (_tripleNotEquals_55) {
+                                      boolean _tripleNotEquals_56 = (_refRefRefType_6 != null);
+                                      if (_tripleNotEquals_56) {
                                         _builder.append("\t\t\t");
                                         _builder.append("                        ");
                                         _builder.append("\"");
@@ -4379,9 +4429,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_20 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_56 = (_resource_20 != null);
-                              if (_tripleNotEquals_56) {
+                              String _resource_21 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_57 = (_resource_21 != null);
+                              if (_tripleNotEquals_57) {
                                 _builder.append("\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -4412,9 +4462,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SelectObjectMutator(");
                             _builder.newLine();
                             {
-                              String _resource_21 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_57 = (_resource_21 != null);
-                              if (_tripleNotEquals_57) {
+                              String _resource_22 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_58 = (_resource_22 != null);
+                              if (_tripleNotEquals_58) {
                                 _builder.append("\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -4479,8 +4529,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                   if (_container_83!=null) {
                                     _refType_7=_container_83.getRefType();
                                   }
-                                  boolean _tripleNotEquals_58 = (_refType_7 != null);
-                                  if (_tripleNotEquals_58) {
+                                  boolean _tripleNotEquals_59 = (_refType_7 != null);
+                                  if (_tripleNotEquals_59) {
                                     _builder.append("\t\t\t\t\t                        ");
                                     _builder.append("\"");
                                     String _name_105 = mut.getContainer().getRefType().getName();
@@ -4494,8 +4544,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                       if (_container_84!=null) {
                                         _refRefType_7=_container_84.getRefRefType();
                                       }
-                                      boolean _tripleNotEquals_59 = (_refRefType_7 != null);
-                                      if (_tripleNotEquals_59) {
+                                      boolean _tripleNotEquals_60 = (_refRefType_7 != null);
+                                      if (_tripleNotEquals_60) {
                                         _builder.append("\t\t\t\t\t                        ");
                                         _builder.append("\"");
                                         String _name_106 = mut.getContainer().getRefRefType().getName();
@@ -4509,8 +4559,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                                           if (_container_85!=null) {
                                             _refRefRefType_7=_container_85.getRefRefRefType();
                                           }
-                                          boolean _tripleNotEquals_60 = (_refRefRefType_7 != null);
-                                          if (_tripleNotEquals_60) {
+                                          boolean _tripleNotEquals_61 = (_refRefRefType_7 != null);
+                                          if (_tripleNotEquals_61) {
                                             _builder.append("\t\t\t\t\t                        ");
                                             _builder.append("\"");
                                             String _name_107 = mut.getContainer().getRefRefRefType().getName();
@@ -4588,9 +4638,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("new SpecificObjectSelection(");
                             _builder.newLine();
                             {
-                              String _resource_22 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_61 = (_resource_22 != null);
-                              if (_tripleNotEquals_61) {
+                              String _resource_23 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_62 = (_resource_23 != null);
+                              if (_tripleNotEquals_62) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("selectionPackages,");
                                 _builder.newLine();
@@ -4618,9 +4668,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.append("mut = new SelectObjectMutator(");
                             _builder.newLine();
                             {
-                              String _resource_23 = mut.getObject().getResource();
-                              boolean _tripleNotEquals_62 = (_resource_23 != null);
-                              if (_tripleNotEquals_62) {
+                              String _resource_24 = mut.getObject().getResource();
+                              boolean _tripleNotEquals_63 = (_resource_24 != null);
+                              if (_tripleNotEquals_63) {
                                 _builder.append("\t\t\t\t\t");
                                 _builder.append("readOnlyResource,");
                                 _builder.newLine();
@@ -4749,8 +4799,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("seed,");
                         _builder.newLine();
                         {
-                          String _resource_24 = mut.getObject().getResource();
-                          boolean _tripleEquals_15 = (_resource_24 == null);
+                          String _resource_25 = mut.getObject().getResource();
+                          boolean _tripleEquals_15 = (_resource_25 == null);
                           if (_tripleEquals_15) {
                             _builder.append("\t            ");
                             _builder.append("resource,");
@@ -4773,9 +4823,9 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.append("mutPaths,");
                         _builder.newLine();
                         {
-                          String _resource_25 = mut.getObject().getResource();
-                          boolean _tripleNotEquals_63 = (_resource_25 != null);
-                          if (_tripleNotEquals_63) {
+                          String _resource_26 = mut.getObject().getResource();
+                          boolean _tripleNotEquals_64 = (_resource_26 != null);
+                          if (_tripleNotEquals_64) {
                             _builder.append("\t       ");
                             _builder.append("selectionPackages);");
                             _builder.newLine();
@@ -4793,8 +4843,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                         _builder.newLine();
                         {
                           String _name_108 = mut.getName();
-                          boolean _tripleNotEquals_64 = (_name_108 != null);
-                          if (_tripleNotEquals_64) {
+                          boolean _tripleNotEquals_65 = (_name_108 != null);
+                          if (_tripleNotEquals_65) {
                             _builder.append("\t\t\t");
                             _builder.append("SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());");
                             _builder.newLine();
@@ -4985,8 +5035,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             _builder.newLineIfNotEmpty();
                             {
                               EList<InvariantCS> _expressions_2 = constraint_1.getExpressions();
-                              boolean _tripleNotEquals_65 = (_expressions_2 != null);
-                              if (_tripleNotEquals_65) {
+                              boolean _tripleNotEquals_66 = (_expressions_2 != null);
+                              if (_tripleNotEquals_66) {
                                 {
                                   EList<InvariantCS> _expressions_3 = constraint_1.getExpressions();
                                   for(final InvariantCS expression_1 : _expressions_3) {
@@ -5002,8 +5052,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
                             }
                             {
                               EList<String> _rules_2 = constraint_1.getRules();
-                              boolean _tripleNotEquals_66 = (_rules_2 != null);
-                              if (_tripleNotEquals_66) {
+                              boolean _tripleNotEquals_67 = (_rules_2 != null);
+                              if (_tripleNotEquals_67) {
                                 {
                                   EList<String> _rules_3 = constraint_1.getRules();
                                   for(final String rule_1 : _rules_3) {
@@ -5178,8 +5228,8 @@ public class WodelGeneratorSelectObjectExhaustiveMutator extends WodelGeneratorG
             }
             {
               ObSelectionStrategy _container_86 = mut.getContainer();
-              boolean _tripleNotEquals_67 = (_container_86 != null);
-              if (_tripleNotEquals_67) {
+              boolean _tripleNotEquals_68 = (_container_86 != null);
+              if (_tripleNotEquals_68) {
                 _builder.append("}");
                 _builder.newLine();
               }

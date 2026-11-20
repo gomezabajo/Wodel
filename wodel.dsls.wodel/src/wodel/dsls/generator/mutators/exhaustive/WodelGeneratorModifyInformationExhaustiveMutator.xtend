@@ -692,7 +692,6 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   			«val ReferenceSwap referenceSwap = c as ReferenceSwap»
 	   			«IF referenceSwap.object !== null»
 					«IF referenceSwap.object instanceof RandomTypeSelection»
-					if (hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»") != null) {
 						List<ReferenceConfigurationStrategy> refs = null;
 						if (refsList.get("«referenceName»") != null) {
 							refs = refsList.get("«referenceName»");
@@ -700,17 +699,47 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 						else {
 							refs = new ArrayList<ReferenceConfigurationStrategy>();
 						}
-						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceSwap.object as RandomTypeSelection).name» = hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»");
-			   			EObject recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceSwap.object as RandomTypeSelection).name».getKey());
-				if (recovered == null) {
+						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceSwap.object as RandomTypeSelection).name» = null;
+			   			EObject recovered = null;
+						if (hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»") != null) {
+							entry_«(referenceSwap.object as RandomTypeSelection).name» = hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»");
+							recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceSwap.object as RandomTypeSelection).name».getKey());
+							EObject key = ModelManager.getObject(resource, recovered);
+							if (key == null) {
+								recovered = null; 
+							}
+						}
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> entries = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					if (hmList.get("«(referenceSwap.object as RandomTypeSelection).name»") != null) {
+						entries.addAll(hmList.get("«(referenceSwap.object as RandomTypeSelection).name»"));
+					}
+				if (recovered == null && entries.isEmpty()) {
 					continue;
 				}
-						refs.add(new SwapReferenceConfigurationStrategy(recovered, "«(referenceSwap.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", "«c.getReference().get(1).name»", resource));
-						refsList.put("«referenceName», refs);
+				List<EObject> selected = new ArrayList<EObject>();
+				if (recovered != null && recovered.eResource() == resource) {
+					selected.add(recovered);
+				}
+				if (entries != null) {
+					for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry : entries) {
+						if (entry.getKey() != null) {
+							EObject key = ModelManager.getObject(resource, entry.getKey());
+							if (key == null) {
+								continue;
+							}
+							if (!selected.contains(key) && key.eResource() == resource) {
+								selected.add(key);
+							}
+						}
 					}
+				}
+if (selected.isEmpty()) {
+	continue;
+}
+						refs.add(new SwapReferenceConfigurationStrategy(selected, "«(referenceSwap.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", "«c.getReference().get(1).name»", resource));
+						refsList.put("«referenceName», refs);
 	   				«ELSEIF referenceSwap.object instanceof SpecificObjectSelection»
 					if (obSelection != null && obSelection.getObject() != null) {
-						if (hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»") != null) {
 							List<ReferenceConfigurationStrategy> refs = null;
 							if (refsList.get("«referenceName»") != null) {
 								refs = refsList.get("«referenceName»");
@@ -718,17 +747,48 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 					   		else {
 								refs = new ArrayList<ReferenceConfigurationStrategy>();
 					   		}
-							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»");
-				   			EObject recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name».getKey());
-				if (recovered == null) {
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name» = null;
+				   			EObject recovered = null;
+						if (hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»") != null) {
+							entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»");
+				   			recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name».getKey());
+							EObject key = ModelManager.getObject(resource, recovered);
+							if (key == null) {
+								recovered = null; 
+							}
+				   		}
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> entries = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					if (hmList.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»") != null) {
+						entries.addAll(hmList.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»"));
+					}
+				if (recovered == null && entries.isEmpty()) {
 					continue;
 				}
-							refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), recovered, "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
+				List<EObject> selected = new ArrayList<EObject>();
+				if (recovered != null && recovered.eResource() == resource) {
+					selected.add(recovered);
+				}
+				if (entries != null) {
+					for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry : entries) {
+						if (entry.getKey() != null) {
+							EObject key = ModelManager.getObject(resource, entry.getKey());
+							if (key == null) {
+								continue;
+							}
+							if (!selected.contains(key) && key.eResource() == resource) {
+								selected.add(key);
+							}
+						}
+					}
+				}
+if (selected.isEmpty()) {
+	continue;
+}
+							refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), selected, "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
 							refsList.put("«referenceName»", refs);
 						} else {
 							continue;
 						}
-					}
 	   				«ENDIF»
 		   		«ELSEIF referenceSwap.reference !== null»
 		   			List<ReferenceConfigurationStrategy> refs = null;
@@ -806,7 +866,6 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   		«val referenceInit = c as ReferenceInit»
 	   			«IF referenceInit.object instanceof SpecificObjectSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
-	   					if (hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»") != null) {
 	   						List<ReferenceConfigurationStrategy> refs = null;
 	   						if (refsList.get("«referenceName»") != null) {
 	   							refs = refsList.get("«referenceName»");
@@ -814,17 +873,48 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   						else {
 	   							refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   						}
-							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceInit.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»");
-				   			EObject recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getKey());
-				if (recovered == null) {
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceInit.object as SpecificObjectSelection).objSel.name» = null;
+				   			EObject recovered = null;
+	   					if (hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»") != null) {
+							entry_«(referenceInit.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»");
+							recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getKey());
+							EObject key = ModelManager.getObject(resource, recovered);
+							if (key == null) {
+								recovered = null; 
+							}
+	   					}
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> entries = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					if (hmList.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»") != null) {
+						entries.addAll(hmList.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»"));
+					}
+				if (recovered == null && entries.isEmpty()) {
 					continue;
 				}
-	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, "«referenceInit.getReference().get(0).name»"));
+				List<EObject> selected = new ArrayList<EObject>();
+				if (recovered != null && recovered.eResource() == resource) {
+					selected.add(recovered);
+				}
+				if (entries != null) {
+					for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry : entries) {
+						if (entry.getKey() != null) {
+							EObject key = ModelManager.getObject(resource, entry.getKey());
+							if (key == null) {
+								continue;
+							}
+							if (!selected.contains(key) && key.eResource() == resource) {
+								selected.add(key);
+							}
+						}
+					}
+				}
+if (selected.isEmpty()) {
+	continue;
+}
+	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), selected, "«referenceInit.getReference().get(0).name»", false));
 	   						refsList.put("«referenceName»", refs);
 	   					} else {
 	   						continue;
 	   					}
-	   				}
 	   			«ENDIF»
 	   			«IF referenceInit.object instanceof RandomTypeSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
@@ -870,7 +960,6 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   		«val referenceAdd = c as ReferenceAdd»
 	   			«IF referenceAdd.object instanceof SpecificObjectSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
-	   					if (hmObjects.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»") != null) {
 	   						List<ReferenceConfigurationStrategy> refs = null;
 	   						if (refsList.get("«referenceName»") != null) {
 	   							refs = refsList.get("«referenceName»");
@@ -878,17 +967,48 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   						else {
 	   							refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   						}
-							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»");
-				   			EObject recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getKey());
-				if (recovered == null) {
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name» = null;
+				   			EObject recovered = null;
+	   					if (hmObjects.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»") != null) {
+							entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»");
+				   			recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getKey());
+							EObject key = ModelManager.getObject(resource, recovered);
+							if (key == null) {
+								recovered = null; 
+							}
+	   					}
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> entries = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					if (hmList.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»") != null) {
+						entries.addAll(hmList.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»"));
+					}
+				if (recovered == null && entries.isEmpty()) {
 					continue;
 				}
-	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, "«referenceAdd.getReference().get(0).name»", false));
+				List<EObject> selected = new ArrayList<EObject>();
+				if (recovered != null && recovered.eResource() == resource) {
+					selected.add(recovered);
+				}
+				if (entries != null) {
+					for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry : entries) {
+						if (entry.getKey() != null) {
+							EObject key = ModelManager.getObject(resource, entry.getKey());
+							if (key == null) {
+								continue;
+							}
+							if (!selected.contains(key) && key.eResource() == resource) {
+								selected.add(key);
+							}
+						}
+					}
+				}
+if (selected.isEmpty()) {
+	continue;
+}
+	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), selected, "«referenceAdd.getReference().get(0).name»", false));
 	   						refsList.put("«referenceName»", refs);
 	   					} else {
 	   						continue;
 	   					}
-	   				}
 	   			«ENDIF»
 	   			«IF referenceAdd.object instanceof OtherTypeSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
@@ -908,7 +1028,6 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   		«val referenceRemove = c as ReferenceRemove»
 	   			«IF referenceRemove.object instanceof SpecificObjectSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
-	   					if (hmObjects.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»") != null) {
 	   						List<ReferenceConfigurationStrategy> refs = null;
 	   						if (refsList.get("«referenceName»") != null) {
 	   							refs = refsList.get("«referenceName»");
@@ -916,17 +1035,48 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 	   						else {
 	   							refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   						}
-							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceRemove.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»");
-				   			EObject recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceRemove.object as SpecificObjectSelection).objSel.name».getKey());
-				if (recovered == null) {
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceRemove.object as SpecificObjectSelection).objSel.name» = null;
+				   			EObject recovered = null;
+	   					if (hmObjects.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»") != null) {
+							entry_«(referenceRemove.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»");
+				   			recovered = MutatorUtils.recoverLocalObject(resource, entry_«(referenceRemove.object as SpecificObjectSelection).objSel.name».getKey());
+							EObject key = ModelManager.getObject(resource, recovered);
+							if (key == null) {
+								recovered = null; 
+							}
+				   		}
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> entries = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					if (hmList.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»") != null) {
+						entries.addAll(hmList.get("«(referenceRemove.object as SpecificObjectSelection).objSel.name»"));
+					}
+				if (recovered == null && entries.isEmpty()) {
 					continue;
 				}
-	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, "«referenceRemove.getReference().get(0).name»", true));
+				List<EObject> selected = new ArrayList<EObject>();
+				if (recovered != null && recovered.eResource() == resource) {
+					selected.add(recovered);
+				}
+				if (entries != null) {
+					for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry : entries) {
+						if (entry.getKey() != null) {
+							EObject key = ModelManager.getObject(resource, entry.getKey());
+							if (key == null) {
+								continue;
+							}
+							if (!selected.contains(key) && key.eResource() == resource) {
+								selected.add(key);
+							}
+						}
+					}
+				}
+if (selected.isEmpty()) {
+	continue;
+}
+	   						refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), selected, "«referenceRemove.getReference().get(0).name»", true));
 	   						refsList.put("«referenceName»", refs);
 	   					} else {
 	   						continue;
 	   					}
-	   				}
 	   			«ENDIF»
 	   			«IF referenceRemove.object instanceof OtherTypeSelection»
 	   				if (obSelection != null && obSelection.getObject() != null) {
@@ -1085,11 +1235,12 @@ class WodelGeneratorModifyInformationExhaustiveMutator extends WodelGeneratorGen
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
 				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
+				List<String> newrules = null; 
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
 				}
-				List<String> newrules = rules.get("«constraint.type.name»");
+				newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions !== null»
 					«FOR expression : constraint.expressions»
 					newrules.add("«WodelUtils.getConstraintText(fileURI.lastSegment, expression)»");

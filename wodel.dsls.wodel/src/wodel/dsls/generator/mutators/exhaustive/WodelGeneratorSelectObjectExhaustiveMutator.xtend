@@ -656,6 +656,7 @@ EObject obRecovered = MutatorUtils.recoverLocalObject(selection, entry_«(mut.co
 Resource resource = null;
             SelectObjectMutator mut = null;
             SpecificObjectSelection objectSelection = null;
+List<SelectObjectMutator> mutators = new ArrayList<SelectObjectMutator>();
 List<
     SimpleEntry<
         EObject,
@@ -683,7 +684,7 @@ String tempModel =
 			    											                        model,
 			    											                        tempModel));
 models.add(resource);
-try {      
+try {
 for (EObject selected :
         objects) {
 
@@ -734,7 +735,6 @@ for (EObject selected :
                 recovered,
                 resourceEntry));
     }
-}
 if (entries.isEmpty()) {
     «IF mut.container === null»
     		return numMutantsGenerated;
@@ -749,6 +749,26 @@ hmObjects.remove(
 hmList.put(
     "«mut.name»",
     entries);
+    
+    EObject localObject =
+    				                ModelManager.getObject(
+    				                «IF mut.object.resource !== null»
+    			                    	readOnlyResource,
+    			                   	«ELSE»
+    				                    resource,
+    				                «ENDIF»
+    			    				
+    				                    recovered);
+    					«IF closureHasAdditionalResources»
+    					    if (localObject == null) {
+    					    	localObject = ModelManager.getObject(
+    					        	    		               	readOnlyResource,
+    					        	    		               recovered);
+    					    }
+    					    «ENDIF»    
+    				                    if (localObject == null) {
+    				                    	continue;
+    				                    }
 					«IF closureHasAdditionalResources»
 					    boolean belongsToAdditionalResources = false;
 					    «ENDIF»
@@ -807,17 +827,14 @@ hmList.put(
 					                	«ENDIF»
 					        
 					            }
-					            ObSelectionStrategy
-					                localContainerSelection = null;
-					            SpecificReferenceSelection
-					                localReferenceSelection = null;
+					            ObSelectionStrategy localContainerSelection = null;
+					            SpecificReferenceSelection localReferenceSelection = null;
 					 «IF closureHasAdditionalResources»             
 					 if (!belongsToAdditionalResources) {
 					 «ENDIF»
 					                
 					    
-					            ObSelectionStrategy
-					                localContainerSelection =
+					            localContainerSelection =
 					                    new SpecificObjectSelection(
 					«IF mut.object.resource !== null»
 					selectionPackages,
@@ -828,8 +845,7 @@ hmList.put(
 					                        «ENDIF»
 					                        localContainer);
 					    
-					            SpecificReferenceSelection
-					                localReferenceSelection =
+					            localReferenceSelection =
 					                    new SpecificReferenceSelection(
 					«IF mut.object.resource !== null»
 					selectionPackages,
@@ -971,14 +987,25 @@ objectSelection =
 if (mut == null || objectSelection == null) {
 	return numMutantsGenerated;
 }
+mutators.add(mut);
+}
+if (entries.size() != objects.size() || mutators.size() != objects.size()) {
+throw new IllegalStateException("Incomplete select-all selection");
+}
+						«IF mut.name !== null»
+						hmObjects.remove("«mut.name»");
+						hmList.put("«mut.name»", new ArrayList<>(entries));
+						«ENDIF»
+   		int mutsMark = mutationMark(muts);
+for (SelectObjectMutator selMutator : mutators) {
 Mutator mutator = null;
 if (muts == null) {
 	muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 }
+
 		//COUNTER: «nRegistryMutation.set(0, nRegistryMutation.get(0) + 1)»
 		//COUNTER: «nRegistryMethodCall.set(0, nRegistryMethodCall.get(0) + 1)»
 		//REGISTRY METHOD NAME:«var String registryMethodName = "registry" + nRegistryMethodCall.get(0).toString()»
-   		int mutsMark = mutationMark(muts);
 		«IF executeMutation == true»
 					/*
 				     * IMPORTANT:
@@ -1004,18 +1031,15 @@ if (muts == null) {
 				       «ELSE»
 				            packages);
 				       «ENDIF»
-				Object mutated = mut.mutate();
+				Object mutated = selMutator.mutate();
 					if (mutated != null) {
-						«IF mut.name !== null»
-						hmObjects.remove("«mut.name»");
-						hmList.put("«mut.name»", entries);
-						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, clue, mutPaths, packages);
-//						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, clue, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(selMutator, hmMutator, seed, model, clue, mutPaths, packages);
+//						AppMutation appMut = «registryMethodName»(selMutator, hmMutator, seed, model, clue, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
 					}
+										}
 				«ENDIF»
 				try {
 				//COUNTER: «nMethodCall.set(0, nMethodCall.get(0) + 1)»
@@ -1044,11 +1068,12 @@ if (muts == null) {
 					«IF last == true»
 					// MUTANT COMPLETION AND REGISTRY
 					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
+					List<String> newrules = null; 
 					«FOR constraint : e.constraints»
 					if (rules.get("«constraint.type.name»") == null) {
 						rules.put("«constraint.type.name»", new ArrayList<String>());
 					}
-					List<String> newrules = rules.get("«constraint.type.name»");
+					newrules = rules.get("«constraint.type.name»");
 					«IF constraint.expressions !== null»
 						«FOR expression : constraint.expressions»
 						newrules.add("«WodelUtils.getConstraintText(fileURI.lastSegment, expression)»");
@@ -1096,7 +1121,7 @@ if (muts == null) {
 		        MutatorUtils.rollbackMutations(
 		            muts,
 		            mutsMark);
-		    }
+			}
 									} finally {
 									models.remove(resource);
 									}
@@ -1240,10 +1265,8 @@ if (objects == null || objects.isEmpty()) {
 					                continue;
 					            }
 					    
-					            ObSelectionStrategy
-					                localContainerSelection = null;
-					            SpecificReferenceSelection
-					                localReferenceSelection = null;
+					            ObSelectionStrategy localContainerSelection = null;
+					            SpecificReferenceSelection localReferenceSelection = null;
 					    «IF closureHasAdditionalResources»
 					    if (!belongsToAdditionalResources) {
 					    «ENDIF»

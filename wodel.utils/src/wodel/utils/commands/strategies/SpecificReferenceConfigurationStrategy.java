@@ -1,6 +1,7 @@
 package wodel.utils.commands.strategies;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -25,6 +26,7 @@ public class SpecificReferenceConfigurationStrategy extends
 	protected EReference reference;
 	protected EObject object;
 	protected EObject target;
+	protected List<EObject> targets;
 	protected EObject obj;
 	protected EObject refObj;
 	protected List<EObject> o;
@@ -52,6 +54,127 @@ public class SpecificReferenceConfigurationStrategy extends
 		}
 		return false;
 	}
+	
+
+	public SpecificReferenceConfigurationStrategy(Resource model, EObject object, List<EObject> targets,
+			String refType) {
+
+		this(model, object, targets, refType, false);
+	}
+
+	@SuppressWarnings("unchecked")
+	public SpecificReferenceConfigurationStrategy(Resource model, EObject object, List<EObject> targets, String refType,
+			boolean removal) {
+
+		super("");
+
+		if (model == null || object == null || targets == null || refType == null) {
+			throw new IllegalArgumentException("Model, object, targets and reference name cannot be null");
+		}
+
+		this.object = object;
+		this.removal = removal;
+
+		// A defensive copy is essential: the original collection
+		// could be an EMF containment list modified during reparenting.
+		this.targets = new ArrayList<>(targets);
+
+		for (EReference ref : object.eClass().getEAllReferences()) {
+			if (ref.getName().equals(refType)) {
+				this.reference = ref;
+				break;
+			}
+		}
+
+		if (this.reference == null) {
+			throw new IllegalArgumentException(
+					"Reference '" + refType + "' does not exist in " + object.eClass().getName());
+		}
+
+		this.srcRefType = this.reference.getName();
+
+		for (EObject target : this.targets) {
+			if (target == null) {
+				throw new IllegalArgumentException("The target collection contains null");
+			}
+		}
+
+		// Preserve the original state before any modification.
+		try {
+			this.obj = EMFCopier.copy(this.object);
+		} catch (Exception ex) {
+			this.obj = this.object;
+		}
+
+		if (this.reference.isMany()) {
+
+			this.o = (List<EObject>) this.object.eGet(this.reference);
+
+			// Snapshot the previous values, not the live EMF list.
+			this.value = new ArrayList<>(this.o);
+
+			for (EObject target : this.targets) {
+
+				if (!this.reference.getEReferenceType().isSuperTypeOf(target.eClass())) {
+					throw new IllegalArgumentException("Incompatible target type: " + target.eClass().getName());
+				}
+
+				if (!this.removal) {
+
+					// The EMF containment list normally handles
+					// detaching from an existing container.
+					if (this.reference.isContainment() && model.getContents().contains(target)) {
+						model.getContents().remove(target);
+					}
+
+					if (!this.o.contains(target)) {
+						this.o.add(target);
+					}
+
+				} else {
+					this.o.remove(target);
+				}
+			}
+
+		} else {
+
+			if (this.targets.size() > 1) {
+				throw new IllegalArgumentException(
+						"Cannot assign multiple targets to " + "single-valued reference '" + refType + "'");
+			}
+
+			this.value = this.object.eGet(this.reference);
+
+			if (!this.targets.isEmpty()) {
+
+				EObject target = this.targets.get(0);
+
+				if (!this.reference.getEReferenceType().isSuperTypeOf(target.eClass())) {
+					throw new IllegalArgumentException("Incompatible target type: " + target.eClass().getName());
+				}
+
+				if (this.removal) {
+					if (this.object.eGet(this.reference) == target) {
+						this.object.eUnset(this.reference);
+					}
+				} else {
+					if (this.reference.isContainment() && model.getContents().contains(target)) {
+						model.getContents().remove(target);
+					}
+
+					this.object.eSet(this.reference, target);
+				}
+			}
+		}
+
+		// Maintain compatibility with existing single-target fields.
+		this.target = this.targets.isEmpty() ? null : this.targets.get(0);
+	}
+
+	public List<EObject> getTargets() {
+		return targets == null ? Collections.emptyList() : Collections.unmodifiableList(targets);
+	}
+
 
 	public SpecificReferenceConfigurationStrategy(Resource model, EObject object, EObject target, String refType) {
 		super("");

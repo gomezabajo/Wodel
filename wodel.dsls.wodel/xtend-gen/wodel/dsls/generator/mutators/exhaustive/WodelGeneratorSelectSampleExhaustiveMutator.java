@@ -1929,6 +1929,9 @@ public class WodelGeneratorSelectSampleExhaustiveMutator extends WodelGeneratorG
             _builder.append("new LinkedHashMap<String, List<String>>();");
             _builder.newLine();
             _builder.newLine();
+            _builder.append("\t");
+            _builder.append("List<String> newrules = null; ");
+            _builder.newLine();
             _builder.newLine();
             {
               EList<Constraint> _constraints = e.getConstraints();
@@ -1966,7 +1969,7 @@ public class WodelGeneratorSelectSampleExhaustiveMutator extends WodelGeneratorG
                 _builder.newLine();
                 _builder.newLine();
                 _builder.append("            ");
-                _builder.append("List<String> newrules =");
+                _builder.append("newrules =");
                 _builder.newLine();
                 _builder.append("            ");
                 _builder.append("    ");

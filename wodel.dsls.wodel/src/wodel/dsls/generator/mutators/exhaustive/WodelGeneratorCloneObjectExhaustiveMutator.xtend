@@ -393,18 +393,19 @@ class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGenericOp
 									}
 									
 									} finally {
-																		models.remove(resource);
+																		models.remove(m);
 																		}
 									}
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
 				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
+				List<String> newrules = null; 
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
 				}
-				List<String> newrules = rules.get("«constraint.type.name»");
+				newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions !== null»
 					«FOR expression : constraint.expressions»
 					newrules.add("«WodelUtils.getConstraintText(fileURI.lastSegment, expression)»");
@@ -461,7 +462,7 @@ class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGenericOp
 							}							
 
 					} finally {
-																			models.remove(resource);
+																			models.remove(m);
 																			}
 					}
 		«ENDIF»

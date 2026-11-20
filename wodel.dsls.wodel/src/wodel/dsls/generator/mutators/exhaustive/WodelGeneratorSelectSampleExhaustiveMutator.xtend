@@ -16,8 +16,6 @@ import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SpecificObjectSelection
 
 import wodel.dsls.runner.WodelUtils
-import org.eclipse.emf.ecore.EAttribute
-import org.eclipse.emf.ecore.EReference
 
 class WodelGeneratorSelectSampleExhaustiveMutator
         extends WodelGeneratorGenericOperatorExhaustiveMutator {
@@ -733,6 +731,7 @@ try {
             Map<String, List<String>> rules =
                 new LinkedHashMap<String, List<String>>();
 
+				List<String> newrules = null; 
 
             «FOR constraint : e.constraints»
 
@@ -745,7 +744,7 @@ try {
             }
 
 
-            List<String> newrules =
+            newrules =
                 rules.get(
                     "«constraint.type.name»");
 

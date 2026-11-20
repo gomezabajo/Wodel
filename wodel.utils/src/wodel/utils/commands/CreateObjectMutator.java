@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import wodel.utils.manager.EMFCopier;
 import wodel.utils.manager.EMFUtils;
 import wodel.utils.manager.ModelManager;
 
@@ -21,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -63,7 +63,7 @@ public class CreateObjectMutator extends Mutator {
 	/**
 	 * Configuration of the references of the new object
 	 */
-	private Map<String, ObSelectionStrategy> referenceConfig;
+	private Map<String, ObSelectionStrategy> referenceConfig = Collections.emptyMap();
 	/**
 	 * Created object
 	 */
@@ -400,6 +400,163 @@ public class CreateObjectMutator extends Mutator {
 	    return true;
 	}
 
+	/**
+	 * Retrieve a target in the resource that is actually being mutated.
+	 * External unresolved proxies (for example, Event.eventlib.dtp) are
+	 * valid cross-resource targets and must not be copied or resolved away.
+	 */
+	private EObject resolveReferenceTarget(EObject selected) {
+		if (selected == null) {
+			return null;
+		}
+		if (selected.eIsProxy() || selected.eResource() == getModel()) {
+			return selected;
+		}
+		Resource origin = selected.eResource();
+		if (origin == null) {
+			return null; // Cannot safely refer to a detached non-proxy.
+		}
+
+		// First attempt a URI-fragment mapping from a prior clone.
+		String fragment = origin.getURIFragment(selected);
+		if (fragment != null) {
+			EObject mapped = getModel().getEObject(fragment);
+			if (sameIdentityInformation(selected, mapped)) {
+				return mapped;
+			}
+		}
+
+		// Fallback for models whose containment fragments have changed.
+		EObject mapped = ModelManager.getObjectByURIEnding(
+				getModel(), EcoreUtil.getURI(selected));
+		if (sameIdentityInformation(selected, mapped)) {
+			return mapped;
+		}
+
+		EStructuralFeature nameFeature =
+				selected.eClass().getEStructuralFeature("name");
+		if (nameFeature != null && selected.eGet(nameFeature) != null) {
+			mapped = ModelManager.getObjectByName(getModel(), selected);
+			if (sameIdentityInformation(selected, mapped)) {
+				return mapped;
+			}
+		}
+		return null;
+	}
+
+	private static boolean sameIdentityInformation(EObject selected,
+			EObject mapped) {
+		if (selected == null || mapped == null) {
+			return false;
+		}
+		if (!selected.eClass().getName().equals(mapped.eClass().getName())) {
+			return false;
+		}
+		EStructuralFeature sf = selected.eClass().getEStructuralFeature("name");
+		EStructuralFeature mf = mapped.eClass().getEStructuralFeature("name");
+		if (sf != null && mf != null) {
+			Object sn = selected.eGet(sf);
+			Object mn = mapped.eGet(mf);
+			if (sn != null && !sn.equals(mn)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Assign references explicitly, especially non-containment links such
+	 * as With.variables -> VarDeclaration. Never clone their targets.
+	 */
+	private void applyReferenceConfigurations(EObject newObj)
+			throws ReferenceNonExistingException {
+		if (referenceConfig == null || referenceConfig.isEmpty()) {
+			return;
+		}
+		for (Entry<String, ObSelectionStrategy> entry : referenceConfig.entrySet()) {
+			String name = entry.getKey();
+			EStructuralFeature feature = newObj.eClass()
+					.getEStructuralFeature(name);
+			if (!(feature instanceof EReference)) {
+				throw new ReferenceNonExistingException(
+						"No EReference '" + name + "' on "
+						+ newObj.eClass().getName());
+			}
+			EReference targetRef = (EReference) feature;
+			ObSelectionStrategy selection = entry.getValue();
+			if (selection == null) {
+				throw new ReferenceNonExistingException(
+						"Null selection for " + newObj.eClass().getName()
+						+ "." + name);
+			}
+			List<EObject> selectedObjects = new ArrayList<>();
+			EObject one = selection.getObject();
+			if (one != null) {
+				selectedObjects.add(one);
+			} else if (selection.getObjects() != null) {
+				for (EObject candidate : selection.getObjects()) {
+					if (candidate != null) {
+						selectedObjects.add(candidate);
+					}
+				}
+			}
+			if (selectedObjects.isEmpty()) {
+				throw new ReferenceNonExistingException(
+						"Empty selection for " + newObj.eClass().getName()
+						+ "." + name);
+			}
+			if (!targetRef.isMany() && selectedObjects.size() != 1) {
+				throw new ReferenceNonExistingException(
+						"Expected one object for "
+						+ newObj.eClass().getName() + "." + name);
+			}
+
+			for (EObject selected : selectedObjects) {
+				EObject target = resolveReferenceTarget(selected);
+				if (target == null || !targetRef.getEReferenceType().isInstance(target)) {
+					throw new ReferenceNonExistingException(
+							"Cannot map selected " + selected.eClass().getName()
+							+ " into current mutant for "
+							+ newObj.eClass().getName() + "." + name);
+				}
+				// For containment, copy an already contained target rather
+				// than moving it out of another parent. Never copy targets
+				// of ordinary cross-references such as With.variables.
+				if (targetRef.isContainment() && target.eContainer() != null) {
+					target = EcoreUtil.copy(target);
+				}
+				if (targetRef.isMany()) {
+					@SuppressWarnings("unchecked")
+					List<EObject> list = (List<EObject>) newObj.eGet(targetRef);
+					if (!list.contains(target)) {
+						list.add(target);
+					}
+				} else {
+					newObj.eSet(targetRef, target);
+				}
+				System.out.println("[Wodel CREATE] "
+						+ newObj.eClass().getName() + "." + name
+						+ " -> " + target.eClass().getName()
+						+ " (proxy=" + target.eIsProxy() + ")");
+			}
+		}
+	}
+
+	/** Reject incomplete With objects at creation time, not at export. */
+	private static void verifyRequiredFordiacReferences(EObject newObj)
+			throws ReferenceNonExistingException {
+		if (!"With".equals(newObj.eClass().getName())) {
+			return;
+		}
+		EStructuralFeature variables = newObj.eClass()
+				.getEStructuralFeature("variables");
+		if (variables == null || newObj.eGet(variables, false) == null) {
+			throw new ReferenceNonExistingException(
+					"Cannot create an IEC 61499 With without "
+					+ "a VarDeclaration target (With.variables)");
+		}
+	}
+
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
@@ -489,76 +646,16 @@ public class CreateObjectMutator extends Mutator {
 			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
 		}
 
-		// Reference configuration
-		Iterator<Entry<String, ObSelectionStrategy>> rf = this.referenceConfig.entrySet().iterator();
-		while (rf.hasNext()) {
-			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>) rf.next();
-			if (reference != null) {
-				if (!((EClass) obj).isInstance(container.eGet(reference))
-						&& !(container.eGet(reference) instanceof List<?>)) {
-					if (e.getValue() != null && e.getValue().getObject() != null) {
-						if (!this.getModel().getContents().contains(e.getValue().getObject())) {
-							EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
-							if (eObject == null) {
-								eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
-							}
-							if (eObject != null) {
-								ModelManager.setReference(e.getKey(), newObj, eObject);
-							}
-						}
-						else {
-							EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
-							if (eObject == null) {
-								eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
-							}
-							//this.getModel().getContents().remove(e.getValue().getObject());
-							ModelManager.setReference(e.getKey(), newObj, eObject);
-						}
-					}
-					if (e.getValue() != null && e.getValue().getObjects() != null) {
-						for (EObject o : e.getValue().getObjects()) {
-							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));
-						}
-					}
-				} else {
-					if (e.getValue() != null) {
-						ModelManager.setReference(e.getKey(), newObj, e.getValue());
-					}
-				}
-			}
-			else {
-				if (e.getValue() != null && e.getValue().getObject() != null) {
-					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
-						//EObject eObject = EMFCopier.process(this.getModel(), EMFCopier.copy(e.getValue().getObject()));
-						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
-						if (eObject == null) {
-							//eObject = ModelManager.getObjectByPartialID(this.getModel(), EcoreUtil.getIdentification(e.getValue().getObject()));
-							eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
-						}
-						if (eObject != null) {
-							ModelManager.setReference(e.getKey(), newObj, eObject);
-						}
-					}
-					else {
-						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
-						if (eObject == null) {
-							eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
-						}
-//						this.getModel().getContents().remove(e.getValue().getObject());
-						ModelManager.setReference(e.getKey(), newObj, eObject);
-					}
-				}
-				if (e.getValue() != null && e.getValue().getObjects() != null) {
-					for (EObject o : e.getValue().getObjects()) {
-						if (o != null) {
-							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));
-						}
-					}
-				}
-				
-			}
-		}
-		
+		System.out.println("[Wodel CREATE] type=" + newObj.eClass().getName()
+				+ " configuredReferences="
+				+ (referenceConfig == null ? "<null>" : referenceConfig.keySet()));
+
+		// Configure references using actual selected EObjects, not the
+		// selection strategy object. This also works when the created
+		// EObject is still detached (before containment insertion).
+		applyReferenceConfigurations(newObj);
+		verifyRequiredFordiacReferences(newObj);
+
 //		//If there is not a selected reference we choose a random one
 //		if(reference == null && objName != null){
 //			List<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);

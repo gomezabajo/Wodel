@@ -1435,7 +1435,7 @@ public class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGe
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            _builder.append("models.remove(resource);");
+            _builder.append("models.remove(m);");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
@@ -1454,6 +1454,9 @@ public class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGe
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
+            _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("List<String> newrules = null; ");
             _builder.newLine();
             {
               EList<Constraint> _constraints = e.getConstraints();
@@ -1475,7 +1478,7 @@ public class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGe
                 _builder.append("}");
                 _builder.newLine();
                 _builder.append("\t\t");
-                _builder.append("List<String> newrules = rules.get(\"");
+                _builder.append("newrules = rules.get(\"");
                 String _name_51 = constraint.getType().getName();
                 _builder.append(_name_51, "\t\t");
                 _builder.append("\");");
@@ -1670,7 +1673,7 @@ public class WodelGeneratorCloneObjectExhaustiveMutator extends WodelGeneratorGe
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            _builder.append("models.remove(resource);");
+            _builder.append("models.remove(m);");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");

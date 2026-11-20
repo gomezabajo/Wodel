@@ -2,7 +2,6 @@ package wodel.utils.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,6 +13,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import wodel.utils.commands.selection.strategies.ObSelectionStrategy;
@@ -240,210 +241,223 @@ public class ModifyInformationMutator extends Mutator {
 		if (this.object == null) {
 			return null;
 		}
-		EObject object = this.object.getObject();
-		if (object == null) {
-			List<EObject> objects = this.object.getObjects();
-			if (objects != null) {
-				index = ModelManager.getRandomIndex(objects);
-				object = objects.get(index);
+
+		// getObject() denotes a single selected object. A collection returned
+		// by getObjects() must not be reduced to a random single element:
+		// generated `modify all` commands depend on visiting the entire set.
+		EObject selected = this.object.getObject();
+		if (selected != null) {
+			this.index = 0;
+			mutateSelectedObject(selected);
+		} else {
+			List<EObject> selectedObjects = this.object.getObjects();
+			if (selectedObjects == null || selectedObjects.isEmpty()) {
+				return null;
+			}
+			// Selection strategies may return live ELists. Snapshot before any
+			// mutation moves objects between containment references.
+			List<EObject> snapshot = new ArrayList<EObject>(selectedObjects);
+			for (int i = 0; i < snapshot.size(); i++) {
+				this.index = i;
+				mutateSelectedObject(snapshot.get(i));
 			}
 		}
-		if (object != null) {
-			// Attributes setting
-			if (this.newAttributeConfig != null) {
-				Iterator<Entry<String, List<AttributeConfigurationStrategy>>> atts = this.newAttributeConfig.entrySet().iterator();
-				while (atts.hasNext()) {
-					Map.Entry<String, List<AttributeConfigurationStrategy>> e = atts.next();
-					for (AttributeConfigurationStrategy attConfig : e.getValue()) {
-						if (attConfig instanceof SwapAttributeConfigurationStrategy) {
-							SwapAttributeConfigurationStrategy sacs = (SwapAttributeConfigurationStrategy) attConfig;
-							eobjatt = sacs.getAttObject();
-							eobjother = sacs.getOtherObject();
 
-							oldAttValue.put(e.getKey(), sacs.getPrevious());
-							//oldAttValue = sacs.getPrevious(object);
-						}
-						else {
-							oldAttValue.put(e.getKey(), ModelManager.getAttribute(e.getKey(), object));
-							eobjatt = EMFCopier.copy(object);
-						}
-						if (e.getValue() == null) {
-							ModelManager.unsetAttribute(e.getKey(), object);
-							newAttValue.put(e.getKey(), null);
-							//newAttValue = null;
-						} else {
-							ModelManager.setAttribute(e.getKey(), object, attConfig);
-							newAttValue.put(e.getKey(), ModelManager.getAttribute(e.getKey(), object));
-							//newAttValue = ModelManager.getAttribute(e.getKey(), object);
-
+		// Referenced-object attribute edits are a separate part of the command.
+		// Apply them once, not once for each element of `modify all`.
+		if (this.objsAttRef != null && this.attsRef != null) {
+			for (EObject target : new ArrayList<EObject>(this.objsAttRef)) {
+				if (target == null) continue;
+				objRefAttOld = EMFCopier.copy(target);
+				for (Entry<String, List<AttributeConfigurationStrategy>> entry : this.attsRef.entrySet()) {
+					Object old = ModelManager.getAttribute(entry.getKey(), target);
+					oldAttValue.put(entry.getKey(), old);
+					if (entry.getValue() == null || entry.getValue().isEmpty()) {
+						ModelManager.unsetAttribute(entry.getKey(), target);
+					} else {
+						for (AttributeConfigurationStrategy strategy : entry.getValue()) {
+							if (strategy == null) ModelManager.unsetAttribute(entry.getKey(), target);
+							else ModelManager.setAttribute(entry.getKey(), target, strategy);
 						}
 					}
+					newAttValue.put(entry.getKey(), ModelManager.getAttribute(entry.getKey(), target));
 				}
-				result = object;
+				objRefAttNew = target;
 			}
-			if (this.newReferenceConfig != null) {
-				// References setting
-				Iterator<Entry<String, List<ReferenceConfigurationStrategy>>> refs = this.newReferenceConfig.entrySet().iterator();
-				while (refs.hasNext()) {
-					Map.Entry<String, List<ReferenceConfigurationStrategy>> e = refs.next();
-					for (ReferenceConfigurationStrategy refConfig : e.getValue()) {
-						if (refConfig instanceof SwapReferenceConfigurationStrategy) {
-							SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) refConfig;
-							eobjref = EMFCopier.copy(srcf.getTargetObject());
-							Object p = srcf.getPrevious();
-							EObject prev = null;
-							if (p instanceof EObject) {
-								prev = (EObject) p;
-							}
-							if (p instanceof List<?>) {
-								prev = ((List<EObject>) p).get(0);
-							}
-							previous.put(e.getKey(), EMFCopier.copy(prev));
-							Object n = srcf.getNext(object);
-							EObject nxt = null;
-							if (n instanceof EObject) {
-								nxt = (EObject) n;
-							}
-							if (n instanceof List<?>) {
-								nxt = ((List<EObject>) n).get(0);
-							}
-							next.put(e.getKey(), EMFCopier.copy(nxt));
-							oldRefValue.put(e.getKey(), srcf.getOtherSource());
-							oldRefNameValue.put(e.getKey(), srcf.getOtherSourceName());
-							newRefValue.put(e.getKey(), srcf.getOtherTarget());
-							newRefNameValue.put(e.getKey(), srcf.getOtherTargetName());
-						}
-						else {
-							if (refConfig instanceof CopyReferenceConfigurationStrategy) {
-								CopyReferenceConfigurationStrategy crcf = (CopyReferenceConfigurationStrategy) refConfig;
-								eobjref = EMFCopier.copy(crcf.getRefObject());
-								Object p = crcf.getPrevious();
-								EObject prev = null;
-								if (p instanceof EObject) {
-									prev = (EObject) p;
-								}
-								if (p instanceof List<?>) {
-									prev = ((List<EObject>) p).get(0);
-								}
-								previous.put(e.getKey(), EMFCopier.copy(prev));
-								Object n = crcf.getNext(eobjref);
-								EObject nxt = null;
-								if (n instanceof EObject) {
-									nxt = (EObject) n;
-								}
-								if (n instanceof List<?>) {
-									nxt = ((List<EObject>) n).get(0);
-								}
-								next.put(e.getKey(), EMFCopier.copy(nxt));
-							}
-							else if (refConfig instanceof RandomReferenceConfigurationStrategy) {
-								RandomReferenceConfigurationStrategy rrcf = (RandomReferenceConfigurationStrategy) refConfig;
-								if (rrcf.getPrevious() instanceof List<?>) {
-									List<EObject> prev = (List<EObject>) rrcf.getPrevious();
-									if (prev != null) {
-										if (prev.size() > 0) {
-											previous.put(e.getKey(), EMFCopier.copy(prev.get(0)));
-										}
-									}
-								}
-								if (rrcf.getPrevious() instanceof EObject) {
-									previous.put(e.getKey(), EMFCopier.copy((EObject) rrcf.getPrevious()));
-								}
-								if (rrcf.getNext() instanceof List<?>) {
-									List<EObject> nxt = (List<EObject>) rrcf.getNext();
-									if (nxt != null) {
-										if (nxt.size() > 0) {
-											next.put(e.getKey(), nxt.get(0));
-										}
-									}
-								}
-								if (rrcf.getNext() instanceof EObject) {
-									next.put(e.getKey(), (EObject) rrcf.getNext());
-								}
-								srcRefType = rrcf.getSrcRefType(); 
-								eobjref = EMFCopier.copy(object);
-							}
-							else if (refConfig instanceof SpecificReferenceConfigurationStrategy) {
-								SpecificReferenceConfigurationStrategy srcs = (SpecificReferenceConfigurationStrategy) refConfig;
-								Object p = object;
-								EObject prev = null;
-								if (p instanceof EObject) {
-									prev = (EObject) p;
-								}
-								if (p instanceof List<?>) {
-									prev = ((List<EObject>) p).get(0);
-								}
-								EObject prev2 = null;
-								if (prev.eGet(srcs.getRef()) instanceof EObject) {
-									prev2 = (EObject) prev.eGet(srcs.getRef());
-								}
-								if (prev.eGet(srcs.getRef()) instanceof List<?>) {
-									prev2 = ((List<EObject>) prev.eGet(srcs.getRef())).get(0);
-								}
-								previous.put(e.getKey(), EMFCopier.copy(prev2));
-								Object n = srcs.getNext();
-								EObject nxt = null;
-								if (n instanceof EObject) {
-									nxt = (EObject) n;
-								}
-								if (n instanceof List<?>) {
-									nxt = ((List<EObject>) n).get(0);
-								}
-								next.put(e.getKey(), nxt);
-								srcRefType = srcs.getSrcRefType();
-							}
-							else if (refConfig instanceof NullReferenceConfigurationStrategy) {
-								NullReferenceConfigurationStrategy nrcs = (NullReferenceConfigurationStrategy) refConfig;
-								Object p = nrcs.getPrevious();
-								EObject prev = null;
-								if (p instanceof EObject) {
-									prev = (EObject) p;
-								}
-								if (p instanceof List<?> && ((List<?>)p).size() > 0) {
-									prev = ((List<EObject>) p).get(0);
-								}
-								previous.put(e.getKey(), EMFCopier.copy(prev));
-								next.put(e.getKey(), null);
-								srcRefType = nrcs.getSrcRefType();
-							}
-						}
-						if (refConfig == null) {
-							ModelManager.unsetReference(e.getKey(), object);
-							next.put(e.getKey(), null);
-						} else {
-						}
-					}
-				}
-				result = object;
-			}
+		}
+		return result;
+	}
 
-			if (this.objsAttRef != null && this.attsRef != null) {
-				if (this.objsAttRef.size() > 0 && this.attsRef.size() > 0) {
-					for (EObject obj : this.objsAttRef) {
-						objRefAttOld = EMFCopier.copy(obj);
-						Iterator<Entry<String, List<AttributeConfigurationStrategy>>> atts = this.attsRef.entrySet().iterator();
-						while (atts.hasNext()) {
-							Map.Entry<String, List<AttributeConfigurationStrategy>> e = atts.next();
-							for (AttributeConfigurationStrategy attConfig : e.getValue()) {
-								oldAttValue.put(e.getKey(), ModelManager.getAttribute(e.getKey(), object));
-								if (attConfig == null) {
-									ModelManager.unsetAttribute(e.getKey(), obj);
-									newAttValue.put(e.getKey(), null);
-									//newAttValue = null;
-								} else {
-									ModelManager.setAttribute(e.getKey(), obj, attConfig);
-									newAttValue.put(e.getKey(), ModelManager.getAttribute(e.getKey(), obj));
-									//newAttValue = ModelManager.getAttribute(e.getKey(), object);
-								}
-							}
-						}
-						objRefAttNew = obj;
+	private void mutateSelectedObject(EObject target)
+			throws ReferenceNonExistingException, WrongAttributeTypeException {
+		if (target == null) return;
+
+		if (newAttributeConfig != null) {
+			for (Entry<String, List<AttributeConfigurationStrategy>> entry : newAttributeConfig.entrySet()) {
+				String name = entry.getKey();
+				List<AttributeConfigurationStrategy> configs = entry.getValue();
+				if (configs == null || configs.isEmpty()) {
+					oldAttValue.put(name, ModelManager.getAttribute(name, target));
+					ModelManager.unsetAttribute(name, target);
+					newAttValue.put(name, null);
+					continue;
+				}
+				for (AttributeConfigurationStrategy config : configs) {
+					if (config instanceof SwapAttributeConfigurationStrategy) {
+						SwapAttributeConfigurationStrategy swap = (SwapAttributeConfigurationStrategy) config;
+						eobjatt = swap.getAttObject();
+						eobjother = swap.getOtherObject();
+						oldAttValue.put(name, swap.getPrevious());
+					} else {
+						eobjatt = EMFCopier.copy(target);
+						oldAttValue.put(name, ModelManager.getAttribute(name, target));
 					}
+					if (config == null) ModelManager.unsetAttribute(name, target);
+					else ModelManager.setAttribute(name, target, config);
+					newAttValue.put(name, ModelManager.getAttribute(name, target));
 				}
 			}
 		}
-		//complete(this.getMetaModel(), this.getModel());
-		return this.result;
+
+		if (newReferenceConfig != null) {
+			for (Entry<String, List<ReferenceConfigurationStrategy>> entry : newReferenceConfig.entrySet()) {
+				String name = entry.getKey();
+				EStructuralFeature structuralFeature = target.eClass().getEStructuralFeature(name);
+				if (!(structuralFeature instanceof EReference)) {
+					throw new IllegalArgumentException("Reference '" + name + "' does not exist on "
+							+ target.eClass().getName());
+				}
+				EReference reference = (EReference) structuralFeature;
+				List<ReferenceConfigurationStrategy> configs = entry.getValue();
+				if (configs == null || configs.isEmpty()) {
+					rememberPrevious(name, target, reference);
+					target.eUnset(reference);
+					next.put(name, null);
+					continue;
+				}
+				for (ReferenceConfigurationStrategy config : configs) {
+					rememberPrevious(name, target, reference);
+					Object proposed = configuredReferenceValue(name, config, target);
+					if (proposed == null && config != null
+							&& !(config instanceof NullReferenceConfigurationStrategy)) {
+						throw new IllegalStateException("Selected reference target is null for " + name);
+					}
+					applyReferenceValue(target, reference, proposed);
+					rememberNext(name, target, reference);
+				}
+			}
+		}
+		this.result = target;
+	}
+
+	/** Retrieve the strategy's chosen target once, without cloning live targets. */
+	private Object configuredReferenceValue(String refName, ReferenceConfigurationStrategy config, EObject target) {
+		if (config == null || config instanceof NullReferenceConfigurationStrategy) {
+			if (config instanceof NullReferenceConfigurationStrategy) {
+				srcRefType = ((NullReferenceConfigurationStrategy) config).getSrcRefType();
+			}
+			return null;
+		}
+		if (config instanceof SpecificReferenceConfigurationStrategy) {
+			SpecificReferenceConfigurationStrategy specific = (SpecificReferenceConfigurationStrategy) config;
+			srcRefType = specific.getSrcRefType();
+			eobjref = target;
+			return specific.getNext();
+		}
+		if (config instanceof RandomReferenceConfigurationStrategy) {
+			RandomReferenceConfigurationStrategy random = (RandomReferenceConfigurationStrategy) config;
+			srcRefType = random.getSrcRefType();
+			eobjref = target;
+			return random.getNext();
+		}
+		if (config instanceof CopyReferenceConfigurationStrategy) {
+			CopyReferenceConfigurationStrategy copy = (CopyReferenceConfigurationStrategy) config;
+			eobjref = copy.getRefObject();
+			return copy.getNext(eobjref);
+		}
+		if (config instanceof SwapReferenceConfigurationStrategy) {
+			SwapReferenceConfigurationStrategy swap = (SwapReferenceConfigurationStrategy) config;
+			eobjref = swap.getTargetObject();
+			oldRefValue.put("swap", swap.getOtherSource());
+			newRefValue.put("swap", swap.getOtherTarget());
+			return swap.getNext(target);
+		}
+		throw new IllegalArgumentException("Unsupported Wodel reference strategy: "
+				+ config.getClass().getName());
+	}
+
+	/**
+	 * For multi-valued features the Wodel += case adds the chosen objects.
+	 * Snapshot a list before moving containment objects (otherwise an EMF
+	 * EList may shrink while it is being traversed). Single-valued features
+	 * are assigned directly. Containment targets must not be deep-copied:
+	 * adding the existing EObject reparents it to the destination owner.
+	 */
+	@SuppressWarnings("unchecked")
+	private void applyReferenceValue(EObject owner, EReference reference, Object value) {
+		if (value == null) {
+			owner.eUnset(reference);
+			return;
+		}
+		List<EObject> proposed = new ArrayList<EObject>();
+		if (value instanceof EObject) {
+			proposed.add(resolveTarget((EObject) value));
+		} else if (value instanceof List<?>) {
+			for (Object item : new ArrayList<Object>((List<?>) value)) {
+				if (!(item instanceof EObject)) {
+					throw new IllegalArgumentException("Expected EObject for reference " + reference.getName());
+				}
+				proposed.add(resolveTarget((EObject) item));
+			}
+		} else {
+			throw new IllegalArgumentException("Expected EObject/list for reference "
+					+ reference.getName() + "; received " + value.getClass().getName());
+		}
+		if (reference.isMany()) {
+			List<EObject> existing = (List<EObject>) owner.eGet(reference);
+			for (EObject candidate : proposed) {
+				if (!existing.contains(candidate)) existing.add(candidate);
+			}
+		} else {
+			if (proposed.size() != 1) {
+				throw new IllegalArgumentException("Expected exactly one target for " + reference.getName());
+			}
+			owner.eSet(reference, proposed.get(0));
+		}
+	}
+
+	/** Map a selected EObject into the mutant resource before linking it. */
+	private EObject resolveTarget(EObject candidate) {
+		if (candidate == null || candidate.eIsProxy() || candidate.eResource() == null
+				|| candidate.eResource() == getModel()) return candidate;
+		EObject mapped = ModelManager.getObjectByURIEnding(getModel(), EcoreUtil.getURI(candidate));
+		if (mapped == null) mapped = ModelManager.getObjectByName(getModel(), candidate);
+		if (mapped == null) {
+			throw new IllegalArgumentException("Cannot locate the selected reference target in the mutated model: "
+					+ EcoreUtil.getURI(candidate));
+		}
+		return mapped;
+	}
+
+	private void rememberPrevious(String name, EObject target, EReference reference) {
+		Object old = target.eGet(reference, false);
+		EObject first = firstReferenceObject(old);
+		previous.put(name, first == null ? null : EMFCopier.copy(first));
+	}
+
+	private void rememberNext(String name, EObject target, EReference reference) {
+		EObject first = firstReferenceObject(target.eGet(reference, false));
+		next.put(name, first);
+	}
+
+	private static EObject firstReferenceObject(Object value) {
+		if (value instanceof EObject) return (EObject) value;
+		if (value instanceof List<?>) {
+			for (Object element : (List<?>) value) {
+				if (element instanceof EObject) return (EObject) element;
+			}
+		}
+		return null;
 	}
 
 	public EObject getObject() {

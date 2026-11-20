@@ -313,16 +313,27 @@ public class EMFCopier {
 	}	
 
 
-	public static List<EObject> copy(Resource model) {
-		Collection<EObject> copies = new ArrayList<EObject>();
-		EcoreUtil.Copier copier = new EcoreUtil.Copier();
-		copies = copier.copyAll(model.getContents());
-		copier.copyReferences();
-		List<EObject> rootobjects = new ArrayList<EObject>();
-		rootobjects.addAll(copies);
-		return rootobjects;
-	}
+//	public static List<EObject> copy(Resource model) {
+//		Collection<EObject> copies = new ArrayList<EObject>();
+//		EcoreUtil.Copier copier = new EcoreUtil.Copier();
+//		copies = copier.copyAll(model.getContents());
+//		copier.copyReferences();
+//		List<EObject> rootobjects = new ArrayList<EObject>();
+//		rootobjects.addAll(copies);
+//		return rootobjects;
+//	}
 
+	public static List<EObject> copy(Resource model) {
+
+		EcoreUtil.Copier copier = new EcoreUtil.Copier(false, true);
+
+		Collection<EObject> copies = copier.copyAll(model.getContents());
+
+		copier.copyReferences();
+
+		return new ArrayList<>(copies);
+	}
+	
 	public static void copy(Resource input, Resource output) {
 		List<EObject> copied = copy(input);
 		output.getContents().addAll(copied);
